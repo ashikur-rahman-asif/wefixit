@@ -1,13 +1,22 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Geist } from "next/font/google";
-import "./globals.css";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import type { Metadata } from "next";
+import { Plus_Jakarta_Sans, Montserrat, Prompt } from "next/font/google";
+import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+});
+
+const prompt = Prompt({
+  variable: "--font-prompt",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -19,9 +28,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", plusJakartaSans.variable, "font-sans", geist.variable)}
+      className={cn(
+        "h-full antialiased",
+        plusJakartaSans.variable,
+        montserrat.variable,
+        prompt.variable
+      )}
     >
-      <body className="font-sans min-h-full flex flex-col">{children}</body>
+      <body className={cn("font-sans bg-white")}>{children}</body>
     </html>
   );
 }
