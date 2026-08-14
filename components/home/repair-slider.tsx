@@ -47,7 +47,7 @@ export function RepairSlider() {
     () => false,
   );
   return (
-    <section className="bg-white border-b border-border ">
+    <section className="bg-white ">
       <style>{`
         .repair-swiper .swiper-pagination-bullet {
           width: 8px;
@@ -77,6 +77,7 @@ export function RepairSlider() {
                 src="/home-slider/laptop-1st.webp"
                 alt="What needs to be repaired?"
                 fill
+                sizes="(min-width: 1024px) 25vw, 100vw"
                 className="object-cover transition-transform "
               />
               <div className="absolute inset-0 bg-black/10" />
@@ -114,7 +115,7 @@ export function RepairSlider() {
                 slidesPerView={1}
                 pagination={{ clickable: true }}
                 touchStartPreventDefault={false}
-                simulateTouch={false}
+                followFinger={false}
                 breakpoints={{
                   640: { slidesPerView: 2 },
                   1024: { slidesPerView: 3 },
