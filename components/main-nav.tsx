@@ -52,7 +52,7 @@ export function MainNav() {
           <a
             href="tel:+8801516540594"
             className={buttonVariants({ variant: "brand" })}>
-            +8801516540594
+            +88-01516540594
           </a>
         </div>
       </Container>

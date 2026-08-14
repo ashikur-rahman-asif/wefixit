@@ -5,9 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand: #0072DE;
-  --color-primary: #041B29;
+  --color-brand: #0072de;
+  --color-primary: #041b29;
   --color-secondary: #757575;
+  --color-textGray: #6a6a6a;
+  --color-gold: #fea500;
   --font-sans: var(--font-plus-jakarta-sans), sans-serif;
   --font-montserrat: var(--font-montserrat), sans-serif;
   --font-prompt: var(--font-prompt), sans-serif;
@@ -63,7 +65,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #041B29;
+  --primary: #041b29;
   --primary-foreground: oklch(0.985 0 0);
   --secondary: #757575;
   --secondary-foreground: oklch(0.205 0 0);
