@@ -6,9 +6,11 @@
 
 @theme {
   --color-brand: #0072de;
+  --color-lightBrand: #f2f6fd;
   --color-primary: #041b29;
   --color-secondary: #757575;
   --color-textGray: #6a6a6a;
+  --color-titleBlack: #121212;
   --color-gold: #fea500;
   --font-sans: var(--font-plus-jakarta-sans), sans-serif;
   --font-montserrat: var(--font-montserrat), sans-serif;

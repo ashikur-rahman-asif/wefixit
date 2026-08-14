@@ -1,9 +1,5 @@
 "use client";
 
-import "swiper/css";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-
 import { AmazonIcon } from "../icons/amazon-icon";
 import { AppleIcon } from "../icons/apple-icon";
 import { FacebookIcon } from "../icons/facebook-icon";
@@ -29,55 +25,54 @@ export function Ratings() {
   return (
     <section className="bg-white overflow-hidden">
       <style>{`
-        .ratings-swiper .swiper-wrapper {
-          transition-timing-function: linear !important;
+        @keyframes marquee-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        .marquee-track {
+          display: flex;
+          width: max-content;
+          animation: marquee-scroll 28s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
         }
       `}</style>
-      <div className="w-full px-4">
-        <Swiper
-          modules={[Autoplay]}
-          loop={true}
-          speed={4000}
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-          }}
-          allowTouchMove={false}
-          slidesPerView="auto"
-          spaceBetween={30}
-          breakpoints={{
-            768: {
-              spaceBetween: 50,
-            },
-          }}
-          className="ratings-swiper">
-          {ratingsData.map((item, idx) => {
-            const IconComponent = item.Icon;
-            return (
-              <SwiperSlide
-                key={idx}
-                className="w-auto! flex! items-center justify-center">
-                <div className="flex items-center gap-3 sm:gap-4 md:gap-6 select-none shrink-0">
-                  <IconComponent className="size-12 sm:size-14 md:size-16 text-black shrink-0 object-contain" />
-                  <div className="flex flex-col">
-                    <p className="text-lg text-textGray font-bold leading-8">
-                      {item.name} Rating
-                    </p>
-                    <span className="flex items-center gap-3 sm:gap-4 md:gap-5">
-                      <p className="text-gold text-2xl font-extrabold">
-                        {item.rating}
+
+      <div className="w-full overflow-hidden">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex items-center list-none m-0 p-0">
+              {ratingsData.map((item, idx) => {
+                const IconComponent = item.Icon;
+                return (
+                  <li
+                    key={idx}
+                    className="flex items-center gap-3 sm:gap-4 md:gap-6 select-none shrink-0 px-6 sm:px-8 md:px-10">
+                    <IconComponent className="size-12 sm:size-14 md:size-16 text-black shrink-0 object-contain" />
+                    <div className="flex flex-col">
+                      <p className="text-lg text-textGray font-bold leading-8">
+                        {item.name} Rating
                       </p>
-                      <StarRating
-                        rating={Number(item.rating)}
-                        starClassName="size-[16px] sm:size-[18px] md:size-[20px]"
-                      />
-                    </span>
-                  </div>
-                </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+                      <span className="flex items-center gap-3 sm:gap-4 md:gap-5">
+                        <p className="text-gold text-2xl font-extrabold">
+                          {item.rating}
+                        </p>
+                        <StarRating
+                          rating={Number(item.rating)}
+                          starClassName="size-[16px] sm:size-[18px] md:size-[20px]"
+                        />
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Montserrat, Prompt } from "next/font/google";
+import { Montserrat, Plus_Jakarta_Sans, Prompt } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -32,9 +32,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         "h-full antialiased",
         plusJakartaSans.variable,
         montserrat.variable,
-        prompt.variable
-      )}
-    >
+        prompt.variable,
+      )}>
       <body className={cn("font-sans bg-white")}>{children}</body>
     </html>
   );
