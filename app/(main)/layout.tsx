@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import { MainNav } from "@/components/main-nav";
 
 export default function MainLayout({
@@ -9,6 +10,7 @@ export default function MainLayout({
     <div className="flex min-h-full flex-col">
       <MainNav />
       <main className="flex-1 flex flex-col w-full">{children}</main>
+      <Footer />
     </div>
   );
 }
