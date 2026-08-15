@@ -31,6 +31,7 @@ export function Hero() {
                   width={80}
                   height={80}
                   alt="book-a-repair"
+                  priority
                   className="w-[52px] h-auto sm:w-[60px] md:w-16 lg:w-20 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300"
                 />
                 <p className="text-[13px] sm:text-sm md:text-xl lg:text-[27px] font-prompt text-black font-bold leading-tight lg:leading-8 group-hover:text-brand transition-colors duration-300">
@@ -45,6 +46,7 @@ export function Hero() {
                   width={80}
                   height={58}
                   alt="track-your-repair"
+                  priority
                   className="w-[52px] h-auto sm:w-[60px] md:w-16 lg:w-20 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300"
                   style={{ width: "auto" }}
                 />
