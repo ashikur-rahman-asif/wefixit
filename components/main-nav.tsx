@@ -85,7 +85,7 @@ export function MainNav() {
           </Link>
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              href="/login"
+              href="/auth/login"
               className={buttonVariants({
                 variant: "ghost",
                 className: "hover:bg-muted",
@@ -153,7 +153,7 @@ export function MainNav() {
           {/* Drawer Actions */}
           <div className="flex flex-col gap-4">
             <Link
-              href="/login"
+              href="/auth/login"
               onClick={() => setIsMobileMenuOpen(false)}
               className={buttonVariants({
                 variant: "outline",
