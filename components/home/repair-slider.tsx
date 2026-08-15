@@ -68,10 +68,8 @@ export function RepairSlider() {
       `}</style>
 
       <Container>
-        <div className="flex flex-col lg:flex-row gap-7">
-          <div
-            className="w-full lg:w-1/4 shrink-0"
-            style={{ height: CARD_HEIGHT }}>
+        <div className="flex flex-col lg:flex-row gap-4 xl:gap-7">
+          <div className="w-full lg:w-1/4 shrink-0 h-[220px] md:h-[260px] lg:h-[340px]">
             <div className="relative w-full h-full rounded-[14px] overflow-hidden p-6 md:p-8 flex flex-col items-start text-left group">
               <Image
                 src="/home-slider/laptop-1st.webp"

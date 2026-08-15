@@ -52,7 +52,7 @@ export function MainNav() {
         <div className="flex items-center gap-3 md:gap-0">
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className="md:hidden p-1 -ml-1 text-secondary hover:text-brand transition-colors"
+            className="lg:hidden p-1 -ml-1 text-secondary hover:text-brand transition-colors"
             aria-label="Open Menu">
             <HamburgerIcon className="w-7 h-7" />
           </button>
@@ -62,7 +62,7 @@ export function MainNav() {
           </Link>
         </div>
 
-        <nav className="hidden md:flex items-center">
+        <nav className="hidden lg:flex items-center">
           <ul className="flex items-center gap-8">
             {navItems.map((item) => (
               <li key={item.label}>
@@ -83,7 +83,7 @@ export function MainNav() {
               10
             </span>
           </Link>
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               href="/login"
               className={buttonVariants({
@@ -103,7 +103,7 @@ export function MainNav() {
 
       <div
         className={cn(
-          "fixed inset-0 bg-black/60 z-[998] transition-opacity duration-300 md:hidden backdrop-blur-sm",
+          "fixed inset-0 bg-black/60 z-[998] transition-opacity duration-300 lg:hidden backdrop-blur-sm",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",
@@ -114,7 +114,7 @@ export function MainNav() {
       {/* Mobile Drawer */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-dvh w-[80%] max-w-[320px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-in-out md:hidden flex flex-col",
+          "fixed top-0 left-0 h-dvh w-[80%] max-w-[320px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}>
         {/* Drawer Header */}
