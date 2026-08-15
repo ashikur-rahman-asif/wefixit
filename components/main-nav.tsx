@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Container from "./Container";
 import { CrossIcon } from "./icons/cross";
 import { HamburgerIcon } from "./icons/hamburger-menu";
-import { LogoIcon } from "./icons/logo copy";
+import { LogoIcon } from "./icons/logo-copy";
 import { buttonVariants } from "./ui/button";
 
 const navItems = [
