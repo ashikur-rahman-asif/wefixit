@@ -76,7 +76,7 @@ export function LoginForm() {
           />
           <div className="col-span-full flex justify-end">
             <Link
-              href="#"
+              href="/auth/forgot-password"
               className="text-sm font-medium text-red-500 hover:underline">
               Forgot Password?
             </Link>
