@@ -86,10 +86,7 @@ export function MainNav() {
           <div className="hidden lg:flex items-center gap-4">
             <Link
               href="/auth/login"
-              className={buttonVariants({
-                variant: "ghost",
-                className: "hover:bg-muted",
-              })}>
+              className={buttonVariants({ variant: "default" })}>
               Log In
             </Link>
             <a
@@ -156,8 +153,8 @@ export function MainNav() {
               href="/auth/login"
               onClick={() => setIsMobileMenuOpen(false)}
               className={buttonVariants({
-                variant: "outline",
-                className: "w-full justify-center text-base py-3 shadow-sm",
+                variant: "default",
+                className: "w-full justify-center text-base py-3",
               })}>
               Log In
             </Link>
