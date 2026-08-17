@@ -213,11 +213,11 @@ export function RegisterForm() {
                   Resend {timeLeft > 0 && `(${formatTime(timeLeft)})`}
                 </button>
               </div>
-              <div className="text-center mt-1 cursor-pointer">
+              <div className="text-center mt-1">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-sm font-medium text-gray-500 hover:underline">
+                  className="text-sm font-medium text-gray-500 hover:underline cursor-pointer">
                   Change Email
                 </button>
               </div>
