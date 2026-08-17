@@ -2,16 +2,31 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useTransition } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 
 import { Input } from "@/components/form-elements/input";
+import { OTPInput } from "@/components/form-elements/otp-input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
 import { LogoIcon } from "@/components/icons/logo-copy";
 
+type FormData = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  password: string;
+};
+
 export function RegisterForm() {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [formData, setFormData] = useState<FormData | null>(null);
+  const [timeLeft, setTimeLeft] = useState(120);
   const [isPending, startTransition] = useTransition();
-  const form = useForm({
+  const router = useRouter();
+
+  const registrationForm = useForm<FormData>({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -20,15 +35,41 @@ export function RegisterForm() {
       password: "",
     },
   });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = form;
 
-  function onSubmit(inputs: FieldValues) {
+  const otpForm = useForm({ defaultValues: { otp: "" } });
+
+  // OTP countdown timer
+  useEffect(() => {
+    if (step !== 2 || timeLeft <= 0) return;
+    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [step, timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s < 10 ? "0" : ""}${s}`;
+  };
+
+  function handleRegister(inputs: FieldValues) {
     startTransition(async () => {
-      console.log("Register Data:", inputs);
+      console.log("Send OTP to:", inputs.email);
+      setFormData(inputs as FormData);
+      setTimeLeft(120);
+      setStep(2);
+    });
+  }
+
+  function handleResend() {
+    if (timeLeft > 0) return;
+    console.log("Resend OTP for email:", formData?.email);
+    setTimeLeft(120);
+  }
+
+  function handleVerifyOTP(inputs: FieldValues) {
+    startTransition(async () => {
+      console.log("Verify OTP:", inputs.otp, "for email:", formData?.email, "formData:", formData);
+      router.push("/auth/login");
     });
   }
 
@@ -39,82 +80,153 @@ export function RegisterForm() {
           <LogoIcon className="h-auto w-24" />
         </Link>
       </div>
+
       <div className="max-w-[510px] w-full rounded-xl bg-white p-8 shadow-sm">
-        <div className="mb-8">
-          <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
-            Create an account!
-          </h2>
-          <div className="mt-3 flex justify-center gap-1 text-sm">
-            <span>Already have an account?</span>
-            <Link
-              href="/auth/login"
-              className="cursor-pointer text-brand hover:underline">
-              Login
-            </Link>
-          </div>
-        </div>
-        <form
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-3">
-          <Input
-            size="md"
-            label="First Name"
-            required
-            autoComplete="given-name"
-            {...register("firstName", { required: "First name is required" })}
-            error={errors.firstName?.message as string}
-            placeholder="Enter your first name"
-          />
-          <Input
-            size="md"
-            label="Last Name"
-            required
-            autoComplete="family-name"
-            {...register("lastName", { required: "Last name is required" })}
-            error={errors.lastName?.message as string}
-            placeholder="Enter your last name"
-          />
-          <Input
-            size="md"
-            label="Email"
-            required
-            autoComplete="email"
-            className="col-span-full"
-            {...register("email", { required: "Email is required" })}
-            error={errors.email?.message as string}
-            placeholder="Enter your email address"
-          />
-          <Input
-            size="md"
-            label="Phone"
-            required
-            autoComplete="tel"
-            className="col-span-full"
-            {...register("phone", { required: "Phone number is required" })}
-            error={errors.phone?.message as string}
-            placeholder="Enter your phone number"
-          />
-          <PasswordInput
-            size="md"
-            label="Password"
-            required
-            autoComplete="new-password"
-            className="col-span-full"
-            {...register("password", { required: "Password is required" })}
-            error={errors.password?.message as string}
-            placeholder="Enter your password"
-          />
-          <div className="col-span-full pt-2">
-            <Button
-              type="submit"
-              variant="brand"
-              className="w-full rounded-3xl py-3 font-semibold text-white">
-              {isPending ? "Please wait..." : "Register"}
-            </Button>
-          </div>
-        </form>
+
+        {/* Step 1 — Registration Form */}
+        {step === 1 && (
+          <>
+            <div className="mb-8">
+              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
+                Create an account!
+              </h2>
+              <div className="mt-3 flex justify-center gap-1 text-sm">
+                <span>Already have an account?</span>
+                <Link href="/auth/login" className="cursor-pointer text-brand hover:underline">
+                  Login
+                </Link>
+              </div>
+            </div>
+            <form
+              noValidate
+              onSubmit={registrationForm.handleSubmit(handleRegister)}
+              className="grid grid-cols-2 gap-3">
+              <Input
+                size="md"
+                label="First Name"
+                required
+                autoComplete="given-name"
+                {...registrationForm.register("firstName", { required: "First name is required" })}
+                error={registrationForm.formState.errors.firstName?.message as string}
+                placeholder="Enter your first name"
+              />
+              <Input
+                size="md"
+                label="Last Name"
+                required
+                autoComplete="family-name"
+                {...registrationForm.register("lastName", { required: "Last name is required" })}
+                error={registrationForm.formState.errors.lastName?.message as string}
+                placeholder="Enter your last name"
+              />
+              <Input
+                size="md"
+                label="Email"
+                required
+                autoComplete="email"
+                className="col-span-full"
+                {...registrationForm.register("email", { required: "Email is required" })}
+                error={registrationForm.formState.errors.email?.message as string}
+                placeholder="Enter your email address"
+              />
+              <Input
+                size="md"
+                label="Phone"
+                required
+                autoComplete="tel"
+                className="col-span-full"
+                {...registrationForm.register("phone", { required: "Phone number is required" })}
+                error={registrationForm.formState.errors.phone?.message as string}
+                placeholder="Enter your phone number"
+              />
+              <PasswordInput
+                size="md"
+                label="Password"
+                required
+                autoComplete="new-password"
+                className="col-span-full"
+                {...registrationForm.register("password", { required: "Password is required" })}
+                error={registrationForm.formState.errors.password?.message as string}
+                placeholder="Enter your password"
+              />
+              <div className="col-span-full pt-2">
+                <Button
+                  type="submit"
+                  variant="brand"
+                  className="w-full rounded-3xl py-3 font-semibold text-white">
+                  {isPending ? "Sending OTP..." : "Register"}
+                </Button>
+              </div>
+            </form>
+          </>
+        )}
+
+        {/* Step 2 — OTP Verification */}
+        {step === 2 && (
+          <>
+            <div className="mb-8">
+              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
+                Verify OTP
+              </h2>
+              <p className="mt-3 text-center text-sm text-gray-500">
+                We have sent a verification code to{" "}
+                <span className="font-semibold">{formData?.email}</span>.
+              </p>
+            </div>
+            <form
+              noValidate
+              onSubmit={otpForm.handleSubmit(handleVerifyOTP)}
+              className="flex flex-col gap-4">
+              <div className="flex justify-center mb-2">
+                <Controller
+                  name="otp"
+                  control={otpForm.control}
+                  rules={{
+                    required: "OTP is required",
+                    minLength: { value: 6, message: "Must be 6 digits" },
+                  }}
+                  render={({ field }) => (
+                    <OTPInput
+                      maxLength={6}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={otpForm.formState.errors.otp?.message as string}
+                    />
+                  )}
+                />
+              </div>
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  variant="brand"
+                  className="w-full rounded-3xl py-3 font-semibold text-white">
+                  {isPending ? "Verifying..." : "Verify OTP"}
+                </Button>
+              </div>
+              <div className="text-center mt-2 flex justify-center gap-1 text-sm">
+                <span className="text-gray-500">Didn&apos;t receive the code?</span>
+                <button
+                  type="button"
+                  disabled={timeLeft > 0}
+                  className={`font-medium ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-brand hover:underline"}`}
+                  onClick={handleResend}>
+                  Resend {timeLeft > 0 && `(${formatTime(timeLeft)})`}
+                </button>
+              </div>
+              <div className="text-center mt-1 cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="text-sm font-medium text-gray-500 hover:underline">
+                  Change Email
+                </button>
+              </div>
+            </form>
+          </>
+        )}
+
       </div>
+
       <div className="pb-8">
         <p className="text-sm font-medium text-titleBlack/70">
           © {new Date().getFullYear()} Wefixit All rights reserved
