@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import { SectionTitle } from "@/components/section-title";
 import { cn } from "@/lib/utils";
 import { BookOnlineIcon } from "../icons/book-online-icon";

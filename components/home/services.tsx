@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import { ArrowRightIcon } from "../icons/arrow-right";
 import { ClockIcon } from "../icons/clock-icon";
 import { DeliveryBoyIcon } from "../icons/deliveryBoy-icon";

@@ -4,7 +4,8 @@ export function WatchIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 30 30"
+      width={30}
+      height={30}
       fill="none"
       {...props}
     >

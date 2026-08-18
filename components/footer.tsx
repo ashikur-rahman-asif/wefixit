@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Container from "./Container";
+import Container from "./container";
 import { FacebookIcon } from "./icons/facebook-icon";
 import { InstagramIcon } from "./icons/instagram";
 import Logo from "./icons/logo";

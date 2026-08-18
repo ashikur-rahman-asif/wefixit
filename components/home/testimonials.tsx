@@ -1,6 +1,6 @@
 "use client";
 
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import { StarRating } from "@/components/ui/star-rating";
 import Image from "next/image";
 import { useSyncExternalStore } from "react";

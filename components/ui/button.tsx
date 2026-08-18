@@ -12,6 +12,8 @@ const buttonVariants = cva(
           "border-secondary bg-transparent text-primary hover:bg-primary hover:border-primary hover:text-white",
         brand:
           "border-brand bg-brand text-white hover:bg-brand/90 hover:border-brand/90",
+        "white-outline":
+          "border-white bg-transparent text-white hover:bg-white hover:text-primary",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:

@@ -1,4 +1,4 @@
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import Image from "next/image";
 import { SectionTitle } from "../section-title";
 

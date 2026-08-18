@@ -1,6 +1,6 @@
 "use client";
 
-import Container from "@/components/Container";
+import Container from "@/components/container";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
