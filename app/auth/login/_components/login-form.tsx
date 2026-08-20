@@ -3,7 +3,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTransition } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginInput } from "@/validators/user";
 
 import { Input } from "@/components/form-elements/input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
@@ -11,7 +13,8 @@ import { LogoIcon } from "@/components/icons/logo-copy";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
-  const form = useForm({
+  const form = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -23,7 +26,7 @@ export function LoginForm() {
     formState: { errors },
   } = form;
 
-  function onSubmit(inputs: FieldValues) {
+  function onSubmit(inputs: LoginInput) {
     startTransition(async () => {
       console.log("Login Data:", inputs);
     });
@@ -59,7 +62,7 @@ export function LoginForm() {
             label="Email"
             required
             autoComplete="email"
-            {...register("email", { required: "Email is required" })}
+            {...register("email")}
             error={errors.email?.message as string}
             className="col-span-full"
             placeholder="Enter your email"
@@ -69,7 +72,7 @@ export function LoginForm() {
             label="Password"
             required
             autoComplete="current-password"
-            {...register("password", { required: "Password is required" })}
+            {...register("password")}
             error={errors.password?.message as string}
             className="col-span-full"
             placeholder="Enter your password"

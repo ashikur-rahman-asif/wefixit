@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
 import { Montserrat, Plus_Jakarta_Sans, Prompt } from "next/font/google";
 import "./globals.css";
 
@@ -34,7 +35,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         montserrat.variable,
         prompt.variable,
       )}>
-      <body className={cn("font-sans bg-white")}>{children}</body>
+      <body className={cn("font-sans bg-white")}>
+        <NextTopLoader color="#0072de" showSpinner={false} />
+        {children}
+      </body>
     </html>
   );
 }
