@@ -103,6 +103,7 @@ export function RegisterForm() {
       { email: formData.email, otp: inputs.otp },
       {
         onSuccess: () => {
+          toast.success("Email verified successfully!");
           router.push("/auth/login");
         },
         onError: (error) =>

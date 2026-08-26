@@ -23,13 +23,21 @@ export interface VerifyOtpPayload {
   otp: string;
 }
 
+export interface ResetPasswordPayload {
+  reset_token: string;
+  password: string;
+  password_confirmation: string;
+}
+
 export interface AuthResponse {
   status: string;
   message?: string;
-  token?: string;
-  token_type?: string;
-  expires_in?: number;
-  user?: User;
+  data?: {
+    token: string;
+    token_type: string;
+    expires_in: number;
+    user: User;
+  };
 }
 
 export interface BasicResponse {

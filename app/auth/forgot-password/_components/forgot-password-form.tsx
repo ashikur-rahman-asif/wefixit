@@ -2,8 +2,27 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+
+import {
+  forgotPasswordSchema,
+  verifyOtpSchema,
+  resetPasswordSchema,
+  type ForgotPasswordInput,
+  type VerifyOtpInput,
+  type ResetPasswordInput,
+} from "@/validators/user";
+
+import {
+  useForgotPassword,
+  useVerifyResetOtp,
+  useResetPassword,
+} from "@/hooks/useAuth";
+import { handleFormError } from "@/lib/handle-form-error";
 
 import { Input } from "@/components/form-elements/input";
 import { OTPInput } from "@/components/form-elements/otp-input";
@@ -16,16 +35,28 @@ export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [resetToken, setResetToken] = useState("");
   const [timeLeft, setTimeLeft] = useState(120);
-  const [isPending, startTransition] = useTransition();
+  const { mutate: forgotPassword, isPending: isSending } = useForgotPassword();
+  const { mutate: verifyOtp, isPending: isVerifying } = useVerifyResetOtp();
+  const { mutate: resetPassword, isPending: isResetting } = useResetPassword();
+
   const router = useRouter();
 
-  const emailForm = useForm({ defaultValues: { email: "" } });
-  const otpForm = useForm({ defaultValues: { otp: "" } });
-  const passwordForm = useForm({
+  const emailForm = useForm<ForgotPasswordInput>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: { email: "" },
+  });
+  
+  const otpForm = useForm<VerifyOtpInput>({
+    resolver: zodResolver(verifyOtpSchema),
+    defaultValues: { otp: "" },
+  });
+  
+  const passwordForm = useForm<ResetPasswordInput>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: { password: "", confirmPassword: "" },
   });
 
-  const password = passwordForm.watch("password");
+
 
   // OTP countdown timer
   useEffect(() => {
@@ -40,34 +71,69 @@ export function ForgotPasswordForm() {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-  function handleSendOTP(inputs: FieldValues) {
-    startTransition(async () => {
-      console.log("Send OTP to:", inputs.email);
-      setEmail(inputs.email);
-      setTimeLeft(120);
-      setStep(2);
+  function handleSendOTP(inputs: ForgotPasswordInput) {
+    forgotPassword(inputs, {
+      onSuccess: (data) => {
+        toast.success(data.message || "OTP sent successfully!");
+        setEmail(inputs.email);
+        setTimeLeft(120);
+        setStep(2);
+      },
+      onError: (error) => {
+        handleFormError(error, emailForm.setError, "Failed to send OTP.");
+      },
     });
   }
 
   function handleResend() {
     if (timeLeft > 0) return;
-    console.log("Resend OTP for email:", email);
-    setTimeLeft(120);
+    forgotPassword(
+      { email },
+      {
+        onSuccess: () => {
+          toast.success("OTP resent successfully!");
+          setTimeLeft(120);
+        },
+        onError: (error) => {
+          handleFormError(error, undefined, "Failed to resend OTP.");
+        },
+      }
+    );
   }
 
-  function handleVerifyOTP(inputs: FieldValues) {
-    startTransition(async () => {
-      console.log("Verify OTP:", inputs.otp, "for email:", email);
-      setResetToken("mock-reset-token-123");
-      setStep(3);
-    });
+  function handleVerifyOTP(inputs: VerifyOtpInput) {
+    verifyOtp(
+      { email, otp: inputs.otp },
+      {
+        onSuccess: (res) => {
+          toast.success(res.message || "OTP verified!");
+          setResetToken(res.data?.reset_token || "");
+          setStep(3);
+        },
+        onError: (error) => {
+          handleFormError(error, otpForm.setError, "Invalid OTP.");
+        },
+      }
+    );
   }
 
-  function handleSetPassword(inputs: FieldValues) {
-    startTransition(async () => {
-      console.log("Set new password for:", email, "with token:", resetToken, "Data:", inputs);
-      router.push("/auth/login");
-    });
+  function handleSetPassword(inputs: ResetPasswordInput) {
+    resetPassword(
+      {
+        reset_token: resetToken,
+        password: inputs.password,
+        password_confirmation: inputs.confirmPassword,
+      },
+      {
+        onSuccess: (res) => {
+          toast.success(res.message || "Password reset successfully!");
+          router.push("/auth/login");
+        },
+        onError: (error) => {
+          handleFormError(error, passwordForm.setError, "Failed to reset password.");
+        },
+      }
+    );
   }
 
   return (
@@ -100,16 +166,17 @@ export function ForgotPasswordForm() {
                 label="Email"
                 required
                 autoComplete="email"
-                {...emailForm.register("email", { required: "Email is required" })}
-                error={emailForm.formState.errors.email?.message as string}
+                {...emailForm.register("email")}
+                error={emailForm.formState.errors.email?.message}
                 placeholder="Enter your email"
               />
               <div className="pt-2">
                 <Button
                   type="submit"
                   variant="brand"
-                  className="w-full rounded-3xl py-3 font-semibold text-white">
-                  {isPending ? "Sending OTP..." : "Send OTP"}
+                  disabled={isSending}
+                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isSending && "cursor-not-allowed opacity-70")}>
+                  {isSending ? "Sending OTP..." : "Send OTP"}
                 </Button>
               </div>
               <div className="text-center mt-2">
@@ -141,16 +208,12 @@ export function ForgotPasswordForm() {
                 <Controller
                   name="otp"
                   control={otpForm.control}
-                  rules={{
-                    required: "OTP is required",
-                    minLength: { value: 6, message: "Must be 6 digits" },
-                  }}
                   render={({ field }) => (
                     <OTPInput
                       maxLength={6}
                       value={field.value}
                       onChange={field.onChange}
-                      error={otpForm.formState.errors.otp?.message as string}
+                      error={otpForm.formState.errors.otp?.message}
                     />
                   )}
                 />
@@ -159,8 +222,9 @@ export function ForgotPasswordForm() {
                 <Button
                   type="submit"
                   variant="brand"
-                  className="w-full rounded-3xl py-3 font-semibold text-white">
-                  {isPending ? "Verifying..." : "Verify OTP"}
+                  disabled={isVerifying}
+                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isVerifying && "cursor-not-allowed opacity-70")}>
+                  {isVerifying ? "Verifying..." : "Verify OTP"}
                 </Button>
               </div>
               <div className="text-center mt-2 flex justify-center gap-1 text-sm">
@@ -205,11 +269,8 @@ export function ForgotPasswordForm() {
                 label="New Password"
                 required
                 autoComplete="new-password"
-                {...passwordForm.register("password", {
-                  required: "Password is required",
-                  minLength: { value: 6, message: "Password must be at least 6 characters" },
-                })}
-                error={passwordForm.formState.errors.password?.message as string}
+                {...passwordForm.register("password")}
+                error={passwordForm.formState.errors.password?.message}
                 placeholder="Enter new password"
               />
               <PasswordInput
@@ -217,19 +278,17 @@ export function ForgotPasswordForm() {
                 label="Confirm Password"
                 required
                 autoComplete="new-password"
-                {...passwordForm.register("confirmPassword", {
-                  required: "Please confirm your password",
-                  validate: (value) => value === password || "Passwords do not match",
-                })}
-                error={passwordForm.formState.errors.confirmPassword?.message as string}
+                {...passwordForm.register("confirmPassword")}
+                error={passwordForm.formState.errors.confirmPassword?.message}
                 placeholder="Confirm new password"
               />
               <div className="pt-2">
                 <Button
                   type="submit"
                   variant="brand"
-                  className="w-full rounded-3xl py-3 font-semibold text-white">
-                  {isPending ? "Updating..." : "Update Password"}
+                  disabled={isResetting}
+                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isResetting && "cursor-not-allowed opacity-70")}>
+                  {isResetting ? "Updating..." : "Update Password"}
                 </Button>
               </div>
             </form>

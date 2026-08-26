@@ -10,17 +10,22 @@ export function handleFormError<T extends FieldValues>(
   if (isAxiosError(error) && error.response) {
     const { status, data } = error.response;
 
-    if (status === 422 && data.errors) {
+    const validationErrors = data.errors || data.data;
+
+    if (status === 422 && validationErrors && typeof validationErrors === "object") {
       if (setError) {
-        Object.keys(data.errors).forEach((key) => {
+        Object.keys(validationErrors).forEach((key) => {
           setError(key as Path<T>, {
             type: "server",
-            message: data.errors[key][0],
+            message: validationErrors[key][0],
           });
         });
+        toast.error("Please check the highlighted fields for errors.");
+      } else {
+        const firstErrorKey = Object.keys(validationErrors)[0];
+        toast.error(validationErrors[firstErrorKey][0] || "Validation failed.");
       }
-      toast.error(data.message || "Please check the form for errors.");
-      return data.errors;
+      return validationErrors;
     }
 
     if (data.message) {

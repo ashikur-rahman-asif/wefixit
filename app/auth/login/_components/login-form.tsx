@@ -1,18 +1,25 @@
 "use client";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/validators/user";
+import { useRouter } from "next/navigation";
+import { useLogin } from "@/hooks/useAuth";
+import { handleFormError } from "@/lib/handle-form-error";
+import { useAuthStore } from "@/store/authStore";
 
 import { Input } from "@/components/form-elements/input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
 import { LogoIcon } from "@/components/icons/logo-copy";
 
 export function LoginForm() {
-  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { mutate: login, isPending } = useLogin();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -23,12 +30,22 @@ export function LoginForm() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = form;
 
   function onSubmit(inputs: LoginInput) {
-    startTransition(async () => {
-      console.log("Login Data:", inputs);
+    login(inputs, {
+      onSuccess: (res) => {
+        if (res.data?.user && res.data?.token) {
+          setAuth(res.data.user, res.data.token);
+          toast.success(res.message || "Login successful!");
+          router.push("/");
+        }
+      },
+      onError: (error) => {
+        handleFormError(error, setError, "Login failed. Please try again.");
+      },
     });
   }
 
@@ -88,6 +105,7 @@ export function LoginForm() {
             <Button
               type="submit"
               variant="brand"
+              disabled={isPending}
               className="w-full rounded-3xl py-3 font-semibold text-white">
               {isPending ? "Please wait..." : "Log In"}
             </Button>
