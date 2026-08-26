@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useState } from 'react';
 
-import { useInteractiveEvent } from '@/lib/hooks/use-interactive-event';
+import { useInteractiveEvent } from '@/hooks/use-interactive-event';
 import { cn } from '@/lib/utils';
 
 import { FieldClearButton } from '../field-clear-button';
@@ -142,7 +142,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordProps>(
       handleOnFocus,
       handleOnMouseEnter,
       handleOnMouseLeave,
-    } = useInteractiveEvent({
+    } = useInteractiveEvent<HTMLInputElement>({
       readOnly,
       onBlur,
       onFocus,
@@ -232,8 +232,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordProps>(
               tabIndex={0}
               className={cn(
                 `password-toggle-icon`,
-                'whitespace-nowrap leading-normal',
-                disabled && 'text-muted-foreground',
+                'whitespace-nowrap leading-normal cursor-pointer',
+                disabled && 'text-muted-foreground cursor-not-allowed',
                 visibilityToggleIconClassName
               )}
               onClick={() => {

@@ -2,7 +2,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { useInteractiveEvent } from '@/lib/hooks/use-interactive-event';
+import { useInteractiveEvent } from '@/hooks/use-interactive-event';
 import { cn } from '@/lib/utils';
 
 import { FieldClearButton } from './field-clear-button';
@@ -133,7 +133,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       handleOnFocus,
       handleOnMouseEnter,
       handleOnMouseLeave,
-    } = useInteractiveEvent({
+    } = useInteractiveEvent<HTMLInputElement>({
       readOnly,
       onBlur,
       onFocus,

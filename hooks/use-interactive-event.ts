@@ -1,28 +1,25 @@
 import React, { useCallback, useState } from 'react';
 
-type InputFocusEvent = React.FocusEvent<any>;
-type InputMouseEvent = React.MouseEvent<any, MouseEvent>;
-
-type InteractiveEventTypes = {
+type InteractiveEventTypes<T extends HTMLElement = HTMLElement> = {
   readOnly?: boolean;
-  onFocus?: (e: InputFocusEvent) => void;
-  onBlur?: (e: InputFocusEvent) => void;
-  onMouseEnter?: (e: InputMouseEvent) => void;
-  onMouseLeave?: (e: InputMouseEvent) => void;
+  onFocus?: React.FocusEventHandler<T>;
+  onBlur?: React.FocusEventHandler<T>;
+  onMouseEnter?: React.MouseEventHandler<T>;
+  onMouseLeave?: React.MouseEventHandler<T>;
 };
 
-export function useInteractiveEvent({
+export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
   readOnly,
   onFocus,
   onBlur,
   onMouseEnter,
   onMouseLeave,
-}: InteractiveEventTypes) {
+}: InteractiveEventTypes<T>) {
   const [isFocus, setIsFocus] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
   const handleOnFocus = useCallback(
-    (e: InputFocusEvent) => {
+    (e: React.FocusEvent<T>) => {
       if (readOnly === true) return false;
       setIsFocus((prevState) => !prevState);
       onFocus && onFocus(e); // eslint-disable-line no-unused-expressions
@@ -31,7 +28,7 @@ export function useInteractiveEvent({
   );
 
   const handleOnBlur = useCallback(
-    (e: InputFocusEvent) => {
+    (e: React.FocusEvent<T>) => {
       if (readOnly === true) return false;
       setIsFocus(() => false);
       onBlur && onBlur(e); // eslint-disable-line no-unused-expressions
@@ -40,7 +37,7 @@ export function useInteractiveEvent({
   );
 
   const handleOnMouseEnter = useCallback(
-    (e: InputMouseEvent) => {
+    (e: React.MouseEvent<T, MouseEvent>) => {
       if (readOnly === true) return false;
       setIsHover(() => true);
       onMouseEnter && onMouseEnter(e); // eslint-disable-line no-unused-expressions
@@ -50,7 +47,7 @@ export function useInteractiveEvent({
   );
 
   const handleOnMouseLeave = useCallback(
-    (e: InputMouseEvent) => {
+    (e: React.MouseEvent<T, MouseEvent>) => {
       if (readOnly === true) return false;
       setIsHover(() => false);
       onMouseLeave && onMouseLeave(e);

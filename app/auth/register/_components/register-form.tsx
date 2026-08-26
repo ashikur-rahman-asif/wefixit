@@ -1,32 +1,47 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  RegisterInput,
+  registerSchema,
+  VerifyOtpInput,
+  verifyOtpSchema,
+} from "@/validators/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+
+import {
+  useRegister,
+  useResendRegistrationOtp,
+  useVerifyRegistrationOtp,
+} from "@/hooks/useAuth";
+import { handleFormError } from "@/lib/handle-form-error";
+import { RegisterPayload } from "@/types/auth";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 import { Input } from "@/components/form-elements/input";
 import { OTPInput } from "@/components/form-elements/otp-input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
 import { LogoIcon } from "@/components/icons/logo-copy";
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  email: string;
-  password: string;
-};
-
 export function RegisterForm() {
   const [step, setStep] = useState<1 | 2>(1);
-  const [formData, setFormData] = useState<FormData | null>(null);
+  const [formData, setFormData] = useState<RegisterInput | null>(null);
   const [timeLeft, setTimeLeft] = useState(120);
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const registrationForm = useForm<FormData>({
+  const { mutate: registerUser, isPending: isRegistering } = useRegister();
+  const { mutate: verifyOtp, isPending: isVerifying } =
+    useVerifyRegistrationOtp();
+  const { mutate: resendOtp, isPending: isResending } =
+    useResendRegistrationOtp();
+
+  const registrationForm = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -36,7 +51,10 @@ export function RegisterForm() {
     },
   });
 
-  const otpForm = useForm({ defaultValues: { otp: "" } });
+  const otpForm = useForm<VerifyOtpInput>({
+    resolver: zodResolver(verifyOtpSchema),
+    defaultValues: { otp: "" },
+  });
 
   // OTP countdown timer
   useEffect(() => {
@@ -51,26 +69,50 @@ export function RegisterForm() {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-  function handleRegister(inputs: FieldValues) {
-    startTransition(async () => {
-      console.log("Send OTP to:", inputs.email);
-      setFormData(inputs as FormData);
-      setTimeLeft(120);
-      setStep(2);
+  function handleRegister(inputs: RegisterInput) {
+    registerUser(inputs as RegisterPayload, {
+      onSuccess: () => {
+        setFormData(inputs);
+        setTimeLeft(120);
+        setStep(2);
+      },
+      onError: (error) =>
+        handleFormError(
+          error,
+          registrationForm.setError,
+          "Registration failed. Please try again.",
+        ),
     });
   }
 
   function handleResend() {
-    if (timeLeft > 0) return;
-    console.log("Resend OTP for email:", formData?.email);
-    setTimeLeft(120);
+    if (timeLeft > 0 || !formData?.email) return;
+    resendOtp(formData.email, {
+      onSuccess: () => {
+        setTimeLeft(120);
+        toast.success("OTP sent successfully!");
+      },
+      onError: (error) =>
+        handleFormError(error, undefined, "Failed to resend OTP."),
+    });
   }
 
-  function handleVerifyOTP(inputs: FieldValues) {
-    startTransition(async () => {
-      console.log("Verify OTP:", inputs.otp, "for email:", formData?.email, "formData:", formData);
-      router.push("/auth/login");
-    });
+  function handleVerifyOTP(inputs: VerifyOtpInput) {
+    if (!formData?.email) return;
+    verifyOtp(
+      { email: formData.email, otp: inputs.otp },
+      {
+        onSuccess: () => {
+          router.push("/auth/login");
+        },
+        onError: (error) =>
+          handleFormError(
+            error,
+            otpForm.setError,
+            "Verification failed. Please try again.",
+          ),
+      },
+    );
   }
 
   return (
@@ -82,7 +124,6 @@ export function RegisterForm() {
       </div>
 
       <div className="max-w-[510px] w-full rounded-xl bg-white p-8 shadow-sm">
-
         {/* Step 1 — Registration Form */}
         {step === 1 && (
           <>
@@ -92,7 +133,9 @@ export function RegisterForm() {
               </h2>
               <div className="mt-3 flex justify-center gap-1 text-sm">
                 <span>Already have an account?</span>
-                <Link href="/auth/login" className="cursor-pointer text-brand hover:underline">
+                <Link
+                  href="/auth/login"
+                  className="cursor-pointer text-brand hover:underline">
                   Login
                 </Link>
               </div>
@@ -106,8 +149,8 @@ export function RegisterForm() {
                 label="First Name"
                 required
                 autoComplete="given-name"
-                {...registrationForm.register("firstName", { required: "First name is required" })}
-                error={registrationForm.formState.errors.firstName?.message as string}
+                {...registrationForm.register("firstName")}
+                error={registrationForm.formState.errors.firstName?.message}
                 placeholder="Enter your first name"
               />
               <Input
@@ -115,8 +158,8 @@ export function RegisterForm() {
                 label="Last Name"
                 required
                 autoComplete="family-name"
-                {...registrationForm.register("lastName", { required: "Last name is required" })}
-                error={registrationForm.formState.errors.lastName?.message as string}
+                {...registrationForm.register("lastName")}
+                error={registrationForm.formState.errors.lastName?.message}
                 placeholder="Enter your last name"
               />
               <Input
@@ -125,8 +168,8 @@ export function RegisterForm() {
                 required
                 autoComplete="email"
                 className="col-span-full"
-                {...registrationForm.register("email", { required: "Email is required" })}
-                error={registrationForm.formState.errors.email?.message as string}
+                {...registrationForm.register("email")}
+                error={registrationForm.formState.errors.email?.message}
                 placeholder="Enter your email address"
               />
               <Input
@@ -135,8 +178,8 @@ export function RegisterForm() {
                 required
                 autoComplete="tel"
                 className="col-span-full"
-                {...registrationForm.register("phone", { required: "Phone number is required" })}
-                error={registrationForm.formState.errors.phone?.message as string}
+                {...registrationForm.register("phone")}
+                error={registrationForm.formState.errors.phone?.message}
                 placeholder="Enter your phone number"
               />
               <PasswordInput
@@ -145,16 +188,17 @@ export function RegisterForm() {
                 required
                 autoComplete="new-password"
                 className="col-span-full"
-                {...registrationForm.register("password", { required: "Password is required" })}
-                error={registrationForm.formState.errors.password?.message as string}
+                {...registrationForm.register("password")}
+                error={registrationForm.formState.errors.password?.message}
                 placeholder="Enter your password"
               />
               <div className="col-span-full pt-2">
                 <Button
                   type="submit"
                   variant="brand"
+                  disabled={isRegistering}
                   className="w-full rounded-3xl py-3 font-semibold text-white">
-                  {isPending ? "Sending OTP..." : "Register"}
+                  {isRegistering ? "Sending OTP..." : "Register"}
                 </Button>
               </div>
             </form>
@@ -181,16 +225,12 @@ export function RegisterForm() {
                 <Controller
                   name="otp"
                   control={otpForm.control}
-                  rules={{
-                    required: "OTP is required",
-                    minLength: { value: 6, message: "Must be 6 digits" },
-                  }}
                   render={({ field }) => (
                     <OTPInput
                       maxLength={6}
                       value={field.value}
                       onChange={field.onChange}
-                      error={otpForm.formState.errors.otp?.message as string}
+                      error={otpForm.formState.errors.otp?.message}
                     />
                   )}
                 />
@@ -199,16 +239,24 @@ export function RegisterForm() {
                 <Button
                   type="submit"
                   variant="brand"
-                  className="w-full rounded-3xl py-3 font-semibold text-white">
-                  {isPending ? "Verifying..." : "Verify OTP"}
+                  disabled={isVerifying}
+                  className={cn("w-full rounded-3xl py-3 font-semibold text-white")}>
+                  {isVerifying ? "Verifying..." : "Verify OTP"}
                 </Button>
               </div>
               <div className="text-center mt-2 flex justify-center gap-1 text-sm">
-                <span className="text-gray-500">Didn&apos;t receive the code?</span>
+                <span className="text-gray-500">
+                  Didn&apos;t receive the code?
+                </span>
                 <button
                   type="button"
-                  disabled={timeLeft > 0}
-                  className={`font-medium ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-brand hover:underline"}`}
+                  disabled={timeLeft > 0 || isResending}
+                  className={cn(
+                    "font-medium",
+                    timeLeft > 0
+                      ? "text-gray-400 cursor-not-allowed"
+                      : "text-brand hover:underline cursor-pointer"
+                  )}
                   onClick={handleResend}>
                   Resend {timeLeft > 0 && `(${formatTime(timeLeft)})`}
                 </button>
@@ -224,7 +272,6 @@ export function RegisterForm() {
             </form>
           </>
         )}
-
       </div>
 
       <div className="pb-8">
