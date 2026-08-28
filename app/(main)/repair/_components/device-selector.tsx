@@ -1,11 +1,11 @@
 import { CheckIcon } from "@/components/icons/check-icon";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import type { Device } from "@/types/repair";
+import Image from "next/image";
 
 interface DeviceSelectorProps {
   devices: Device[];
-  selectedDevice: string;
+  selectedDevice: string | null;
   onSelect: (device: string) => void;
 }
 

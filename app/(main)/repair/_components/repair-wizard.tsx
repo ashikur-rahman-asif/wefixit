@@ -1,7 +1,8 @@
 "use client";
 
+import { useRepairStore } from "@/store/use-repair-store";
 import type { Device } from "@/types/repair";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { DeviceSelector } from "./device-selector";
 import { NavigationButtons } from "./navigation-buttons";
 import { Stepper } from "./stepper";
@@ -25,20 +26,36 @@ const DEMO_DEVICES: Device[] = [
 ];
 
 export function RepairWizard() {
-  const [selectedDevice, setSelectedDevice] = useState("Iphone");
-  const [currentStep, setCurrentStep] = useState("Device");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const selectedDevice = useRepairStore((state) => state.selectedDevice);
+  const setSelectedDevice = useRepairStore((state) => state.setSelectedDevice);
+
+  const currentStepParam = searchParams.get("step");
+  const currentStep = STEPS.includes(currentStepParam as string)
+    ? currentStepParam!
+    : "Device";
 
   const currentIndex = STEPS.indexOf(currentStep);
 
+  const setStepInUrl = (stepName: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("step", stepName);
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const handleNext = () => {
     if (currentIndex < STEPS.length - 1) {
-      setCurrentStep(STEPS[currentIndex + 1]);
+      setStepInUrl(STEPS[currentIndex + 1]);
     }
   };
 
   const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentStep(STEPS[currentIndex - 1]);
+      setStepInUrl(STEPS[currentIndex - 1]);
     }
   };
 
@@ -56,10 +73,6 @@ export function RepairWizard() {
           <h2 className="text-3xl font-bold text-primary">
             Under Construction
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-md">
-            The {currentStep} step is currently being built. You can navigate
-            back or proceed to the next steps.
-          </p>
         </div>
       )}
 
