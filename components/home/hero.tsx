@@ -24,7 +24,7 @@ export function Hero() {
             </p>
             <div className="flex items-center gap-4 md:gap-7 font-prompt mt-3 md:mt-12">
               <Link
-                href="#"
+                href="/repair"
                 className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl">
                 <Image
                   src="/repair.png"
@@ -39,7 +39,7 @@ export function Hero() {
                 </p>
               </Link>
               <Link
-                href="#"
+                href="/track-repair"
                 className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl">
                 <Image
                   src="/track.png"
