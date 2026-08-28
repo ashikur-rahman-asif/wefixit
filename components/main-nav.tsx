@@ -13,9 +13,9 @@ import { buttonVariants } from "./ui/button";
 
 const navItems = [
   { label: "Services", href: "/services" },
+  { label: "Repair", href: "/repair" },
   { label: "About Us", href: "/about" },
   { label: "Shop", href: "/shop" },
-  { label: "Repair", href: "/repair" },
   { label: "Blog", href: "/blog" },
 ];
 
