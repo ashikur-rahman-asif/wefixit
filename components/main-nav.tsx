@@ -15,7 +15,7 @@ const navItems = [
   { label: "Services", href: "/services" },
   { label: "About Us", href: "/about" },
   { label: "Shop", href: "/shop" },
-  { label: "Contact", href: "/contact" },
+  { label: "Repair", href: "/repair" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -52,19 +52,29 @@ export function MainNav() {
       className={cn(
         "top-0 z-[990] transition-colors duration-300 w-full",
         isTransparentMode ? "fixed" : "sticky",
-        isTransparent ? "bg-transparent" : (isScrolled ? "bg-[#F3F4F6]" : "bg-white")
+        isTransparent
+          ? "bg-transparent"
+          : isScrolled
+            ? "bg-[#F3F4F6]"
+            : "bg-white",
       )}>
       <Container className="flex items-center justify-between py-5 md:py-6">
         <div className="flex items-center gap-3 md:gap-0">
           <button
             onClick={() => setIsMobileMenuOpen(true)}
-            className={cn("lg:hidden p-1 -ml-1 hover:text-brand transition-colors", isTransparent ? "text-white" : "text-secondary")}
+            className={cn(
+              "lg:hidden p-1 -ml-1 hover:text-brand transition-colors",
+              isTransparent ? "text-white" : "text-secondary",
+            )}
             aria-label="Open Menu">
             <HamburgerIcon className="w-7 h-7" />
           </button>
 
           <Link href="/" className="flex items-center shrink-0">
-            <LogoIcon className="h-5 md:h-6 w-auto" color={isTransparent ? "white" : undefined} />
+            <LogoIcon
+              className="h-5 md:h-6 w-auto"
+              color={isTransparent ? "white" : undefined}
+            />
           </Link>
         </div>
 
@@ -76,8 +86,13 @@ export function MainNav() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className={cn("text-lg font-medium hover:text-brand transition-colors duration-200 flex items-center gap-1",
-                      isActive ? "text-brand" : (isTransparent ? "text-white" : "text-secondary")
+                    className={cn(
+                      "text-lg font-medium hover:text-brand transition-colors duration-200 flex items-center gap-1",
+                      isActive
+                        ? "text-brand"
+                        : isTransparent
+                          ? "text-white"
+                          : "text-secondary",
                     )}>
                     {item.label}
                   </Link>
@@ -89,7 +104,12 @@ export function MainNav() {
 
         <div className="flex items-center gap-5 md:gap-6">
           <Link href="/cart" className="relative group p-1">
-            <ShoppingCart className={cn("size-6 group-hover:text-brand transition-colors duration-200", isTransparent ? "text-white" : "text-secondary")} />
+            <ShoppingCart
+              className={cn(
+                "size-6 group-hover:text-brand transition-colors duration-200",
+                isTransparent ? "text-white" : "text-secondary",
+              )}
+            />
             <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
               10
             </span>
@@ -97,7 +117,9 @@ export function MainNav() {
           <div className="hidden lg:flex items-center gap-4">
             <Link
               href="/auth/login"
-              className={buttonVariants({ variant: isTransparent ? "white-outline" : "default" })}>
+              className={buttonVariants({
+                variant: isTransparent ? "white-outline" : "default",
+              })}>
               Log In
             </Link>
             <a

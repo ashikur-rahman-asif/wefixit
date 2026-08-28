@@ -1,6 +1,8 @@
 import Container from "@/components/container";
 import { SectionTitle } from "@/components/section-title";
 import { RepairWizard } from "./_components/repair-wizard";
+import { Suspense } from "react";
+import { Loader } from "@/components/ui/loader";
 
 export default function RepairPage() {
   return (
@@ -11,7 +13,9 @@ export default function RepairPage() {
         titleClassName="max-w-[576px]"
       />
 
-      <RepairWizard />
+      <Suspense fallback={<div className="py-24 flex justify-center"><Loader size="md" /></div>}>
+        <RepairWizard />
+      </Suspense>
     </Container>
   );
 }

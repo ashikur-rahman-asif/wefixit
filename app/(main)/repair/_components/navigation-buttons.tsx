@@ -14,7 +14,7 @@ export function NavigationButtons({
   onPrevious,
 }: NavigationButtonsProps) {
   return (
-    <div className="mt-8 md:mt-12 mb-10 md:mb-16 flex items-center justify-end gap-4 border-t pt-6">
+    <div className="mt-8 flex items-center justify-end gap-4 border-t pt-6">
       {currentIndex > 0 && (
         <Button variant="outline" onClick={onPrevious}>
           Previous

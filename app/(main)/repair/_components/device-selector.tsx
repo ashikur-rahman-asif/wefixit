@@ -33,7 +33,7 @@ export function DeviceSelector({
             height={80}
             className="size-16 md:size-20"
           />
-          <h3 className="text-primary font-medium text-xl md:text-[36px] mt-2">
+          <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
             {device.name}
           </h3>
           {selectedDevice === device.name && (
