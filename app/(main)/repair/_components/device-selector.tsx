@@ -2,28 +2,28 @@ import { CheckIcon } from "@/components/icons/check-icon";
 import { cn } from "@/lib/utils";
 import type { Device } from "@/types/repair";
 import Image from "next/image";
+import { useRepairStore } from "@/store/use-repair-store";
 
 interface DeviceSelectorProps {
   devices: Device[];
-  selectedDevice: string | null;
-  onSelect: (device: string) => void;
 }
 
 export function DeviceSelector({
   devices,
-  selectedDevice,
-  onSelect,
 }: DeviceSelectorProps) {
+  const selectedDevice = useRepairStore((state) => state.selectedDevice);
+  const updateField = useRepairStore((state) => state.updateField);
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
       {devices.map((device) => (
         <div
           key={device.name}
-          onClick={() => onSelect(device.name)}
+          onClick={() => updateField("selectedDevice", device.name)}
           className={cn(
             "relative rounded-[14px] border hover:border-brand transition duration-200 bg-lightBrand py-6 md:py-12 flex flex-col items-center justify-center cursor-pointer",
             selectedDevice === device.name
-              ? "border-brand"
+              ? "border-brand ring-1 ring-brand/50"
               : "border-transparent",
           )}>
           <Image

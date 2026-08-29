@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Input } from "@/components/form-elements/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Issue } from "@/types/repair";
+import { useRepairStore } from "@/store/use-repair-store";
 
 const ISSUES: Issue[] = [
   { id: "broken_screen", title: "Broken Screen", icon: "/repair/broken_screen.png" },
@@ -15,26 +16,23 @@ const ISSUES: Issue[] = [
 ];
 
 interface ServiceInfoProps {
-  selectedIssue: string | null;
-  onSelectIssue: (issue: string) => void;
-  description: string;
-  onDescriptionChange: (desc: string) => void;
-  modelName: string;
-  onModelNameChange: (model: string) => void;
   modelError?: string;
   descError?: string;
+  onClearModelError: () => void;
+  onClearDescError: () => void;
 }
 
 export function ServiceInfo({
-  selectedIssue,
-  onSelectIssue,
-  description,
-  onDescriptionChange,
-  modelName,
-  onModelNameChange,
   modelError,
   descError,
+  onClearModelError,
+  onClearDescError,
 }: ServiceInfoProps) {
+  const selectedIssue = useRepairStore((state) => state.selectedIssue);
+  const modelName = useRepairStore((state) => state.modelName);
+  const description = useRepairStore((state) => state.issueDescription);
+  const updateField = useRepairStore((state) => state.updateField);
+
   return (
     <div className="flex flex-col gap-10">
       <div>
@@ -43,14 +41,14 @@ export function ServiceInfo({
           {ISSUES.map((issue) => (
             <div
               key={issue.id}
-              onClick={() => onSelectIssue(issue.id)}
+              onClick={() => updateField("selectedIssue", issue.id)}
               className={cn(
                 "relative rounded-xl border hover:border-brand transition duration-200 bg-lightBrand py-6 flex flex-col items-center justify-center cursor-pointer text-center px-2",
                 selectedIssue === issue.id
                   ? "border-brand ring-1 ring-brand/50"
                   : "border-transparent",
               )}>
-              <div className="relative size-12 md:size-16 flex items-center justify-center mb-3 mix-blend-multiply">
+              <div className="relative size-12 md:size-16 flex items-center justify-center mix-blend-multiply">
                 <Image
                   src={issue.icon}
                   alt={issue.title}
@@ -59,7 +57,7 @@ export function ServiceInfo({
                   className="object-contain"
                 />
               </div>
-              <h3 className="text-primary font-medium text-sm md:text-base">
+              <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
                 {issue.title}
               </h3>
               {selectedIssue === issue.id && (
@@ -87,7 +85,8 @@ export function ServiceInfo({
             placeholder="Your device model (e.g., iPhone 13 Pro Max) *"
             value={modelName}
             onChange={(e) => {
-              onModelNameChange(e.target.value);
+              updateField("modelName", e.target.value);
+              if (modelError) onClearModelError();
             }}
             error={modelError}
             required
@@ -101,7 +100,8 @@ export function ServiceInfo({
             <Textarea
               value={description}
               onChange={(e) => {
-                onDescriptionChange(e.target.value);
+                updateField("issueDescription", e.target.value);
+                if (descError) onClearDescError();
               }}
               placeholder="Please describe the issue in detail..."
               error={descError}

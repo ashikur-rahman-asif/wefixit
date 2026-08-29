@@ -3,14 +3,11 @@ import { StoreIcon } from "@/components/icons/store-icon";
 import { DeliveryIcon } from "@/components/icons/delivery-icon";
 import { cn } from "@/lib/utils";
 import { DateTimePicker } from "@/components/ui/date-time-picker";
+import { useRepairStore } from "@/store/use-repair-store";
 
 interface HandoverSelectorProps {
-  selectedHandover: string | null;
-  onSelect: (method: string) => void;
-  selectedDate: string | null;
-  onSelectDate: (date: string | null) => void;
-  selectedTime: string | null;
-  onSelectTime: (time: string | null) => void;
+  error?: string;
+  onClearError: () => void;
 }
 
 const HANDOVER_METHODS = [
@@ -29,13 +26,13 @@ const HANDOVER_METHODS = [
 ];
 
 export function HandoverSelector({ 
-  selectedHandover, 
-  onSelect,
-  selectedDate,
-  onSelectDate,
-  selectedTime,
-  onSelectTime
+  error,
+  onClearError
 }: HandoverSelectorProps) {
+  const selectedHandover = useRepairStore((state) => state.handoverMethod);
+  const selectedDate = useRepairStore((state) => state.selectedDate);
+  const selectedTime = useRepairStore((state) => state.selectedTime);
+  const updateField = useRepairStore((state) => state.updateField);
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr);
@@ -74,7 +71,10 @@ export function HandoverSelector({
             <Button 
               variant="brand" 
               className={cn("w-full py-3 text-lg font-semibold", selectedHandover === method.id ? "bg-brand" : "")}
-              onClick={() => onSelect(method.id)}
+              onClick={() => {
+                updateField("handoverMethod", method.id);
+                if (error) onClearError();
+              }}
             >
               {selectedHandover === method.id && selectedDate && selectedTime
                 ? `${formatDate(selectedDate)} | ${selectedTime}`
@@ -89,10 +89,22 @@ export function HandoverSelector({
         <div className="max-w-[1000px] mx-auto animate-in fade-in slide-in-from-top-4 duration-500">
           <DateTimePicker
             selectedDate={selectedDate ? new Date(selectedDate) : null}
-            onSelectDate={(date) => onSelectDate(date.toISOString())}
+            onSelectDate={(date) => {
+              updateField("selectedDate", date ? date.toISOString() : null);
+              if (error && selectedTime) onClearError();
+            }}
             selectedTime={selectedTime}
-            onSelectTime={onSelectTime}
+            onSelectTime={(time) => {
+              updateField("selectedTime", time);
+              if (error && selectedDate) onClearError();
+            }}
           />
+        </div>
+      )}
+
+      {error && (
+        <div className="max-w-[1000px] mx-auto text-center mt-4">
+          <p className="text-red-500 text-sm font-medium">{error}</p>
         </div>
       )}
     </div>

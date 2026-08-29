@@ -2,18 +2,18 @@ import { CheckIcon } from "@/components/icons/check-icon";
 import { cn } from "@/lib/utils";
 import type { Brand } from "@/types/repair";
 import Image from "next/image";
+import { useRepairStore } from "@/store/use-repair-store";
 
 interface BrandSelectorProps {
   brands: Brand[];
-  selectedBrand: string | null;
-  onSelect: (brand: string) => void;
 }
 
 export function BrandSelector({
   brands,
-  selectedBrand,
-  onSelect,
 }: BrandSelectorProps) {
+  const selectedBrand = useRepairStore((state) => state.selectedBrand);
+  const updateField = useRepairStore((state) => state.updateField);
+
   if (brands.length === 0) {
     return (
       <div className="py-24 flex flex-col items-center justify-center text-center">
@@ -30,11 +30,11 @@ export function BrandSelector({
       {brands.map((brand) => (
         <div
           key={brand.name}
-          onClick={() => onSelect(brand.name)}
+          onClick={() => updateField("selectedBrand", brand.name)}
           className={cn(
             "relative rounded-[14px] border hover:border-brand transition duration-200 bg-lightBrand py-6 md:py-12 flex flex-col items-center justify-center cursor-pointer",
             selectedBrand === brand.name
-              ? "border-brand"
+              ? "border-brand ring-1 ring-brand/50"
               : "border-transparent",
           )}>
           <div className="relative h-16 md:h-20 w-24 md:w-32 flex items-center justify-center">

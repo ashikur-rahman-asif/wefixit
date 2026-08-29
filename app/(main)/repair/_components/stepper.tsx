@@ -9,7 +9,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
   const currentIndex = steps.indexOf(currentStep);
 
   return (
-    <div className="flex items-center justify-center w-full max-w-4xl mx-auto my-16 md:my-20 px-4 md:px-0">
+    <div className="flex items-center justify-center w-full max-w-4xl mx-auto mt-16 mb-8 md:my-20 px-4 md:px-0">
       {steps.map((step, index) => {
         const isActive = index === currentIndex;
         const isCompleted = index < currentIndex;
@@ -20,7 +20,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
               <span
                 className={cn(
                   "absolute -top-8 text-xs md:text-base font-medium whitespace-nowrap",
-                  isActive ? "text-brand" : "text-primary",
+                  isActive || isCompleted ? "text-brand" : "text-primary",
                 )}>
                 {step}
               </span>

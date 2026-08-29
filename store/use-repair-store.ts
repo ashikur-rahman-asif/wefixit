@@ -3,42 +3,50 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 interface RepairState {
   selectedDevice: string | null;
-  setSelectedDevice: (device: string) => void;
   selectedBrand: string | null;
-  setSelectedBrand: (brand: string) => void;
   selectedIssue: string | null;
-  setSelectedIssue: (issue: string) => void;
   issueDescription: string;
-  setIssueDescription: (description: string) => void;
   modelName: string;
-  setModelName: (model: string) => void;
   handoverMethod: string | null;
-  setHandoverMethod: (method: string) => void;
   selectedDate: string | null;
-  setSelectedDate: (date: string | null) => void;
   selectedTime: string | null;
-  setSelectedTime: (time: string | null) => void;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  location: string;
+  additionalComments: string;
+  
+  updateField: <K extends keyof Omit<RepairState, "updateField" | "reset">>(
+    key: K,
+    value: RepairState[K]
+  ) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  selectedDevice: null,
+  selectedBrand: null,
+  selectedIssue: null,
+  issueDescription: "",
+  modelName: "",
+  handoverMethod: null,
+  selectedDate: null,
+  selectedTime: null,
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  location: "",
+  additionalComments: "",
+};
 
 export const useRepairStore = create<RepairState>()(
   persist(
     (set) => ({
-      selectedDevice: null,
-      setSelectedDevice: (device) => set({ selectedDevice: device }),
-      selectedBrand: null,
-      setSelectedBrand: (brand) => set({ selectedBrand: brand }),
-      selectedIssue: null,
-      setSelectedIssue: (issue) => set({ selectedIssue: issue }),
-      issueDescription: "",
-      setIssueDescription: (description) => set({ issueDescription: description }),
-      modelName: "",
-      setModelName: (model) => set({ modelName: model }),
-      handoverMethod: null,
-      setHandoverMethod: (method) => set({ handoverMethod: method }),
-      selectedDate: null,
-      setSelectedDate: (date) => set({ selectedDate: date }),
-      selectedTime: null,
-      setSelectedTime: (time) => set({ selectedTime: time }),
+      ...initialState,
+      updateField: (key, value) => set({ [key]: value }),
+      reset: () => set(initialState),
     }),
     {
       name: "repair-wizard-storage",
