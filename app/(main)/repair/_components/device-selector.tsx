@@ -15,7 +15,7 @@ export function DeviceSelector({
   const updateField = useRepairStore((state) => state.updateField);
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {devices.map((device) => (
         <div
           key={device.name}

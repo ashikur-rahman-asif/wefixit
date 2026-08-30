@@ -15,7 +15,7 @@ export function ConfirmationStep({ orderId }: ConfirmationStepProps) {
           alt="Confirmation"
           width={300}
           height={300}
-          className="object-contain"
+          className="object-contain w-auto h-auto"
         />
       </div>
 
