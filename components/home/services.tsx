@@ -47,20 +47,20 @@ export function Services() {
           description="Our Eco-Friendly Approach to Phone Care Choose the title that best aligns with your overall brand voice and resonates"
           align="center"
         />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-6 md:mt-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-6 md:mt-10">
           {services.map((service) => {
             const Icon = service.icon;
             return (
               <div
                 key={service.title}
-                className="bg-white rounded-[14px] py-5 md:px-6 px-5 flex flex-col">
+                className="bg-white rounded-[14px] p-4 sm:p-5 md:px-6 flex flex-col">
                 <div
                   className="rounded-full p-4 inline-flex self-start"
                   style={{ backgroundColor: service.iconBg }}>
                   <Icon className="size-8" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-xl lg:text-2xl font-medium text-titleBlack mt-4 mb-3 md:mt-6">
+                  <h4 className="text-base sm:text-xl lg:text-2xl font-medium text-titleBlack mt-4 mb-3 md:mt-6">
                     {service.title}
                   </h4>
                   <p className="text-titleBlack text-sm">{service.description}</p>

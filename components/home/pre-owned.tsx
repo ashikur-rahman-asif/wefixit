@@ -125,7 +125,7 @@ export function PreOwned() {
         </div>
 
         {!mounted ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {[0, 1, 2, 3].map((i) => (
               <ProductCardSkeleton key={i} />
             ))}
@@ -138,9 +138,11 @@ export function PreOwned() {
               nextEl: "#pre-owned-next",
             }}
             spaceBetween={16}
-            slidesPerView={1}
+            slidesPerView={2}
             breakpoints={{
+              0: { slidesPerView: 2, spaceBetween: 12 },
               640: { slidesPerView: 2, spaceBetween: 16 },
+              768: { slidesPerView: 3, spaceBetween: 20 },
               1024: { slidesPerView: 3, spaceBetween: 20 },
               1280: { slidesPerView: 4, spaceBetween: 24 },
             }}

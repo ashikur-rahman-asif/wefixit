@@ -25,7 +25,8 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const cardClasses = cn(
-    "relative p-6 font-montserrat bg-lightBrand border border-black/5 rounded-[14px] flex flex-col items-center text-center h-full justify-between transition-all duration-300",
+    "relative p-4 sm:p-6 font-montserrat bg-lightBrand border border-black/5 rounded-[14px] flex flex-col h-full justify-between transition-all duration-300",
+    variant === "slider" ? "items-center text-center" : "sm:items-center sm:text-center",
     variant === "product" && "hover:shadow-md hover:-translate-y-1",
     className,
   );
@@ -42,7 +43,7 @@ export function ProductCard({
         </div>
       )}
 
-      <div className="w-full flex justify-center items-center mb-6 min-h-40">
+      <div className="w-full flex justify-center items-center mb-2 sm:mb-6 min-h-40">
         <Image
           src={image ?? ""}
           alt={title ?? ""}
@@ -52,23 +53,23 @@ export function ProductCard({
         />
       </div>
 
-      <div className="w-full flex flex-col items-center flex-1">
+      <div className={cn("w-full flex flex-col flex-1", variant === "slider" ? "items-center text-center" : "sm:items-center")}>
         {variant === "slider" ? (
           <>
-            <h2 className="text-titleBlack text-2xl lg:text-[28px] font-semibold mb-6">
+            <h2 className="text-titleBlack text-lg sm:text-2xl lg:text-[28px] font-semibold mb-2 sm:mb-6">
               {title}
             </h2>
-            <Button variant="brand" size="lg" className="mt-auto min-w-40">
+            <Button variant="brand" className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base">
               {sliderButtonText}
             </Button>
           </>
         ) : (
           <>
-            <h2 className="text-primary text-base md:text-lg font-medium px-2 leading-tight">
+            <h2 className="text-primary text-left sm:text-center text-base md:text-lg font-medium leading-tight">
               {title}
             </h2>
 
-            <div className="flex items-center justify-center gap-3 mt-auto pt-6 pb-2">
+            <div className="flex items-center sm:justify-center gap-3 mt-auto pt-4 sm:pt-6 pb-2">
               <span className="text-brand text-2xl md:text-3xl font-bold">
                 ${price}
               </span>

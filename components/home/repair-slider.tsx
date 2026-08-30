@@ -63,7 +63,18 @@ export function RepairSlider() {
           outline-offset: 3px;
         }
         .repair-swiper .swiper-slide {
-          height: ${CARD_HEIGHT}px !important;
+          height: 260px !important;
+        }
+        .repair-swiper-container {
+          height: ${260 + 48}px !important;
+        }
+        @media (min-width: 640px) {
+          .repair-swiper .swiper-slide {
+            height: ${CARD_HEIGHT}px !important;
+          }
+          .repair-swiper-container {
+            height: ${CARD_HEIGHT + 48}px !important;
+          }
         }
       `}</style>
 
@@ -92,11 +103,11 @@ export function RepairSlider() {
 
           <div className="w-full lg:w-3/4 min-w-0">
             {!mounted ? (
-              <div className="flex gap-7" style={{ height: CARD_HEIGHT + 48 }}>
+              <div className="flex gap-7 repair-swiper-container">
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}
-                    className="flex-1 bg-lightBrand border border-black/5 rounded-[14px] p-6 flex flex-col items-center"
+                    className={`flex-1 bg-lightBrand border border-black/5 rounded-[14px] p-6 flex flex-col items-center ${i === 2 ? 'hidden md:flex' : ''}`}
                     style={{ height: CARD_HEIGHT }}>
                     <div className="w-32 h-32 bg-black/5 rounded-xl animate-pulse mt-4" />
 
@@ -109,17 +120,18 @@ export function RepairSlider() {
             ) : (
               <Swiper
                 modules={[Pagination]}
-                spaceBetween={28}
-                slidesPerView={1}
+                spaceBetween={12}
+                slidesPerView={2}
                 pagination={{ clickable: true }}
                 touchStartPreventDefault={false}
                 followFinger={false}
                 breakpoints={{
-                  640: { slidesPerView: 2 },
-                  1024: { slidesPerView: 3 },
+                  0: { slidesPerView: 2, spaceBetween: 12 },
+                  640: { slidesPerView: 2, spaceBetween: 28 },
+                  768: { slidesPerView: 3, spaceBetween: 28 },
+                  1024: { slidesPerView: 3, spaceBetween: 28 },
                 }}
-                className="repair-swiper !pb-12"
-                style={{ height: CARD_HEIGHT + 48 }}>
+                className="repair-swiper !pb-12 repair-swiper-container">
                 {repairItems.map((item, idx) => (
                   <SwiperSlide key={idx}>
                     <ProductCard
