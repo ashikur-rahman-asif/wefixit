@@ -1,6 +1,8 @@
 "use client";
 
+import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,11 +23,21 @@ const navItems = [
 
 export function MainNav() {
   const pathname = usePathname();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+
+  const mounted = useMounted();
+
   const isTransparentMode = pathname === "/services";
   const isTransparent = isTransparentMode && !isScrolled;
+
+  const handleLogout = () => {
+    clearAuth();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,13 +127,23 @@ export function MainNav() {
             </span>
           </Link>
           <div className="hidden lg:flex items-center gap-4">
-            <Link
-              href="/auth/login"
-              className={buttonVariants({
-                variant: isTransparent ? "white-outline" : "default",
-              })}>
-              Log In
-            </Link>
+            {mounted && isAuthenticated ? (
+              <button
+                onClick={handleLogout}
+                className={buttonVariants({
+                  variant: isTransparent ? "white-outline" : "default",
+                })}>
+                Log Out
+              </button>
+            ) : (
+              <Link
+                href="/auth/login"
+                className={buttonVariants({
+                  variant: isTransparent ? "white-outline" : "default",
+                })}>
+                Log In
+              </Link>
+            )}
             <a
               href="tel:+8801516540594"
               className={buttonVariants({ variant: "brand" })}>
@@ -182,15 +204,29 @@ export function MainNav() {
 
           {/* Drawer Actions */}
           <div className="flex flex-col gap-4">
-            <Link
-              href="/auth/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={buttonVariants({
-                variant: "default",
-                className: "w-full justify-center text-base py-3",
-              })}>
-              Log In
-            </Link>
+            {mounted && isAuthenticated ? (
+              <button
+                onClick={() => {
+                  clearAuth();
+                  setIsMobileMenuOpen(false);
+                }}
+                className={buttonVariants({
+                  variant: "default",
+                  className: "w-full justify-center text-base py-3",
+                })}>
+                Log Out
+              </button>
+            ) : (
+              <Link
+                href="/auth/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={buttonVariants({
+                  variant: "default",
+                  className: "w-full justify-center text-base py-3",
+                })}>
+                Log In
+              </Link>
+            )}
             <a
               href="tel:+8801516540594"
               className={buttonVariants({
