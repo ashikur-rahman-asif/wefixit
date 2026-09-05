@@ -220,16 +220,18 @@ export function RepairWizard() {
       console.log("Submitting repair request data:", {
         device: storeData.selectedDevice,
         brand: storeData.selectedBrand,
-        model: storeData.modelName,
-        issue: storeData.issueDescription,
-        handover: storeData.handoverMethod,
-        date: storeData.selectedDate,
-        time: storeData.selectedTime,
+        selectedIssue: storeData.selectedIssue,
+        modelName: storeData.modelName,
+        issueDescription: storeData.issueDescription,
+        handoverMethod: storeData.handoverMethod,
+        selectedDate: storeData.selectedDate,
+        selectedTime: storeData.selectedTime,
         firstName: storeData.firstName,
         lastName: storeData.lastName,
         email: storeData.email,
         phone: storeData.phone,
         location: storeData.location,
+        additionalComments: storeData.additionalComments,
       });
       setIsSubmitting(true);
 

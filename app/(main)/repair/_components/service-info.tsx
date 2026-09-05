@@ -49,13 +49,17 @@ export function ServiceInfo({
                   : "border-transparent",
               )}>
               <div className="relative size-12 md:size-16 flex items-center justify-center mix-blend-multiply">
-                <Image
-                  src={issue.icon}
-                  alt={issue.title}
-                  fill
-                  sizes="(max-width: 768px) 48px, 64px"
-                  className="object-contain"
-                />
+                {issue.icon ? (
+                  <Image
+                    src={issue.icon}
+                    alt={issue.title}
+                    fill
+                    sizes="(max-width: 768px) 48px, 64px"
+                    className="object-contain"
+                  />
+                ) : (
+                  <span className="text-gray-400 text-xs">No Icon</span>
+                )}
               </div>
               <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
                 {issue.title}

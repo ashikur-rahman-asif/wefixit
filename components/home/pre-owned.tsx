@@ -10,63 +10,72 @@ import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductCard } from "../product-card";
 import { SectionTitle } from "../section-title";
+import { Product } from "@/types/product";
 
-const preOwnedProducts = [
+const preOwnedProducts: Product[] = [
   {
+    id: 1,
     image: "/home-slider/watch.webp",
     title: "Apple Watch Series 8 GPS 41mm",
-    price: "199.99",
-    discountPrice: "329.00",
-    href: "/pre-owned/apple-watch-series-8",
+    price: 199.99,
+    discountPrice: 329.00,
+    slug: "apple-watch-series-8",
   },
   {
+    id: 2,
     image: "/home-slider/iphone.webp",
     title: "iPhone 13 Pro Max 256GB – Unlocked",
-    price: "549.00",
-    discountPrice: "899.00",
-    href: "/pre-owned/iphone-13-pro-max",
+    price: 549.00,
+    discountPrice: 899.00,
+    slug: "iphone-13-pro-max",
   },
   {
+    id: 3,
     image: "/home-slider/android.webp",
     title: "Samsung Galaxy S22 Ultra 128GB",
-    price: "399.00",
-    discountPrice: "649.99",
-    href: "/pre-owned/samsung-galaxy-s22-ultra",
+    price: 399.00,
+    discountPrice: 649.99,
+    slug: "samsung-galaxy-s22-ultra",
   },
   {
+    id: 4,
     image: "/home-slider/laptop.webp",
     title: 'MacBook Air M1 13" 8GB RAM',
-    price: "699.00",
-    discountPrice: "999.00",
-    href: "/pre-owned/macbook-air-m1",
+    price: 699.00,
+    discountPrice: 999.00,
+    slug: "macbook-air-m1",
   },
   {
+    id: 5,
     image: "/home-slider/ipad.webp",
     title: "iPad Air 5th Gen 64GB WiFi",
-    price: "399.00",
-    discountPrice: "599.00",
-    href: "/pre-owned/ipad-air-5th-gen",
+    price: 399.00,
+    discountPrice: 599.00,
+    slug: "ipad-air-5th-gen",
   },
   {
+    id: 6,
     image: "/home-slider/tablet.webp",
     title: "Samsung Galaxy Tab S8 128GB",
-    price: "329.00",
-    discountPrice: "499.99",
-    href: "/pre-owned/samsung-galaxy-tab-s8",
+    price: 329.00,
+    discountPrice: 499.99,
+    slug: "samsung-galaxy-tab-s8",
   },
   {
+    id: 7,
     image: "/home-slider/laptop-1st.webp",
     title: "Dell XPS 13 Intel i7 16GB RAM",
-    price: "749.00",
-    discountPrice: "1099.00",
-    href: "/pre-owned/dell-xps-13",
+    price: 749.00,
+    discountPrice: 1099.00,
+    slug: "dell-xps-13",
   },
   {
+    id: 8,
     image: "/home-slider/main.webp",
     title: "GoPro HERO6 4K Action Camera",
-    price: "99.50",
-    discountPrice: "149.99",
-    href: "/pre-owned/gopro-hero6",
+    price: 99.50,
+    discountPrice: 149.99,
+    slug: "gopro-hero6",
   },
 ];
 
@@ -112,13 +121,13 @@ export function PreOwned() {
             <button
               id="pre-owned-prev"
               aria-label="Previous"
-              className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30">
+              className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer">
               <ChevronLeft className="size-5" />
             </button>
             <button
               id="pre-owned-next"
               aria-label="Next"
-              className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30">
+              className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer">
               <ChevronRight className="size-5" />
             </button>
           </div>
@@ -154,7 +163,7 @@ export function PreOwned() {
                   title={product.title}
                   price={product.price}
                   discountPrice={product.discountPrice}
-                  href={product.href}
+                  href={`/pre-owned/${product.slug}`}
                   className="h-full"
                 />
               </SwiperSlide>

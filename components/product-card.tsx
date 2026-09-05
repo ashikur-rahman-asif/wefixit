@@ -44,13 +44,19 @@ export function ProductCard({
       )}
 
       <div className="w-full flex justify-center items-center mb-2 sm:mb-6 min-h-40">
-        <Image
-          src={image ?? ""}
-          alt={title ?? ""}
-          width={250}
-          height={200}
-          className="w-auto h-auto max-h-40 object-contain"
-        />
+        {image ? (
+          <Image
+            src={image}
+            alt={title ?? "Product"}
+            width={250}
+            height={200}
+            className="w-auto h-auto max-h-40 object-contain"
+          />
+        ) : (
+          <div className="w-full h-40 bg-black/5 rounded-xl flex items-center justify-center text-sm text-secondary">
+            No Image
+          </div>
+        )}
       </div>
 
       <div className={cn("w-full flex flex-col flex-1", variant === "slider" ? "items-center text-center" : "sm:items-center")}>

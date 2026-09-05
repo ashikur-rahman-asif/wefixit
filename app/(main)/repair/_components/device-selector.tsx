@@ -26,13 +26,19 @@ export function DeviceSelector({
               ? "border-brand ring-1 ring-brand/50"
               : "border-transparent",
           )}>
-          <Image
-            src={device.icon}
-            alt={device.name}
-            width={80}
-            height={80}
-            className="size-16 md:size-20"
-          />
+          {device.icon ? (
+            <Image
+              src={device.icon}
+              alt={device.name}
+              width={80}
+              height={80}
+              className="size-16 md:size-20"
+            />
+          ) : (
+            <div className="size-16 md:size-20 bg-black/5 rounded-full flex items-center justify-center text-xs text-secondary">
+              No Icon
+            </div>
+          )}
           <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
             {device.name}
           </h3>

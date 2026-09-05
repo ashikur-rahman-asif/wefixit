@@ -38,13 +38,17 @@ export function BrandSelector({
               : "border-transparent",
           )}>
           <div className="relative h-16 md:h-20 w-24 md:w-32 flex items-center justify-center">
-            <Image
-              src={brand.icon}
-              alt={brand.name}
-              fill
-              sizes="(max-width: 768px) 96px, 128px"
-              className="object-contain"
-            />
+            {brand.icon ? (
+              <Image
+                src={brand.icon}
+                alt={brand.name}
+                fill
+                sizes="(max-width: 768px) 96px, 128px"
+                className="object-contain"
+              />
+            ) : (
+              <span className="text-gray-400 text-xs">No Icon</span>
+            )}
           </div>
           <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
             {brand.name}
