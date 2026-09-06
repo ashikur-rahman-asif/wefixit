@@ -21,12 +21,13 @@ export function ProductColorSelector({ colors = [] }: ProductColorSelectorProps)
           <button
             key={color.id}
             onClick={() => setSelectedColorId(color.id)}
-            style={color.hexCode ? { backgroundColor: color.hexCode } : undefined}
+            style={{ 
+              backgroundColor: color.hex,
+              outlineColor: selectedColorId === color.id ? color.hex : 'transparent'
+            }}
             className={cn(
-              "w-6 h-6 rounded-full p-1 cursor-pointer",
-              color.class,
-              selectedColorId === color.id &&
-                (color.ringClass ? `ring-2 ring-offset-2 ${color.ringClass}` : "ring-2 ring-offset-2 ring-brand")
+              "w-6 h-6 rounded-full p-1 cursor-pointer transition-all",
+              "outline outline-2 outline-offset-2"
             )}
             aria-label={`Select ${color.name} color`}
           />

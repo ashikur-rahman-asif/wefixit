@@ -22,19 +22,19 @@ export function RequestCall() {
               <div className="flex items-center gap-2">
                 <RoundedTickIcon className="w-[18px] h-[18px] text-white" />
                 <p className="text-base text-white font-medium">
-                  Request A Free Call
+                  Genuine Products
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <RoundedTickIcon className="w-[18px] h-[18px] text-white" />
                 <p className="text-base text-white font-medium">
-                  Request A Free Call
+                  Expert Repair Service
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <RoundedTickIcon className="w-[18px] h-[18px] text-white" />
                 <p className="text-base text-white font-medium">
-                  Request A Free Call
+                  Fast & Secure Delivery
                 </p>
               </div>
             </div>

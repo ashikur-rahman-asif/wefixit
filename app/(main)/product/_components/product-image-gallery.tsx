@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface ProductImageGalleryProps {
-  images: string[];
+  images?: string[];
   discountPercentage?: number;
 }
 

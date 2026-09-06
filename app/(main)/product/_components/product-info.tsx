@@ -13,9 +13,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
       <h1 className="text-2xl md:text-[28px] font-bold text-primary leading-tight">
         {product.title}
       </h1>
-      {product.description && (
+      {product.shortDescription && (
         <p className="mt-3 text-sm md:text-base font-sans text-secondary">
-          {product.description}
+          {product.shortDescription}
         </p>
       )}
 
