@@ -1,11 +1,11 @@
 import Container from "@/components/container";
+import { calculateDiscountPercentage } from "@/lib/utils";
+import { Product } from "@/types/product";
+import { ProductActions } from "../_components/product-actions";
 import { ProductColorSelector } from "../_components/product-color-selector";
 import { ProductImageGallery } from "../_components/product-image-gallery";
-import { ProductQuantitySelector } from "../_components/product-quantity-selector";
 import { ProductInfo } from "../_components/product-info";
-import { ProductActions } from "../_components/product-actions";
-import { Product } from "@/types/product";
-import { calculateDiscountPercentage } from "@/lib/utils";
+import { ProductQuantitySelector } from "../_components/product-quantity-selector";
 
 export default async function ProductDetailsPage(props: {
   params: Promise<{ slug: string }>;

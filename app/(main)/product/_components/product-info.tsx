@@ -1,7 +1,7 @@
-import { StarRating } from "@/components/ui/star-rating";
 import { LabelIcon } from "@/components/icons/label-icon";
-import { Product } from "@/types/product";
+import { StarRating } from "@/components/ui/star-rating";
 import { calculateDiscountPercentage } from "@/lib/utils";
+import { Product } from "@/types/product";
 
 interface ProductInfoProps {
   product: Product;
