@@ -10,7 +10,7 @@ export function ProductQuantitySelector() {
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   return (
-    <div className="flex items-center justify-between w-[70%] bg-[#F5F5F5] rounded-full px-4 py-2 mt-4">
+    <div className="flex items-center justify-between w-[70%] bg-[#F5F5F5] rounded-full px-4 py-2 mt-8">
       <button
         onClick={decrement}
         className="text-[#605F5F] hover:text-black transition-colors disabled:opacity-50 cursor-pointer"
