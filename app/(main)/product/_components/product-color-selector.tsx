@@ -2,26 +2,16 @@
 
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { ProductColor } from "@/types/product";
 
-const colors = [
-  { id: 1, name: "red", class: "bg-red-800", ringClass: "ring-red-800" },
-  {
-    id: 2,
-    name: "yellow",
-    class: "bg-yellow-500",
-    ringClass: "ring-yellow-500",
-  },
-  { id: 3, name: "green", class: "bg-green-800", ringClass: "ring-green-800" },
-  {
-    id: 4,
-    name: "purple",
-    class: "bg-purple-700",
-    ringClass: "ring-purple-700",
-  },
-];
+interface ProductColorSelectorProps {
+  colors?: ProductColor[];
+}
 
-export function ProductColorSelector() {
-  const [selectedColorId, setSelectedColorId] = useState(colors[0].id);
+export function ProductColorSelector({ colors = [] }: ProductColorSelectorProps) {
+  const [selectedColorId, setSelectedColorId] = useState(colors?.[0]?.id);
+
+  if (!colors || colors.length === 0) return null;
 
   return (
     <div>
@@ -31,11 +21,12 @@ export function ProductColorSelector() {
           <button
             key={color.id}
             onClick={() => setSelectedColorId(color.id)}
+            style={color.hexCode ? { backgroundColor: color.hexCode } : undefined}
             className={cn(
               "w-6 h-6 rounded-full p-1 cursor-pointer",
               color.class,
               selectedColorId === color.id &&
-                `ring-2 ring-offset-2 ${color.ringClass}`,
+                (color.ringClass ? `ring-2 ring-offset-2 ${color.ringClass}` : "ring-2 ring-offset-2 ring-brand")
             )}
             aria-label={`Select ${color.name} color`}
           />

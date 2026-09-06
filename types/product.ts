@@ -1,5 +1,13 @@
 import { Brand, Device } from "./repair";
 
+export interface ProductColor {
+  id: string | number;
+  name: string;
+  hexCode?: string;
+  class?: string;
+  ringClass?: string;
+}
+
 export interface Category {
   id: string | number;
   name: string;
@@ -16,4 +24,10 @@ export interface Product {
   categoryId?: Category["id"];
   brandId?: Brand["id"];
   deviceId?: Device["id"];
+  description?: string;
+  images?: string[];
+  rating?: number;
+  reviewsCount?: number;
+  stock?: number;
+  colors?: ProductColor[];
 }

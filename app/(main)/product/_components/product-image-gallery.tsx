@@ -4,21 +4,25 @@ import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-export function ProductImageGallery() {
+interface ProductImageGalleryProps {
+  images: string[];
+  discountPercentage?: number;
+}
+
+export function ProductImageGallery({ images = [], discountPercentage = 0 }: ProductImageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const images = [
-    "/HP_Lptp.webp",
-    "/HP_Lptp.webp",
-    "/HP_Lptp.webp",
-    "/HP_Lptp.webp",
-  ];
+  const displayImages = images.length > 0 ? images : ["/HP_Lptp.webp"];
 
   return (
     <div className="w-full flex flex-col gap-4">
-      {/* Main Image Container */}
       <div className="relative w-full overflow-hidden border border-gray-100 rounded-lg bg-lightBrand" style={{ aspectRatio: '1 / 1' }}>
-        {images.map((img, index) => (
+        {discountPercentage > 0 && (
+          <div className="absolute top-4 left-4 z-20 bg-brand text-white text-sm font-bold px-3 py-1 rounded-full shadow-sm">
+            -{discountPercentage}%
+          </div>
+        )}
+        {displayImages.map((img, index) => (
           <div
             key={index}
             className={cn(
@@ -42,9 +46,8 @@ export function ProductImageGallery() {
         ))}
       </div>
 
-      {/* Thumbnails */}
       <div className="grid grid-cols-4 gap-3 sm:gap-4 h-20 sm:h-24">
-        {images.map((img, index) => (
+        {displayImages.map((img, index) => (
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
@@ -52,7 +55,7 @@ export function ProductImageGallery() {
               "relative w-full h-full border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
               activeIndex === index
                 ? "border-brand opacity-100"
-                : "border-transparent opacity-50 hover:opacity-100"
+                : "border-transparent "
             )}
             aria-label={`View image ${index + 1}`}
           >

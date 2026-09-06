@@ -1,63 +1,53 @@
 import Container from "@/components/container";
-import { LabelIcon } from "@/components/icons/label-icon";
-import { Button } from "@/components/ui/button";
-import { StarRating } from "@/components/ui/star-rating";
 import { ProductColorSelector } from "../_components/product-color-selector";
 import { ProductImageGallery } from "../_components/product-image-gallery";
 import { ProductQuantitySelector } from "../_components/product-quantity-selector";
+import { ProductInfo } from "../_components/product-info";
+import { ProductActions } from "../_components/product-actions";
+import { Product } from "@/types/product";
+import { calculateDiscountPercentage } from "@/lib/utils";
+
 export default async function ProductDetailsPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
   const productSlug = params.slug;
 
-  console.log("params", props);
+
+  const product: Product = {
+    id: 1,
+    title: "ASUS X509JB Core I5 10th Gen NVIDIA MX110 Graphics 15.6 Inch FHD Laptop",
+    slug: productSlug,
+    image: "/HP_Lptp.webp",
+    images: ["/HP_Lptp.webp", "/HP_Lptp.webp", "/HP_Lptp.webp", "/HP_Lptp.webp"],
+    price: 456,
+    discountPrice: 356,
+    description: "ASUS X509JB is a vast screen area for an immersive viewing experience for work and play. It has a wide-view FHD panel that features an anti-glare coating to reduce unwanted distractions from irritating glare and reflections, so you can truly focus on what's in front of you.",
+    rating: 5,
+    reviewsCount: 20,
+    stock: 10,
+    colors: [
+      { id: 1, name: "red", class: "bg-red-800", ringClass: "ring-red-800" },
+      { id: 2, name: "yellow", class: "bg-yellow-500", ringClass: "ring-yellow-500" },
+      { id: 3, name: "green", class: "bg-green-800", ringClass: "ring-green-800" },
+      { id: 4, name: "purple", class: "bg-purple-700", ringClass: "ring-purple-700" },
+    ]
+  };
+
+  const discountPercentage = calculateDiscountPercentage(product.price, product.discountPrice);
+
   return (
-    <Container className="py-8 grid grid-cols-2 gap-14">
-      <div>
-        <ProductImageGallery />
+    <Container className="py-6 md:py-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
+      <div className="md:sticky md:top-24 md:self-start">
+        <ProductImageGallery images={product.images || [product.image]} discountPercentage={discountPercentage} />
       </div>
       <div>
-        <h1 className="text-[28px] font-bold text-primary">
-          ASUS X509JB Core I5 10th Gen NVIDIA MX110 Graphics 15.6 Inch FHD
-          Laptop
-        </h1>
-        <p className="mt-3 text-base font-sans text-secondary">
-          ASUS X509JB is a vast screen area for an immersive viewing experience
-          for work and play. It has a wide-view FHD panel that features an
-          anti-glare coating to reduce unwanted distractions from irritating
-          glare and reflections, so you can truly focus on what&apos;s in front
-          of you.
-        </p>
-
-        <div className="flex items-center gap-2 my-3">
-          <StarRating rating={5} />
-          <p className="text-secondary text-lg font-medium font-sans">
-            20 Reviews
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 my-3">
-          <p className="text-brand font-bold text-[28px]">$356</p>
-          <del className="text-primary font-medium text-lg">$456</del>
-        </div>
-        <div className="flex items-center gap-2 my-3">
-          <LabelIcon className="w-4 h-4" />
-          <p className="text-primary text-base font-medium font-sans">
-            Save 50% right now!
-          </p>
-        </div>
-        <ProductColorSelector />
-        <ProductQuantitySelector />
-
-        <div className="flex items-center gap-4 my-6">
-          <Button variant="default" className="w-full sm:w-auto px-8">
-            Add to Cart
-          </Button>
-          <Button variant="brand" className="w-full sm:w-auto px-8">
-            Buy Now
-          </Button>
-        </div>
+        <ProductInfo product={product} />
+        <ProductColorSelector colors={product.colors} />
+        {(!product.stock || product.stock > 0) && (
+          <ProductQuantitySelector />
+        )}
+        <ProductActions isOutOfStock={product.stock === 0} />
       </div>
     </Container>
   );
