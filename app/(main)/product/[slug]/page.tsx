@@ -23,7 +23,7 @@ export default async function ProductDetailsPage(props: {
     price: 456,
     discountPrice: 356,
     description: "ASUS X509JB is a vast screen area for an immersive viewing experience for work and play. It has a wide-view FHD panel that features an anti-glare coating to reduce unwanted distractions from irritating glare and reflections, so you can truly focus on what's in front of you.",
-    rating: 5,
+    rating: 4.7,
     reviewsCount: 20,
     stock: 10,
     colors: [

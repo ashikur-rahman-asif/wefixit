@@ -21,7 +21,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       <div className="flex items-center gap-2 my-3">
         <StarRating rating={product.rating || 0} />
-        <p className="text-secondary text-base md:text-lg font-medium font-sans">
+        <p className="text-secondary text-sm md:text-lg font-medium font-sans">
           {product.reviewsCount || 0} Reviews
         </p>
       </div>
