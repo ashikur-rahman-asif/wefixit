@@ -261,7 +261,7 @@ export default async function ShopPage(props: {
                 title={product.title}
                 price={product.price}
                 discountPrice={product.discountPrice}
-                href={`/shop/${product.slug}`}
+                href={`/product/${product.slug}`}
               />
             ))}
           </div>
