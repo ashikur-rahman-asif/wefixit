@@ -2,6 +2,7 @@ export interface ProductColor {
   id: string | number;
   name: string;
   hex: string;
+  image?: string;
 }
 
 export interface Category {

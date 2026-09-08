@@ -14,8 +14,8 @@ export function ProductSpecifications({ product }: ProductSpecificationsProps) {
   }
 
   return (
-    <div 
-      className="mt-6 prose prose-lg max-w-none dark:prose-invert 
+    <div
+      className="mt-2 lg:mt-6 prose prose-lg max-w-none dark:prose-invert [&>*:first-child]:mt-0
       prose-table:w-full prose-table:text-left prose-table:m-0
       prose-table:border-separate prose-table:border-spacing-y-2
       prose-tr:bg-muted/30

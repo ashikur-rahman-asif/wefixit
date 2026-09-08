@@ -110,7 +110,6 @@ export default async function ProductDetailsPage(props: {
       { id: 2, name: "yellow", hex: "#eab308" },
       { id: 3, name: "green", hex: "#166534" },
       { id: 4, name: "purple", hex: "#6b21a8" },
-      { id: 5, name: "black", hex: "#000000" },
     ],
   };
 

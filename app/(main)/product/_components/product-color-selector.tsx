@@ -8,19 +8,28 @@ interface ProductColorSelectorProps {
   colors?: ProductColor[];
 }
 
-export function ProductColorSelector({ colors = [] }: ProductColorSelectorProps) {
+export function ProductColorSelector({ 
+  colors = [], 
+}: ProductColorSelectorProps) {
   const [selectedColorId, setSelectedColorId] = useState(colors?.[0]?.id);
+
+  const handleColorSelect = (colorId: string | number, index: number) => {
+    setSelectedColorId(colorId);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("product-image-change", { detail: index }));
+    }
+  };
 
   if (!colors || colors.length === 0) return null;
 
   return (
     <div>
-      <p className="text-[#605F5F] text-sm font-semibold">Color</p>
-      <div className="flex items-center gap-2 mt-2">
-        {colors.map((color) => (
+      <p className="text-[#605F5F] text-lg font-semibold">Color</p>
+      <div className="flex flex-wrap items-center gap-2 mt-3">
+        {colors.map((color, index) => (
           <button
             key={color.id}
-            onClick={() => setSelectedColorId(color.id)}
+            onClick={() => handleColorSelect(color.id, index)}
             style={{ 
               backgroundColor: color.hex,
               outlineColor: selectedColorId === color.id ? color.hex : 'transparent'

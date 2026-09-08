@@ -6,7 +6,7 @@ interface ProductReviewsProps {
 
 export function ProductReviews({ product }: ProductReviewsProps) {
   return (
-    <div className="mt-4 text-lg font-medium text-secondary">
+    <div className="mt-2 lg:mt-4 text-lg font-medium text-secondary">
       <p>Reviews for {product.title} will go here.</p>
     </div>
   );

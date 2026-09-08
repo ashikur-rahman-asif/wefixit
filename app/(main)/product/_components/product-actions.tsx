@@ -80,7 +80,7 @@ export function ProductActions({
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 my-6">
             <Button
               variant="default"
-              className="w-full sm:flex-1 px-8"
+              className="w-full sm:flex-1 px-8 hover:bg-primary"
               onClick={handleAddToCart}
               disabled={isAlreadyInCart}>
               {isAlreadyInCart ? "Already in Cart" : "Add to Cart"}
