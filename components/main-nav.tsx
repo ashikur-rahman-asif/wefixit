@@ -3,6 +3,7 @@
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
+import { useCartStore } from "@/store/cart-store";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,8 +30,10 @@ export function MainNav() {
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const clearAuth = useAuthStore((state) => state.clearAuth);
+  const cartItemsTotal = useCartStore((state) => state.getTotalItems());
 
   const mounted = useMounted();
+  const totalItems = mounted ? cartItemsTotal : 0;
 
   const isTransparentMode = pathname === "/services";
   const isTransparent = isTransparentMode && !isScrolled;
@@ -122,9 +125,11 @@ export function MainNav() {
                 isTransparent ? "text-white" : "text-secondary",
               )}
             />
-            <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
-              10
-            </span>
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
+                {totalItems}
+              </span>
+            )}
           </Link>
           <div className="hidden lg:flex items-center gap-4">
             {mounted && isAuthenticated ? (
@@ -163,13 +168,11 @@ export function MainNav() {
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Mobile Drawer */}
       <div
         className={cn(
           "fixed top-0 left-0 h-dvh w-[80%] max-w-[320px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
         )}>
-        {/* Drawer Header */}
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link
             href="/"
@@ -185,7 +188,6 @@ export function MainNav() {
           </button>
         </div>
 
-        {/* Drawer Links */}
         <div className="flex-1 overflow-y-auto py-6 px-5 flex flex-col gap-8">
           <ul className="flex flex-col gap-6">
             {navItems.map((item) => (
@@ -202,7 +204,6 @@ export function MainNav() {
 
           <hr className="border-gray-100" />
 
-          {/* Drawer Actions */}
           <div className="flex flex-col gap-4">
             {mounted && isAuthenticated ? (
               <button

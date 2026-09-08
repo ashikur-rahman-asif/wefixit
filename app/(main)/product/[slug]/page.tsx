@@ -5,7 +5,6 @@ import { ProductActions } from "../_components/product-actions";
 import { ProductColorSelector } from "../_components/product-color-selector";
 import { ProductImageGallery } from "../_components/product-image-gallery";
 import { ProductInfo } from "../_components/product-info";
-import { ProductQuantitySelector } from "../_components/product-quantity-selector";
 import { ProductDescription } from "../_components/product-description";
 import { ProductSpecifications } from "../_components/product-specifications";
 import { ProductReviews } from "../_components/product-reviews";
@@ -132,8 +131,7 @@ export default async function ProductDetailsPage(props: {
         <div>
           <ProductInfo product={product} />
           <ProductColorSelector colors={product.colors} />
-          {(!product.stock || product.stock > 0) && <ProductQuantitySelector />}
-          <ProductActions isOutOfStock={product.stock === 0} />
+          <ProductActions product={product} isOutOfStock={product.stock === 0} />
         </div>
       </div>
       <Tabs defaultValue="description" className="mt-12">
