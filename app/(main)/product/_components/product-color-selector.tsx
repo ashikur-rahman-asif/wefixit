@@ -1,22 +1,24 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { ProductColor } from "@/types/product";
+import { useState } from "react";
 
 interface ProductColorSelectorProps {
   colors?: ProductColor[];
 }
 
-export function ProductColorSelector({ 
-  colors = [], 
+export function ProductColorSelector({
+  colors = [],
 }: ProductColorSelectorProps) {
   const [selectedColorId, setSelectedColorId] = useState(colors?.[0]?.id);
 
   const handleColorSelect = (colorId: string | number, index: number) => {
     setSelectedColorId(colorId);
     if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent("product-image-change", { detail: index }));
+      window.dispatchEvent(
+        new CustomEvent("product-image-change", { detail: index }),
+      );
     }
   };
 
@@ -30,13 +32,14 @@ export function ProductColorSelector({
           <button
             key={color.id}
             onClick={() => handleColorSelect(color.id, index)}
-            style={{ 
+            style={{
               backgroundColor: color.hex,
-              outlineColor: selectedColorId === color.id ? color.hex : 'transparent'
+              outlineColor:
+                selectedColorId === color.id ? color.hex : "transparent",
             }}
             className={cn(
               "w-6 h-6 rounded-full p-1 cursor-pointer transition-all",
-              "outline outline-2 outline-offset-2"
+              "outline-2 outline-offset-2",
             )}
             aria-label={`Select ${color.name} color`}
           />
