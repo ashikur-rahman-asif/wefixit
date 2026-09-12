@@ -1,4 +1,5 @@
-import { useState } from "react";
+"use client";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/validators/user";
@@ -70,7 +71,7 @@ export function AuthModal({
             required 
             autoComplete="email"
             {...form.register("email")} 
-            error={form.formState.errors.email?.message as string} 
+            error={form.formState.errors.email?.message}
           />
           <PasswordInput 
             size="md"
@@ -78,7 +79,7 @@ export function AuthModal({
             required 
             autoComplete="current-password"
             {...form.register("password")} 
-            error={form.formState.errors.password?.message as string} 
+            error={form.formState.errors.password?.message}
           />
           <Button type="submit" variant="brand" disabled={isPending} className="w-full mt-2">
             {isPending ? "Logging in..." : "Login"}

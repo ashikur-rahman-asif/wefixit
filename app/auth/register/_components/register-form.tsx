@@ -56,11 +56,10 @@ export function RegisterForm() {
     defaultValues: { otp: "" },
   });
 
-  // OTP countdown timer
   useEffect(() => {
     if (step !== 2 || timeLeft <= 0) return;
-    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
-    return () => clearInterval(timer);
+    const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
+    return () => clearTimeout(timer);
   }, [step, timeLeft]);
 
   const formatTime = (seconds: number) => {

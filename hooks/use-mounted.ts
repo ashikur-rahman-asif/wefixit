@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+// A no-op subscribe — this value never changes externally
+const subscribe = () => () => {};
 
 export function useMounted() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setMounted(true);
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  return mounted;
+  return useSyncExternalStore(
+    subscribe,
+    () => true,  // client snapshot: always mounted
+    () => false, // server snapshot: never mounted
+  );
 }

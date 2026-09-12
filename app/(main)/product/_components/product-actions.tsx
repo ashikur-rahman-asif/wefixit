@@ -8,19 +8,22 @@ import { ShippingIcon } from "@/components/icons/shipping-icon";
 import { VisaCardIcon } from "@/components/icons/visa-icon";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart-store";
-import { Product } from "@/types/product";
+import { Product, ProductColor } from "@/types/product";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ProductActionsProps {
   product: Product;
   isOutOfStock?: boolean;
+  selectedColor?: ProductColor;
 }
 
 export function ProductActions({
   product,
   isOutOfStock = false,
+  selectedColor,
 }: ProductActionsProps) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
@@ -32,6 +35,8 @@ export function ProductActions({
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
+  const router = useRouter();
+
   const handleAddToCart = () => {
     if (isAlreadyInCart) return;
 
@@ -41,8 +46,16 @@ export function ProductActions({
       price: product.discountPrice ?? product.price,
       image: product.image,
       quantity,
+      color: selectedColor,
     });
     toast.success(`${quantity} ${product.title} added to cart`);
+  };
+
+  const handleBuyNow = () => {
+    if (!isAlreadyInCart) {
+      handleAddToCart();
+    }
+    router.push("/checkout");
   };
 
   return (
@@ -85,7 +98,7 @@ export function ProductActions({
               disabled={isAlreadyInCart}>
               {isAlreadyInCart ? "Already in Cart" : "Add to Cart"}
             </Button>
-            <Button variant="brand" className="w-full sm:flex-1 px-8">
+            <Button variant="brand" className="w-full sm:flex-1 px-8" onClick={handleBuyNow}>
               Buy Now
             </Button>
           </div>

@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import React from 'react';
 
-type InteractiveEventTypes<T extends HTMLElement = HTMLElement> = {
+type InteractiveEventProps<T extends HTMLElement = HTMLElement> = {
   readOnly?: boolean;
   onFocus?: React.FocusEventHandler<T>;
   onBlur?: React.FocusEventHandler<T>;
@@ -14,55 +15,45 @@ export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
   onBlur,
   onMouseEnter,
   onMouseLeave,
-}: InteractiveEventTypes<T>) {
+}: InteractiveEventProps<T>) {
   const [isFocus, setIsFocus] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
   const handleOnFocus = useCallback(
     (e: React.FocusEvent<T>) => {
-      if (readOnly === true) return false;
-      setIsFocus((prevState) => !prevState);
-      onFocus && onFocus(e); // eslint-disable-line no-unused-expressions
+      if (readOnly) return;
+      setIsFocus(true);
+      onFocus?.(e);
     },
     [readOnly, onFocus]
   );
 
   const handleOnBlur = useCallback(
     (e: React.FocusEvent<T>) => {
-      if (readOnly === true) return false;
-      setIsFocus(() => false);
-      onBlur && onBlur(e); // eslint-disable-line no-unused-expressions
+      if (readOnly) return;
+      setIsFocus(false);
+      onBlur?.(e);
     },
     [readOnly, onBlur]
   );
 
   const handleOnMouseEnter = useCallback(
-    (e: React.MouseEvent<T, MouseEvent>) => {
-      if (readOnly === true) return false;
-      setIsHover(() => true);
-      onMouseEnter && onMouseEnter(e); // eslint-disable-line no-unused-expressions
+    (e: React.MouseEvent<T>) => {
+      if (readOnly) return;
+      setIsHover(true);
+      onMouseEnter?.(e);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [readOnly]
+    [readOnly, onMouseEnter]
   );
 
   const handleOnMouseLeave = useCallback(
-    (e: React.MouseEvent<T, MouseEvent>) => {
-      if (readOnly === true) return false;
-      setIsHover(() => false);
-      onMouseLeave && onMouseLeave(e);
-      // eslint-disable-line no-unused-expressions
+    (e: React.MouseEvent<T>) => {
+      if (readOnly) return;
+      setIsHover(false);
+      onMouseLeave?.(e);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [readOnly]
+    [readOnly, onMouseLeave]
   );
 
-  return {
-    isFocus,
-    isHover,
-    handleOnFocus,
-    handleOnBlur,
-    handleOnMouseEnter,
-    handleOnMouseLeave,
-  };
+  return { isFocus, isHover, handleOnFocus, handleOnBlur, handleOnMouseEnter, handleOnMouseLeave };
 }

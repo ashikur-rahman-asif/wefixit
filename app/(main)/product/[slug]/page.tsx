@@ -1,10 +1,8 @@
 import Container from "@/components/container";
 import { calculateDiscountPercentage } from "@/lib/utils";
 import { Product } from "@/types/product";
-import { ProductActions } from "../_components/product-actions";
-import { ProductColorSelector } from "../_components/product-color-selector";
+import { ProductInteractive } from "../_components/product-interactive";
 import { ProductImageGallery } from "../_components/product-image-gallery";
-import { ProductInfo } from "../_components/product-info";
 import { ProductDescription } from "../_components/product-description";
 import { ProductSpecifications } from "../_components/product-specifications";
 import { ProductReviews } from "../_components/product-reviews";
@@ -128,9 +126,7 @@ export default async function ProductDetailsPage(props: {
           />
         </div>
         <div>
-          <ProductInfo product={product} />
-          <ProductColorSelector colors={product.colors} />
-          <ProductActions product={product} isOutOfStock={product.stock === 0} />
+          <ProductInteractive product={product} />
         </div>
       </div>
       <Tabs defaultValue="description" className="mt-12">

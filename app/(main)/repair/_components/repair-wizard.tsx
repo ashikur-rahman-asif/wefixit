@@ -7,6 +7,8 @@ import { useRepairStore } from "@/store/use-repair-store";
 import type { Brand, Device } from "@/types/repair";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
+import { ConfirmationStep } from "./confirmation-step";
 import { BrandSelector } from "./brand-selector";
 import { DeviceSelector } from "./device-selector";
 import { HandoverSelector } from "./handover-selector";
@@ -67,7 +69,6 @@ const DEMO_BRANDS: Brand[] = [
   { id: 26, name: "Fitbit", icon: "/samsung.png", deviceName: "Watch" },
 ];
 
-import { ConfirmationStep } from "./confirmation-step";
 
 export function RepairWizard() {
   const router = useRouter();
@@ -78,17 +79,12 @@ export function RepairWizard() {
   const [descError, setDescError] = useState("");
   const [handoverError, setHandoverError] = useState("");
   const [infoErrors, setInfoErrors] = useState<Record<string, string>>({});
-  const [isMounted, setIsMounted] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setIsMounted(true));
-    return () => cancelAnimationFrame(frame);
-  }, []);
+  const isMounted = useMounted();
 
   const storeData = useRepairStore();
 
