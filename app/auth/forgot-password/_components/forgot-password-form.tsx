@@ -145,7 +145,7 @@ export function ForgotPasswordForm() {
 
       <div className="w-full max-w-[510px] rounded-xl bg-white p-8 shadow-sm">
 
-        {/* Step 1 — Email */}
+        {}
         {step === 1 && (
           <>
             <div className="mb-8">
@@ -187,7 +187,7 @@ export function ForgotPasswordForm() {
           </>
         )}
 
-        {/* Step 2 — OTP */}
+        {}
         {step === 2 && (
           <>
             <div className="mb-8">
@@ -248,7 +248,7 @@ export function ForgotPasswordForm() {
           </>
         )}
 
-        {/* Step 3 — New Password */}
+        {}
         {step === 3 && (
           <>
             <div className="mb-8">

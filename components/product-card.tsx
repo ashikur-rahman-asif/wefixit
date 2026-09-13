@@ -32,15 +32,17 @@ export function ProductCard({
 
   const cardContent = (
     <>
-      {variant === "product" && discountPrice && price && (
-        <div className="absolute top-4 left-4 bg-gold text-titleBlack text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
-          {Math.round(
-            ((Number(discountPrice) - Number(price)) / Number(discountPrice)) *
-              100,
-          )}
-          % OFF
-        </div>
-      )}
+      {variant === "product" &&
+        discountPrice &&
+        price &&
+        Number(discountPrice) < Number(price) && (
+          <div className="absolute top-4 left-4 bg-gold text-titleBlack text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
+            {Math.round(
+              ((Number(price) - Number(discountPrice)) / Number(price)) * 100,
+            )}
+            % OFF
+          </div>
+        )}
 
       <div className="w-full flex justify-center items-center mb-2 sm:mb-6 min-h-40">
         {image ? (
@@ -76,11 +78,11 @@ export function ProductCard({
 
             <div className="flex items-center sm:justify-center gap-3 mt-auto pt-4 sm:pt-6 pb-2">
               <span className="text-brand text-2xl md:text-3xl font-bold">
-                ${price}
+                ${discountPrice ?? price}
               </span>
               {discountPrice && (
                 <del className="text-secondary text-sm md:text-base font-medium">
-                  ${discountPrice}
+                  ${price}
                 </del>
               )}
             </div>

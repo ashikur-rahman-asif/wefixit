@@ -44,3 +44,15 @@ export const useResetPassword = () => {
     mutationFn: (data: ResetPasswordPayload) => authApi.resetPassword(data),
   });
 };
+
+export const useGetMe = () => {
+  return useMutation({
+    mutationFn: () => authApi.getMe(),
+  });
+};
+
+export const useUpdateProfile = () => {
+  return useMutation({
+    mutationFn: (data: import("@/types/auth").ProfileUpdatePayload) => authApi.updateProfile(data),
+  });
+};

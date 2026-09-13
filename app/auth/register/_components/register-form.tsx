@@ -124,7 +124,7 @@ export function RegisterForm() {
       </div>
 
       <div className="max-w-[510px] w-full rounded-xl bg-white p-8 shadow-sm">
-        {/* Step 1 — Registration Form */}
+        {}
         {step === 1 && (
           <>
             <div className="mb-8">
@@ -205,7 +205,7 @@ export function RegisterForm() {
           </>
         )}
 
-        {/* Step 2 — OTP Verification */}
+        {}
         {step === 2 && (
           <>
             <div className="mb-8">

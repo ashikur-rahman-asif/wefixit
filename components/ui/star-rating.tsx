@@ -18,7 +18,6 @@ export function StarRating({
 
   for (let i = 1; i <= maxStars; i++) {
     if (rating >= i) {
-      // Full star
       stars.push(
         <Star
           key={i}
@@ -26,10 +25,6 @@ export function StarRating({
         />
       );
     } else if (rating > i - 1) {
-      // Fractional star: 
-      // If decimal is >= 0.75, treat as full star.
-      // If decimal is >= 0.25, treat as half star.
-      // Otherwise, treat as empty star.
       const decimal = rating - (i - 1);
       if (decimal >= 0.75) {
         stars.push(
@@ -58,7 +53,6 @@ export function StarRating({
         );
       }
     } else {
-      // Empty star (using black/20 border with transparent fill)
       stars.push(
         <Star
           key={i}

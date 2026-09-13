@@ -1,13 +1,17 @@
 export interface User {
   id: number;
-  first_name: string;
-  last_name: string;
+  first_name?: string;
+  last_name?: string;
   email: string;
-  phone: string;
-  email_verified_at: string | null;
-  created_at: string;
-  updated_at: string;
-  name: string;
+  phone?: string;
+  phone_number?: string;
+  email_verified_at?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  name?: string;
+  district?: string;
+  upazila?: string;
+  street_address?: string;
 }
 
 export interface RegisterPayload {
@@ -16,6 +20,15 @@ export interface RegisterPayload {
   email: string;
   phone: string;
   password?: string;
+}
+
+export interface ProfileUpdatePayload {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  district?: string;
+  upazila?: string;
+  streetAddress?: string;
 }
 
 export interface VerifyOtpPayload {

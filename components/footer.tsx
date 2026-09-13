@@ -26,7 +26,7 @@ export function Footer() {
       style={{ backgroundImage: 'url("/footer-bg.png")' }}>
       <Container className="md:py-16 py-7">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          {/* Logo & Info */}
+          {}
           <div className="lg:col-span-4 space-y-7 pr-4">
             <div className="w-40 text-white">
               <Logo className="w-full h-auto text-white" />
@@ -55,7 +55,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
+          {}
           <div className="lg:col-span-8 grid gap-8 grid-cols-2 md:grid-cols-3">
             <div>
               <h4 className="text-white text-lg font-semibold mb-6">Product</h4>
@@ -118,7 +118,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
+        {}
         <hr className="border-t border-white/15 mt-16 mb-6" />
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-[#D3D3D3] text-[15px] font-medium">

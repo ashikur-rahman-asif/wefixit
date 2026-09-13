@@ -6,6 +6,7 @@ export function AuthSidebar() {
   return (
     <div className="hidden h-screen bg-red-100 lg:block">
       <Image
+        priority
         alt="auth-image"
         src={'/auth.webp'}
         className="h-full w-full object-cover"

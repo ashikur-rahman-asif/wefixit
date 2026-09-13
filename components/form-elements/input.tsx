@@ -193,13 +193,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               readOnly={readOnly}
               required={required}
               spellCheck="false"
-              // placeholder is a required prop for the clearable input component even if the user does not set any
               placeholder={placeholder || "Screen reader only"}
               className={cn(
                 `input-field`,
                 inputFieldStyles.base,
                 inputFieldStyles.reset,
-                // it's important we are using placeholder-shown pseudo class to control input clear icon btn
                 !placeholder && "placeholder-shown:placeholder:opacity-0",
                 disabled && inputFieldStyles.disabled,
                 clearable && inputFieldStyles.clearable,

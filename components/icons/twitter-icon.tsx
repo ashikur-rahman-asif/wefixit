@@ -14,4 +14,3 @@ export function TwitterIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-// amazon apple fb microsoft google

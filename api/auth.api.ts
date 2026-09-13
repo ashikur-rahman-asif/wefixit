@@ -6,6 +6,8 @@ import {
   RegisterPayload,
   VerifyOtpPayload,
   ResetPasswordPayload,
+  ProfileUpdatePayload,
+  User,
 } from "@/types/auth";
 import { ForgotPasswordInput } from "@/validators/user";
 
@@ -52,6 +54,16 @@ export const authApi = {
 
   resetPassword: async (data: ResetPasswordPayload) => {
     const response = await api.post<BasicResponse>("/reset-password", data);
+    return response.data;
+  },
+
+  getMe: async () => {
+    const response = await api.get<{ status: string; message: string; data: User }>("/me");
+    return response.data;
+  },
+
+  updateProfile: async (data: ProfileUpdatePayload) => {
+    const response = await api.post<{ status: string; message: string; data: User }>("/profile/update", data);
     return response.data;
   },
 };

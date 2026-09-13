@@ -61,45 +61,45 @@ export interface PasswordProps
     React.InputHTMLAttributes<HTMLInputElement>,
     'size' | 'type' | 'prefix'
   > {
-  /** The variants of the component are: */
+  
   variant?: keyof typeof inputStyles.variant;
-  /** The size of the component. `"sm"` is equivalent to the dense input styling. */
+  
   size?: keyof typeof inputStyles.size;
-  /** The rounded variants are: */
+  
   rounded?: keyof typeof inputStyles.rounded;
-  /** Set input placeholder text */
+  
   placeholder?: string;
-  /** Whether the input is disabled */
+  
   disabled?: boolean;
-  /** Set field label */
+  
   label?: React.ReactNode;
-  /** Set label font weight */
+  
   labelWeight?: keyof typeof labelStyles.weight;
-  /** add clearable option */
+  
   clearable?: boolean;
-  /** clear event */
+  
   onClear?: (event: React.MouseEvent) => void;
-  /** The prefix is design for adding any icon or text on the Input field's start (it's a left icon for the `ltr` and right icon for the `rtl`) */
+  
   prefix?: React.ReactNode;
-  /** It is the password visibility toggle icon.  */
+  
   visibilityToggleIcon?(visible: boolean): React.ReactNode;
-  /** Add helper text. It could be string or a React component */
+  
   helperText?: React.ReactNode;
-  /** Show error message using this prop */
+  
   error?: string;
-  /** Override default CSS style of label */
+  
   labelClassName?: string;
-  /** Override default CSS style of input */
+  
   inputClassName?: string;
-  /** Override default CSS style of prefix */
+  
   prefixClassName?: string;
-  /** Override default CSS style of password show/hide toggle icon */
+  
   visibilityToggleIconClassName?: string;
-  /** Override default CSS style of helperText */
+  
   helperClassName?: string;
-  /** Override default CSS style of error message */
+  
   errorClassName?: string;
-  /** Add custom classes to the root of the component */
+  
   className?: string;
 }
 
@@ -206,13 +206,11 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordProps>(
               readOnly={readOnly}
               required={required}
               spellCheck="false"
-              // placeholder is a required prop for the clearable input component even if the user does not set any
               placeholder={placeholder || 'Screen reader only'}
               className={cn(
                 `password-field`,
                 inputFieldStyles.base,
                 inputFieldStyles.reset,
-                // it's important we are using placeholder-shown pseudo class to control input clear icon btn
                 !placeholder && 'placeholder:opacity-0',
                 disabled && inputFieldStyles.disabled,
                 clearable && inputFieldStyles.clearable,

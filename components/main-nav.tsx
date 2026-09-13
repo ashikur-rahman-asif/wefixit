@@ -4,10 +4,11 @@ import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cart-store";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import Container from "./container";
 import { CrossIcon } from "./icons/cross";
 import { HamburgerIcon } from "./icons/hamburger-menu";
@@ -29,6 +30,7 @@ export function MainNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const cartItemsTotal = useCartStore((state) => state.getTotalItems());
 
@@ -132,14 +134,55 @@ export function MainNav() {
             )}
           </Link>
           <div className="hidden lg:flex items-center gap-4">
-            {mounted && isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className={buttonVariants({
-                  variant: isTransparent ? "white-outline" : "default",
-                })}>
-                Log Out
-              </button>
+            <a
+              href="tel:+8801516540594"
+              className={buttonVariants({ variant: "brand" })}>
+              +88-01516540594
+            </a>
+            {!mounted ? (
+              <div className="flex h-10 w-10 items-center justify-center">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-brand border-t-transparent" />
+              </div>
+            ) : isAuthenticated ? (
+              <div className="relative group">
+                <div className="h-10 w-10 rounded-full border-2 border-brand bg-white flex items-center justify-center cursor-pointer overflow-hidden transition-transform group-hover:scale-105 shadow-sm">
+                  <UserIcon className="h-5 w-5 text-gray-400" />
+                </div>
+
+                <div className="absolute right-0 top-full pt-3 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-1000">
+                  <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-gray-100 relative">
+                    <div className="absolute -top-1.5 right-3.5 w-3 h-3 bg-white border-l border-t border-gray-100 transform rotate-45"></div>
+                    
+                    <div className="px-4 py-3 border-b border-gray-100 relative z-10 bg-white rounded-t-xl">
+                      <p className="text-base font-semibold text-gray-900 leading-tight">
+                        {user?.name || user?.first_name || "User"}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">{user?.phone || ""}</p>
+                    </div>
+
+                    <div className="py-2 relative z-10 bg-white rounded-b-xl flex flex-col gap-1 px-2">
+                      <Link
+                        href="/account"
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                        <UserIcon className="mr-3 h-4 w-4" />
+                        <span>Manage Account</span>
+                      </Link>
+                      <Link
+                        href="/orders"
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                        <ShoppingCart className="mr-3 h-4 w-4" />
+                        <span>My Order</span>
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors text-left">
+                        <LogOut className="mr-3 h-4 w-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : (
               <Link
                 href="/auth/login"
@@ -149,11 +192,6 @@ export function MainNav() {
                 Log In
               </Link>
             )}
-            <a
-              href="tel:+8801516540594"
-              className={buttonVariants({ variant: "brand" })}>
-              +88-01516540594
-            </a>
           </div>
         </div>
       </Container>
@@ -205,18 +243,45 @@ export function MainNav() {
           <hr className="border-gray-100" />
 
           <div className="flex flex-col gap-4">
-            {mounted && isAuthenticated ? (
-              <button
-                onClick={() => {
-                  clearAuth();
-                  setIsMobileMenuOpen(false);
-                }}
-                className={buttonVariants({
-                  variant: "default",
-                  className: "w-full justify-center text-base py-3",
-                })}>
-                Log Out
-              </button>
+            {!mounted ? (
+              <div className="w-full h-[52px] animate-pulse bg-gray-200 rounded-full" />
+            ) : isAuthenticated ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl mb-2 border border-gray-100">
+                  <div className="h-10 w-10 shrink-0 rounded-full border border-brand/20 bg-white flex items-center justify-center">
+                    <UserIcon className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <div className="flex flex-col overflow-hidden">
+                    <p className="text-sm font-semibold text-gray-900 truncate">
+                      {user?.name || user?.first_name || "User"}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">{user?.phone || ""}</p>
+                  </div>
+                </div>
+                <Link
+                  href="/account"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                  <UserIcon className="mr-3 h-5 w-5" />
+                  <span>Manage Account</span>
+                </Link>
+                <Link
+                  href="/orders"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                  <ShoppingCart className="mr-3 h-5 w-5" />
+                  <span>My Order</span>
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="flex items-center w-full text-red-600 font-medium py-2.5 px-3 hover:bg-red-50 rounded-lg transition-colors text-left">
+                  <LogOut className="mr-3 h-5 w-5" />
+                  <span>Log Out</span>
+                </button>
+              </div>
             ) : (
               <Link
                 href="/auth/login"

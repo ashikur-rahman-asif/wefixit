@@ -61,3 +61,14 @@ export const resetPasswordSchema = z
   });
 
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
+
+export const updateProfileSchema = z.object({
+  firstName: z.string().trim().min(2, "First name must be at least 2 characters"),
+  lastName: z.string().trim().min(2, "Last name must be at least 2 characters"),
+  phone: phoneSchema,
+  district: z.string().trim().optional(),
+  upazila: z.string().trim().optional(),
+  streetAddress: z.string().trim().optional(),
+});
+
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
