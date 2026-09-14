@@ -45,6 +45,7 @@ api.interceptors.response.use(
       if (typeof window !== "undefined") {
         localStorage.removeItem("auth-storage");
         Cookies.remove("token", { path: "/" });
+        Cookies.remove("token");
 
         if (window.location.pathname !== "/auth/login") {
           window.location.href = "/auth/login";

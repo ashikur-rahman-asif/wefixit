@@ -66,4 +66,9 @@ export const authApi = {
     const response = await api.post<{ status: string; message: string; data: User }>("/profile/update", data);
     return response.data;
   },
+
+  logout: async () => {
+    const response = await api.post<BasicResponse>("/logout");
+    return response.data;
+  },
 };

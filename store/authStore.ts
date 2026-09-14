@@ -23,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
       },
       clearAuth: () => {
         Cookies.remove("token", { path: "/" });
+        Cookies.remove("token");
         set({ user: null, token: null, isAuthenticated: false });
       },
     }),

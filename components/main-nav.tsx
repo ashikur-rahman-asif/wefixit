@@ -7,7 +7,9 @@ import { useCartStore } from "@/store/cart-store";
 import { ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { authApi } from "@/api/auth.api";
+import { toast } from "sonner";
 
 import Container from "./container";
 import { CrossIcon } from "./icons/cross";
@@ -40,8 +42,15 @@ export function MainNav() {
   const isTransparentMode = pathname === "/services";
   const isTransparent = isTransparentMode && !isScrolled;
 
-  const handleLogout = () => {
-    clearAuth();
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
+      console.error("Logout failed on server", error);
+    } finally {
+      clearAuth();
+      toast.success("Logged out successfully");
+    }
   };
 
   useEffect(() => {

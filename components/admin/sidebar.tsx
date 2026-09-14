@@ -22,9 +22,27 @@ import {
 } from "lucide-react";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import Logo from "@/components/icons/logo";
+import { useAuthStore } from "@/store/authStore";
+import { authApi } from "@/api/auth.api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
   const pathname = usePathname();
+  const clearAuth = useAuthStore((state) => state.clearAuth);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
+      console.error("Logout failed on server", error);
+    } finally {
+      clearAuth();
+      toast.success("Logged out successfully");
+      router.push("/auth/login");
+    }
+  };
 
   const isActive = (path: string) => {
     if (path === '#' || !path) return false;
@@ -162,7 +180,11 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
               </Link>
             </li>
             <li>
-              <button className={`w-full flex items-center rounded-xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3 gap-3'}`} title="Logout">
+              <button 
+                onClick={handleLogout}
+                className={`w-full flex items-center rounded-xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3 gap-3'}`} 
+                title="Logout"
+              >
                 <LogOut className="w-5 h-5 shrink-0" />
                 {!isCollapsed && <span className="font-medium">Logout</span>}
               </button>
