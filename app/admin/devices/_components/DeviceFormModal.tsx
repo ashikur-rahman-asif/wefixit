@@ -8,62 +8,82 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { ProductGrade } from "@/types/admin";
+import { AdminDevice } from "@/types/admin";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-export type GradeFormData = {
+export type DeviceFormData = {
   name: string;
-  description: string;
+  slug: string;
+  icon: FileList | null;
   is_active: boolean;
 };
 
-interface GradeFormModalProps {
+interface DeviceFormModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  editingGrade: ProductGrade | null;
-  onSubmit: (data: GradeFormData) => void;
+  editingDevice: AdminDevice | null;
+  onSubmit: (data: DeviceFormData) => void;
   isSubmitting: boolean;
 }
 
-export function GradeFormModal({
+export function DeviceFormModal({
   open,
   onOpenChange,
-  editingGrade,
+  editingDevice,
   onSubmit,
   isSubmitting,
-}: GradeFormModalProps) {
+}: DeviceFormModalProps) {
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
-  } = useForm<GradeFormData>({
+  } = useForm<DeviceFormData>({
     defaultValues: {
       name: "",
-      description: "",
+      slug: "",
       is_active: true,
+      icon: null,
     },
   });
 
-  // Reset form when modal opens/closes or editingGrade changes
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const iconFile = watch("icon");
+
+  useEffect(() => {
+    if (iconFile && iconFile.length > 0) {
+      const file = iconFile[0];
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [iconFile]);
+
+  // Reset form when modal opens/closes or editingDevice changes
   useEffect(() => {
     if (open) {
-      if (editingGrade) {
+      if (editingDevice) {
         reset({
-          name: editingGrade.name,
-          description: editingGrade.description || "",
-          is_active: editingGrade.is_active,
+          name: editingDevice.name,
+          slug: editingDevice.slug,
+          is_active: editingDevice.is_active,
+          icon: null,
         });
+        setPreviewUrl(editingDevice.icon);
       } else {
         reset({
           name: "",
-          description: "",
+          slug: "",
           is_active: true,
+          icon: null,
         });
+        setPreviewUrl(null);
       }
     }
-  }, [open, editingGrade, reset]);
+  }, [open, editingDevice, reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -71,10 +91,10 @@ export function GradeFormModal({
         <div className="p-6 border-b border-gray-100">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-titleBlack">
-              {editingGrade ? "Edit Product Grade" : "Add Product Grade"}
+              {editingDevice ? "Edit Device" : "Add Device"}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              {editingGrade ? "Form to edit a product grade." : "Form to add a new product grade."}
+              {editingDevice ? "Form to edit a device." : "Form to add a new device."}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -82,12 +102,12 @@ export function GradeFormModal({
         <form onSubmit={handleSubmit(onSubmit)} className="px-4 pb-4 space-y-5 pt-2">
           <div>
             <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Grade Name <span className="text-red-500">*</span>
+              Device Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              {...register("name", { required: "Grade name is required" })}
-              placeholder="e.g., Grade A"
+              {...register("name", { required: "Device name is required" })}
+              placeholder="e.g., Phones"
               className={`w-full h-11 px-4 rounded-xl border ${
                 errors.name ? "border-red-500" : "border-gray-200"
               } text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
@@ -100,13 +120,34 @@ export function GradeFormModal({
 
           <div>
             <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Description{" "}
+              Device Icon{" "}
               <span className="text-textGray font-normal">(Optional)</span>
             </label>
-            <textarea
-              {...register("description")}
-              placeholder="Describe what this grade means..."
-              className="w-full min-h-24 p-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand resize-none transition-colors"
+            <div className="flex items-center gap-4">
+              {previewUrl && (
+                <div className="w-16 h-16 rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center bg-gray-50 shrink-0">
+                  <Image src={previewUrl} alt="Preview" width={48} height={48} className="object-contain" />
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                {...register("icon")}
+                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand/10 file:text-brand hover:file:bg-brand/20 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-titleBlack mb-2">
+              Slug{" "}
+              <span className="text-textGray font-normal">(Optional)</span>
+            </label>
+            <input
+              type="text"
+              {...register("slug")}
+              placeholder="e.g., phones (leave blank to auto-generate)"
+              className="w-full h-11 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
             />
           </div>
 
@@ -125,7 +166,7 @@ export function GradeFormModal({
                 Active
               </label>
               <p className="text-xs text-textGray">
-                Active grades are visible when assigning to products
+                Active devices are visible to customers
               </p>
             </div>
           </div>
@@ -145,9 +186,9 @@ export function GradeFormModal({
             >
               {isSubmitting
                 ? "Saving..."
-                : editingGrade
+                : editingDevice
                   ? "Save Changes"
-                  : "Add Grade"}
+                  : "Add Device"}
             </button>
           </DialogFooter>
         </form>

@@ -14,7 +14,11 @@ import {
   Settings,
   LogOut,
   ChevronRight,
-  Wrench
+  Wrench,
+  List,
+  Award,
+  Palette,
+  Smartphone
 } from "lucide-react";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import Logo from "@/components/icons/logo";
@@ -62,6 +66,30 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
               <Link href="#" className={getLinkClasses("#")} title="Products">
                 <Box className="w-5 h-5 shrink-0" />
                 {!isCollapsed && <span className="font-medium">Products</span>}
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/categories" className={getLinkClasses("/admin/categories")} title="Categories">
+                <List className="w-5 h-5 shrink-0" />
+                {!isCollapsed && <span className="font-medium">Categories</span>}
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/brands" className={getLinkClasses("/admin/brands")} title="Brands">
+                <Award className="w-5 h-5 shrink-0" />
+                {!isCollapsed && <span className="font-medium">Brands</span>}
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/colors" className={getLinkClasses("/admin/colors")} title="Colors">
+                <Palette className="w-5 h-5 shrink-0" />
+                {!isCollapsed && <span className="font-medium">Colors</span>}
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin/devices" className={getLinkClasses("/admin/devices")} title="Devices">
+                <Smartphone className="w-5 h-5 shrink-0" />
+                {!isCollapsed && <span className="font-medium">Devices</span>}
               </Link>
             </li>
             <li>

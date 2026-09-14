@@ -1,0 +1,179 @@
+"use client";
+
+import { AdminBrand } from "@/types/admin";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+
+import { BrandFormModal, BrandFormData } from "./_components/BrandFormModal";
+import { BrandTable } from "./_components/BrandTable";
+import {
+  useBrands,
+  useCreateBrand,
+  useUpdateBrand,
+  useDeleteBrand,
+} from "@/hooks/admin/use-catalog";
+import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+
+export default function BrandsPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingBrand, setEditingBrand] = useState<AdminBrand | null>(null);
+  const [brandToDelete, setBrandToDelete] = useState<number | null>(null);
+  const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+
+  const { data: response, isLoading } = useBrands();
+  const brands = response?.data || [];
+  
+  const createMutation = useCreateBrand();
+  const updateMutation = useUpdateBrand();
+  const deleteMutation = useDeleteBrand();
+
+  const openAddModal = () => {
+    setEditingBrand(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (brand: AdminBrand) => {
+    setEditingBrand(brand);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = (data: BrandFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.slug) formData.append("slug", data.slug);
+    if (data.deviceName) formData.append("deviceName", data.deviceName);
+    formData.append("isActive", data.is_active ? "1" : "0");
+    
+    // Check if there is a new icon uploaded
+    if (data.icon && data.icon.length > 0) {
+      formData.append("icon", data.icon[0]);
+    }
+
+    if (editingBrand) {
+      updateMutation.mutate({ id: editingBrand.id, data: formData }, {
+        onSuccess: () => setIsModalOpen(false)
+      });
+    } else {
+      createMutation.mutate(formData, {
+        onSuccess: () => setIsModalOpen(false)
+      });
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    setBrandToDelete(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (brandToDelete) {
+      deleteMutation.mutate(brandToDelete, {
+        onSettled: () => setBrandToDelete(null),
+      });
+    }
+  };
+
+  const handleToggleStatus = (id: number, newStatus: boolean) => {
+    setPendingStatuses((prev) => {
+      const next = { ...prev };
+      const brand = brands.find((b) => b.id === id);
+
+      if (!brand) return next;
+
+      if (brand.is_active === newStatus) {
+        delete next[id];
+      } else {
+        next[id] = newStatus;
+      }
+
+      return next;
+    });
+  };
+
+  const handleSaveStatuses = async () => {
+    const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
+      const id = Number(idStr);
+      const brand = brands.find((b) => b.id === id);
+      if (!brand) return Promise.resolve();
+      
+      const formData = new FormData();
+      formData.append("name", brand.name);
+      if (brand.slug) formData.append("slug", brand.slug);
+      if (brand.device_name) formData.append("deviceName", brand.device_name);
+      formData.append("isActive", newStatus ? "1" : "0");
+      
+      return updateMutation.mutateAsync({ id, data: formData });
+    });
+
+    try {
+      await Promise.all(promises);
+      setPendingStatuses({});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const hasPendingChanges = Object.keys(pendingStatuses).length > 0;
+
+  return (
+    <div className="bg-[#F8F9FB] min-h-screen p-6">
+      <DeleteConfirmationModal
+        isOpen={!!brandToDelete}
+        onClose={() => setBrandToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Brand"
+        description="Are you sure you want to delete this brand? This action cannot be undone."
+        isDeleting={deleteMutation.isPending}
+      />
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
+            Brands
+          </h1>
+          <p className="text-textGray text-sm">
+            Manage product brands for the catalog
+          </p>
+        </div>
+        <button
+          onClick={openAddModal}
+          className="h-11 px-5 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 cursor-pointer"
+        >
+          <Plus className="w-4 h-4" />
+          Add Brand
+        </button>
+      </div>
+
+      {/* Table */}
+      <BrandTable
+        brands={brands}
+        pendingStatuses={pendingStatuses}
+        isLoading={isLoading}
+        isDeleting={deleteMutation.isPending}
+        onEdit={openEditModal}
+        onDelete={handleDelete}
+        onToggleStatus={handleToggleStatus}
+      />
+
+      {hasPendingChanges && (
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={handleSaveStatuses}
+            disabled={updateMutation.isPending}
+            className="h-11 px-6 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg cursor-pointer"
+          >
+            {updateMutation.isPending ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      )}
+
+      {/* Form Modal */}
+      <BrandFormModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        editingBrand={editingBrand}
+        onSubmit={handleSubmit}
+        isSubmitting={createMutation.isPending || updateMutation.isPending}
+      />
+    </div>
+  );
+}

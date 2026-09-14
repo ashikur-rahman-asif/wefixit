@@ -232,3 +232,42 @@ export interface AdminRepairDetail extends AdminRepair {
   };
   timeline: RepairEvent[];
 }
+
+export interface AdminCategory {
+  id: number;
+  name: string;
+  slug: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminBrand {
+  id: number;
+  name: string;
+  slug: string;
+  device_name: string | null;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminColor {
+  id: number;
+  name: string;
+  hex: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminDevice {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}

@@ -15,15 +15,29 @@ import { cn } from "@/lib/utils";
 import { Product } from "@/types/product";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 interface ProductReviewsProps {
   product: Product;
 }
 
+type ReviewFormData = {
+  rating: number;
+  review: string;
+};
+
 export function ProductReviews({ product }: ProductReviewsProps) {
   const hasReviews = product.reviewsCount && product.reviewsCount > 0;
-  const [rating, setRating] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+
+  const { register, handleSubmit, watch, setValue, reset } =
+    useForm<ReviewFormData>({
+      defaultValues: { rating: 0, review: "" },
+    });
+
+  const rating = watch("rating");
+
+  const onSubmit = () => reset();
 
   const mockReviews = Array.from({ length: product.reviewsCount || 0 }).map(
     (_, i) => ({
@@ -58,46 +72,51 @@ export function ProductReviews({ product }: ProductReviewsProps) {
         <Dialog>
           <DialogTrigger render={<Button />}>Write a Review</DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Write a Review</DialogTitle>
-              <DialogDescription>
-                Share your experience with this product.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="rating" className="text-sm font-medium">
-                  Rating
-                </label>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      onClick={() => setRating(i)}
-                      className={cn(
-                        "size-7 cursor-pointer transition-colors",
-                        rating >= i
-                          ? "text-gold fill-gold"
-                          : "text-black/20 fill-transparent",
-                      )}
-                    />
-                  ))}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="grid gap-4">
+              <DialogHeader>
+                <DialogTitle>Write a Review</DialogTitle>
+                <DialogDescription>
+                  Share your experience with this product.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="rating" className="text-sm font-medium">
+                    Rating
+                  </label>
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star
+                        key={i}
+                        onClick={() => setValue("rating", i)}
+                        className={cn(
+                          "size-7 cursor-pointer transition-colors",
+                          rating >= i
+                            ? "text-gold fill-gold"
+                            : "text-black/20 fill-transparent",
+                        )}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="grid gap-2">
+                  <label htmlFor="review" className="text-sm font-medium">
+                    Review
+                  </label>
+                  <Textarea
+                    id="review"
+                    placeholder="What did you like or dislike?"
+                    className="min-h-[100px]"
+                    {...register("review")}
+                  />
                 </div>
               </div>
-              <div className="grid gap-2">
-                <label htmlFor="review" className="text-sm font-medium">
-                  Review
-                </label>
-                <Textarea
-                  id="review"
-                  placeholder="What did you like or dislike?"
-                  className="min-h-[100px]"
-                />
+              <div className="flex justify-end">
+                <Button type="submit">Submit Review</Button>
               </div>
-            </div>
-            <div className="flex justify-end">
-              <Button type="submit">Submit Review</Button>
-            </div>
+            </form>
           </DialogContent>
         </Dialog>
       </div>

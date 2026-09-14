@@ -1,0 +1,177 @@
+"use client";
+
+import { AdminDevice } from "@/types/admin";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+
+import { DeviceFormModal, DeviceFormData } from "./_components/DeviceFormModal";
+import { DeviceTable } from "./_components/DeviceTable";
+import {
+  useDevices,
+  useCreateDevice,
+  useUpdateDevice,
+  useDeleteDevice,
+} from "@/hooks/admin/use-catalog";
+import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+
+export default function DevicesPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingDevice, setEditingDevice] = useState<AdminDevice | null>(null);
+  const [deviceToDelete, setDeviceToDelete] = useState<number | null>(null);
+  const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+
+  const { data: response, isLoading } = useDevices();
+  const devices = response?.data || [];
+  
+  const createMutation = useCreateDevice();
+  const updateMutation = useUpdateDevice();
+  const deleteMutation = useDeleteDevice();
+
+  const openAddModal = () => {
+    setEditingDevice(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (device: AdminDevice) => {
+    setEditingDevice(device);
+    setIsModalOpen(true);
+  };
+
+  const handleSubmit = (data: DeviceFormData) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.slug) formData.append("slug", data.slug);
+    formData.append("isActive", data.is_active ? "1" : "0");
+    
+    // Check if there is a new icon uploaded
+    if (data.icon && data.icon.length > 0) {
+      formData.append("icon", data.icon[0]);
+    }
+
+    if (editingDevice) {
+      updateMutation.mutate({ id: editingDevice.id, data: formData }, {
+        onSuccess: () => setIsModalOpen(false)
+      });
+    } else {
+      createMutation.mutate(formData, {
+        onSuccess: () => setIsModalOpen(false)
+      });
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    setDeviceToDelete(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deviceToDelete) {
+      deleteMutation.mutate(deviceToDelete, {
+        onSettled: () => setDeviceToDelete(null),
+      });
+    }
+  };
+
+  const handleToggleStatus = (id: number, newStatus: boolean) => {
+    setPendingStatuses((prev) => {
+      const next = { ...prev };
+      const device = devices.find((d) => d.id === id);
+
+      if (!device) return next;
+
+      if (device.is_active === newStatus) {
+        delete next[id];
+      } else {
+        next[id] = newStatus;
+      }
+
+      return next;
+    });
+  };
+
+  const handleSaveStatuses = async () => {
+    const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
+      const id = Number(idStr);
+      const device = devices.find((d) => d.id === id);
+      if (!device) return Promise.resolve();
+      
+      const formData = new FormData();
+      formData.append("name", device.name);
+      if (device.slug) formData.append("slug", device.slug);
+      formData.append("isActive", newStatus ? "1" : "0");
+      
+      return updateMutation.mutateAsync({ id, data: formData });
+    });
+
+    try {
+      await Promise.all(promises);
+      setPendingStatuses({});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const hasPendingChanges = Object.keys(pendingStatuses).length > 0;
+
+  return (
+    <div className="bg-[#F8F9FB] min-h-screen p-6">
+      <DeleteConfirmationModal
+        isOpen={!!deviceToDelete}
+        onClose={() => setDeviceToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Device"
+        description="Are you sure you want to delete this device type? This action cannot be undone."
+        isDeleting={deleteMutation.isPending}
+      />
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
+            Devices
+          </h1>
+          <p className="text-textGray text-sm">
+            Manage device types for the catalog (e.g., Phones, Tablets)
+          </p>
+        </div>
+        <button
+          onClick={openAddModal}
+          className="h-11 px-5 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 cursor-pointer"
+        >
+          <Plus className="w-4 h-4" />
+          Add Device
+        </button>
+      </div>
+
+      {/* Table */}
+      <DeviceTable
+        devices={devices}
+        pendingStatuses={pendingStatuses}
+        isLoading={isLoading}
+        isDeleting={deleteMutation.isPending}
+        onEdit={openEditModal}
+        onDelete={handleDelete}
+        onToggleStatus={handleToggleStatus}
+      />
+
+      {hasPendingChanges && (
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={handleSaveStatuses}
+            disabled={updateMutation.isPending}
+            className="h-11 px-6 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg cursor-pointer"
+          >
+            {updateMutation.isPending ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      )}
+
+      {/* Form Modal */}
+      <DeviceFormModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        editingDevice={editingDevice}
+        onSubmit={handleSubmit}
+        isSubmitting={createMutation.isPending || updateMutation.isPending}
+      />
+    </div>
+  );
+}

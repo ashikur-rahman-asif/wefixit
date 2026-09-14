@@ -8,62 +8,62 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { ProductGrade } from "@/types/admin";
+import { AdminCategory } from "@/types/admin";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
-export type GradeFormData = {
+export type CategoryFormData = {
   name: string;
-  description: string;
+  slug: string;
   is_active: boolean;
 };
 
-interface GradeFormModalProps {
+interface CategoryFormModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  editingGrade: ProductGrade | null;
-  onSubmit: (data: GradeFormData) => void;
+  editingCategory: AdminCategory | null;
+  onSubmit: (data: CategoryFormData) => void;
   isSubmitting: boolean;
 }
 
-export function GradeFormModal({
+export function CategoryFormModal({
   open,
   onOpenChange,
-  editingGrade,
+  editingCategory,
   onSubmit,
   isSubmitting,
-}: GradeFormModalProps) {
+}: CategoryFormModalProps) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<GradeFormData>({
+  } = useForm<CategoryFormData>({
     defaultValues: {
       name: "",
-      description: "",
+      slug: "",
       is_active: true,
     },
   });
 
-  // Reset form when modal opens/closes or editingGrade changes
+  // Reset form when modal opens/closes or editingCategory changes
   useEffect(() => {
     if (open) {
-      if (editingGrade) {
+      if (editingCategory) {
         reset({
-          name: editingGrade.name,
-          description: editingGrade.description || "",
-          is_active: editingGrade.is_active,
+          name: editingCategory.name,
+          slug: editingCategory.slug,
+          is_active: editingCategory.is_active,
         });
       } else {
         reset({
           name: "",
-          description: "",
+          slug: "",
           is_active: true,
         });
       }
     }
-  }, [open, editingGrade, reset]);
+  }, [open, editingCategory, reset]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -71,10 +71,10 @@ export function GradeFormModal({
         <div className="p-6 border-b border-gray-100">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-titleBlack">
-              {editingGrade ? "Edit Product Grade" : "Add Product Grade"}
+              {editingCategory ? "Edit Category" : "Add Category"}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              {editingGrade ? "Form to edit a product grade." : "Form to add a new product grade."}
+              {editingCategory ? "Form to edit a category." : "Form to add a new category."}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -82,12 +82,12 @@ export function GradeFormModal({
         <form onSubmit={handleSubmit(onSubmit)} className="px-4 pb-4 space-y-5 pt-2">
           <div>
             <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Grade Name <span className="text-red-500">*</span>
+              Category Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              {...register("name", { required: "Grade name is required" })}
-              placeholder="e.g., Grade A"
+              {...register("name", { required: "Category name is required" })}
+              placeholder="e.g., Screen Protectors"
               className={`w-full h-11 px-4 rounded-xl border ${
                 errors.name ? "border-red-500" : "border-gray-200"
               } text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
@@ -100,14 +100,18 @@ export function GradeFormModal({
 
           <div>
             <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Description{" "}
+              Slug{" "}
               <span className="text-textGray font-normal">(Optional)</span>
             </label>
-            <textarea
-              {...register("description")}
-              placeholder="Describe what this grade means..."
-              className="w-full min-h-24 p-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand resize-none transition-colors"
+            <input
+              type="text"
+              {...register("slug")}
+              placeholder="e.g., screen-protectors (leave blank to auto-generate)"
+              className="w-full h-11 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
             />
+            <p className="text-xs text-textGray mt-1.5">
+              URL-friendly identifier. Auto-generated from name if left empty.
+            </p>
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
@@ -125,7 +129,7 @@ export function GradeFormModal({
                 Active
               </label>
               <p className="text-xs text-textGray">
-                Active grades are visible when assigning to products
+                Active categories are visible to customers
               </p>
             </div>
           </div>
@@ -145,9 +149,9 @@ export function GradeFormModal({
             >
               {isSubmitting
                 ? "Saving..."
-                : editingGrade
+                : editingCategory
                   ? "Save Changes"
-                  : "Add Grade"}
+                  : "Add Category"}
             </button>
           </DialogFooter>
         </form>
