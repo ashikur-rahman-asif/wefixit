@@ -40,7 +40,7 @@ export function FieldClearButton({
       onClick={onClick}
       className={cn(
         `input-clear-btn`,
-        'input-clear-btn', // must contain this CSS class in this component
+        'input-clear-btn',
         clearBtnStyles.base,
         size && [
           clearBtnStyles.size[size],

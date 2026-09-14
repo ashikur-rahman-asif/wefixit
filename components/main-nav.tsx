@@ -140,9 +140,7 @@ export function MainNav() {
               +88-01516540594
             </a>
             {!mounted ? (
-              <div className="flex h-10 w-10 items-center justify-center">
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-brand border-t-transparent" />
-              </div>
+              <div className={cn("h-[46px] w-[108px] animate-pulse rounded-full", isTransparent ? "bg-white/20" : "bg-gray-200")} />
             ) : isAuthenticated ? (
               <div className="relative group">
                 <div className="h-10 w-10 rounded-full border-2 border-brand bg-white flex items-center justify-center cursor-pointer overflow-hidden transition-transform group-hover:scale-105 shadow-sm">

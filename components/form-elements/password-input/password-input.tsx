@@ -174,8 +174,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordProps>(
               inputStyles.size[size],
               inputStyles.rounded[rounded],
               inputStyles.variant[variant],
-              isHover && 'is-hover', // must have is-hover class based on mouse enter
-              isFocus && 'is-focus', // must have is-focus class based on onFocus event
+              isHover && 'is-hover',
+              isFocus && 'is-focus',
               disabled && inputStyles.disabled,
               error && inputStyles.error,
               inputClassName

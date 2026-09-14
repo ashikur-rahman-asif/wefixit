@@ -1,6 +1,8 @@
 
 import axios from "axios";
 
+import Cookies from "js-cookie";
+
 const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
 const api = axios.create({
@@ -42,6 +44,7 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("auth-storage");
+        Cookies.remove("token", { path: "/" });
 
         if (window.location.pathname !== "/auth/login") {
           window.location.href = "/auth/login";
