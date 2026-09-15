@@ -15,7 +15,7 @@ import {
   useAdminOrder,
   useDeleteOrder,
   useUpdateOrder,
-} from "@/hooks/admin/use-order";
+} from "@/features/orders/hooks/use-admin-order";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 
 export default function AdminOrderDetailsPage({
@@ -72,11 +72,10 @@ export default function AdminOrderDetailsPage({
         description="Are you sure you want to delete this order? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
-      {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Link
           href="/admin/orders"
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-100 text-gray-500 hover:text-titleBlack hover:shadow-sm transition-all"
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white border border-gray-100 text-gray-600 font-medium hover:text-titleBlack hover:shadow-sm transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
@@ -96,15 +95,12 @@ export default function AdminOrderDetailsPage({
         </div>
       </div>
 
-      {/* Body */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left — Items & History */}
         <div className="lg:col-span-2 flex flex-col gap-6">
           <OrderItemsTable order={order} />
           <OrderStatusHistory order={order} />
         </div>
 
-        {/* Right — Actions & Details */}
         <div className="w-full lg:w-[380px] space-y-6 shrink-0">
           <OrderUpdateCard
             order={order}

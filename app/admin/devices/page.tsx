@@ -4,14 +4,15 @@ import { AdminDevice } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { DeviceFormModal, DeviceFormData } from "./_components/DeviceFormModal";
+import { DeviceFormModal } from "./_components/DeviceFormModal";
+import { type DeviceFormData } from "@/validators/admin";
 import { DeviceTable } from "./_components/DeviceTable";
 import {
   useDevices,
   useCreateDevice,
   useUpdateDevice,
   useDeleteDevice,
-} from "@/hooks/admin/use-catalog";
+} from "@/features/devices/hooks/use-admin-devices";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 
 export default function DevicesPage() {
@@ -43,9 +44,8 @@ export default function DevicesPage() {
     if (data.slug) formData.append("slug", data.slug);
     formData.append("isActive", data.is_active ? "1" : "0");
     
-    // Check if there is a new icon uploaded
-    if (data.icon && data.icon.length > 0) {
-      formData.append("icon", data.icon[0]);
+    if (data.icon && data.icon instanceof File) {
+      formData.append("icon", data.icon);
     }
 
     if (editingDevice) {
@@ -122,7 +122,6 @@ export default function DevicesPage() {
         description="Are you sure you want to delete this device type? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
@@ -141,7 +140,6 @@ export default function DevicesPage() {
         </button>
       </div>
 
-      {/* Table */}
       <DeviceTable
         devices={devices}
         pendingStatuses={pendingStatuses}
@@ -164,7 +162,6 @@ export default function DevicesPage() {
         </div>
       )}
 
-      {/* Form Modal */}
       <DeviceFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

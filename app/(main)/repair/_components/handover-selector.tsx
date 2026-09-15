@@ -3,7 +3,7 @@ import { StoreIcon } from "@/components/icons/store-icon";
 import { DeliveryIcon } from "@/components/icons/delivery-icon";
 import { cn } from "@/lib/utils";
 import { DateTimePicker } from "@/components/ui/date-time-picker";
-import { useRepairStore } from "@/store/use-repair-store";
+import { useRepairStore } from "@/stores/repair-wizard.store";
 
 interface HandoverSelectorProps {
   error?: string;

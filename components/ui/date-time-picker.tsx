@@ -74,7 +74,6 @@ export function DateTimePicker({
   const monthName = currentMonth.toLocaleString("default", { month: "long" });
   const year = currentMonth.getFullYear();
 
-
   const days = Array.from({ length: 42 }, (_, i) => {
     const dayNumber = i - firstDayOfMonth + 1;
     if (dayNumber > 0 && dayNumber <= daysInMonth) {
@@ -165,7 +164,6 @@ export function DateTimePicker({
           })}
         </div>
       </div>
-
 
       <div className="bg-lightBrand rounded-[14px] p-8 md:p-10 border border-transparent">
         <div className="mb-10">

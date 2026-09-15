@@ -233,13 +233,15 @@ export interface AdminRepairDetail extends AdminRepair {
   timeline: RepairEvent[];
 }
 
-export interface AdminCategory {
+export interface AdminService {
   id: number;
   name: string;
   slug: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  isActive: boolean;
+  icon?: string | null;
+  deviceIds?: number[];
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface AdminBrand {
@@ -247,6 +249,7 @@ export interface AdminBrand {
   name: string;
   slug: string;
   device_name: string | null;
+  deviceIds?: number[];
   icon: string | null;
   is_active: boolean;
   created_at: string;
@@ -270,4 +273,23 @@ export interface AdminDevice {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface AdminUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  emailVerifiedAt: string | null;
+  isVerified: boolean;
+  district: string | null;
+  upazila: string | null;
+  streetAddress: string | null;
+  roles: string[];
+  ordersCount: number;
+  repairsCount: number;
+  createdAt: string;
+  joinedAt: string;
 }

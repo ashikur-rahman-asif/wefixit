@@ -23,12 +23,16 @@ export function DeleteConfirmationModal({
   onClose,
   onConfirm,
   title = "Are you absolutely sure?",
-  description = "This action cannot be undone. This will permanently delete this item.",
+  description = "This action cannot be undone. This will permanently delete  this item.",
   isDeleting = false,
 }: DeleteConfirmationModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
+      {}
+      {isOpen && (
+        <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm duration-100 animate-in fade-in-0" />
+      )}
+      <DialogContent className="z-50">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

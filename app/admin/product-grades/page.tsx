@@ -4,17 +4,16 @@ import { ProductGrade } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { GradeFormModal, GradeFormData } from "./_components/GradeFormModal";
+import { GradeFormModal } from "./_components/GradeFormModal";
+import { type GradeFormData } from "@/validators/admin";
 import { GradeTable } from "./_components/GradeTable";
 import {
   useCreateProductGrade,
   useDeleteProductGrade,
   useProductGrades,
   useUpdateProductGrade,
-} from "@/hooks/admin/use-product-grades";
+} from "@/features/product-grades/hooks/use-admin-product-grades";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
-
-
 
 export default function ProductGradesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,7 +66,6 @@ export default function ProductGradesPage() {
         description="Are you sure you want to delete this product grade? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
@@ -86,7 +84,6 @@ export default function ProductGradesPage() {
         </button>
       </div>
 
-      {/* Table */}
       <GradeTable
         grades={grades}
         isLoading={isLoading}
@@ -95,7 +92,6 @@ export default function ProductGradesPage() {
         onDelete={handleDelete}
       />
 
-      {/* Form Modal */}
       <GradeFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginInput } from "@/validators/user";
+import { loginSchema, type LoginInput } from "@/features/auth/schemas/user.schema";
 import { useRouter } from "next/navigation";
-import { useLogin } from "@/hooks/useAuth";
+import { useLogin } from "@/features/auth/hooks/useAuth";
 import { handleFormError } from "@/lib/handle-form-error";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/stores/auth.store";
 
 import { Input } from "@/components/form-elements/input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";

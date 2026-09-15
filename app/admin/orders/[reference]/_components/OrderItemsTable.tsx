@@ -41,7 +41,7 @@ export function OrderItemsTable({ order }: { order: AdminOrderDetail }) {
                           className="object-cover"
                         />
                       ) : (
-                        <span className="text-gray-400 text-xs font-semibold">N/A</span>
+                        <span className="text-gray-600 font-medium text-xs font-semibold">N/A</span>
                       )}
                     </div>
                     <div>

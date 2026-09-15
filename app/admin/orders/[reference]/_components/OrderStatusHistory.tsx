@@ -25,7 +25,7 @@ export function OrderStatusHistory({ order }: { order: AdminOrderDetail }) {
                     By {history.changedBy} on {dayjs(history.at).format("MMM D, YYYY h:mm A")}
                   </p>
                   {history.note && (
-                    <p className="text-sm font-medium text-gray-600 mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                    <p className="text-sm font-medium text-gray-600 font-medium mt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
                       {history.note}
                     </p>
                   )}

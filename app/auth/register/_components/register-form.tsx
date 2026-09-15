@@ -6,7 +6,7 @@ import {
   registerSchema,
   VerifyOtpInput,
   verifyOtpSchema,
-} from "@/validators/user";
+} from "@/features/auth/schemas/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,9 +17,9 @@ import {
   useRegister,
   useResendRegistrationOtp,
   useVerifyRegistrationOtp,
-} from "@/hooks/useAuth";
+} from "@/features/auth/hooks/useAuth";
 import { handleFormError } from "@/lib/handle-form-error";
-import { RegisterPayload } from "@/types/auth";
+import { RegisterPayload } from "@/features/auth/types/auth.types";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 

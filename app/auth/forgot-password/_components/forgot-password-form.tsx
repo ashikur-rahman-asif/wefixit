@@ -15,13 +15,13 @@ import {
   type ForgotPasswordInput,
   type VerifyOtpInput,
   type ResetPasswordInput,
-} from "@/validators/user";
+} from "@/features/auth/schemas/user.schema";
 
 import {
   useForgotPassword,
   useVerifyResetOtp,
   useResetPassword,
-} from "@/hooks/useAuth";
+} from "@/features/auth/hooks/useAuth";
 import { handleFormError } from "@/lib/handle-form-error";
 
 import { Input } from "@/components/form-elements/input";
@@ -55,8 +55,6 @@ export function ForgotPasswordForm() {
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: { password: "", confirmPassword: "" },
   });
-
-
 
   useEffect(() => {
     if (step !== 2 || timeLeft <= 0) return;

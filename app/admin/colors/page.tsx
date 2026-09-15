@@ -4,14 +4,15 @@ import { AdminColor } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { ColorFormModal, ColorFormData } from "./_components/ColorFormModal";
+import { ColorFormModal } from "./_components/ColorFormModal";
+import { type ColorFormData } from "@/validators/admin";
 import { ColorTable } from "./_components/ColorTable";
 import {
   useColors,
   useCreateColor,
   useUpdateColor,
   useDeleteColor,
-} from "@/hooks/admin/use-catalog";
+} from "@/features/colors/hooks/use-admin-colors";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 
 export default function ColorsPage() {
@@ -110,7 +111,6 @@ export default function ColorsPage() {
         description="Are you sure you want to delete this color? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
@@ -129,7 +129,6 @@ export default function ColorsPage() {
         </button>
       </div>
 
-      {/* Table */}
       <ColorTable
         colors={colors}
         pendingStatuses={pendingStatuses}
@@ -152,7 +151,6 @@ export default function ColorsPage() {
         </div>
       )}
 
-      {/* Form Modal */}
       <ColorFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

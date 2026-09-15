@@ -3,7 +3,7 @@
 import Container from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { useMounted } from "@/hooks/use-mounted";
-import { useCartStore } from "@/store/cart-store";
+import { useCartStore } from "@/stores/cart.store";
 import { ArrowRight, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

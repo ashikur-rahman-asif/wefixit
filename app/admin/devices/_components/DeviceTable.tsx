@@ -59,7 +59,7 @@ export function DeviceTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 Loading devices...
               </TableCell>
@@ -68,7 +68,7 @@ export function DeviceTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 No devices found. Add one to get started.
               </TableCell>
@@ -90,14 +90,14 @@ export function DeviceTable({
                         className="object-contain"
                       />
                     ) : (
-                      <DeviceIcon className="w-5 h-5 text-gray-400" />
+                      <DeviceIcon className="w-5 h-5 text-gray-600 font-medium" />
                     )}
                   </div>
                 </TableCell>
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {device.name}
                 </TableCell>
-                <TableCell className="px-6 py-4 text-gray-600 text-sm">
+                <TableCell className="px-6 py-4 text-gray-600 font-medium text-sm">
                   {device.slug}
                 </TableCell>
                 <TableCell className="px-6 py-4">
@@ -111,7 +111,7 @@ export function DeviceTable({
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => onEdit(device)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
                       title="Edit"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -119,7 +119,7 @@ export function DeviceTable({
                     <button
                       onClick={() => onDelete(device.id)}
                       disabled={isDeleting}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />

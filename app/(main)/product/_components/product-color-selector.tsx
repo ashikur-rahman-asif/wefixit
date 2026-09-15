@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ProductColor } from "@/types/product";
+import { ProductColor } from "@/features/products/types/product.types";
 import { useState } from "react";
 
 interface ProductColorSelectorProps {

@@ -1,7 +1,7 @@
 import { Input } from "@/components/form-elements/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthStore } from "@/store/authStore";
-import { useRepairStore } from "@/store/use-repair-store";
+import { useAuthStore } from "@/stores/auth.store";
+import { useRepairStore } from "@/stores/repair-wizard.store";
 
 interface InfoStepProps {
   errors?: Record<string, string>;

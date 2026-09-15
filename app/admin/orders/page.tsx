@@ -24,10 +24,10 @@ import {
   useAdminOrders,
   useDeleteOrderList,
   useOrdersFilter,
-} from "@/hooks/admin/use-orders";
+} from "@/features/orders/hooks/use-admin-orders";
 import { Trash2 } from "lucide-react";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
-import { getOrderStatusColor, getPaymentStatusColor } from "@/lib/utils";
+import { getOrderStatusColor, getPaymentStatusColor, cn } from "@/lib/utils";
 
 import { Suspense } from "react";
 
@@ -77,7 +77,6 @@ function AdminOrdersContent() {
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        {/* Filters */}
         <div className="p-6 flex flex-col lg:flex-row items-center justify-between gap-4 border-b border-gray-100">
           <div className="flex w-full lg:w-auto items-center gap-4 flex-wrap">
             <div className="w-full md:w-64">
@@ -85,9 +84,9 @@ function AdminOrdersContent() {
                 type="text"
                 placeholder="Search by ID, Name, Email..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleFilterChange("search", searchQuery);
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  handleFilterChange("search", e.target.value);
                 }}
                 className="!py-0 h-10 rounded-lg text-sm border-gray-200"
                 label={""}
@@ -127,7 +126,6 @@ function AdminOrdersContent() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto">
           <Table>
             <TableHeader className="bg-[#F8F9FB] border-b border-gray-100">
@@ -154,7 +152,7 @@ function AdminOrdersContent() {
               )}
               {!isLoading && orders.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={8} className="px-6 py-12 text-center text-gray-500 font-medium">
+                  <TableCell colSpan={8} className="px-6 py-12 text-center text-gray-600 font-medium">
                     No orders found matching your criteria.
                   </TableCell>
                 </TableRow>
@@ -169,8 +167,8 @@ function AdminOrdersContent() {
                     <TableCell className="px-6 py-4 text-titleBlack text-sm font-semibold">{order.reference}</TableCell>
                     <TableCell className="px-6 py-4 font-semibold">
                       <div className="flex flex-col">
-                        <span className="text-titleBlack font-semibold text-sm">{order.customerName}</span>
-                        <span className="text-textGray text-xs font-semibold">{order.email || "N/A"}</span>
+                        <span className="text-titleBlack font-semibold text-sm whitespace-nowrap">{order.customerName}</span>
+                        <span className="text-textGray text-xs font-semibold whitespace-nowrap">{order.email || "N/A"}</span>
                       </div>
                     </TableCell>
                     <TableCell className="px-6 py-4 text-textGray text-sm font-semibold">
@@ -182,12 +180,18 @@ function AdminOrdersContent() {
                       {order.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </TableCell>
                     <TableCell className="px-6 py-4 font-semibold">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPaymentStatusColor(order.paymentStatus)}`}>
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-xs font-semibold capitalize",
+                        getPaymentStatusColor(order.paymentStatus)
+                      )}>
                         {order.paymentStatusLabel}
                       </span>
                     </TableCell>
                     <TableCell className="px-6 py-4 font-semibold">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getOrderStatusColor(order.status)}`}>
+                      <span className={cn(
+                        "px-3 py-1 rounded-full text-xs font-semibold capitalize",
+                        getOrderStatusColor(order.status)
+                      )}>
                         {order.statusLabel}
                       </span>
                     </TableCell>
@@ -219,7 +223,6 @@ function AdminOrdersContent() {
           </Table>
         </div>
 
-        {/* Pagination */}
         {meta && meta.lastPage > 1 && (
           <div className="p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100 text-sm text-textGray">
             <div className="flex items-center gap-3">
@@ -253,7 +256,14 @@ function AdminOrdersContent() {
                       <button
                         key={p}
                         onClick={() => handleFilterChange("page", String(p))}
-                        className={`w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer ${meta.currentPage === p ? "bg-brand text-white border border-brand z-10" : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50"} ${p === 1 ? "rounded-l-md border-l" : ""} ${p === meta.lastPage ? "rounded-r-md" : ""}`}
+                        className={cn(
+                          "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
+                          meta.currentPage === p 
+                            ? "bg-brand text-white border border-brand z-10" 
+                            : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
+                          p === 1 && "rounded-l-md border-l",
+                          p === meta.lastPage && "rounded-r-md"
+                        )}
                       >
                         {p}
                       </button>
@@ -287,7 +297,7 @@ function AdminOrdersContent() {
 
 export default function AdminOrdersPage() {
   return (
-    <Suspense fallback={<div className="p-6 text-center text-gray-500">Loading orders...</div>}>
+    <Suspense fallback={<div className="p-6 text-center text-gray-600 font-medium">Loading orders...</div>}>
       <AdminOrdersContent />
     </Suspense>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminBrand } from "@/types/admin";
+import { AdminBrand, AdminDevice } from "@/types/admin";
 import {
   Table,
   TableBody,
@@ -15,6 +15,7 @@ import Image from "next/image";
 
 interface BrandTableProps {
   brands: AdminBrand[];
+  devices: AdminDevice[];
   pendingStatuses: Record<number, boolean>;
   isLoading: boolean;
   isDeleting: boolean;
@@ -25,6 +26,7 @@ interface BrandTableProps {
 
 export function BrandTable({
   brands,
+  devices,
   pendingStatuses,
   isLoading,
   isDeleting,
@@ -32,6 +34,8 @@ export function BrandTable({
   onDelete,
   onToggleStatus,
 }: BrandTableProps) {
+  const deviceMap = Object.fromEntries(devices.map((d) => [d.id, d.name]));
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
       <Table>
@@ -44,7 +48,7 @@ export function BrandTable({
               Name
             </TableHead>
             <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
-              Device Name (Label)
+              Available on Devices
             </TableHead>
             <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
               Status
@@ -59,7 +63,7 @@ export function BrandTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 Loading brands...
               </TableCell>
@@ -68,7 +72,7 @@ export function BrandTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 No brands found. Add one to get started.
               </TableCell>
@@ -90,7 +94,7 @@ export function BrandTable({
                         className="object-contain"
                       />
                     ) : (
-                      <ImageIcon className="w-5 h-5 text-gray-400" />
+                      <ImageIcon className="w-5 h-5 text-gray-600 font-medium" />
                     )}
                   </div>
                 </TableCell>
@@ -98,9 +102,23 @@ export function BrandTable({
                   {brand.name}
                   <div className="text-xs text-textGray font-normal mt-0.5">{brand.slug}</div>
                 </TableCell>
-                <TableCell className="px-6 py-4 text-gray-600 text-sm">
-                  {brand.device_name || <span className="text-gray-300 italic">None</span>}
+                <TableCell className="px-6 py-4">
+                  {brand.deviceIds && brand.deviceIds.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {brand.deviceIds.map((id) => (
+                        <span
+                          key={id}
+                          className="inline-flex items-center px-2 py-0.5 rounded-md bg-brand/10 text-brand text-xs font-medium"
+                        >
+                          {deviceMap[id] ?? `#${id}`}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-gray-300 italic text-xs">None</span>
+                  )}
                 </TableCell>
+
                 <TableCell className="px-6 py-4">
                   <Switch
                     checked={pendingStatuses[brand.id] ?? Boolean(brand.is_active)}
@@ -112,7 +130,7 @@ export function BrandTable({
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => onEdit(brand)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
                       title="Edit"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -120,7 +138,7 @@ export function BrandTable({
                     <button
                       onClick={() => onDelete(brand.id)}
                       disabled={isDeleting}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />

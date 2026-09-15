@@ -4,14 +4,16 @@ import { AdminBrand } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { BrandFormModal, BrandFormData } from "./_components/BrandFormModal";
+import { BrandFormModal } from "./_components/BrandFormModal";
+import { type BrandFormData } from "@/validators/admin";
 import { BrandTable } from "./_components/BrandTable";
 import {
   useBrands,
   useCreateBrand,
   useUpdateBrand,
   useDeleteBrand,
-} from "@/hooks/admin/use-catalog";
+} from "@/features/brands/hooks/use-admin-brands";
+import { useDevices } from "@/features/devices/hooks/use-admin-devices";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 
 export default function BrandsPage() {
@@ -22,7 +24,10 @@ export default function BrandsPage() {
 
   const { data: response, isLoading } = useBrands();
   const brands = response?.data || [];
-  
+
+  const { data: devicesData } = useDevices();
+  const devices = devicesData?.data || [];
+
   const createMutation = useCreateBrand();
   const updateMutation = useUpdateBrand();
   const deleteMutation = useDeleteBrand();
@@ -44,9 +49,12 @@ export default function BrandsPage() {
     if (data.deviceName) formData.append("deviceName", data.deviceName);
     formData.append("isActive", data.is_active ? "1" : "0");
     
-    // Check if there is a new icon uploaded
-    if (data.icon && data.icon.length > 0) {
-      formData.append("icon", data.icon[0]);
+    if (data.deviceIds && data.deviceIds.length > 0) {
+      data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
+    }
+    
+    if (data.icon && data.icon instanceof File) {
+      formData.append("icon", data.icon);
     }
 
     if (editingBrand) {
@@ -124,7 +132,6 @@ export default function BrandsPage() {
         description="Are you sure you want to delete this brand? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
-      {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
@@ -143,9 +150,9 @@ export default function BrandsPage() {
         </button>
       </div>
 
-      {/* Table */}
       <BrandTable
         brands={brands}
+        devices={devices}
         pendingStatuses={pendingStatuses}
         isLoading={isLoading}
         isDeleting={deleteMutation.isPending}
@@ -166,7 +173,6 @@ export default function BrandsPage() {
         </div>
       )}
 
-      {/* Form Modal */}
       <BrandFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

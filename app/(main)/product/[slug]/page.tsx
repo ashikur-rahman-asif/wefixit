@@ -1,6 +1,6 @@
 import Container from "@/components/container";
 import { calculateDiscountPercentage } from "@/lib/utils";
-import { Product } from "@/types/product";
+import { Product } from "@/features/products/types/product.types";
 import { ProductInteractive } from "../_components/product-interactive";
 import { ProductImageGallery } from "../_components/product-image-gallery";
 import { ProductDescription } from "../_components/product-description";

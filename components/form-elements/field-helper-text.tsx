@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils';
 
 const helperTextStyles = {
   size: {
-    sm: 'text-[11px] mt-0.5',
-    md: 'text-[13px] mt-0.5',
-    lg: 'text-[13px] mt-1',
-    xl: 'text-sm mt-1',
+    sm: 'text-[11px] mt-0.5 text-gray-600',
+    md: 'text-[13px] mt-0.5 text-gray-600',
+    lg: 'text-[13px] mt-1 text-gray-600',
+    xl: 'text-sm mt-1 text-gray-600',
   },
 };
 

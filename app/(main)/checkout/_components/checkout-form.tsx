@@ -2,13 +2,13 @@
 
 import { Input } from "@/components/form-elements/input";
 import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/store/cart-store";
-import { useCheckoutStore } from "@/store/checkout-store";
+import { useCartStore } from "@/stores/cart.store";
+import { useCheckoutStore } from "@/stores/checkout.store";
 import {
   CheckoutInput,
   checkoutSchema,
   getCheckoutDefaultValues,
-} from "@/validators/checkout";
+} from "@/features/checkout/schemas/checkout.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreditCard, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { StripePayment, StripePaymentRef } from "./stripe-payment";
 import { CheckoutSummary } from "./checkout-summary";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/stores/auth.store";
 import { Loader } from "@/components/ui/loader";
 
 export function CheckoutForm() {

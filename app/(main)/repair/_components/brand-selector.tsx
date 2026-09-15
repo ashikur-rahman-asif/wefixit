@@ -1,8 +1,8 @@
 import { CheckIcon } from "@/components/icons/check-icon";
 import { cn } from "@/lib/utils";
-import type { Brand } from "@/types/repair";
+import type { Brand } from "@/features/repairs/types/repair.types";
 import Image from "next/image";
-import { useRepairStore } from "@/store/use-repair-store";
+import { useRepairStore } from "@/stores/repair-wizard.store";
 
 interface BrandSelectorProps {
   brands: Brand[];

@@ -1,22 +1,19 @@
 "use client";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { ProductGrade } from "@/types/admin";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-
-export type GradeFormData = {
-  name: string;
-  description: string;
-  is_active: boolean;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { gradeSchema, type GradeFormData } from "@/validators/admin";
+import { Input } from "@/components/form-elements/input";
 
 interface GradeFormModalProps {
   open: boolean;
@@ -39,6 +36,7 @@ export function GradeFormModal({
     reset,
     formState: { errors },
   } = useForm<GradeFormData>({
+    resolver: zodResolver(gradeSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -46,7 +44,6 @@ export function GradeFormModal({
     },
   });
 
-  // Reset form when modal opens/closes or editingGrade changes
   useEffect(() => {
     if (open) {
       if (editingGrade) {
@@ -66,36 +63,31 @@ export function GradeFormModal({
   }, [open, editingGrade, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-110 p-0 overflow-hidden bg-white rounded-2xl border-none shadow-xl">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-md p-0 bg-white border-none shadow-xl flex flex-col h-full">
         <div className="p-6 border-b border-gray-100">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-titleBlack">
+          <SheetHeader>
+            <SheetTitle className="text-xl font-bold text-titleBlack">
               {editingGrade ? "Edit Product Grade" : "Add Product Grade"}
-            </DialogTitle>
-            <DialogDescription className="sr-only">
+            </SheetTitle>
+            <SheetDescription className="sr-only">
               {editingGrade ? "Form to edit a product grade." : "Form to add a new product grade."}
-            </DialogDescription>
-          </DialogHeader>
+            </SheetDescription>
+          </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="px-4 pb-4 space-y-5 pt-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+          <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
           <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Grade Name <span className="text-red-500">*</span>
-            </label>
-            <input
+            <Input
+              label="Grade Name"
+              required
               type="text"
-              {...register("name", { required: "Grade name is required" })}
+              {...register("name")}
               placeholder="e.g., Grade A"
-              className={`w-full h-11 px-4 rounded-xl border ${
-                errors.name ? "border-red-500" : "border-gray-200"
-              } text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
+              error={errors.name?.message?.toString()}
               autoFocus
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1.5">{errors.name.message}</p>
-            )}
           </div>
 
           <div>
@@ -130,7 +122,8 @@ export function GradeFormModal({
             </div>
           </div>
 
-          <DialogFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex gap-3 sm:space-x-0 mt-4">
+          </div>
+          <SheetFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex flex-row justify-end gap-3 sm:space-x-0 mt-auto shrink-0">
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -149,9 +142,9 @@ export function GradeFormModal({
                   ? "Save Changes"
                   : "Add Grade"}
             </button>
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

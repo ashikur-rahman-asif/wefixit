@@ -141,3 +141,13 @@
     @apply font-sans;
   }
 }
+
+@layer base {
+  button,
+  a,
+  [role="button"],
+  [type="button"],
+  [type="submit"] {
+    cursor: pointer;
+  }
+}

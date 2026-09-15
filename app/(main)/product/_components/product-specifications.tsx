@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/features/products/types/product.types";
 
 interface ProductSpecificationsProps {
   product: Product;

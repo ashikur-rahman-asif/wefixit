@@ -1,24 +1,22 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { AdminDevice } from "@/types/admin";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import slugify from "slugify";
 
-export type DeviceFormData = {
-  name: string;
-  slug: string;
-  icon: FileList | null;
-  is_active: boolean;
-};
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { useForm, Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { deviceSchema, type DeviceFormData } from "@/validators/admin";
+import { ImageUpload } from "@/components/ui/image-upload";
+import { Input } from "@/components/form-elements/input";
+import { AdminDevice } from "@/types/admin";
 
 interface DeviceFormModalProps {
   open: boolean;
@@ -39,9 +37,11 @@ export function DeviceFormModal({
     register,
     handleSubmit,
     reset,
-    watch,
+    setValue,
+    control,
     formState: { errors },
   } = useForm<DeviceFormData>({
+    resolver: zodResolver(deviceSchema),
     defaultValues: {
       name: "",
       slug: "",
@@ -50,19 +50,6 @@ export function DeviceFormModal({
     },
   });
 
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const iconFile = watch("icon");
-
-  useEffect(() => {
-    if (iconFile && iconFile.length > 0) {
-      const file = iconFile[0];
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [iconFile]);
-
-  // Reset form when modal opens/closes or editingDevice changes
   useEffect(() => {
     if (open) {
       if (editingDevice) {
@@ -70,9 +57,8 @@ export function DeviceFormModal({
           name: editingDevice.name,
           slug: editingDevice.slug,
           is_active: editingDevice.is_active,
-          icon: null,
+          icon: editingDevice.icon,
         });
-        setPreviewUrl(editingDevice.icon);
       } else {
         reset({
           name: "",
@@ -80,74 +66,71 @@ export function DeviceFormModal({
           is_active: true,
           icon: null,
         });
-        setPreviewUrl(null);
       }
     }
   }, [open, editingDevice, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-110 p-0 overflow-hidden bg-white rounded-2xl border-none shadow-xl">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-md p-0 bg-white border-none shadow-xl flex flex-col h-full">
         <div className="p-6 border-b border-gray-100">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-titleBlack">
+          <SheetHeader>
+            <SheetTitle className="text-xl font-bold text-titleBlack">
               {editingDevice ? "Edit Device" : "Add Device"}
-            </DialogTitle>
-            <DialogDescription className="sr-only">
+            </SheetTitle>
+            <SheetDescription className="sr-only">
               {editingDevice ? "Form to edit a device." : "Form to add a new device."}
-            </DialogDescription>
-          </DialogHeader>
+            </SheetDescription>
+          </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="px-4 pb-4 space-y-5 pt-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+          <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
           <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Device Name <span className="text-red-500">*</span>
-            </label>
-            <input
+            <Input
+              label="Device Name"
+              required
               type="text"
-              {...register("name", { required: "Device name is required" })}
+              {...register("name", {
+                onChange: (e) => {
+                    const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                    setValue("slug", generatedSlug, { shouldValidate: true });
+                  }
+              })}
               placeholder="e.g., Phones"
-              className={`w-full h-11 px-4 rounded-xl border ${
-                errors.name ? "border-red-500" : "border-gray-200"
-              } text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
+              error={errors.name?.message?.toString()}
               autoFocus
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1.5">{errors.name.message}</p>
+          </div>
+
+          <div>
+            <label className="block text-base font-medium mb-1.5">
+              Device Icon <span className="text-red-500 ml-1">*</span>
+            </label>
+            <Controller
+              name="icon"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ImageUpload 
+                  value={value} 
+                  onChange={onChange} 
+                  maxSizeKB={50}
+                  maxDimensions={{ width: 150, height: 150 }}
+                />
+              )}
+            />
+            {errors.icon && (
+              <p className="text-red-500 text-xs mt-1.5">{errors.icon.message?.toString()}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Device Icon{" "}
-              <span className="text-textGray font-normal">(Optional)</span>
-            </label>
-            <div className="flex items-center gap-4">
-              {previewUrl && (
-                <div className="w-16 h-16 rounded-xl border border-gray-200 overflow-hidden flex items-center justify-center bg-gray-50 shrink-0">
-                  <Image src={previewUrl} alt="Preview" width={48} height={48} className="object-contain" />
-                </div>
-              )}
-              <input
-                type="file"
-                accept="image/*"
-                {...register("icon")}
-                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand/10 file:text-brand hover:file:bg-brand/20 transition-colors"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Slug{" "}
-              <span className="text-textGray font-normal">(Optional)</span>
-            </label>
-            <input
+            <Input
+              label="Slug (Optional)"
               type="text"
               {...register("slug")}
               placeholder="e.g., phones (leave blank to auto-generate)"
-              className="w-full h-11 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors"
+              error={errors.slug?.message?.toString()}
             />
           </div>
 
@@ -171,7 +154,8 @@ export function DeviceFormModal({
             </div>
           </div>
 
-          <DialogFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex gap-3 sm:space-x-0 mt-4">
+          </div>
+          <SheetFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex flex-row justify-end gap-3 sm:space-x-0 mt-auto shrink-0">
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -190,9 +174,9 @@ export function DeviceFormModal({
                   ? "Save Changes"
                   : "Add Device"}
             </button>
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

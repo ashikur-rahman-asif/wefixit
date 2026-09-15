@@ -2,9 +2,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginInput } from "@/validators/user";
-import { useLogin } from "@/hooks/useAuth";
-import { useAuthStore } from "@/store/authStore";
+import { loginSchema, type LoginInput } from "@/features/auth/schemas/user.schema";
+import { useLogin } from "@/features/auth/hooks/useAuth";
+import { useAuthStore } from "@/stores/auth.store";
 import { Input } from "@/components/form-elements/input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
 import { Button } from "@/components/ui/button";

@@ -2,13 +2,13 @@
 
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/store/authStore";
-import { useCartStore } from "@/store/cart-store";
+import { useAuthStore } from "@/stores/auth.store";
+import { useCartStore } from "@/stores/cart.store";
 import { ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { authApi } from "@/api/auth.api";
+import { authApi } from "@/features/auth/api/auth.api";
 import { toast } from "sonner";
 
 import Container from "./container";

@@ -18,7 +18,7 @@ export function TopStats({ stats }: { stats: DashboardStats }) {
         </div>
         <div className="flex items-center gap-1 mt-4 text-xs font-bold">
           <span className="text-[#088B3A]">↗ +32.40%</span>
-          <span className="text-gray-400 font-medium">last month</span>
+          <span className="text-gray-600 font-medium">last month</span>
         </div>
       </div>
 
@@ -34,7 +34,7 @@ export function TopStats({ stats }: { stats: DashboardStats }) {
         </div>
         <div className="flex items-center gap-1 mt-4 text-xs font-bold">
           <span className="text-red-600">↗ +32.40%</span>
-          <span className="text-gray-400 font-medium">last month</span>
+          <span className="text-gray-600 font-medium">last month</span>
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export function TopStats({ stats }: { stats: DashboardStats }) {
         </div>
         <div className="flex items-center gap-1 mt-4 text-xs font-bold">
           <span className="text-[#088B3A]">↗ +32.40%</span>
-          <span className="text-gray-400 font-medium">last month</span>
+          <span className="text-gray-600 font-medium">last month</span>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import Container from "@/components/container";
-import { useCartStore } from "@/store/cart-store";
+import { useCartStore } from "@/stores/cart.store";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

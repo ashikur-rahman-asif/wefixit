@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/store/cart-store";
+import { useCartStore } from "@/stores/cart.store";
 import Image from "next/image";
 import { useMemo } from "react";
 

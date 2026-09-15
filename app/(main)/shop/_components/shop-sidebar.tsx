@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Category } from "@/types/product";
-import { Brand, Device } from "@/types/repair";
+import { Category } from "@/features/products/types/product.types";
+import { Brand, Device } from "@/features/repairs/types/repair.types";
 import { PriceRange } from "./price-range";
 
 interface ShopSidebarProps {

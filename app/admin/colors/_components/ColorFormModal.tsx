@@ -1,22 +1,19 @@
 "use client";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { AdminColor } from "@/types/admin";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-
-export type ColorFormData = {
-  name: string;
-  hex: string;
-  is_active: boolean;
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { colorSchema, type ColorFormData } from "@/validators/admin";
+import { Input } from "@/components/form-elements/input";
 
 interface ColorFormModalProps {
   open: boolean;
@@ -41,6 +38,7 @@ export function ColorFormModal({
     setValue,
     formState: { errors },
   } = useForm<ColorFormData>({
+    resolver: zodResolver(colorSchema),
     defaultValues: {
       name: "",
       hex: "#000000",
@@ -50,7 +48,6 @@ export function ColorFormModal({
 
   const hexValue = watch("hex");
 
-  // Reset form when modal opens/closes or editingColor changes
   useEffect(() => {
     if (open) {
       if (editingColor) {
@@ -70,69 +67,52 @@ export function ColorFormModal({
   }, [open, editingColor, reset]);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-110 p-0 overflow-hidden bg-white rounded-2xl border-none shadow-xl">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="w-full sm:max-w-md p-0 bg-white border-none shadow-xl flex flex-col h-full">
         <div className="p-6 border-b border-gray-100">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-titleBlack">
+          <SheetHeader>
+            <SheetTitle className="text-xl font-bold text-titleBlack">
               {editingColor ? "Edit Color" : "Add Color"}
-            </DialogTitle>
-            <DialogDescription className="sr-only">
+            </SheetTitle>
+            <SheetDescription className="sr-only">
               {editingColor ? "Form to edit a color." : "Form to add a new color."}
-            </DialogDescription>
-          </DialogHeader>
+            </SheetDescription>
+          </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="px-4 pb-4 space-y-5 pt-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+          <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
           <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Color Name <span className="text-red-500">*</span>
-            </label>
-            <input
+            <Input
+              label="Color Name"
+              required
               type="text"
-              {...register("name", { required: "Color name is required" })}
+              {...register("name")}
               placeholder="e.g., Midnight Black"
-              className={`w-full h-11 px-4 rounded-xl border ${
-                errors.name ? "border-red-500" : "border-gray-200"
-              } text-sm focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
+              error={errors.name?.message?.toString()}
               autoFocus
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs mt-1.5">{errors.name.message}</p>
-            )}
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-titleBlack mb-2">
-              Hex Code <span className="text-red-500">*</span>
-            </label>
-            <div className="flex gap-3">
-              <div className="w-11 h-11 rounded-xl border border-gray-200 overflow-hidden shrink-0">
-                <input
-                  type="color"
-                  value={hexValue || "#000000"}
-                  onChange={(e) => setValue("hex", e.target.value)}
-                  className="w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
-                />
-              </div>
+          <div className="flex gap-3">
+            <div className="w-12 h-12 rounded-xl border border-gray-200 overflow-hidden shrink-0">
               <input
-                type="text"
-                {...register("hex", { 
-                  required: "Hex code is required",
-                  pattern: {
-                    value: /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/,
-                    message: "Invalid hex code (e.g. #000000)"
-                  }
-                })}
-                placeholder="#000000"
-                className={`w-full h-11 px-4 rounded-xl border ${
-                  errors.hex ? "border-red-500" : "border-gray-200"
-                } text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-colors`}
+                type="color"
+                value={hexValue || "#000000"}
+                onChange={(e) => setValue("hex", e.target.value)}
+                className="w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
               />
             </div>
-            {errors.hex && (
-              <p className="text-red-500 text-xs mt-1.5">{errors.hex.message}</p>
-            )}
+            <div className="flex-1">
+              <Input
+                label="Hex Code"
+                required
+                type="text"
+                {...register("hex")}
+                placeholder="#000000"
+                error={errors.hex?.message?.toString()}
+              />
+            </div>
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
@@ -155,7 +135,8 @@ export function ColorFormModal({
             </div>
           </div>
 
-          <DialogFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex gap-3 sm:space-x-0 mt-4">
+          </div>
+          <SheetFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex flex-row justify-end gap-3 sm:space-x-0 mt-auto shrink-0">
             <button
               type="button"
               onClick={() => onOpenChange(false)}
@@ -174,9 +155,9 @@ export function ColorFormModal({
                   ? "Save Changes"
                   : "Add Color"}
             </button>
-          </DialogFooter>
+          </SheetFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

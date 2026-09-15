@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Input } from "@/components/form-elements/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Issue } from "@/types/repair";
-import { useRepairStore } from "@/store/use-repair-store";
+import { Issue } from "@/features/repairs/types/repair.types";
+import { useRepairStore } from "@/stores/repair-wizard.store";
 
 const ISSUES: Issue[] = [
   { id: "broken_screen", title: "Broken Screen", icon: "/repair/broken_screen.png" },

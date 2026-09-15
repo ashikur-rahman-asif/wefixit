@@ -50,7 +50,7 @@ export function GradeTable({
             <TableRow>
               <TableCell
                 colSpan={4}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 Loading product grades...
               </TableCell>
@@ -59,7 +59,7 @@ export function GradeTable({
             <TableRow>
               <TableCell
                 colSpan={4}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 No product grades found. Add one to get started.
               </TableCell>
@@ -73,7 +73,7 @@ export function GradeTable({
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {grade.name}
                 </TableCell>
-                <TableCell className="px-6 py-4 text-gray-600 text-sm max-w-xs truncate">
+                <TableCell className="px-6 py-4 text-gray-600 font-medium text-sm max-w-xs truncate">
                   {grade.description || (
                     <span className="text-gray-300 italic">No description</span>
                   )}
@@ -83,7 +83,7 @@ export function GradeTable({
                     className={`px-3 py-1 rounded-full text-xs font-semibold ${
                       grade.is_active
                         ? "bg-green-50 text-green-600"
-                        : "bg-gray-100 text-gray-500"
+                        : "bg-gray-100 text-gray-600 font-medium"
                     }`}
                   >
                     {grade.is_active ? "Active" : "Inactive"}
@@ -93,7 +93,7 @@ export function GradeTable({
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => onEdit(grade)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
                       title="Edit"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -101,7 +101,7 @@ export function GradeTable({
                     <button
                       onClick={() => onDelete(grade.id)}
                       disabled={isDeleting}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />

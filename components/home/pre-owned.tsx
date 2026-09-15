@@ -2,7 +2,7 @@
 
 import Container from "@/components/container";
 import { buttonVariants } from "@/components/ui/button";
-import { Product } from "@/types/product";
+import { Product } from "@/features/products/types/product.types";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useSyncExternalStore } from "react";

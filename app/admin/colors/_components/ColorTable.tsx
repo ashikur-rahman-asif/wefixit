@@ -58,7 +58,7 @@ export function ColorTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 Loading colors...
               </TableCell>
@@ -67,7 +67,7 @@ export function ColorTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-500 font-medium"
+                className="h-32 text-center text-gray-600 font-medium"
               >
                 No colors found. Add one to get started.
               </TableCell>
@@ -88,7 +88,7 @@ export function ColorTable({
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {color.name}
                 </TableCell>
-                <TableCell className="px-6 py-4 text-gray-600 text-sm font-mono uppercase">
+                <TableCell className="px-6 py-4 text-gray-600 font-medium text-sm font-mono uppercase">
                   {color.hex}
                 </TableCell>
                 <TableCell className="px-6 py-4">
@@ -102,7 +102,7 @@ export function ColorTable({
                   <div className="flex items-center justify-end gap-1">
                     <button
                       onClick={() => onEdit(color)}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
                       title="Edit"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -110,7 +110,7 @@ export function ColorTable({
                     <button
                       onClick={() => onDelete(color.id)}
                       disabled={isDeleting}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />

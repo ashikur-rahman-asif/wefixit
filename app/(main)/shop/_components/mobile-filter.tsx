@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { FilterIcon, X } from "lucide-react";
 import { ShopSidebar } from "./shop-sidebar";
-import { Category } from "@/types/product";
-import { Brand, Device } from "@/types/repair";
+import { Category } from "@/features/products/types/product.types";
+import { Brand, Device } from "@/features/repairs/types/repair.types";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 

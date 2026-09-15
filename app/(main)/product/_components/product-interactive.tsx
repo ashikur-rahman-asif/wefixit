@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductColor, Product } from "@/types/product";
+import { ProductColor, Product } from "@/features/products/types/product.types";
 import { useState } from "react";
 import { ProductColorSelector } from "./product-color-selector";
 import { ProductActions } from "./product-actions";

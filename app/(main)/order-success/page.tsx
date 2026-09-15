@@ -10,7 +10,6 @@ export const metadata: Metadata = {
   description: "Your order has been successfully placed.",
 };
 
-
 import { ConfettiEffect } from "./_components/confetti-effect";
 
 export default async function OrderSuccessPage() {

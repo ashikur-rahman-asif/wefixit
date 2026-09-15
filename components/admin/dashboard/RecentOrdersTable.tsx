@@ -17,8 +17,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { RecentOrder } from "@/types/admin";
+import { OrderItem } from "@/types/admin";
 import Link from "next/link";
-import { getOrderStatusColor, getPaymentStatusColor } from "@/lib/utils";
+import { cn, getOrderStatusColor, getPaymentStatusColor } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -169,14 +170,22 @@ export function RecentOrdersTable({
                     })}
                   </TableCell>
                   <TableCell className="px-6 py-4 font-semibold">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide ${getPaymentStatusColor(order.paymentStatus)}`}>
+                    <span 
+                      className={cn(
+                        "px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide",
+                        getPaymentStatusColor(order.paymentStatus)
+                      )}
+                    >
                       {order.paymentStatus === "paid" ? "Yes" : "No"}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 font-semibold">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide ${getOrderStatusColor(order.status)}`}>
+                    <span 
+                      className={cn(
+                        "px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide",
+                        getOrderStatusColor(order.status)
+                      )}
+                    >
                       {order.status === "pending_payment"
                         ? "Pending"
                         : order.status}
@@ -194,7 +203,7 @@ export function RecentOrdersTable({
               <TableRow>
                 <TableCell
                   colSpan={9}
-                  className="px-6 py-8 text-center text-gray-500 font-medium">
+                  className="px-6 py-8 text-center text-gray-600 font-medium">
                   No orders found.
                 </TableCell>
               </TableRow>
@@ -202,7 +211,6 @@ export function RecentOrdersTable({
           </TableBody>
         </Table>
       </div>
-
 
       {filteredOrders.length > 0 && (
         <div className="p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-100 text-sm text-textGray">
@@ -249,11 +257,14 @@ export function RecentOrdersTable({
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer ${
+                    className={cn(
+                      "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
                       currentPage === page
                         ? "bg-[#5161ff] text-white border border-[#5161ff] z-10"
-                        : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50"
-                    } ${page === 1 ? "rounded-l-md border-l" : ""} ${page === totalPages ? "rounded-r-md" : ""}`}>
+                        : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
+                      page === 1 && "rounded-l-md border-l",
+                      page === totalPages && "rounded-r-md"
+                    )}>
                     {page}
                   </button>
                 ),

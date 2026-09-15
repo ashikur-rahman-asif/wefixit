@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/stores/auth.store";
 import { useMounted } from "@/hooks/use-mounted";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -8,10 +8,10 @@ import { Input } from "@/components/form-elements/input";
 import { Pen } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useUpdateProfile } from "@/hooks/useAuth";
+import { useUpdateProfile } from "@/features/auth/hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateProfileSchema, UpdateProfileInput } from "@/validators/user";
+import { updateProfileSchema, UpdateProfileInput } from "@/features/auth/schemas/user.schema";
 
 export default function AccountPage() {
   const user = useAuthStore((state) => state.user);

@@ -64,7 +64,6 @@ export function OrderUpdateCard({
       </div>
 
       <div className="space-y-4">
-        {/* Order Status */}
         <div>
           <label className="block text-sm font-semibold text-titleBlack mb-2">
             Order Status
@@ -98,7 +97,6 @@ export function OrderUpdateCard({
           </Select>
         </div>
 
-        {/* Payment Status */}
         <div>
           <label className="block text-sm font-semibold text-titleBlack mb-2">
             Payment Status
@@ -129,7 +127,6 @@ export function OrderUpdateCard({
           </Select>
         </div>
 
-        {/* Note */}
         <div>
           <label className="block text-sm font-semibold text-titleBlack mb-2">
             Update Note{" "}

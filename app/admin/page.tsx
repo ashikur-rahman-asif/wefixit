@@ -1,12 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { dashboardApi } from "@/api/admin/dashboard.api";
+import { dashboardApi } from "@/features/dashboard/api/admin-dashboard.api";
 import { OrdersStatistic } from "@/components/admin/dashboard/OrdersStatistic";
 import { RecentOrdersTable } from "@/components/admin/dashboard/RecentOrdersTable";
 import { RevenueAnalytics } from "@/components/admin/dashboard/RevenueAnalytics";
 import { TopStats } from "@/components/admin/dashboard/TopStats";
-import { Loader2 } from "lucide-react";
+import { DashboardSkeleton } from "@/components/admin/dashboard/DashboardSkeleton";
 
 export default function AdminDashboard() {
   const { data: response, isLoading, isError } = useQuery({
@@ -16,9 +16,14 @@ export default function AdminDashboard() {
   });
 
   if (isLoading) {
+    return <DashboardSkeleton />;
+  }
+
+  if (isError || !response?.data) {
     return (
-      <div className="flex h-[calc(100vh-100px)] w-full items-center justify-center">
-        <Loader2 className="h-10 w-10 animate-spin text-brand" />
+      <div className="flex h-[calc(100vh-100px)] w-full flex-col items-center justify-center text-red-500">
+        <p className="text-xl font-bold">Failed to load dashboard stats</p>
+        <p className="text-sm">Please check your connection and try again.</p>
       </div>
     );
   }

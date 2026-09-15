@@ -6,7 +6,6 @@ import {
   LayoutGrid,
   Box,
   Users,
-  ShoppingCart,
   Tag,
   FileText,
   UserCog,
@@ -22,10 +21,17 @@ import {
 } from "lucide-react";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import Logo from "@/components/icons/logo";
-import { useAuthStore } from "@/store/authStore";
-import { authApi } from "@/api/auth.api";
+import { useAuthStore } from "@/stores/auth.store";
+import { authApi } from "@/features/auth/api/auth.api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
   const pathname = usePathname();
@@ -53,14 +59,60 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
   };
 
   const getLinkClasses = (path: string, hasRightArrow = false) => {
-    const baseClasses = `flex items-center rounded-xl transition-colors ${isCollapsed ? 'justify-center p-3' : (hasRightArrow ? 'justify-between px-4 py-3' : 'px-4 py-3 gap-3')}`;
-    const activeClasses = isActive(path) ? 'bg-brand text-white' : 'text-gray-400 hover:text-white hover:bg-white/5';
-    return `${baseClasses} ${activeClasses}`;
+    return cn(
+      "flex items-center rounded-xl transition-colors",
+      isCollapsed 
+        ? "justify-center p-3" 
+        : (hasRightArrow ? "justify-between px-4 py-3" : "px-4 py-3 gap-3"),
+      isActive(path) 
+        ? "bg-brand text-white" 
+        : "text-gray-300 font-medium hover:text-white hover:bg-white/5"
+    );
   };
+
+  const MENU_LINKS = [
+    { title: "Dashboard", href: "/admin", icon: LayoutGrid },
+    { title: "Products", href: "#", icon: Box },
+    { title: "Colors", href: "/admin/colors", icon: Palette },
+    {
+      title: "Repair",
+      icon: Wrench,
+      children: [
+        { title: "Repair Orders", href: "/admin/repair-orders", icon: FileText },
+        { title: "Devices", href: "/admin/devices", icon: Smartphone },
+        { title: "Brands", href: "/admin/brands", icon: Award },
+        { title: "Services", href: "/admin/services", icon: List },
+      ],
+    },
+    { title: "Product Grades", href: "/admin/product-grades", icon: Star },
+    { title: "Customer", href: "#", icon: Users, hasRightArrow: true },
+    {
+      title: "Orders",
+      href: "/admin/orders",
+      icon: () => (
+        <div className="w-5 h-5 flex items-center justify-center shrink-0">
+          <svg className="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+        </div>
+      ),
+      isSmallText: true,
+      hasRightArrow: true, 
+    },
+    { title: "Coupons", href: "#", icon: Tag },
+    { title: "Transactions", href: "#", icon: FileText },
+    { title: "Users", href: "/admin/users", icon: UserCog },
+    { title: "Reviews", href: "#", icon: Star },
+  ];
+
+  const OTHER_LINKS = [
+    { title: "Settings", href: "#", icon: Settings },
+  ];
 
   return (
     <div className="flex flex-col h-full bg-primary text-sm overflow-y-auto custom-scrollbar">
-      <div className={`h-20 flex items-center px-6 border-b border-transparent shrink-0 ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
+      <div className={cn(
+        "h-20 flex items-center px-6 border-b border-transparent shrink-0",
+        isCollapsed ? "justify-center" : "justify-start"
+      )}>
         {!isCollapsed ? (
           <div className="w-32 text-white">
             <Logo className="w-full h-auto text-white" />
@@ -70,119 +122,99 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
         )}
       </div>
 
-      <div className={`flex-1 py-6 space-y-8 ${isCollapsed ? 'px-2' : 'px-4'}`}>
+      <div className={cn("flex-1 py-6 space-y-8", isCollapsed ? "px-2" : "px-4")}>
         <div>
-          {!isCollapsed && <h2 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-4 px-4">MENU</h2>}
+          {!isCollapsed && <h2 className="text-[11px] text-gray-400 font-medium uppercase tracking-widest mb-4 px-4">MENU</h2>}
           <ul className="space-y-1.5">
-            <li>
-              <Link href="/admin" className={getLinkClasses("/admin")} title="Dashboard">
-                <LayoutGrid className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Dashboard</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#")} title="Products">
-                <Box className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Products</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/categories" className={getLinkClasses("/admin/categories")} title="Categories">
-                <List className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Categories</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/brands" className={getLinkClasses("/admin/brands")} title="Brands">
-                <Award className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Brands</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/colors" className={getLinkClasses("/admin/colors")} title="Colors">
-                <Palette className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Colors</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/devices" className={getLinkClasses("/admin/devices")} title="Devices">
-                <Smartphone className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Devices</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/product-grades" className={getLinkClasses("/admin/product-grades")} title="Product Grades">
-                <Star className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Product Grades</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#", true)} title="Customer">
-                <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 shrink-0" />
-                  {!isCollapsed && <span className="font-medium">Customer</span>}
-                </div>
-                {!isCollapsed && <ChevronRight className="w-4 h-4 shrink-0" />}
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/orders" className={getLinkClasses("/admin/orders", true)} title="Orders">
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-5 flex items-center justify-center">
-                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                  </div>
-                  {!isCollapsed && <span className="text-[13px] font-medium leading-none">Orders</span>}
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/repairs" className={getLinkClasses("/admin/repairs", true)} title="Repairs">
-                <div className="flex items-center gap-3">
-                  <Wrench className="w-5 h-5 shrink-0" />
-                  {!isCollapsed && <span className="text-[13px] font-medium leading-none">Repairs</span>}
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#")} title="Coupons">
-                <Tag className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Coupons</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#")} title="Transactions">
-                <FileText className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Transactions</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#")} title="User Role">
-                <UserCog className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">User Role</span>}
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className={getLinkClasses("#")} title="Reviews">
-                <Star className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Reviews</span>}
-              </Link>
-            </li>
+            {MENU_LINKS.map((link, index) => {
+              if (link.children) {
+                return (
+                  <li key={index}>
+                    <Accordion className="w-full space-y-0">
+                      <AccordionItem value={link.title.toLowerCase()} className="border-none">
+                        <AccordionTrigger
+                          className={cn(
+                            "flex items-center cursor-pointer rounded-xl transition-colors text-gray-300 font-medium hover:text-white hover:bg-white/5 hover:no-underline",
+                            isCollapsed ? "justify-center p-3" : "justify-between px-4 py-3"
+                          )}
+                          title={link.title}
+                        >
+                          <div className="flex items-center gap-3">
+                            <link.icon className="w-5 h-5 shrink-0" />
+                            {!isCollapsed && <span className="font-medium text-sm">{link.title}</span>}
+                          </div>
+                        </AccordionTrigger>
+
+                        {!isCollapsed && (
+                          <AccordionContent className="pb-0 pt-1">
+                            <ul className="space-y-1 pl-4">
+                              {link.children.map((child, childIdx) => (
+                                <li key={childIdx}>
+                                  <Link href={child.href} className={getLinkClasses(child.href)} title={child.title}>
+                                    <child.icon className="w-4 h-4 shrink-0" />
+                                    <span className="font-medium">{child.title}</span>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </AccordionContent>
+                        )}
+                      </AccordionItem>
+                    </Accordion>
+                  </li>
+                );
+              }
+
+              const Icon = link.icon;
+              return (
+                <li key={index}>
+                  <Link href={link.href!} className={getLinkClasses(link.href!, link.hasRightArrow)} title={link.title}>
+                    {link.hasRightArrow ? (
+                      <>
+                        <div className="flex items-center gap-3">
+                          <Icon className="w-5 h-5 shrink-0" />
+                          {!isCollapsed && (
+                            <span className={cn("font-medium", link.isSmallText ? "text-[13px] leading-none" : "")}>
+                              {link.title}
+                            </span>
+                          )}
+                        </div>
+                        {!isCollapsed && link.title === "Customer" && <ChevronRight className="w-4 h-4 shrink-0" />}
+                      </>
+                    ) : (
+                      <>
+                        <Icon className="w-5 h-5 shrink-0" />
+                        {!isCollapsed && <span className="font-medium">{link.title}</span>}
+                      </>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
         <div>
-          {!isCollapsed && <h2 className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-4 px-4">OTHER</h2>}
+          {!isCollapsed && <h2 className="text-[11px] text-gray-400 font-medium uppercase tracking-widest mb-4 px-4">OTHER</h2>}
           <ul className="space-y-1.5">
+            {OTHER_LINKS.map((link, index) => {
+              const Icon = link.icon;
+              return (
+                <li key={index}>
+                  <Link href={link.href} className={getLinkClasses(link.href)} title={link.title}>
+                    <Icon className="w-5 h-5 shrink-0" />
+                    {!isCollapsed && <span className="font-medium">{link.title}</span>}
+                  </Link>
+                </li>
+              );
+            })}
             <li>
-              <Link href="#" className={getLinkClasses("#")} title="Settings">
-                <Settings className="w-5 h-5 shrink-0" />
-                {!isCollapsed && <span className="font-medium">Settings</span>}
-              </Link>
-            </li>
-            <li>
-              <button 
+              <button
                 onClick={handleLogout}
-                className={`w-full flex items-center rounded-xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors ${isCollapsed ? 'justify-center p-3' : 'px-4 py-3 gap-3'}`} 
+                className={cn(
+                  "w-full flex items-center rounded-xl text-red-400 hover:text-red-300 hover:bg-red-400/10 transition-colors",
+                  isCollapsed ? "justify-center p-3" : "px-4 py-3 gap-3"
+                )}
                 title="Logout"
               >
                 <LogOut className="w-5 h-5 shrink-0" />

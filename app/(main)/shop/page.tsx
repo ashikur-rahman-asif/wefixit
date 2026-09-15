@@ -1,7 +1,7 @@
 import Container from "@/components/container";
 import { ProductCard } from "@/components/product-card";
-import { Category, Product } from "@/types/product";
-import { Brand, Device } from "@/types/repair";
+import { Category, Product } from "@/features/products/types/product.types";
+import { Brand, Device } from "@/features/repairs/types/repair.types";
 import Link from "next/link";
 import { ShopSidebar } from "./_components/shop-sidebar";
 import { MobileFilter } from "./_components/mobile-filter";

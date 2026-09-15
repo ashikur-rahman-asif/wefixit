@@ -7,8 +7,11 @@ import {
   PenTool,
   Smartphone,
   Truck,
+  Loader2,
 } from "lucide-react";
 import { useState } from "react";
+import { useTrackRepair } from "@/features/repairs/hooks/use-track-repair";
+import { cn } from "@/lib/utils";
 
 const STEPS = [
   { id: "picked-up", title: "Picked-up", icon: Truck },
@@ -18,43 +21,24 @@ const STEPS = [
   { id: "delivered", title: "Delivered", icon: PackageCheck },
 ];
 
-const EVENTS_DATA = [
-  {
-    id: 1,
-    title: "Picked-up: Our delivery agent picked up device",
-    time: "June 2, 2024 - 10:30 Am",
-  },
-  {
-    id: 2,
-    title: "Receiving Device: Device arrived at our workshop",
-    time: "June 3, 2024 - 2:15 Pm",
-  },
-  {
-    id: 3,
-    title: "Repair in Progress: Technician is working on it",
-    time: "June 4, 2024 - 9:00 Am",
-  },
-  {
-    id: 4,
-    title: "Repair Completed: Device passed QA testing",
-    time: "June 5, 2024 - 4:20 Pm",
-  },
-  {
-    id: 5,
-    title: "Delivered: Device successfully returned to customer",
-    time: "June 6, 2024 - 11:30 Am",
-  },
-];
-
 export function TrackingStatus({ orderId }: { orderId: string }) {
   const [showAll, setShowAll] = useState(false);
-
   const cleanOrderId = orderId.trim().toUpperCase();
 
-  const ORDER_ID_REGEX = /^WFX-(\d{6})$/;
-  const match = cleanOrderId.match(ORDER_ID_REGEX);
+  const { data: response, isLoading, isError } = useTrackRepair(cleanOrderId);
 
-  if (!match) {
+  if (isLoading) {
+    return (
+      <div className="w-full mt-6 md:mt-10 bg-lightBrand/50 rounded-2xl py-20 px-4 text-center mb-6 md:mb-10 flex flex-col items-center justify-center">
+        <Loader2 className="w-12 h-12 text-brand animate-spin mb-4" />
+        <h2 className="text-primary text-xl font-bold">
+          Tracking your order...
+        </h2>
+      </div>
+    );
+  }
+
+  if (isError || !response?.data) {
     return (
       <div className="w-full mt-6 md:mt-10 bg-lightBrand/50 rounded-2xl py-10 md:py-16 px-4 text-center mb-6 md:mb-10 flex flex-col items-center">
         <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center text-red-500 mb-6">
@@ -66,7 +50,7 @@ export function TrackingStatus({ orderId }: { orderId: string }) {
         <p className="text-secondary text-base md:text-lg max-w-lg mx-auto leading-relaxed">
           We couldn&apos;t find any repair order matching{" "}
           <span className="font-semibold text-brand">
-            &quot;{orderId.trim()}&quot;
+            &quot;{cleanOrderId}&quot;
           </span>
           . Please ensure your Order ID is in the correct format (e.g.,
           WFX-123456) and try again.
@@ -75,25 +59,22 @@ export function TrackingStatus({ orderId }: { orderId: string }) {
     );
   }
 
-  const digits = match[1];
-  const lastChar = digits.slice(-1);
-  const parsedNum = parseInt(lastChar, 10);
+  const { statusLabel, trackingStep, timeline } = response.data;
 
-  const currentStepIndex = Math.min(parsedNum, 4);
-
+  const currentStepIndex = trackingStep;
   const isFullyDelivered = currentStepIndex === STEPS.length - 1;
 
-  const processedEvents = EVENTS_DATA.map((event, index) => {
-    let status = "pending";
-    if (index < currentStepIndex || isFullyDelivered) status = "completed";
-    else if (index === currentStepIndex && !isFullyDelivered)
-      status = "current";
-    return { ...event, status };
+  const processedEvents = timeline.map((event, index) => {
+    let dotStatus = "pending";
+    if (index < timeline.length - 1 || isFullyDelivered) {
+      dotStatus = "completed";
+    } else {
+      dotStatus = "current";
+    }
+    return { ...event, dotStatus };
   });
 
-  const visibleEvents = showAll
-    ? processedEvents
-    : processedEvents.slice(0, currentStepIndex + 1);
+  const visibleEvents = showAll ? processedEvents : processedEvents.slice(0, 3);
 
   return (
     <div className="w-full mt-6 md:mt-10">
@@ -101,13 +82,12 @@ export function TrackingStatus({ orderId }: { orderId: string }) {
         <h2 className="text-primary text-xl font-bold mb-2">
           Info About Your Order
         </h2>
-        <p className="text-brand text-2xl font-bold">{orderId}</p>
+        <p className="text-brand text-2xl font-bold">{cleanOrderId}</p>
       </div>
 
       <div className="md:mb-7 mb-4">
         <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-          Status:{" "}
-          <span className="text-brand">{STEPS[currentStepIndex].title}</span>
+          Status: <span className="text-brand">{statusLabel}</span>
         </h3>
         <p className="text-secondary text-sm md:text-base max-w-2xl mt-2">
           Here is the up-to-date status of your repair unit.
@@ -146,16 +126,25 @@ export function TrackingStatus({ orderId }: { orderId: string }) {
                 className="relative flex flex-col items-center gap-2 md:gap-4 flex-1">
                 {index < STEPS.length - 1 && (
                   <div
-                    className={`absolute left-[50%] w-full top-6 md:top-8 h-0 border-t-[2px] border-dashed ${lineColor} z-0 transition-colors duration-500`}></div>
+                    className={cn(
+                      "absolute left-[50%] w-full top-6 md:top-8 h-0 border-t-2 border-dashed z-0 transition-colors duration-500",
+                      lineColor,
+                    )}></div>
                 )}
 
                 <div
-                  className={`w-12 h-12 md:w-16 md:h-16 rounded-full ${circleColor} flex items-center justify-center text-white z-10 relative transition-colors duration-500 shadow-sm`}>
+                  className={cn(
+                    "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-white z-10 relative transition-colors duration-500 shadow-sm",
+                    circleColor,
+                  )}>
                   <step.icon className="w-5 h-5 md:w-7 md:h-7" />
                 </div>
 
                 <span
-                  className={`${textColor} font-bold text-[11px] md:text-[15px] whitespace-normal md:whitespace-nowrap text-center transition-colors duration-500 leading-tight px-1`}>
+                  className={cn(
+                    "font-bold text-[11px] md:text-[15px] whitespace-normal md:whitespace-nowrap text-center transition-colors duration-500 leading-tight px-1",
+                    textColor,
+                  )}>
                   {step.title}
                 </span>
               </div>
@@ -164,50 +153,63 @@ export function TrackingStatus({ orderId }: { orderId: string }) {
         </div>
       </div>
 
-      <div className="bg-lightBrand rounded-2xl p-5 md:p-10 mt-6 md:mt-8 mb-8 md:mb-16">
-        <div className="relative border-l-[2px] border-dashed border-gray-400 ml-4 pb-4 md:pb-8">
-          {visibleEvents.map((event, index) => {
-            const isLast = index === visibleEvents.length - 1;
+      {timeline.length > 0 && (
+        <div className="bg-lightBrand rounded-2xl p-5 md:p-10 mt-6 md:mt-8 mb-8 md:mb-16">
+          <div className="relative border-l-2 border-dashed border-gray-400 ml-4 pb-4 md:pb-8">
+            {visibleEvents.map((event, index) => {
+              const isLast = index === visibleEvents.length - 1;
 
-            let dotBorderColor = "border-gray-400";
-            let dotBgColor = "bg-gray-400";
+              let dotBorderColor = "border-gray-400";
+              let dotBgColor = "bg-gray-400";
 
-            if (event.status === "completed") {
-              dotBorderColor = "border-brand";
-              dotBgColor = "bg-brand";
-            } else if (event.status === "current") {
-              dotBorderColor = "border-gold";
-              dotBgColor = "bg-gold";
-            }
+              if (event.dotStatus === "completed") {
+                dotBorderColor = "border-brand";
+                dotBgColor = "bg-brand";
+              } else if (event.dotStatus === "current") {
+                dotBorderColor = "border-gold";
+                dotBgColor = "bg-gold";
+              }
 
-            return (
-              <div
-                key={event.id}
-                className={`${isLast ? "relative" : "mb-6 md:mb-10 relative"}`}>
+              return (
                 <div
-                  className={`absolute -left-[13px] top-1 w-[22px] h-[22px] rounded-full border-2 ${dotBorderColor} bg-white flex items-center justify-center z-10 transition-colors duration-500`}>
+                  key={event.id}
+                  className={cn("relative", !isLast && "mb-6 md:mb-10")}>
                   <div
-                    className={`w-[10px] h-[10px] rounded-full ${dotBgColor} transition-colors duration-500`}></div>
+                    className={cn(
+                      "absolute -left-3.25 top-1 w-5.5 h-5.5 rounded-full border-2 bg-white flex items-center justify-center z-10 transition-colors duration-500",
+                      dotBorderColor,
+                    )}>
+                    <div
+                      className={cn(
+                        "w-2.5 h-2.5 rounded-full transition-colors duration-500",
+                        dotBgColor,
+                      )}></div>
+                  </div>
+                  <div className="pl-8">
+                    <h4 className="text-primary font-bold text-lg">
+                      {event.title}
+                    </h4>
+                    <p className="text-secondary text-sm mt-1">{event.date}</p>
+                    {event.description && (
+                      <p className="text-gray-600 text-sm mt-2">
+                        {event.description}
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="pl-8">
-                  <h4 className="text-primary font-bold text-lg">
-                    {event.title}
-                  </h4>
-                  <p className="text-secondary text-sm mt-1">{event.time}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        {EVENTS_DATA.length > 3 && (
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="text-brand font-medium border-b border-brand pb-0.5 mt-4 ml-4 hover:text-primary hover:border-primary transition-colors">
-            {showAll ? "See Less" : "See More"}
-          </button>
-        )}
-      </div>
+          {timeline.length > 3 && (
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="text-brand font-medium border-b border-brand pb-0.5 mt-4 ml-4 hover:text-primary hover:border-primary transition-colors">
+              {showAll ? "See Less" : "See More"}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
