@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import { UploadCloud, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,6 +26,7 @@ export function ImageUpload({
   maxDimensions,
 }: ImageUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -108,10 +109,10 @@ export function ImageUpload({
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        onClick={() => document.getElementById("image-upload-input")?.click()}
+        onClick={() => inputRef.current?.click()}
       >
         <input
-          id="image-upload-input"
+          ref={inputRef}
           type="file"
           accept="image/*"
           className="hidden"

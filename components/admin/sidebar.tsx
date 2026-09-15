@@ -72,7 +72,7 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
 
   const MENU_LINKS = [
     { title: "Dashboard", href: "/admin", icon: LayoutGrid },
-    { title: "Products", href: "#", icon: Box },
+    { title: "Products", href: "/admin/products", icon: Box },
     { title: "Colors", href: "/admin/colors", icon: Palette },
     {
       title: "Repair",
