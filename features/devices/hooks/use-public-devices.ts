@@ -5,5 +5,6 @@ export const usePublicDevices = () => {
   return useQuery({
     queryKey: ["publicDevices"],
     queryFn: publicDevicesApi.getDevices,
+    staleTime: 1000 * 60 * 20, 
   });
 };

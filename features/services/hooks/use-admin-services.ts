@@ -7,6 +7,7 @@ export const useServices = () => {
   return useQuery({
     queryKey: ["adminServices"],
     queryFn: servicesApi.getServices,
+    staleTime: 1000 * 60 * 20,
   });
 };
 

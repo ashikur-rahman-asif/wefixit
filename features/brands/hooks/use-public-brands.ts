@@ -5,5 +5,6 @@ export const usePublicBrands = () => {
   return useQuery({
     queryKey: ["publicBrands"],
     queryFn: publicBrandsApi.getBrands,
+    staleTime: 1000 * 60 * 20,
   });
 };

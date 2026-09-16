@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useRepairStore } from "@/stores/repair-wizard.store";
 import { usePublicDevices } from "@/features/devices/hooks/use-public-devices";
 import { usePublicBrands } from "@/features/brands/hooks/use-public-brands";
+import { usePublicServices } from "@/features/services/hooks/use-public-services";
 import { useSubmitRepair } from "@/features/repairs/hooks/use-submit-repair";
 
 export const WIZARD_STEPS = [
@@ -22,6 +23,9 @@ export function useRepairWizard() {
 
   const { data: brandsResponse, isLoading: isLoadingBrands } = usePublicBrands();
   const brands = brandsResponse?.data || [];
+
+  const { data: servicesResponse, isLoading: isLoadingServices } = usePublicServices();
+  const services = servicesResponse?.data || [];
 
   const submitRepairMutation = useSubmitRepair();
 
@@ -48,6 +52,10 @@ export function useRepairWizard() {
 
   const currentBrands = brands.filter((brand) =>
     brand.deviceIds?.includes(Number(selectedDeviceObj?.id))
+  );
+
+  const currentServices = services.filter((service) => 
+    service.deviceIds?.includes(Number(selectedDeviceObj?.id)) || !service.deviceIds?.length
   );
 
   const currentStepParam = searchParams.get("step");
@@ -228,6 +236,7 @@ export function useRepairWizard() {
     
     devices,
     currentBrands,
+    currentServices,
     currentStep,
     currentIndex,
     isGlobalLoading,
