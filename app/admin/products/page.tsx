@@ -1,0 +1,175 @@
+"use client";
+
+import { Plus } from "lucide-react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
+
+import { ProductTable } from "./_components/ProductTable";
+import { ProductFilters } from "./_components/ProductFilters";
+import {
+  useAdminProducts,
+  useUpdateProduct,
+  useDeleteProduct,
+} from "@/features/products/hooks/use-admin-products";
+import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+import { Pagination } from "@/components/ui/pagination";
+
+export default function ProductsPage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  
+  const page = Number(searchParams.get("page")) || 1;
+  const search = searchParams.get("search") || "";
+  const category = searchParams.get("category") || "";
+  const brand = searchParams.get("brand") || "";
+  const device = searchParams.get("device") || "";
+  const status = searchParams.get("status") || "";
+  const sort = searchParams.get("sort") || "";
+
+  const [productToDelete, setProductToDelete] = useState<number | null>(null);
+  const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+
+  const { data: response, isLoading } = useAdminProducts({ 
+    page, 
+    search,
+    category,
+    brand,
+    device,
+    status,
+    sort,
+  });
+  const products = response?.data || [];
+  const meta = response?.meta;
+
+  const updateMutation = useUpdateProduct();
+  const deleteMutation = useDeleteProduct();
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleDelete = (id: number) => {
+    setProductToDelete(id);
+  };
+
+  const handleConfirmDelete = () => {
+    if (productToDelete) {
+      deleteMutation.mutate(productToDelete, {
+        onSettled: () => setProductToDelete(null),
+      });
+    }
+  };
+
+  const handleToggleStatus = (id: number, newStatus: boolean) => {
+    setPendingStatuses((prev) => {
+      const next = { ...prev };
+      const product = products.find((p) => p.id === id);
+
+      if (!product) return next;
+
+      if (product.is_active === newStatus) {
+        delete next[id];
+      } else {
+        next[id] = newStatus;
+      }
+
+      return next;
+    });
+  };
+
+  const handleSaveStatuses = async () => {
+    const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
+      const id = Number(idStr);
+      const product = products.find((p) => p.id === id);
+      if (!product) return Promise.resolve();
+      
+      const formData = new FormData();
+      formData.append("title", product.title);
+      formData.append("slug", product.slug);
+      formData.append("price", product.price.toString());
+      if (product.product_category_id) formData.append("product_category_id", product.product_category_id.toString());
+      if (product.product_brand_id) formData.append("product_brand_id", product.product_brand_id.toString());
+      if (product.product_device_id) formData.append("product_device_id", product.product_device_id.toString());
+      formData.append("is_active", newStatus ? "1" : "0");
+      
+      return updateMutation.mutateAsync({ id, data: formData });
+    });
+
+    try {
+      await Promise.all(promises);
+      setPendingStatuses({});
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const hasPendingChanges = Object.keys(pendingStatuses).length > 0;
+
+  return (
+    <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-screen">
+      <DeleteConfirmationModal
+        isOpen={!!productToDelete}
+        onClose={() => setProductToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Product"
+        description="Are you sure you want to delete this product? This action cannot be undone."
+        isDeleting={deleteMutation.isPending}
+      />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+        <div>
+          <h1 className="text-[28px] md:text-[32px] font-bold text-titleBlack leading-tight tracking-tight">
+            Products
+          </h1>
+          <p className="text-textGray mt-2 text-[15px] font-medium max-w-2xl leading-relaxed">
+            Manage all your store products, update inventory, pricing, and active status.
+          </p>
+        </div>
+        <Link
+          href="/admin/products/new"
+          className="h-11 px-5 bg-brand text-white rounded-xl text-[15px] font-bold hover:bg-brand/90 transition-all flex items-center justify-center gap-2 shadow-sm shrink-0"
+        >
+          <Plus className="w-4 h-4" />
+          Add Product
+        </Link>
+      </div>
+
+      <ProductFilters />
+
+      <ProductTable
+        products={products}
+        pendingStatuses={pendingStatuses}
+        isLoading={isLoading}
+        isDeleting={deleteMutation.isPending}
+        onDelete={handleDelete}
+        onToggleStatus={handleToggleStatus}
+      />
+      
+      {meta && meta.lastPage > 1 && (
+        <div className="mt-6 flex justify-center">
+          <Pagination
+            currentPage={meta.currentPage}
+            totalPages={meta.lastPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
+
+      {hasPendingChanges && (
+        <div className="mt-6 flex justify-end">
+          <button
+            onClick={handleSaveStatuses}
+            disabled={updateMutation.isPending}
+            className="h-11 px-6 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg cursor-pointer"
+          >
+            {updateMutation.isPending ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      )}
+
+    </div>
+  );
+}

@@ -72,8 +72,17 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
 
   const MENU_LINKS = [
     { title: "Dashboard", href: "/admin", icon: LayoutGrid },
-    { title: "Products", href: "/admin/products", icon: Box },
-    { title: "Colors", href: "/admin/colors", icon: Palette },
+    {
+      title: "Products",
+      icon: Box,
+      children: [
+        { title: "Product List", href: "/admin/products", icon: Box },
+        { title: "Categories", href: "/admin/product-categories", icon: List },
+        { title: "Brands", href: "/admin/product-brands", icon: Award },
+        { title: "Devices", href: "/admin/product-devices", icon: Smartphone },
+        { title: "Colors", href: "/admin/colors", icon: Palette },
+      ],
+    },
     {
       title: "Repair",
       icon: Wrench,

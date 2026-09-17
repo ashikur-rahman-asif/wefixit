@@ -293,3 +293,60 @@ export interface AdminUser {
   createdAt: string;
   joinedAt: string;
 }
+
+export interface AdminProductCategory {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminProductBrand {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminProductDevice {
+  id: number;
+  name: string;
+  slug: string;
+  icon: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AdminProduct {
+  id: number;
+  title: string;
+  slug: string;
+  product_category_id: number;
+  product_brand_id: number;
+  product_device_id: number;
+  category: AdminProductCategory;
+  brand: AdminProductBrand;
+  device: AdminProductDevice;
+  price: number;
+  discount_price: number | null;
+  description: string | null;
+  short_description: string | null;
+  specification: string | null;
+  specifications: any | null; 
+  image: string | null;
+  stock: number;
+  rating: number;
+  reviews_count: number;
+  is_active: boolean;
+  images: any[];
+  colors: any[];
+  created_at: string;
+  updated_at: string;
+}

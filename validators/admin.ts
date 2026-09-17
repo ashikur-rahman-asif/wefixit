@@ -67,15 +67,37 @@ export const colorSchema = z.object({
 
 export type ColorFormData = z.infer<typeof colorSchema>;
 
-/**
- * Optional numeric field that may be left blank. The blank literal comes first
- * so an empty input stays `""` instead of being coerced to 0.
- */
+export const productCategorySchema = z.object({
+  name: z.string().min(1, "Category name is required"),
+  slug: z.string().optional(),
+  icon: z.any().optional(), 
+  is_active: z.boolean(),
+});
+export type ProductCategoryFormData = z.infer<typeof productCategorySchema>;
+
+export const ecommerceBrandSchema = z.object({
+  name: z.string().min(1, "Brand name is required"),
+  slug: z.string().optional(),
+  icon: z.any().optional(),
+  is_active: z.boolean(),
+});
+export type EcommerceBrandFormData = z.infer<typeof ecommerceBrandSchema>;
+
+export const ecommerceDeviceSchema = z.object({
+  name: z.string().min(1, "Device name is required"),
+  slug: z.string().optional(),
+  icon: z.any().optional(),
+  is_active: z.boolean(),
+});
+export type EcommerceDeviceFormData = z.infer<typeof ecommerceDeviceSchema>;
+
+
+
 const optionalNumber = z
   .union([z.literal(""), z.coerce.number().min(0, "Must be 0 or more")])
   .optional();
 
-/** Optional foreign key from a select, where "" means "none". */
+
 const optionalId = z
   .union([z.literal(""), z.coerce.number().int().positive()])
   .optional();
@@ -91,6 +113,10 @@ export const productSchema = z.object({
   shortDescription: z.string().optional(),
   description: z.string().optional(),
   specification: z.string().optional(),
+  specifications: z.array(z.object({
+    key: z.string().min(1, "Key is required"),
+    value: z.string().min(1, "Value is required")
+  })).optional(),
   stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
   isActive: z.boolean().default(true),
   image: z
@@ -115,6 +141,7 @@ export const productSchema = z.object({
           .union([z.instanceof(File), z.string()])
           .nullable()
           .optional(),
+        images: z.array(z.union([z.instanceof(File), z.string()])).default([]),
       }),
     )
     .default([]),

@@ -9,6 +9,21 @@ export interface Category {
   id: string | number;
   name: string;
   slug: string;
+  icon?: string | null;
+}
+
+export interface Brand {
+  id: string | number;
+  name: string;
+  slug: string;
+  icon?: string | null;
+}
+
+export interface Device {
+  id: string | number;
+  name: string;
+  slug: string;
+  icon?: string | null;
 }
 
 export interface Product {
@@ -24,6 +39,7 @@ export interface Product {
   description?: string;
   shortDescription?: string;
   specification?: string;
+  specifications?: { key: string; value: string }[];
   images?: string[];
   rating?: number;
   reviewsCount?: number;
