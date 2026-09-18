@@ -3,11 +3,10 @@
 import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2 } from "lucide-react";
-import { useEffect } from "react";
 import slugify from "slugify";
 import { useRouter } from "next/navigation";
 
-import { productSchema, type ProductFormData, type ProductFormInput } from "@/validators/admin";
+import { productSchema, type ProductFormData } from "@/validators/admin";
 import { AdminProduct } from "@/types/admin";
 import { Input } from "@/components/form-elements/input";
 import { MultiImageUpload } from "@/components/ui/multi-image-upload";
@@ -49,10 +48,27 @@ export function ProductForm({
     handleSubmit,
     control,
     setValue,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(productSchema),
+    values: initialData ? {
+      title: initialData.title || "",
+      slug: initialData.slug || "",
+      price: initialData.price != null ? Number(initialData.price) : 0,
+      discountPrice: initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
+      stock: initialData.stock != null ? Number(initialData.stock) : 0,
+      isActive: initialData.is_active,
+      categoryId: initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
+      brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
+      deviceId: initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
+      shortDescription: initialData.short_description || "",
+      description: initialData.description || "",
+      specification: initialData.specification || "",
+      specifications: initialData.specifications || [],
+      image: initialData.image || null,
+      images: initialData.images || [],
+      colors: initialData.colors || [],
+    } : undefined,
     defaultValues: {
       title: "",
       slug: "",
@@ -83,43 +99,22 @@ export function ProductForm({
     name: "specifications",
   });
 
-  useEffect(() => {
-    if (initialData) {
-      reset({
-        title: initialData.title || "",
-        slug: initialData.slug || "",
-        price: initialData.price != null ? Number(initialData.price) : 0,
-        discountPrice: initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
-        stock: initialData.stock != null ? Number(initialData.stock) : 0,
-        isActive: initialData.is_active,
-        categoryId: initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
-        brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
-        deviceId: initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
-        shortDescription: initialData.short_description || "",
-        description: initialData.description || "",
-        specification: initialData.specification || "",
-        specifications: initialData.specifications || [],
-        image: initialData.image || null,
-        images: initialData.images || [],
-        colors: initialData.colors || [],
-      });
-    }
-  }, [initialData, reset]);
-
   const watchedColors = useWatch({
     control,
     name: "colors",
   });
 
-  useEffect(() => {
-    if (watchedColors && watchedColors.length > 0) {
-      const totalStock = watchedColors.reduce((sum, color) => sum + (Number(color.stock) || 0), 0);
-      setValue("stock", totalStock, { shouldValidate: true, shouldDirty: true });
+  const totalCalculatedStock = watchedColors?.reduce((sum, color) => sum + (Number(color.stock) || 0), 0) || 0;
+
+  const onSubmitHandler = (data: ProductFormData) => {
+    if (data.colors && data.colors.length > 0) {
+      data.stock = data.colors.reduce((sum, color) => sum + (Number(color.stock) || 0), 0);
     }
-  }, [watchedColors, setValue]);
+    onSubmit(data);
+  };
 
   return (
-    <form onSubmit={handleSubmit((data) => onSubmit(data))} className="space-y-6 max-w-5xl">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-6 max-w-5xl">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
@@ -364,6 +359,7 @@ export function ProductForm({
                 type="number"
                 disabled={colorFields.length > 0}
                 {...register("stock")}
+                {...(colorFields.length > 0 ? { value: totalCalculatedStock, readOnly: true } : {})}
                 error={errors.stock?.message?.toString()}
               />
               {colorFields.length > 0 && (

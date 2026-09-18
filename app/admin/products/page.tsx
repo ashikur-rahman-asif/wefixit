@@ -130,7 +130,7 @@ export default function ProductsPage() {
         </div>
         <Link
           href="/admin/products/new"
-          className="h-11 px-5 bg-brand text-white rounded-xl text-[15px] font-bold hover:bg-brand/90 transition-all flex items-center justify-center gap-2 shadow-sm shrink-0"
+          className="h-11 px-5 bg-brand text-white rounded-xl text-[15px] font-bold hover:bg-brand/90 transition-all flex items-center justify-center gap-2 shrink-0"
         >
           <Plus className="w-4 h-4" />
           Add Product
@@ -163,7 +163,7 @@ export default function ProductsPage() {
           <button
             onClick={handleSaveStatuses}
             disabled={updateMutation.isPending}
-            className="h-11 px-6 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 shadow-lg cursor-pointer"
+            className="h-11 px-6 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
           >
             {updateMutation.isPending ? "Saving..." : "Save Changes"}
           </button>

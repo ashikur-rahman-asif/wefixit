@@ -75,7 +75,7 @@ export default function AdminRepairsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
         <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative max-w-md w-full">
             <svg
@@ -244,7 +244,7 @@ export default function AdminRepairsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/repair-orders/${repair.reference}`}
-                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-titleBlack px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-brand hover:text-white hover:border-brand shadow-sm transition-all duration-200">
+                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-titleBlack px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-brand hover:text-white hover:border-brand transition-all duration-200">
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -267,7 +267,7 @@ export default function AdminRepairsPage() {
                         </Link>
                         <button
                           onClick={() => setRepairToDelete(repair.reference)}
-                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-red-500 px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-red-50 hover:border-red-200 shadow-sm transition-all duration-200 cursor-pointer">
+                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-red-500 px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-red-50 hover:border-red-200 transition-all duration-200 cursor-pointer">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>

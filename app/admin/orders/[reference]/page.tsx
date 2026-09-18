@@ -6,7 +6,7 @@ import Link from "next/link";
 import { CustomerDetailsCard } from "./_components/CustomerDetailsCard";
 import { OrderItemsTable } from "./_components/OrderItemsTable";
 import { OrderStatusHistory } from "./_components/OrderStatusHistory";
-import { getOrderStatusColor, getPaymentStatusColor } from "@/lib/utils";
+import { getOrderStatusColor } from "@/lib/utils";
 import { OrderUpdateCard } from "./_components/OrderUpdateCard";
 import { PaymentDetailsCard } from "./_components/PaymentDetailsCard";
 import { ShippingAddressCard } from "./_components/ShippingAddressCard";

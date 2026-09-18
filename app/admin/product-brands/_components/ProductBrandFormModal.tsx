@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { AdminProductBrand } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ecommerceBrandSchema, type EcommerceBrandFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -36,12 +35,22 @@ export function ProductBrandFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<EcommerceBrandFormData>({
     resolver: zodResolver(ecommerceBrandSchema),
+    values: open ? (editingBrand ? {
+      name: editingBrand.name,
+      slug: editingBrand.slug,
+      is_active: editingBrand.is_active,
+      icon: editingBrand.icon,
+    } : {
+      name: "",
+      slug: "",
+      is_active: true,
+      icon: null,
+    }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -49,26 +58,6 @@ export function ProductBrandFormModal({
       icon: null,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingBrand) {
-        reset({
-          name: editingBrand.name,
-          slug: editingBrand.slug,
-          is_active: editingBrand.is_active,
-          icon: editingBrand.icon,
-        });
-      } else {
-        reset({
-          name: "",
-          slug: "",
-          is_active: true,
-          icon: null,
-        });
-      }
-    }
-  }, [open, editingBrand, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

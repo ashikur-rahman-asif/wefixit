@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { AdminService } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, type ServiceFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -41,12 +40,24 @@ export function ServiceFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<ServiceFormData>({
     resolver: zodResolver(serviceSchema),
+    values: open ? (editingService ? {
+      name: editingService.name,
+      slug: editingService.slug,
+      deviceIds: (editingService.deviceIds || []).map(Number),
+      icon: editingService.icon || null,
+      isActive: editingService.isActive,
+    } : {
+      name: "",
+      slug: "",
+      deviceIds: [],
+      icon: null,
+      isActive: true,
+    }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -55,28 +66,6 @@ export function ServiceFormModal({
       isActive: true,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingService) {
-        reset({
-          name: editingService.name,
-          slug: editingService.slug,
-          deviceIds: (editingService.deviceIds || []).map(Number),
-          icon: editingService.icon || null,
-          isActive: editingService.isActive,
-        });
-      } else {
-        reset({
-          name: "",
-          slug: "",
-          deviceIds: [],
-          icon: null,
-          isActive: true,
-        });
-      }
-    }
-  }, [open, editingService, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

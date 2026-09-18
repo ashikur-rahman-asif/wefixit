@@ -9,8 +9,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { AdminColor } from "@/types/admin";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { colorSchema, type ColorFormData } from "@/validators/admin";
 import { Input } from "@/components/form-elements/input";
@@ -33,12 +32,20 @@ export function ColorFormModal({
   const {
     register,
     handleSubmit,
-    reset,
-    watch,
+    control,
     setValue,
     formState: { errors },
   } = useForm<ColorFormData>({
     resolver: zodResolver(colorSchema),
+    values: open ? (editingColor ? {
+      name: editingColor.name,
+      hex: editingColor.hex,
+      is_active: editingColor.is_active,
+    } : {
+      name: "",
+      hex: "#000000",
+      is_active: true,
+    }) : undefined,
     defaultValues: {
       name: "",
       hex: "#000000",
@@ -46,25 +53,7 @@ export function ColorFormModal({
     },
   });
 
-  const hexValue = watch("hex");
-
-  useEffect(() => {
-    if (open) {
-      if (editingColor) {
-        reset({
-          name: editingColor.name,
-          hex: editingColor.hex,
-          is_active: editingColor.is_active,
-        });
-      } else {
-        reset({
-          name: "",
-          hex: "#000000",
-          is_active: true,
-        });
-      }
-    }
-  }, [open, editingColor, reset]);
+  const hexValue = useWatch({ control, name: "hex" });
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

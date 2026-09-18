@@ -76,7 +76,7 @@ export function ProductFilters() {
   );
 
   return (
-    <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm mb-6 space-y-4">
+    <div className="bg-white rounded-xl p-4 border border-gray-200 mb-6 space-y-4">
       {/* Filters Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
         

@@ -47,6 +47,7 @@ api.interceptors.response.use(
         Cookies.remove("token");
 
         if (window.location.pathname !== "/auth/login") {
+          // eslint-disable-next-line @next/next/no-location-assign-relative-destination
           window.location.href = "/auth/login";
         }
       }

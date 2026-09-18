@@ -17,8 +17,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { RecentOrder } from "@/types/admin";
-import { OrderItem } from "@/types/admin";
-import Link from "next/link";
 import { cn, getOrderStatusColor, getPaymentStatusColor } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";

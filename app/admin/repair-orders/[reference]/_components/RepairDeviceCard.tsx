@@ -1,5 +1,5 @@
 import { AdminRepairDetail } from "@/types/admin";
-import { Smartphone, Wrench, FileText, Truck, Store } from "lucide-react";
+import { FileText, Smartphone, Store, Truck, Wrench } from "lucide-react";
 
 export function RepairDeviceCard({ repair }: { repair: AdminRepairDetail }) {
   return (
@@ -15,7 +15,7 @@ export function RepairDeviceCard({ repair }: { repair: AdminRepairDetail }) {
           </p>
         </div>
       </div>
-      
+
       <div className="p-6 space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div>

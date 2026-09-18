@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { AdminProductCategory } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productCategorySchema, type ProductCategoryFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -36,12 +35,22 @@ export function ProductCategoryFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<ProductCategoryFormData>({
     resolver: zodResolver(productCategorySchema),
+    values: open ? (editingCategory ? {
+      name: editingCategory.name,
+      slug: editingCategory.slug,
+      is_active: editingCategory.is_active,
+      icon: editingCategory.icon,
+    } : {
+      name: "",
+      slug: "",
+      is_active: true,
+      icon: null,
+    }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -49,26 +58,6 @@ export function ProductCategoryFormModal({
       icon: null,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingCategory) {
-        reset({
-          name: editingCategory.name,
-          slug: editingCategory.slug,
-          is_active: editingCategory.is_active,
-          icon: editingCategory.icon,
-        });
-      } else {
-        reset({
-          name: "",
-          slug: "",
-          is_active: true,
-          icon: null,
-        });
-      }
-    }
-  }, [open, editingCategory, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

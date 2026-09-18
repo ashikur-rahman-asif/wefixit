@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { Product } from "@/features/products/types/product.types";
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 interface ProductReviewsProps {
   product: Product;
@@ -30,12 +30,12 @@ export function ProductReviews({ product }: ProductReviewsProps) {
   const hasReviews = product.reviewsCount && product.reviewsCount > 0;
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const { register, handleSubmit, watch, setValue, reset } =
+  const { register, handleSubmit, control, setValue, reset } =
     useForm<ReviewFormData>({
       defaultValues: { rating: 0, review: "" },
     });
 
-  const rating = watch("rating");
+  const rating = useWatch({ control, name: "rating" });
 
   const onSubmit = () => reset();
 

@@ -1,13 +1,17 @@
 "use client";
 
-import { useAdminRepair, useUpdateRepair, useDeleteRepair } from "@/features/repairs/hooks/use-admin-repair";
-import { use } from "react";
-import Link from "next/link";
+import {
+  useAdminRepair,
+  useDeleteRepair,
+  useUpdateRepair,
+} from "@/features/repairs/hooks/use-admin-repair";
 import { getOrderStatusColor } from "@/lib/utils";
-import { RepairUpdateCard } from "./_components/RepairUpdateCard";
+import Link from "next/link";
+import { use } from "react";
 import { RepairCustomerCard } from "./_components/RepairCustomerCard";
 import { RepairDeviceCard } from "./_components/RepairDeviceCard";
 import { RepairTimeline } from "./_components/RepairTimeline";
+import { RepairUpdateCard } from "./_components/RepairUpdateCard";
 
 export default function AdminRepairDetailsPage({
   params,
@@ -15,7 +19,7 @@ export default function AdminRepairDetailsPage({
   params: Promise<{ reference: string }>;
 }) {
   const { reference } = use(params);
-  
+
   const { data: repair, isLoading } = useAdminRepair(reference);
   const updateMutation = useUpdateRepair(reference);
   const deleteMutation = useDeleteRepair(reference);
@@ -35,8 +39,12 @@ export default function AdminRepairDetailsPage({
     return (
       <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-[60vh] flex items-center justify-center">
         <div className="flex flex-col items-center justify-center text-textGray">
-          <p className="font-medium text-xl text-titleBlack mb-2">Repair Not Found</p>
-          <Link href="/admin/repair-orders" className="text-brand hover:underline font-semibold">
+          <p className="font-medium text-xl text-titleBlack mb-2">
+            Repair Not Found
+          </p>
+          <Link
+            href="/admin/repair-orders"
+            className="text-brand hover:underline font-semibold">
             Return to Repairs List
           </Link>
         </div>
@@ -51,10 +59,18 @@ export default function AdminRepairDetailsPage({
           <div className="flex items-center gap-3 mb-2">
             <Link
               href="/admin/repair-orders"
-              className="text-textGray hover:text-titleBlack transition-colors text-sm font-semibold flex items-center gap-1"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              className="text-textGray hover:text-titleBlack transition-colors text-sm font-semibold flex items-center gap-1">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
               </svg>
               Back to Repairs
             </Link>
@@ -65,9 +81,8 @@ export default function AdminRepairDetailsPage({
             </h1>
             <span
               className={`px-3 py-1 rounded-full text-[13px] font-bold capitalize ${getOrderStatusColor(
-                repair.status
-              )}`}
-            >
+                repair.status,
+              )}`}>
               {repair.statusLabel}
             </span>
           </div>
@@ -75,13 +90,17 @@ export default function AdminRepairDetailsPage({
             Created on {repair.date}
           </p>
         </div>
-        
-        <div className="bg-white px-5 py-3 rounded-2xl border border-gray-100 ">
+
+        <div className="bg-white px-5 py-3 rounded-2xl border border-gray-100">
           <p className="text-textGray text-xs font-semibold uppercase tracking-wider mb-0.5">
             Estimated Total
           </p>
           <p className="text-2xl font-bold text-brand">
-            ${repair.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            $
+            {repair.total.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </p>
         </div>
       </div>
@@ -99,13 +118,13 @@ export default function AdminRepairDetailsPage({
             isUpdating={updateMutation.isPending}
             isDeleting={deleteMutation.isPending}
           />
-          
+
           <RepairDeviceCard repair={repair} />
         </div>
 
         <div className="space-y-6">
           <RepairCustomerCard repair={repair} />
-          
+
           <RepairTimeline repair={repair} />
         </div>
       </div>

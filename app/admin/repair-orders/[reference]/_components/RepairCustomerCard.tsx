@@ -1,5 +1,5 @@
 import { AdminRepairDetail } from "@/types/admin";
-import { User, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone, User } from "lucide-react";
 
 export function RepairCustomerCard({ repair }: { repair: AdminRepairDetail }) {
   const { customer } = repair;
@@ -11,13 +11,15 @@ export function RepairCustomerCard({ repair }: { repair: AdminRepairDetail }) {
           <User className="w-5 h-5 text-blue-500" />
         </div>
         <div>
-          <h2 className="text-lg font-bold text-titleBlack">Customer Details</h2>
+          <h2 className="text-lg font-bold text-titleBlack">
+            Customer Details
+          </h2>
           <p className="text-textGray text-sm font-medium mt-0.5">
             Contact and location info
           </p>
         </div>
       </div>
-      
+
       <div className="p-6 space-y-4">
         <div>
           <p className="text-textGray text-xs font-semibold mb-1 uppercase tracking-wider">
@@ -34,8 +36,7 @@ export function RepairCustomerCard({ repair }: { repair: AdminRepairDetail }) {
           </p>
           <a
             href={`mailto:${customer.email}`}
-            className="font-semibold text-brand hover:underline"
-          >
+            className="font-semibold text-brand hover:underline">
             {customer.email}
           </a>
         </div>
@@ -47,8 +48,7 @@ export function RepairCustomerCard({ repair }: { repair: AdminRepairDetail }) {
             </p>
             <a
               href={`tel:${customer.phone}`}
-              className="font-semibold text-titleBlack hover:text-brand transition-colors"
-            >
+              className="font-semibold text-titleBlack hover:text-brand transition-colors">
               {customer.phone}
             </a>
           </div>
@@ -59,9 +59,7 @@ export function RepairCustomerCard({ repair }: { repair: AdminRepairDetail }) {
             <p className="text-textGray text-xs font-semibold mb-1 uppercase tracking-wider flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5" /> Location
             </p>
-            <p className="font-semibold text-titleBlack">
-              {customer.location}
-            </p>
+            <p className="font-semibold text-titleBlack">{customer.location}</p>
           </div>
         )}
       </div>

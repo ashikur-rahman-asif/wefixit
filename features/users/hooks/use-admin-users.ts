@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { AdminUser, PaginatedResponse, ApiResponse } from "@/types/admin";
 
 export const useAdminUsers = (queryParams: Record<string, string | number>) => {
   return useQuery({

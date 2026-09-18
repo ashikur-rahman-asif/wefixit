@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/sheet";
 import { ProductGrade } from "@/types/admin";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { gradeSchema, type GradeFormData } from "@/validators/admin";
 import { Input } from "@/components/form-elements/input";
@@ -33,34 +32,24 @@ export function GradeFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<GradeFormData>({
     resolver: zodResolver(gradeSchema),
+    values: open ? (editingGrade ? {
+      name: editingGrade.name,
+      description: editingGrade.description || "",
+      is_active: editingGrade.is_active,
+    } : {
+      name: "",
+      description: "",
+      is_active: true,
+    }) : undefined,
     defaultValues: {
       name: "",
       description: "",
       is_active: true,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingGrade) {
-        reset({
-          name: editingGrade.name,
-          description: editingGrade.description || "",
-          is_active: editingGrade.is_active,
-        });
-      } else {
-        reset({
-          name: "",
-          description: "",
-          is_active: true,
-        });
-      }
-    }
-  }, [open, editingGrade, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

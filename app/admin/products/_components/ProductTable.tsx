@@ -26,7 +26,7 @@ export function ProductTable({
 }: ProductTableProps) {
   if (isLoading) {
     return (
-      <div className="bg-white rounded-[20px] shadow-sm border border-gray-100 p-8 flex justify-center items-center">
+      <div className="bg-white rounded-[20px] border border-gray-100 p-8 flex justify-center items-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
       </div>
     );
@@ -34,7 +34,7 @@ export function ProductTable({
 
   if (products.length === 0) {
     return (
-      <div className="bg-white rounded-[20px] shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center text-center">
+      <div className="bg-white rounded-[20px] border border-gray-100 p-12 flex flex-col items-center justify-center text-center">
         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
           <Package className="w-8 h-8 text-gray-400" />
         </div>

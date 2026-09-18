@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sheet";
 import { AdminBrand } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { brandSchema, type BrandFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -41,12 +40,26 @@ export function BrandFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<BrandFormData>({
     resolver: zodResolver(brandSchema),
+    values: open ? (editingBrand ? {
+      name: editingBrand.name,
+      slug: editingBrand.slug,
+      deviceName: editingBrand.device_name || "",
+      deviceIds: (editingBrand.deviceIds || []).map(Number),
+      is_active: editingBrand.is_active,
+      icon: editingBrand.icon,
+    } : {
+      name: "",
+      slug: "",
+      deviceName: "",
+      deviceIds: [],
+      is_active: true,
+      icon: null,
+    }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -56,30 +69,6 @@ export function BrandFormModal({
       icon: null,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingBrand) {
-        reset({
-          name: editingBrand.name,
-          slug: editingBrand.slug,
-          deviceName: editingBrand.device_name || "",
-          deviceIds: (editingBrand.deviceIds || []).map(Number),
-          is_active: editingBrand.is_active,
-          icon: editingBrand.icon,
-        });
-      } else {
-        reset({
-          name: "",
-          slug: "",
-          deviceName: "",
-          deviceIds: [],
-          is_active: true,
-          icon: null,
-        });
-      }
-    }
-  }, [open, editingBrand, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>

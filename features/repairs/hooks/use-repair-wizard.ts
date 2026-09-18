@@ -24,7 +24,7 @@ export function useRepairWizard() {
   const { data: brandsResponse, isLoading: isLoadingBrands } = usePublicBrands();
   const brands = brandsResponse?.data || [];
 
-  const { data: servicesResponse, isLoading: isLoadingServices } = usePublicServices();
+  const { data: servicesResponse } = usePublicServices();
   const services = servicesResponse?.data || [];
 
   const submitRepairMutation = useSubmitRepair();

@@ -11,7 +11,6 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deviceSchema, type DeviceFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
@@ -36,12 +35,22 @@ export function DeviceFormModal({
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     control,
     formState: { errors },
   } = useForm<DeviceFormData>({
     resolver: zodResolver(deviceSchema),
+    values: open ? (editingDevice ? {
+      name: editingDevice.name,
+      slug: editingDevice.slug,
+      is_active: editingDevice.is_active,
+      icon: editingDevice.icon,
+    } : {
+      name: "",
+      slug: "",
+      is_active: true,
+      icon: null,
+    }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -49,26 +58,6 @@ export function DeviceFormModal({
       icon: null,
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      if (editingDevice) {
-        reset({
-          name: editingDevice.name,
-          slug: editingDevice.slug,
-          is_active: editingDevice.is_active,
-          icon: editingDevice.icon,
-        });
-      } else {
-        reset({
-          name: "",
-          slug: "",
-          is_active: true,
-          icon: null,
-        });
-      }
-    }
-  }, [open, editingDevice, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
