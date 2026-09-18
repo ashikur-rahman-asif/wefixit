@@ -1,16 +1,14 @@
 import { CheckIcon } from "@/components/icons/check-icon";
-import { cn } from "@/lib/utils";
 import type { Device } from "@/features/repairs/types/repair.types";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { useRepairStore } from "@/stores/repair-wizard.store";
+import Image from "next/image";
 
 interface DeviceSelectorProps {
   devices: Device[];
 }
 
-export function DeviceSelector({
-  devices,
-}: DeviceSelectorProps) {
+export function DeviceSelector({ devices }: DeviceSelectorProps) {
   const selectedDevice = useRepairStore((state) => state.selectedDevice);
   const updateField = useRepairStore((state) => state.updateField);
 

@@ -17,7 +17,10 @@ import {
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 import { Pagination } from "@/components/ui/pagination";
 
-export default function ProductBrandsPage() {
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+function ProductBrandsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -196,5 +199,19 @@ export default function ProductBrandsPage() {
         isSubmitting={createMutation.isPending || updateMutation.isPending}
       />
     </div>
+  );
+}
+
+export default function ProductBrandsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-[400px] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+        </div>
+      }
+    >
+      <ProductBrandsContent />
+    </Suspense>
   );
 }

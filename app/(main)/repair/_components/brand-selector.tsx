@@ -1,16 +1,14 @@
 import { CheckIcon } from "@/components/icons/check-icon";
-import { cn } from "@/lib/utils";
 import type { Brand } from "@/features/repairs/types/repair.types";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { useRepairStore } from "@/stores/repair-wizard.store";
+import Image from "next/image";
 
 interface BrandSelectorProps {
   brands: Brand[];
 }
 
-export function BrandSelector({
-  brands,
-}: BrandSelectorProps) {
+export function BrandSelector({ brands }: BrandSelectorProps) {
   const selectedBrand = useRepairStore((state) => state.selectedBrand);
   const updateField = useRepairStore((state) => state.updateField);
 

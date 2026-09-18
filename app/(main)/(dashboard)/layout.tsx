@@ -19,7 +19,7 @@ const sidebarNavItems = [
   },
   {
     title: "My Repairs",
-    href: "/repairs",
+    href: "/my-repairs",
     icon: Wrench,
   },
   {

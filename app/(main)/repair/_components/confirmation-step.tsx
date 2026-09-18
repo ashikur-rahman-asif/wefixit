@@ -45,13 +45,13 @@ export function ConfirmationStep({ orderId }: ConfirmationStepProps) {
           Return to Home
         </Link>
         <Link
-          href="/dashboard"
+          href="/my-repairs"
           className={buttonVariants({
             variant: "outline",
             size: "lg",
             className: "w-full sm:w-auto",
           })}>
-          View My Orders
+          View My Repairs
         </Link>
       </div>
     </div>

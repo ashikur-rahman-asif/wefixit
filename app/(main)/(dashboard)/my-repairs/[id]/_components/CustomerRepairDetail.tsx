@@ -54,7 +54,7 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
           We couldn&apos;t find the details for this repair.
         </p>
         <Link
-          href="/repairs"
+          href="/my-repairs"
           className="text-brand hover:underline flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Back to My Repairs
         </Link>
@@ -72,7 +72,7 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-border/50">
         <div>
           <Link
-            href="/repairs"
+            href="/my-repairs"
             className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand mb-3 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Back to Repairs

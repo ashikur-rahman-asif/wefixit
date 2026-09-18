@@ -60,7 +60,11 @@ export function CustomerRepairList() {
                     </span>
                   </div>
                   <p className="text-sm font-semibold text-gray-800 mb-0.5">{repair.device}</p>
-                  <p className="text-sm text-gray-500 mb-2">{repair.issue || repair.modelName}</p>
+                  <p className="text-sm text-gray-500 mb-2">
+                    {repair.issue 
+                      ? repair.issue.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') 
+                      : repair.modelName}
+                  </p>
                   
                   <div className="flex items-center gap-4 text-xs text-gray-500 font-medium">
                     <span className="flex items-center gap-1">
@@ -76,7 +80,7 @@ export function CustomerRepairList() {
               
               <div className="w-full md:w-auto pt-4 md:pt-0 border-t border-gray-100 md:border-0">
                 <Link
-                  href={`/repairs/${repair.reference}`}
+                  href={`/my-repairs/${repair.reference}`}
                   className={cn(buttonVariants({ variant: "outline" }), "w-full md:w-auto text-sm py-2 h-auto flex items-center gap-2")}
                 >
                   Track Repair

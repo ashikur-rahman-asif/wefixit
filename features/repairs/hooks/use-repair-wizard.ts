@@ -230,7 +230,7 @@ export function useRepairWizard() {
       (currentIndex >= 2 && !storeData.selectedBrand)) &&
     currentStep !== "Confirmation";
 
-  const isGlobalLoading = !isMounted || isInvalidStep || isLoadingDevices || isLoadingBrands;
+  const isGlobalLoading = !isMounted || (currentStep !== "Confirmation" && (isInvalidStep || isLoadingDevices || isLoadingBrands));
 
   return {
     

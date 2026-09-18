@@ -1,10 +1,10 @@
-import { CheckIcon } from "@/components/icons/check-icon";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { Input } from "@/components/form-elements/input";
+import { CheckIcon } from "@/components/icons/check-icon";
 import { Textarea } from "@/components/ui/textarea";
-import { useRepairStore } from "@/stores/repair-wizard.store";
 import { Service } from "@/features/services/api/public-services.api";
+import { cn } from "@/lib/utils";
+import { useRepairStore } from "@/stores/repair-wizard.store";
+import Image from "next/image";
 
 interface ServiceInfoProps {
   services: Service[];
@@ -29,7 +29,9 @@ export function ServiceInfo({
   return (
     <div className="flex flex-col gap-10">
       <div>
-        <h2 className="text-2xl font-semibold text-primary mb-6">Select the main issue</h2>
+        <h2 className="text-2xl font-semibold text-primary mb-6">
+          Select the main issue
+        </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {services.length === 0 ? (
             <div className="col-span-full py-8 text-center text-muted-foreground">
@@ -75,14 +77,17 @@ export function ServiceInfo({
 
       <div>
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-primary">What do you want to fix?</h2>
+          <h2 className="text-2xl font-semibold text-primary">
+            What do you want to fix?
+          </h2>
           <p className="text-muted-foreground mt-1 text-sm md:text-base">
-            Our experts will assess your device and get it back to you in no time.
+            Our experts will assess your device and get it back to you in no
+            time.
           </p>
         </div>
-        
+
         <div className="flex flex-col gap-6">
-          <Input 
+          <Input
             label="Device Model"
             size="xl"
             placeholder="Your device model (e.g., iPhone 13 Pro Max) *"
@@ -95,7 +100,7 @@ export function ServiceInfo({
             required
             className="w-full"
           />
-          
+
           <div className="flex flex-col">
             <label className="block text-lg mb-2 font-medium">
               Detailed Description <span className="text-red-500 ml-1">*</span>

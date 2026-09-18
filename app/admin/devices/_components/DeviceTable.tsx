@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminDevice } from "@/types/admin";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Switch } from "@/components/ui/switch";
-import { Edit2, Trash2, Smartphone as DeviceIcon } from "lucide-react";
+import { AdminDevice } from "@/types/admin";
+import { Smartphone as DeviceIcon, Edit2, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 interface DeviceTableProps {
@@ -59,8 +59,7 @@ export function DeviceTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+                className="h-32 text-center text-gray-600 font-medium">
                 Loading devices...
               </TableCell>
             </TableRow>
@@ -68,8 +67,7 @@ export function DeviceTable({
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+                className="h-32 text-center text-gray-600 font-medium">
                 No devices found. Add one to get started.
               </TableCell>
             </TableRow>
@@ -77,15 +75,14 @@ export function DeviceTable({
             devices.map((device) => (
               <TableRow
                 key={device.id}
-                className="hover:bg-gray-50/50 border-none transition-colors"
-              >
+                className="hover:bg-gray-50/50 border-none transition-colors">
                 <TableCell className="px-6 py-4">
                   <div className="w-10 h-10 rounded-lg border border-gray-100 overflow-hidden flex items-center justify-center bg-gray-50">
                     {device.icon ? (
-                      <Image 
-                        src={device.icon} 
-                        alt={device.name} 
-                        width={40} 
+                      <Image
+                        src={device.icon}
+                        alt={device.name}
+                        width={40}
                         height={40}
                         className="object-contain"
                       />
@@ -102,8 +99,12 @@ export function DeviceTable({
                 </TableCell>
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={pendingStatuses[device.id] ?? Boolean(device.is_active)}
-                    onCheckedChange={(checked) => onToggleStatus(device.id, checked)}
+                    checked={
+                      pendingStatuses[device.id] ?? Boolean(device.is_active)
+                    }
+                    onCheckedChange={(checked) =>
+                      onToggleStatus(device.id, checked)
+                    }
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />
                 </TableCell>
@@ -112,16 +113,14 @@ export function DeviceTable({
                     <button
                       onClick={() => onEdit(device)}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                      title="Edit"
-                    >
+                      title="Edit">
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDelete(device.id)}
                       disabled={isDeleting}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                      title="Delete"
-                    >
+                      title="Delete">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
