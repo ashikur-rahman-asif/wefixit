@@ -339,14 +339,21 @@ export interface AdminProduct {
   description: string | null;
   short_description: string | null;
   specification: string | null;
-  specifications: any | null; 
+  specifications: { key: string; value: string }[] | null; 
   image: string | null;
   stock: number;
   rating: number;
   reviews_count: number;
   is_active: boolean;
-  images: any[];
-  colors: any[];
+  images: string[];
+  colors: {
+    id: number;
+    name: string;
+    hex: string;
+    stock: number;
+    position: number;
+    image: string | null;
+  }[];
   created_at: string;
   updated_at: string;
 }

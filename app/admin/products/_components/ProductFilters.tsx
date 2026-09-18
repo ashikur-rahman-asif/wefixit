@@ -12,14 +12,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/form-elements/input";
 
 export function ProductFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { data: categoriesData } = useProductCategories({ perPage: 100 });
-  const { data: brandsData } = useProductBrands({ perPage: 100 });
+  const { data: categoriesData } = useProductCategories({ per_page: 100 });
+  const { data: brandsData } = useProductBrands({ per_page: 100 });
 
   const categories = categoriesData?.data || [];
   const brands = brandsData?.data || [];
@@ -33,6 +34,15 @@ export function ProductFilters() {
     category: searchParams.get("category") || "all",
     status: searchParams.get("status") || "all",
   });
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "active": return "Active";
+      case "inactive": return "Inactive";
+      case "out_of_stock": return "Out of Stock";
+      default: return "All Status";
+    }
+  };
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -67,102 +77,96 @@ export function ProductFilters() {
 
   return (
     <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm mb-6 space-y-4">
-      {}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">ID</label>
-          <input
-            type="text"
-            className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all"
-            value={filters.id}
-            onChange={(e) => setFilters(prev => ({ ...prev, id: e.target.value }))}
-          />
-        </div>
+      {/* Filters Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
+        
+        <Input
+          label="ID"
+          labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
+          className="w-full"
+          value={filters.id}
+          onChange={(e) => setFilters(prev => ({ ...prev, id: e.target.value }))}
+        />
 
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">Name</label>
-          <input
-            type="text"
-            placeholder="iphone"
-            className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all"
-            value={filters.search}
-            onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-          />
-        </div>
+        <Input
+          label="Name"
+          labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
+          placeholder="e.g. iPhone"
+          className="w-full"
+          value={filters.search}
+          onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+        />
 
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">SKU</label>
-          <input
-            type="text"
-            className="w-full h-10 px-3 bg-white border border-gray-200 rounded-lg text-sm focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all"
-            value={filters.sku}
-            onChange={(e) => setFilters(prev => ({ ...prev, sku: e.target.value }))}
-          />
-        </div>
+        <Input
+          label="SKU"
+          labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
+          className="w-full"
+          value={filters.sku}
+          onChange={(e) => setFilters(prev => ({ ...prev, sku: e.target.value }))}
+        />
 
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">Brand</label>
+        <div className="space-y-0 relative">
+          <label className="block text-sm font-semibold text-titleBlack mb-1.5">Brand</label>
           <Select
             value={filters.brand}
             onValueChange={(val) => setFilters(prev => ({ ...prev, brand: val || "all" }))}
           >
-            <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-              <SelectValue placeholder="Select option" />
+            <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
+              <SelectValue placeholder="Select option">
+                {filters.brand === "all" ? "All Brands" : brands.find((b: { slug: string, name: string }) => b.slug === filters.brand)?.name || "All Brands"}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Select option</SelectItem>
+            <SelectContent alignItemWithTrigger={false}>
+              <SelectItem value="all" label="All Brands">All Brands</SelectItem>
               {brands.map((b: { id: number; name: string; slug: string }) => (
-                <SelectItem key={b.id} value={b.slug}>{b.name}</SelectItem>
+                <SelectItem key={b.id} value={b.slug} label={b.name}>{b.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">Category</label>
+        <div className="space-y-0 relative">
+          <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
           <Select
             value={filters.category}
             onValueChange={(val) => setFilters(prev => ({ ...prev, category: val || "all" }))}
           >
-            <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-              <SelectValue placeholder="Select option" />
+            <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
+              <SelectValue placeholder="Select option">
+                {filters.category === "all" ? "All Categories" : categories.find((c: { slug: string, name: string }) => c.slug === filters.category)?.name || "All Categories"}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Select option</SelectItem>
+            <SelectContent alignItemWithTrigger={false}>
+              <SelectItem value="all" label="All Categories">All Categories</SelectItem>
               {categories.map((c: { id: number; name: string; slug: string }) => (
-                <SelectItem key={c.id} value={c.slug}>{c.name}</SelectItem>
+                <SelectItem key={c.id} value={c.slug} label={c.name}>{c.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
 
-        {}
-        <div className="space-y-1.5">
-          <label className="text-[13px] font-semibold text-gray-700">Status</label>
+        <div className="space-y-0 relative">
+          <label className="block text-sm font-semibold text-titleBlack mb-1.5">Status</label>
           <Select
             value={filters.status}
             onValueChange={(val) => setFilters(prev => ({ ...prev, status: val || "all" }))}
           >
-            <SelectTrigger className="w-full h-10 bg-white border-gray-200 rounded-lg text-sm">
-              <SelectValue placeholder="Select option" />
+            <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
+              <SelectValue placeholder="Select option">
+                {getStatusLabel(filters.status)}
+              </SelectValue>
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Select option</SelectItem>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-              <SelectItem value="out_of_stock">Out of Stock</SelectItem>
+            <SelectContent alignItemWithTrigger={false}>
+              <SelectItem value="all" label="All Status">All Status</SelectItem>
+              <SelectItem value="active" label="Active">Active</SelectItem>
+              <SelectItem value="inactive" label="Inactive">Inactive</SelectItem>
+              <SelectItem value="out_of_stock" label="Out of Stock">Out of Stock</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      {}
-      <div className="flex gap-3">
+      <div className="flex gap-3 pt-2">
         <button
           onClick={handleFilter}
           className="w-full h-10 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-semibold rounded-lg flex items-center justify-center transition-colors"

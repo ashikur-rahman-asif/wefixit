@@ -6,11 +6,12 @@ import { productBrandsApi } from "../api/admin-product-brands.api";
 interface UseBrandsProps {
   page?: number;
   search?: string;
+  per_page?: number;
 }
 
 export const useProductBrands = (params?: UseBrandsProps) => {
   return useQuery({
-    queryKey: ["adminProductBrands", params?.page, params?.search],
+    queryKey: ["adminProductBrands", params?.page, params?.search, params?.per_page],
     queryFn: () => productBrandsApi.getBrands(params),
     staleTime: 1000 * 60 * 5,
   });

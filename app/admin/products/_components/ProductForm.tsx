@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import slugify from "slugify";
 import { useRouter } from "next/navigation";
 
-import { productSchema, type ProductFormData } from "@/validators/admin";
+import { productSchema, type ProductFormData, type ProductFormInput } from "@/validators/admin";
 import { AdminProduct } from "@/types/admin";
 import { Input } from "@/components/form-elements/input";
 import { MultiImageUpload } from "@/components/ui/multi-image-upload";
@@ -51,7 +51,7 @@ export function ProductForm({
     setValue,
     reset,
     formState: { errors },
-  } = useForm<ProductFormData>({
+  } = useForm({
     resolver: zodResolver(productSchema),
     defaultValues: {
       title: "",
@@ -92,9 +92,9 @@ export function ProductForm({
         discountPrice: initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
         stock: initialData.stock != null ? Number(initialData.stock) : 0,
         isActive: initialData.is_active,
-        categoryId: initialData.product_category_id != null ? String(initialData.product_category_id) : "",
-        brandId: initialData.product_brand_id != null ? String(initialData.product_brand_id) : "",
-        deviceId: initialData.product_device_id != null ? String(initialData.product_device_id) : "",
+        categoryId: initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
+        brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
+        deviceId: initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
         shortDescription: initialData.short_description || "",
         description: initialData.description || "",
         specification: initialData.specification || "",
@@ -119,7 +119,7 @@ export function ProductForm({
   }, [watchedColors, setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-5xl">
+    <form onSubmit={handleSubmit((data) => onSubmit(data))} className="space-y-6 max-w-5xl">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
@@ -174,7 +174,7 @@ export function ProductForm({
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <RichTextEditor
-                    content={value || ""}
+                    value={value || ""}
                     onChange={onChange}
                     placeholder="Write a detailed product description here..."
                   />
@@ -269,12 +269,12 @@ export function ProductForm({
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
-                      <SelectContent position="popper">
+                      <SelectContent>
                         {categories.length === 0 ? (
                           <div className="p-2 text-sm text-gray-500 text-center">No categories found</div>
                         ) : (
                           categories.map((c) => (
-                            <SelectItem key={c.id} value={c.id.toString()}>
+                            <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
                               {c.name}
                             </SelectItem>
                           ))
@@ -295,12 +295,12 @@ export function ProductForm({
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
                         <SelectValue placeholder="Select a brand" />
                       </SelectTrigger>
-                      <SelectContent position="popper">
+                      <SelectContent>
                         {brands.length === 0 ? (
                           <div className="p-2 text-sm text-gray-500 text-center">No brands found</div>
                         ) : (
                           brands.map((b) => (
-                            <SelectItem key={b.id} value={b.id.toString()}>
+                            <SelectItem key={b.id} value={b.id.toString()} label={b.name}>
                               {b.name}
                             </SelectItem>
                           ))
@@ -321,12 +321,12 @@ export function ProductForm({
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
                         <SelectValue placeholder="Select a device" />
                       </SelectTrigger>
-                      <SelectContent position="popper">
+                      <SelectContent>
                         {devices.length === 0 ? (
                           <div className="p-2 text-sm text-gray-500 text-center">No devices found</div>
                         ) : (
                           devices.map((d) => (
-                            <SelectItem key={d.id} value={d.id.toString()}>
+                            <SelectItem key={d.id} value={d.id.toString()} label={d.name}>
                               {d.name}
                             </SelectItem>
                           ))
@@ -451,7 +451,7 @@ export function ProductForm({
                           <div className="p-2 text-sm text-gray-500 text-center">No colors found</div>
                         ) : (
                           globalColors.map(c => (
-                            <SelectItem key={c.id} value={c.id.toString()}>
+                            <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
                               <div className="flex items-center gap-2">
                                 <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: c.hex }} />
                                 <span>{c.name}</span>

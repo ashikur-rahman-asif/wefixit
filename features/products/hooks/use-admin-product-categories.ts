@@ -6,11 +6,12 @@ import { productCategoriesApi } from "../api/admin-product-categories.api";
 interface UseCategoriesProps {
   page?: number;
   search?: string;
+  per_page?: number;
 }
 
 export const useProductCategories = (params?: UseCategoriesProps) => {
   return useQuery({
-    queryKey: ["adminProductCategories", params?.page, params?.search],
+    queryKey: ["adminProductCategories", params?.page, params?.search, params?.per_page],
     queryFn: () => productCategoriesApi.getCategories(params),
     staleTime: 1000 * 60 * 5,
   });

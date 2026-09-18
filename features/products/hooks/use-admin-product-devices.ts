@@ -6,11 +6,12 @@ import { productDevicesApi } from "../api/admin-product-devices.api";
 interface UseDevicesProps {
   page?: number;
   search?: string;
+  per_page?: number;
 }
 
 export const useProductDevices = (params?: UseDevicesProps) => {
   return useQuery({
-    queryKey: ["adminProductDevices", params?.page, params?.search],
+    queryKey: ["adminProductDevices", params?.page, params?.search, params?.per_page],
     queryFn: () => productDevicesApi.getDevices(params),
     staleTime: 1000 * 60 * 5,
   });
