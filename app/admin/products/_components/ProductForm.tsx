@@ -114,7 +114,7 @@ export function ProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-6 max-w-5xl">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className="w-full relative pb-28 space-y-6 max-w-5xl">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
@@ -243,7 +243,7 @@ export function ProductForm({
               <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100">
                 <div>
                   <label className="text-sm font-semibold text-titleBlack block mb-0.5">Active Status</label>
-                  <p className="text-xs text-textGray">Is this product visible?</p>
+                  <p className="text-[13px] font-medium text-gray-500">Is this product visible?</p>
                 </div>
                 <Controller
                   name="isActive"
@@ -363,7 +363,7 @@ export function ProductForm({
                 error={errors.stock?.message?.toString()}
               />
               {colorFields.length > 0 && (
-                <p className="text-xs text-textGray mt-1">
+                <p className="text-[13px] font-medium text-gray-500 mt-1">
                   Stock is auto-calculated from color variants.
                 </p>
               )}
@@ -373,7 +373,7 @@ export function ProductForm({
           <div className="bg-white rounded-2xl p-6 border border-gray-100 space-y-6">
             <div>
               <h2 className="text-xl font-bold text-titleBlack">Product Gallery</h2>
-              <p className="text-xs text-textGray mt-1">Recommended size: 640 x 640 px</p>
+              <p className="text-[13px] font-medium text-gray-500 mt-1">Recommended size: 640 x 640 px</p>
             </div>
             <div>
               <Controller
@@ -500,7 +500,7 @@ export function ProductForm({
 
                   <div className="mt-4">
                     <label className="block text-sm font-semibold text-titleBlack mb-0.5">Color Image (Optional)</label>
-                    <p className="text-xs text-textGray mb-2">Recommended size: 640 x 640 px</p>
+                    <p className="text-[13px] font-medium text-gray-500 mb-2">Recommended size: 640 x 640 px</p>
                     <Controller
                       name={`colors.${index}.image` as const}
                       control={control}
@@ -522,18 +522,18 @@ export function ProductForm({
         )}
       </div>
 
-      <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-100">
+      <div className="fixed bottom-0 left-0 lg:left-[280px] right-0 bg-white flex items-center justify-end gap-4 py-4 px-6 md:px-10 border-t border-gray-100 z-50 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)]">
         <button
           type="button"
           onClick={() => router.push("/admin/products")}
-          className="h-11 px-6 bg-white border border-gray-200 text-titleBlack rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors"
+          className="h-11 px-8 bg-gray-50 text-titleBlack rounded-xl text-sm font-bold hover:bg-gray-100 transition-colors cursor-pointer"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="h-11 px-8 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className="h-11 px-8 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
         >
           {isSubmitting
             ? "Saving..."

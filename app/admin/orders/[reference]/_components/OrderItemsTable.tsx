@@ -49,7 +49,7 @@ export function OrderItemsTable({ order }: { order: AdminOrderDetail }) {
                         {item.name}
                       </p>
                       {item.color && (
-                        <p className="text-xs text-textGray font-medium mt-0.5">
+                        <p className="text-[13px] font-medium text-gray-500 font-medium mt-0.5">
                           Color: {item.color}
                         </p>
                       )}

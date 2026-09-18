@@ -1,5 +1,3 @@
-"use client";
-
 import { SheetTrigger } from "@/components/ui/sheet";
 import { Bell, Menu, Search, User } from "lucide-react";
 

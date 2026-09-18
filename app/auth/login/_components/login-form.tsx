@@ -40,7 +40,12 @@ export function LoginForm() {
         if (res.data?.user && res.data?.token) {
           setAuth(res.data.user, res.data.token);
           toast.success(res.message || "Login successful!");
-          router.push("/");
+          
+          if (res.data.user.roles?.includes("admin")) {
+            router.push("/admin");
+          } else {
+            router.push("/");
+          }
         }
       },
       onError: (error) => {

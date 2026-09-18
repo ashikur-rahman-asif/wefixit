@@ -105,7 +105,7 @@ export function GradeFormModal({
               >
                 Active
               </label>
-              <p className="text-xs text-textGray">
+              <p className="text-[13px] font-medium text-gray-500">
                 Active grades are visible when assigning to products
               </p>
             </div>

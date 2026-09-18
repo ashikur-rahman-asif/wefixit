@@ -26,22 +26,22 @@ const normalizeColor = (raw: RawColor): AdminColor => ({
 
 export const colorsApi = {
   getColors: async () => {
-    const response = await api.get<ApiResponse<RawColor[]>>("/colors?includeInactive=1");
+    const response = await api.get<ApiResponse<RawColor[]>>("/admin/colors?includeInactive=1");
     return { ...response.data, data: (response.data.data ?? []).map(normalizeColor) };
   },
 
   createColor: async (data: { name: string; hex: string; isActive: boolean }) => {
-    const response = await api.post<ApiResponse<AdminColor>>("/colors", data);
+    const response = await api.post<ApiResponse<AdminColor>>("/admin/colors", data);
     return response.data;
   },
 
   updateColor: async ({ id, data }: { id: number; data: { name?: string; hex?: string; isActive?: boolean } }) => {
-    const response = await api.put<ApiResponse<AdminColor>>(`/colors/${id}`, data);
+    const response = await api.put<ApiResponse<AdminColor>>(`/admin/colors/${id}`, data);
     return response.data;
   },
 
   deleteColor: async (id: number) => {
-    const response = await api.delete(`/colors/${id}`);
+    const response = await api.delete(`/admin/colors/${id}`);
     return response.data;
   },
 };

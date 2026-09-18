@@ -1,5 +1,3 @@
-"use client";
-
 import { AmazonIcon } from "../icons/amazon-icon";
 import { AppleIcon } from "../icons/apple-icon";
 import { FacebookIcon } from "../icons/facebook-icon";

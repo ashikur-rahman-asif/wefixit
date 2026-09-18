@@ -16,28 +16,30 @@ interface GetProductsParams {
 
 export const productsApi = {
   getProducts: async (params?: GetProductsParams) => {
-    const response = await api.get<PaginatedResponse<AdminProduct>>("/products", { params });
+    const response = await api.get<PaginatedResponse<AdminProduct>>("/admin/products", { 
+      params: { ...params, includeInactive: 1 } 
+    });
     return response.data;
   },
 
   getProduct: async (id: number | string) => {
-    const response = await api.get<ApiResponse<AdminProduct>>(`/products/${id}`);
+    const response = await api.get<ApiResponse<AdminProduct>>(`/admin/products/${id}`);
     return response.data.data;
   },
 
   createProduct: async (data: FormData) => {
-    const response = await api.post<ApiResponse<AdminProduct>>("/products", data);
+    const response = await api.post<ApiResponse<AdminProduct>>("/admin/products", data);
     return response.data;
   },
 
   updateProduct: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminProduct>>(`/products/${id}`, data);
+    const response = await api.post<ApiResponse<AdminProduct>>(`/admin/products/${id}`, data);
     return response.data;
   },
 
   deleteProduct: async (id: number) => {
-    const response = await api.delete(`/products/${id}`);
+    const response = await api.delete(`/admin/products/${id}`);
     return response.data;
   },
 };

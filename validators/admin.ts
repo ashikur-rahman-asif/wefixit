@@ -70,7 +70,6 @@ export type ColorFormData = z.infer<typeof colorSchema>;
 export const productCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   slug: z.string().optional(),
-  icon: z.any().optional(), 
   is_active: z.boolean(),
 });
 export type ProductCategoryFormData = z.infer<typeof productCategorySchema>;
@@ -78,7 +77,6 @@ export type ProductCategoryFormData = z.infer<typeof productCategorySchema>;
 export const ecommerceBrandSchema = z.object({
   name: z.string().min(1, "Brand name is required"),
   slug: z.string().optional(),
-  icon: z.any().optional(),
   is_active: z.boolean(),
 });
 export type EcommerceBrandFormData = z.infer<typeof ecommerceBrandSchema>;
@@ -86,17 +84,13 @@ export type EcommerceBrandFormData = z.infer<typeof ecommerceBrandSchema>;
 export const ecommerceDeviceSchema = z.object({
   name: z.string().min(1, "Device name is required"),
   slug: z.string().optional(),
-  icon: z.any().optional(),
   is_active: z.boolean(),
 });
 export type EcommerceDeviceFormData = z.infer<typeof ecommerceDeviceSchema>;
 
-
-
 const optionalNumber = z
   .union([z.literal(""), z.coerce.number().min(0, "Must be 0 or more")])
   .optional();
-
 
 const optionalId = z
   .union([z.literal(""), z.coerce.number().int().positive()])

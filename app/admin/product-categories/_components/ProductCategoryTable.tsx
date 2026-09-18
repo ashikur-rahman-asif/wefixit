@@ -10,8 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AdminProductCategory } from "@/types/admin";
-import { Edit2, Image as ImageIcon, Trash2 } from "lucide-react";
-import Image from "next/image";
+import { Edit2, Trash2 } from "lucide-react";
 
 interface ProductCategoryTableProps {
   categories: AdminProductCategory[];
@@ -37,9 +36,6 @@ export function ProductCategoryTable({
       <Table>
         <TableHeader className="bg-[#F8F9FB] border-b border-gray-100">
           <TableRow className="border-none hover:bg-transparent">
-            <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto w-24">
-              Icon
-            </TableHead>
             <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
               Name
             </TableHead>
@@ -73,24 +69,9 @@ export function ProductCategoryTable({
               <TableRow
                 key={category.id}
                 className="hover:bg-gray-50/50 border-none transition-colors">
-                <TableCell className="px-6 py-4">
-                  <div className="w-10 h-10 rounded-lg border border-gray-100 overflow-hidden flex items-center justify-center bg-gray-50">
-                    {category.icon ? (
-                      <Image
-                        src={category.icon}
-                        alt={category.name}
-                        width={40}
-                        height={40}
-                        className="object-contain"
-                      />
-                    ) : (
-                      <ImageIcon className="w-5 h-5 text-gray-600 font-medium" />
-                    )}
-                  </div>
-                </TableCell>
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {category.name}
-                  <div className="text-xs text-textGray font-normal mt-0.5">
+                  <div className="text-[13px] font-medium text-gray-500 font-normal mt-0.5">
                     {category.slug}
                   </div>
                 </TableCell>

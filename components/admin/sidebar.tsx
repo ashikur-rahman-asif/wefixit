@@ -81,6 +81,7 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
         { title: "Brands", href: "/admin/product-brands", icon: Award },
         { title: "Devices", href: "/admin/product-devices", icon: Smartphone },
         { title: "Colors", href: "/admin/colors", icon: Palette },
+        { title: "Reviews", href: "/admin/product-reviews", icon: Star },
       ],
     },
     {
@@ -109,7 +110,6 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
     { title: "Coupons", href: "#", icon: Tag },
     { title: "Transactions", href: "#", icon: FileText },
     { title: "Users", href: "/admin/users", icon: UserCog },
-    { title: "Reviews", href: "#", icon: Star },
   ];
 
   const OTHER_LINKS = [

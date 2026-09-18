@@ -1,26 +1,22 @@
-"use client";
-
 import { ProductColor, Product } from "@/features/products/types/product.types";
-import { useState } from "react";
 import { ProductColorSelector } from "./product-color-selector";
 import { ProductActions } from "./product-actions";
 import { ProductInfo } from "./product-info";
 
 interface ProductInteractiveProps {
   product: Product;
+  selectedColor?: ProductColor;
+  onColorChange?: (color: ProductColor) => void;
 }
 
-export function ProductInteractive({ product }: ProductInteractiveProps) {
-  const [selectedColor, setSelectedColor] = useState<ProductColor | undefined>(
-    product.colors?.[0],
-  );
+export function ProductInteractive({ product, selectedColor, onColorChange }: ProductInteractiveProps) {
 
   return (
     <div>
       <ProductInfo product={product} />
       <ProductColorSelector
         colors={product.colors}
-        onColorChange={setSelectedColor}
+        onColorChange={onColorChange || (() => {})}
       />
       <ProductActions
         product={product}

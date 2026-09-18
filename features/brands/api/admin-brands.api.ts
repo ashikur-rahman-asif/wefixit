@@ -34,23 +34,23 @@ const normalizeBrand = (raw: RawBrand): AdminBrand => ({
 
 export const brandsApi = {
   getBrands: async () => {
-    const response = await api.get<ApiResponse<RawBrand[]>>("/brands?includeInactive=1");
+    const response = await api.get<ApiResponse<RawBrand[]>>("/admin/brands?includeInactive=1");
     return { ...response.data, data: (response.data.data ?? []).map(normalizeBrand) };
   },
 
   createBrand: async (data: FormData) => {
-    const response = await api.post<ApiResponse<AdminBrand>>("/brands", data);
+    const response = await api.post<ApiResponse<AdminBrand>>("/admin/brands", data);
     return response.data;
   },
 
   updateBrand: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminBrand>>(`/brands/${id}`, data);
+    const response = await api.post<ApiResponse<AdminBrand>>(`/admin/brands/${id}`, data);
     return response.data;
   },
 
   deleteBrand: async (id: number) => {
-    const response = await api.delete(`/brands/${id}`);
+    const response = await api.delete(`/admin/brands/${id}`);
     return response.data;
   },
 };

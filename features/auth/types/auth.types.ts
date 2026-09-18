@@ -12,6 +12,7 @@ export interface User {
   district?: string;
   upazila?: string;
   street_address?: string;
+  roles?: string[];
 }
 
 export interface RegisterPayload {

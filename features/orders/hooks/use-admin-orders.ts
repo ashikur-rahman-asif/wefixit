@@ -53,8 +53,6 @@ export const useOrdersFilter = () => {
   if (paymentStatus !== "all") queryParams.paymentStatus = paymentStatus;
   if (searchParams.get("search")) queryParams.search = searchParams.get("search")!;
 
-
-
   return {
     page,
     perPage,

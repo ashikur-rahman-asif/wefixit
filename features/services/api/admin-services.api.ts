@@ -30,23 +30,23 @@ const normalizeService = (raw: RawService): AdminService => ({
 
 export const servicesApi = {
   getServices: async () => {
-    const response = await api.get<ApiResponse<RawService[]>>("/services?includeInactive=1");
+    const response = await api.get<ApiResponse<RawService[]>>("/admin/services?includeInactive=1");
     return { ...response.data, data: (response.data.data ?? []).map(normalizeService) };
   },
 
   createService: async (data: FormData) => {
-    const response = await api.post<ApiResponse<AdminService>>("/services", data);
+    const response = await api.post<ApiResponse<AdminService>>("/admin/services", data);
     return response.data;
   },
 
   updateService: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminService>>(`/services/${id}`, data);
+    const response = await api.post<ApiResponse<AdminService>>(`/admin/services/${id}`, data);
     return response.data;
   },
 
   deleteService: async (id: number) => {
-    const response = await api.delete(`/services/${id}`);
+    const response = await api.delete(`/admin/services/${id}`);
     return response.data;
   },
 };

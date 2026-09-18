@@ -3,6 +3,12 @@ import { SectionTitle } from "@/components/section-title";
 import { Loader } from "@/components/ui/loader";
 import { Suspense } from "react";
 import { RepairWizard } from "./_components/repair-wizard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Book a Repair | WeFixIt",
+  description: "Book a repair for your device. Our experts will assess your device and get it back to you in no time.",
+};
 
 export default function RepairPage() {
   return (

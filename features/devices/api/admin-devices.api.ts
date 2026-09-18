@@ -28,23 +28,23 @@ const normalizeDevice = (raw: RawDevice): AdminDevice => ({
 
 export const devicesApi = {
   getDevices: async () => {
-    const response = await api.get<ApiResponse<RawDevice[]>>("/devices?includeInactive=1");
+    const response = await api.get<ApiResponse<RawDevice[]>>("/admin/devices?includeInactive=1");
     return { ...response.data, data: (response.data.data ?? []).map(normalizeDevice) };
   },
 
   createDevice: async (data: FormData) => {
-    const response = await api.post<ApiResponse<AdminDevice>>("/devices", data);
+    const response = await api.post<ApiResponse<AdminDevice>>("/admin/devices", data);
     return response.data;
   },
 
   updateDevice: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminDevice>>(`/devices/${id}`, data);
+    const response = await api.post<ApiResponse<AdminDevice>>(`/admin/devices/${id}`, data);
     return response.data;
   },
 
   deleteDevice: async (id: number) => {
-    const response = await api.delete(`/devices/${id}`);
+    const response = await api.delete(`/admin/devices/${id}`);
     return response.data;
   },
 };

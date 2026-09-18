@@ -25,7 +25,9 @@ export function ProductCard({
 }: ProductCardProps) {
   const cardClasses = cn(
     "relative p-4 sm:p-6 font-montserrat bg-lightBrand border border-black/5 rounded-[14px] flex flex-col h-full justify-between transition-all duration-300",
-    variant === "slider" ? "items-center text-center" : "sm:items-center sm:text-center",
+    variant === "slider"
+      ? "items-center text-center"
+      : "sm:items-center sm:text-center",
     variant === "product" && "hover:shadow-md hover:-translate-y-1",
     className,
   );
@@ -44,7 +46,7 @@ export function ProductCard({
           </div>
         )}
 
-      <div className="w-full flex justify-center items-center mb-2 sm:mb-6 min-h-40">
+      <div className="w-full flex justify-center items-center mb-2  min-h-40">
         {image ? (
           <Image
             src={image}
@@ -60,19 +62,29 @@ export function ProductCard({
         )}
       </div>
 
-      <div className={cn("w-full flex flex-col flex-1", variant === "slider" ? "items-center text-center" : "sm:items-center")}>
+      <div
+        className={cn(
+          "w-full flex flex-col flex-1",
+          variant === "slider" ? "items-center text-center" : "sm:items-center",
+        )}>
         {variant === "slider" ? (
           <>
-            <h2 className="text-titleBlack text-lg sm:text-2xl lg:text-[28px] font-semibold mb-2 sm:mb-6">
+            <h2
+              className="text-titleBlack text-lg sm:text-2xl lg:text-[28px] font-semibold mb-2  line-clamp-2"
+              title={title}>
               {title}
             </h2>
-            <Button variant="brand" className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base">
+            <Button
+              variant="brand"
+              className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base">
               {sliderButtonText}
             </Button>
           </>
         ) : (
           <>
-            <h2 className="text-primary text-left sm:text-center text-base md:text-lg font-medium leading-tight">
+            <h2
+              className="text-primary text-left sm:text-center text-base md:text-lg font-medium leading-tight line-clamp-2"
+              title={title}>
               {title}
             </h2>
 

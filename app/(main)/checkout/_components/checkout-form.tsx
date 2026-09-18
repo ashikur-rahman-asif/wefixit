@@ -19,14 +19,17 @@ import { StripePayment, StripePaymentRef } from "./stripe-payment";
 import { CheckoutSummary } from "./checkout-summary";
 import { useAuthStore } from "@/stores/auth.store";
 import { Loader } from "@/components/ui/loader";
+import { useCreateOrder } from "@/features/checkout/hooks/use-create-order";
 
 export function CheckoutForm() {
   const router = useRouter();
   const { items, getTotalPrice, clearCart } = useCartStore();
-  const { formData, updateFormData, resetCheckout } = useCheckoutStore();
+  const { formData, resetCheckout } = useCheckoutStore();
   const { user } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const stripeRef = useRef<StripePaymentRef>(null);
+
+  const { mutateAsync: createOrder } = useCreateOrder();
 
   const onPlaceOrderClick = () => {
     if (paymentMethod === "stripe") {
@@ -72,31 +75,49 @@ export function CheckoutForm() {
     [clearCart, resetCheckout, router]
   );
 
-  const onCODSubmit = useCallback(
-    (formData: CheckoutInput) => {
-      setIsSubmitting(true);
-      
-      const payloadForBackend = {
-        customerInfo: formData,
-        orderItems: items.map(item => ({
-          productId: item.id,
-          quantity: item.quantity,
-          color: item.color?.name || null
-        }))
-      };
-      console.log("🚀 Payload ready for Laravel Backend:", payloadForBackend);
+  const getPayload = useCallback((formData: CheckoutInput) => ({
+    customerInfo: formData,
+    orderItems: items.map((item) => ({
+      productId: Number(item.id),
+      quantity: item.quantity,
+      color: item.color?.name || null,
+    })),
+  }), [items]);
 
-      setTimeout(() => {
-        setIsSubmitting(false);
+  const onCODSubmit = useCallback(
+    async (formData: CheckoutInput) => {
+      setIsSubmitting(true);
+      try {
+        await createOrder(getPayload(formData));
         onSuccessfulPayment();
-      }, 1500);
+      } catch (error) {
+        const err = error as Error;
+        toast.error(err.message || "Failed to place order.");
+      } finally {
+        setIsSubmitting(false);
+      }
     },
-    [items, onSuccessfulPayment]
+    [getPayload, onSuccessfulPayment, createOrder]
   );
 
-  const handleStripeReady = useCallback(() => {
-    updateFormData(getValues());
-  }, [updateFormData, getValues]);
+  const handleBeforeStripePayment = useCallback(async (): Promise<string | null> => {
+    
+    const isValid = await handleSubmit(async () => {})();
+    if (!isValid) return null;
+
+    const formData = getValues();
+    try {
+      setIsSubmitting(true);
+      const response = await createOrder(getPayload(formData));
+      return response.data.payment?.clientSecret || null;
+    } catch (error) {
+      const err = error as Error;
+      toast.error(err.message || "Failed to create order. Please check your items.");
+      return null;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [handleSubmit, getValues, getPayload, createOrder]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start flex-col-reverse lg:flex-row">
@@ -230,7 +251,7 @@ export function CheckoutForm() {
             ref={stripeRef}
             amount={total}
             onSuccess={onSuccessfulPayment}
-            onBeforePayment={handleSubmit(handleStripeReady)}
+            onBeforePayment={handleBeforeStripePayment}
           />
         )}
       </div>

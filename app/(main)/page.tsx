@@ -8,6 +8,12 @@ import { RepairSlider } from "@/components/home/repair-slider";
 import { RequestCall } from "@/components/home/request-call";
 import { Services } from "@/components/home/services";
 import { Testimonials } from "@/components/home/testimonials";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "WeFixIt - Expert Device Repair & Premium Electronics Store",
+  description: "WeFixIt is your one-stop shop for professional device repairs and premium electronics. Shop new and pre-owned smartphones, tablets, laptops, and accessories.",
+};
 
 export default function HomePage() {
   return (

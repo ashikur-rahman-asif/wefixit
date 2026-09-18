@@ -114,6 +114,7 @@ export interface PaginatedResponse<T> {
     total: number;
     from: number | null;
     to: number | null;
+    maxPrice?: number;
   };
 }
 

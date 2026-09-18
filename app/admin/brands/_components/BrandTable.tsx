@@ -97,7 +97,7 @@ export function BrandTable({
                 </TableCell>
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {brand.name}
-                  <div className="text-xs text-textGray font-normal mt-0.5">
+                  <div className="text-[13px] font-medium text-gray-500 font-normal mt-0.5">
                     {brand.slug}
                   </div>
                 </TableCell>

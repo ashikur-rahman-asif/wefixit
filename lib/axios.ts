@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Cookies from "js-cookie";
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL,
@@ -47,7 +47,7 @@ api.interceptors.response.use(
         Cookies.remove("token");
 
         if (window.location.pathname !== "/auth/login") {
-          // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+          
           window.location.href = "/auth/login";
         }
       }

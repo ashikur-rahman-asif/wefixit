@@ -29,7 +29,7 @@ const CARD_ELEMENT_OPTIONS = {
 interface StripePaymentProps {
   amount: number;
   onSuccess: (orderId?: string) => void;
-  onBeforePayment: () => Promise<void>;
+  onBeforePayment: () => Promise<string | null>;
 }
 
 export interface StripePaymentRef {
@@ -46,7 +46,12 @@ const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSu
 
     if (!stripe || !elements) return;
 
-    await onBeforePayment();
+    const clientSecret = await onBeforePayment();
+    
+    if (!clientSecret) {
+      // Order creation failed or validation failed, the parent form should show the error
+      return;
+    }
 
     setErrorMessage(null);
 
@@ -55,11 +60,12 @@ const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSu
       return;
     }
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: {
-        name: nameOnCard || undefined,
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          name: nameOnCard || undefined,
+        },
       },
     });
 
@@ -68,11 +74,9 @@ const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSu
       return;
     }
 
-    console.log("PaymentMethod created:", paymentMethod.id);
-
-    setTimeout(() => {
-      onSuccess("WFX-" + Math.floor(100000 + Math.random() * 900000));
-    }, 1500);
+    if (paymentIntent && paymentIntent.status === "succeeded") {
+      onSuccess();
+    }
   };
 
   useImperativeHandle(ref, () => ({

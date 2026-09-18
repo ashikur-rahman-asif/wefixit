@@ -9,29 +9,29 @@ interface GetProductCategoriesParams {
 
 export const productCategoriesApi = {
   getCategories: async (params?: GetProductCategoriesParams) => {
-    const response = await api.get<PaginatedResponse<AdminProductCategory>>("/product-categories", { params });
+    const response = await api.get<PaginatedResponse<AdminProductCategory>>("/admin/product-categories", { params });
     return response.data;
   },
 
   getAllCategories: async () => {
     
-    const response = await api.get<ApiResponse<AdminProductCategory[]>>("/product-categories?all=1");
+    const response = await api.get<ApiResponse<AdminProductCategory[]>>("/admin/product-categories?all=1");
     return response.data.data;
   },
 
   createCategory: async (data: FormData) => {
-    const response = await api.post<ApiResponse<AdminProductCategory>>("/product-categories", data);
+    const response = await api.post<ApiResponse<AdminProductCategory>>("/admin/product-categories", data);
     return response.data;
   },
 
   updateCategory: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminProductCategory>>(`/product-categories/${id}`, data);
+    const response = await api.post<ApiResponse<AdminProductCategory>>(`/admin/product-categories/${id}`, data);
     return response.data;
   },
 
   deleteCategory: async (id: number) => {
-    const response = await api.delete(`/product-categories/${id}`);
+    const response = await api.delete(`/admin/product-categories/${id}`);
     return response.data;
   },
 };

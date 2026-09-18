@@ -11,10 +11,9 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { AdminProductBrand } from "@/types/admin";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ecommerceBrandSchema, type EcommerceBrandFormData } from "@/validators/admin";
-import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/form-elements/input";
 
 interface ProductBrandFormModalProps {
@@ -36,7 +35,6 @@ export function ProductBrandFormModal({
     register,
     handleSubmit,
     setValue,
-    control,
     formState: { errors },
   } = useForm<EcommerceBrandFormData>({
     resolver: zodResolver(ecommerceBrandSchema),
@@ -44,18 +42,15 @@ export function ProductBrandFormModal({
       name: editingBrand.name,
       slug: editingBrand.slug,
       is_active: editingBrand.is_active,
-      icon: editingBrand.icon,
     } : {
       name: "",
       slug: "",
       is_active: true,
-      icon: null,
     }) : undefined,
     defaultValues: {
       name: "",
       slug: "",
       is_active: true,
-      icon: null,
     },
   });
 
@@ -93,27 +88,6 @@ export function ProductBrandFormModal({
             </div>
 
             <div>
-              <label className="block text-base font-medium mb-1.5">
-                Brand Icon
-              </label>
-              <Controller
-                name="icon"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <ImageUpload 
-                    value={value} 
-                    onChange={onChange} 
-                    maxSizeKB={50}
-                    maxDimensions={{ width: 150, height: 150 }}
-                  />
-                )}
-              />
-              {errors.icon && (
-                <p className="text-red-500 text-xs mt-1.5">{errors.icon.message?.toString()}</p>
-              )}
-            </div>
-
-            <div>
               <Input
                 label="Slug (Optional)"
                 type="text"
@@ -137,7 +111,7 @@ export function ProductBrandFormModal({
                 >
                   Active
                 </label>
-                <p className="text-xs text-textGray">
+                <p className="text-[13px] font-medium text-gray-500">
                   Active brands are visible to customers
                 </p>
               </div>

@@ -243,14 +243,12 @@ export function useRepairWizard() {
     orderId,
     isSubmitting,
     showAuthModal,
-    
-    
+
     modelError,
     descError,
     handoverError,
     infoErrors,
-    
-    
+
     handleNext,
     handlePrevious,
     setShowAuthModal,

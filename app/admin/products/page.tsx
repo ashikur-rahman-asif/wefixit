@@ -162,7 +162,13 @@ function ProductsContent() {
       )}
 
       {hasPendingChanges && (
-        <div className="mt-6 flex justify-end">
+        <div className="fixed bottom-0 left-0 lg:left-64 right-0 p-4 bg-white border-t border-gray-200 z-40 flex items-center justify-end gap-3 px-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+          <button
+            onClick={() => setPendingStatuses({})}
+            className="h-11 px-6 bg-gray-50 text-titleBlack rounded-xl text-sm font-bold hover:bg-gray-100 transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
           <button
             onClick={handleSaveStatuses}
             disabled={updateMutation.isPending}
@@ -172,6 +178,9 @@ function ProductsContent() {
           </button>
         </div>
       )}
+
+      {}
+      <div className="h-24"></div>
 
     </div>
   );

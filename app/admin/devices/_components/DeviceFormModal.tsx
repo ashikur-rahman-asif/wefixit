@@ -137,7 +137,7 @@ export function DeviceFormModal({
               >
                 Active
               </label>
-              <p className="text-xs text-textGray">
+              <p className="text-[13px] font-medium text-gray-500">
                 Active devices are visible to customers
               </p>
             </div>

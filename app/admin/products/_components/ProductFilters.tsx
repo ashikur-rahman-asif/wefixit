@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Search, X } from "lucide-react";
 import { useProductCategories } from "@/features/products/hooks/use-admin-product-categories";
 import { useProductBrands } from "@/features/products/hooks/use-admin-product-brands";
+import { useProductDevices } from "@/features/products/hooks/use-admin-product-devices";
 import {
   Select,
   SelectContent,
@@ -21,17 +22,17 @@ export function ProductFilters() {
 
   const { data: categoriesData } = useProductCategories({ per_page: 100 });
   const { data: brandsData } = useProductBrands({ per_page: 100 });
+  const { data: devicesData } = useProductDevices({ per_page: 100 });
 
   const categories = categoriesData?.data || [];
   const brands = brandsData?.data || [];
+  const devices = devicesData?.data || [];
 
-  
   const [filters, setFilters] = useState({
-    id: searchParams.get("id") || "",
     search: searchParams.get("search") || "",
-    sku: searchParams.get("sku") || "",
     brand: searchParams.get("brand") || "all",
     category: searchParams.get("category") || "all",
+    device: searchParams.get("device") || "all",
     status: searchParams.get("status") || "all",
   });
 
@@ -61,11 +62,10 @@ export function ProductFilters() {
 
   const handleClear = () => {
     setFilters({
-      id: "",
       search: "",
-      sku: "",
       brand: "all",
       category: "all",
+      device: "all",
       status: "all",
     });
     router.push(pathname);
@@ -77,17 +77,8 @@ export function ProductFilters() {
 
   return (
     <div className="bg-white rounded-xl p-4 border border-gray-200 mb-6 space-y-4">
-      {/* Filters Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 items-end">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
         
-        <Input
-          label="ID"
-          labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
-          className="w-full"
-          value={filters.id}
-          onChange={(e) => setFilters(prev => ({ ...prev, id: e.target.value }))}
-        />
-
         <Input
           label="Name"
           labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
@@ -95,14 +86,6 @@ export function ProductFilters() {
           className="w-full"
           value={filters.search}
           onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-        />
-
-        <Input
-          label="SKU"
-          labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
-          className="w-full"
-          value={filters.sku}
-          onChange={(e) => setFilters(prev => ({ ...prev, sku: e.target.value }))}
         />
 
         <div className="space-y-0 relative">
@@ -140,6 +123,26 @@ export function ProductFilters() {
               <SelectItem value="all" label="All Categories">All Categories</SelectItem>
               {categories.map((c: { id: number; name: string; slug: string }) => (
                 <SelectItem key={c.id} value={c.slug} label={c.name}>{c.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-0 relative">
+          <label className="block text-sm font-semibold text-titleBlack mb-1.5">Device</label>
+          <Select
+            value={filters.device}
+            onValueChange={(val) => setFilters(prev => ({ ...prev, device: val || "all" }))}
+          >
+            <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
+              <SelectValue placeholder="Select option">
+                {filters.device === "all" ? "All Devices" : devices.find((d: { slug: string, name: string }) => d.slug === filters.device)?.name || "All Devices"}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent alignItemWithTrigger={false}>
+              <SelectItem value="all" label="All Devices">All Devices</SelectItem>
+              {devices.map((d: { id: number; name: string; slug: string }) => (
+                <SelectItem key={d.id} value={d.slug} label={d.name}>{d.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
