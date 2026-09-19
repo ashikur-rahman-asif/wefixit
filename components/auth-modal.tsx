@@ -42,7 +42,7 @@ export function AuthModal({
     login(inputs, {
       onSuccess: (res) => {
         if (res.data?.user && res.data?.token) {
-          setAuth(res.data.user, res.data.token);
+          setAuth(res.data.user);
           toast.success("Login successful!");
           onSuccess();
         }

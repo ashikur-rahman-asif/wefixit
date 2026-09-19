@@ -42,10 +42,7 @@ export default function AddressPage() {
       onSuccess: (response) => {
         toast.success("Address updated successfully!");
         if (response?.data) {
-          const token = useAuthStore.getState().token;
-          if (token) {
-            setAuth(response.data, token);
-          }
+          setAuth(response.data);
         }
         setEditable(false);
       },

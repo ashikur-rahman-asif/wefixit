@@ -7,6 +7,7 @@ const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
   },
@@ -14,20 +15,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    if (typeof window !== "undefined") {
-      const authStorage = localStorage.getItem("auth-storage");
-      if (authStorage) {
-        try {
-          const parsed = JSON.parse(authStorage);
-          const token = parsed?.state?.token;
-          if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-          }
-        } catch (e) {
-          console.error("Failed to parse auth storage", e);
-        }
-      }
-    }
     return config;
   },
   (error) => {
@@ -43,12 +30,12 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("auth-storage");
-        Cookies.remove("token", { path: "/" });
-        Cookies.remove("token");
+        Cookies.remove("user_role", { path: "/" });
+        Cookies.remove("user_role");
 
         if (window.location.pathname !== "/auth/login") {
           
-          window.location.href = "/auth/login";
+          window.location.href = "/auth/login?clear=1";
         }
       }
     }

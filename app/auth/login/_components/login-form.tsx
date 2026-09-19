@@ -44,7 +44,7 @@ export function LoginForm() {
           
           router.prefetch(isAdmin ? "/admin" : "/");
 
-          setAuth(res.data.user, res.data.token);
+          setAuth(res.data.user);
           toast.success(res.message || "Login successful!");
 
           if (isAdmin) {

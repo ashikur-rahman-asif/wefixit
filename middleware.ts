@@ -4,7 +4,14 @@ import { NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
   const userRole = request.cookies.get("user_role")?.value;
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  if (searchParams.get("clear") === "1") {
+    const response = NextResponse.redirect(new URL("/auth/login", request.url));
+    response.cookies.delete("token");
+    response.cookies.delete("user_role");
+    return response;
+  }
 
   if (token && pathname.startsWith("/auth")) {
     return NextResponse.redirect(new URL("/", request.url));
