@@ -15,8 +15,10 @@ export function ProductHero({ product, discountPercentage }: ProductHeroProps) {
     product.colors?.[0]
   );
 
-  const colorImages = selectedColor?.images || (selectedColor?.image ? [selectedColor.image] : []);
-  const globalImages = product.images || (product.image ? [product.image] : []);
+  const colorImages = selectedColor?.images?.length ? selectedColor.images : (selectedColor?.image ? [selectedColor.image] : []);
+  const globalImages = product.images?.length ? product.images : (product.image ? [product.image] : []);
+  
+  
   const combinedImages = [...colorImages, ...globalImages].filter(Boolean).slice(0, 4);
 
   return (

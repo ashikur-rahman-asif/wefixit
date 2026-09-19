@@ -49,7 +49,7 @@ const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSu
     const clientSecret = await onBeforePayment();
     
     if (!clientSecret) {
-      // Order creation failed or validation failed, the parent form should show the error
+      
       return;
     }
 

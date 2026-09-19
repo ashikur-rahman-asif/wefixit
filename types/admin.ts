@@ -346,6 +346,7 @@ export interface AdminProduct {
   rating: number;
   reviews_count: number;
   is_active: boolean;
+  is_featured: boolean;
   images: string[];
   colors: {
     id: number;

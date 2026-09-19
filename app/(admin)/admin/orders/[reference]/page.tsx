@@ -17,6 +17,7 @@ import {
   useUpdateOrder,
 } from "@/features/orders/hooks/use-admin-order";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+import { PageLoader } from "@/components/ui/loader";
 
 export default function AdminOrderDetailsPage({
   params,
@@ -32,8 +33,8 @@ export default function AdminOrderDetailsPage({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-[50vh]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand" />
+      <div className="p-6 md:p-10 max-w-[1600px] mx-auto">
+        <PageLoader message="Loading order details..." />
       </div>
     );
   }

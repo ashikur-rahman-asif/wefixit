@@ -2,7 +2,8 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, Package, MapPin, CreditCard, Loader2 } from "lucide-react";
+import { ArrowLeft, Package, MapPin, CreditCard } from "lucide-react";
+import { PageLoader } from "@/components/ui/loader";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCustomerOrder } from "@/features/orders/hooks/use-customer-orders";
@@ -16,9 +17,8 @@ export default function OrderDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8 min-h-[400px] flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand mb-4" />
-        <p className="text-gray-500">Loading order details...</p>
+      <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8">
+        <PageLoader message="Loading order details..." />
       </div>
     );
   }

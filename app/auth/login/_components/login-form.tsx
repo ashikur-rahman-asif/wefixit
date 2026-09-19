@@ -38,13 +38,19 @@ export function LoginForm() {
     login(inputs, {
       onSuccess: (res) => {
         if (res.data?.user && res.data?.token) {
+          const isAdmin = res.data.user.roles?.includes("admin");
+
+          
+          
+          router.prefetch(isAdmin ? "/admin" : "/");
+
           setAuth(res.data.user, res.data.token);
           toast.success(res.message || "Login successful!");
-          
-          if (res.data.user.roles?.includes("admin")) {
-            router.push("/admin");
+
+          if (isAdmin) {
+            router.replace("/admin");
           } else {
-            router.push("/");
+            router.replace("/");
           }
         }
       },

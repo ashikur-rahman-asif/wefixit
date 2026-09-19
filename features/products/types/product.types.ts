@@ -47,3 +47,12 @@ export interface Product {
   stock?: number;
   colors?: ProductColor[];
 }
+
+export interface ProductApiResponse extends Omit<Product, "discountPrice" | "categoryId" | "brandId" | "deviceId" | "shortDescription" | "reviewsCount"> {
+  discount_price?: number;
+  product_category_id?: string | number;
+  product_brand_id?: string | number;
+  product_device_id?: string | number;
+  short_description?: string;
+  reviews_count?: number;
+}

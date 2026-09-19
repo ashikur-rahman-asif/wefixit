@@ -12,6 +12,7 @@ import { RepairCustomerCard } from "./_components/RepairCustomerCard";
 import { RepairDeviceCard } from "./_components/RepairDeviceCard";
 import { RepairTimeline } from "./_components/RepairTimeline";
 import { RepairUpdateCard } from "./_components/RepairUpdateCard";
+import { PageLoader } from "@/components/ui/loader";
 
 export default function AdminRepairDetailsPage({
   params,
@@ -26,11 +27,8 @@ export default function AdminRepairDetailsPage({
 
   if (isLoading) {
     return (
-      <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-[60vh] flex items-center justify-center">
-        <div className="flex flex-col items-center justify-center text-textGray">
-          <div className="w-8 h-8 border-4 border-brand/30 border-t-brand rounded-full animate-spin mb-4" />
-          <p className="font-medium">Loading repair details...</p>
-        </div>
+      <div className="p-6 md:p-10 max-w-[1600px] mx-auto">
+        <PageLoader message="Loading repair details..." />
       </div>
     );
   }

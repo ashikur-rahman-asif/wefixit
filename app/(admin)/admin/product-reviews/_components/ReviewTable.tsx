@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { AdminReview } from "@/features/reviews/types";
 import { Star, MessageSquare } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
 import Image from "next/image";
 import {
   Table,
@@ -29,8 +30,8 @@ export function ReviewTable({
 }: ReviewTableProps) {
   if (isLoading) {
     return (
-      <div className="bg-white rounded-[20px] border border-gray-100 p-8 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
+      <div className="bg-white rounded-[20px] border border-gray-100 p-8 flex justify-center items-center min-h-[200px]">
+        <Loader size="md" />
       </div>
     );
   }

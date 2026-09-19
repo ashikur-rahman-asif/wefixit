@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+import { Loader } from "@/components/ui/loader";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -211,7 +212,7 @@ function AdminOrdersContent() {
                     colSpan={8}
                     className="h-32 text-center text-textGray">
                     <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand" />
+                      <Loader size="md" />
                     </div>
                   </TableCell>
                 </TableRow>

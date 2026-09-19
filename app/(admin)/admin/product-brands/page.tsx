@@ -1,26 +1,26 @@
 "use client";
 
-import { AdminProductDevice } from "@/types/admin";
+import { AdminProductBrand } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
-import { ProductDeviceFormModal } from "./_components/ProductDeviceFormModal";
-import { type EcommerceDeviceFormData } from "@/validators/admin";
-import { ProductDeviceTable } from "./_components/ProductDeviceTable";
+import { ProductBrandFormModal } from "./_components/ProductBrandFormModal";
+import { type EcommerceBrandFormData } from "@/validators/admin";
+import { ProductBrandTable } from "./_components/ProductBrandTable";
 import {
-  useProductDevices,
-  useCreateProductDevice,
-  useUpdateProductDevice,
-  useDeleteProductDevice,
-} from "@/features/products/hooks/use-admin-product-devices";
+  useProductBrands,
+  useCreateProductBrand,
+  useUpdateProductBrand,
+  useDeleteProductBrand,
+} from "@/features/products/hooks/use-admin-product-brands";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 import { Pagination } from "@/components/ui/pagination";
 
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
 
-function ProductDevicesContent() {
+function ProductBrandsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,17 +29,17 @@ function ProductDevicesContent() {
   const search = searchParams.get("search") || "";
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingDevice, setEditingDevice] = useState<AdminProductDevice | null>(null);
-  const [deviceToDelete, setDeviceToDelete] = useState<number | null>(null);
+  const [editingBrand, setEditingBrand] = useState<AdminProductBrand | null>(null);
+  const [brandToDelete, setBrandToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
 
-  const { data: response, isLoading } = useProductDevices({ page, search });
-  const devices = response?.data || [];
+  const { data: response, isLoading } = useProductBrands({ page, search });
+  const brands = response?.data || [];
   const meta = response?.meta;
 
-  const createMutation = useCreateProductDevice();
-  const updateMutation = useUpdateProductDevice();
-  const deleteMutation = useDeleteProductDevice();
+  const createMutation = useCreateProductBrand();
+  const updateMutation = useUpdateProductBrand();
+  const deleteMutation = useDeleteProductBrand();
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -48,23 +48,23 @@ function ProductDevicesContent() {
   };
 
   const openAddModal = () => {
-    setEditingDevice(null);
+    setEditingBrand(null);
     setIsModalOpen(true);
   };
 
-  const openEditModal = (device: AdminProductDevice) => {
-    setEditingDevice(device);
+  const openEditModal = (brand: AdminProductBrand) => {
+    setEditingBrand(brand);
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (data: EcommerceDeviceFormData) => {
+  const handleSubmit = (data: EcommerceBrandFormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
     formData.append("is_active", data.is_active ? "1" : "0");
 
-    if (editingDevice) {
-      updateMutation.mutate({ id: editingDevice.id, data: formData }, {
+    if (editingBrand) {
+      updateMutation.mutate({ id: editingBrand.id, data: formData }, {
         onSuccess: () => setIsModalOpen(false)
       });
     } else {
@@ -75,13 +75,13 @@ function ProductDevicesContent() {
   };
 
   const handleDelete = (id: number) => {
-    setDeviceToDelete(id);
+    setBrandToDelete(id);
   };
 
   const handleConfirmDelete = () => {
-    if (deviceToDelete) {
-      deleteMutation.mutate(deviceToDelete, {
-        onSettled: () => setDeviceToDelete(null),
+    if (brandToDelete) {
+      deleteMutation.mutate(brandToDelete, {
+        onSettled: () => setBrandToDelete(null),
       });
     }
   };
@@ -89,11 +89,11 @@ function ProductDevicesContent() {
   const handleToggleStatus = (id: number, newStatus: boolean) => {
     setPendingStatuses((prev) => {
       const next = { ...prev };
-      const device = devices.find((d) => d.id === id);
+      const brand = brands.find((b) => b.id === id);
 
-      if (!device) return next;
+      if (!brand) return next;
 
-      if (device.is_active === newStatus) {
+      if (brand.is_active === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -106,12 +106,12 @@ function ProductDevicesContent() {
   const handleSaveStatuses = async () => {
     const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
       const id = Number(idStr);
-      const device = devices.find((d) => d.id === id);
-      if (!device) return Promise.resolve();
+      const brand = brands.find((b) => b.id === id);
+      if (!brand) return Promise.resolve();
       
       const formData = new FormData();
-      formData.append("name", device.name);
-      if (device.slug) formData.append("slug", device.slug);
+      formData.append("name", brand.name);
+      if (brand.slug) formData.append("slug", brand.slug);
       formData.append("is_active", newStatus ? "1" : "0");
       
       return updateMutation.mutateAsync({ id, data: formData });
@@ -130,20 +130,20 @@ function ProductDevicesContent() {
   return (
     <div className="bg-[#F8F9FB] min-h-screen p-6">
       <DeleteConfirmationModal
-        isOpen={!!deviceToDelete}
-        onClose={() => setDeviceToDelete(null)}
+        isOpen={!!brandToDelete}
+        onClose={() => setBrandToDelete(null)}
         onConfirm={handleConfirmDelete}
-        title="Delete Product Device"
-        description="Are you sure you want to delete this device? This action cannot be undone."
+        title="Delete Product Brand"
+        description="Are you sure you want to delete this brand? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Product Devices
+            Product Brands
           </h1>
           <p className="text-textGray text-sm">
-            Manage product devices for ecommerce
+            Manage product brands for ecommerce
           </p>
         </div>
         <button
@@ -151,12 +151,12 @@ function ProductDevicesContent() {
           className="h-11 px-5 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          Add Device
+          Add Brand
         </button>
       </div>
 
-      <ProductDeviceTable
-        devices={devices}
+      <ProductBrandTable
+        brands={brands}
         pendingStatuses={pendingStatuses}
         isLoading={isLoading}
         isDeleting={deleteMutation.isPending}
@@ -196,10 +196,10 @@ function ProductDevicesContent() {
       {}
       <div className="h-24"></div>
 
-      <ProductDeviceFormModal
+      <ProductBrandFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        editingDevice={editingDevice}
+        editingBrand={editingBrand}
         onSubmit={handleSubmit}
         isSubmitting={createMutation.isPending || updateMutation.isPending}
       />
@@ -207,16 +207,16 @@ function ProductDevicesContent() {
   );
 }
 
-export default function ProductDevicesPage() {
+export default function ProductBrandsPage() {
   return (
     <Suspense
       fallback={
         <div className="flex h-[400px] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          <Loader size="lg" />
         </div>
       }
     >
-      <ProductDevicesContent />
+      <ProductBrandsContent />
     </Suspense>
   );
 }

@@ -19,11 +19,15 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       setAuth: (user, token) => {
         Cookies.set("token", token, { expires: 7, path: "/" });
+        const role = user.roles?.includes("admin") ? "admin" : "user";
+        Cookies.set("user_role", role, { expires: 7, path: "/" });
         set({ user, token, isAuthenticated: true });
       },
       clearAuth: () => {
         Cookies.remove("token", { path: "/" });
         Cookies.remove("token");
+        Cookies.remove("user_role", { path: "/" });
+        Cookies.remove("user_role");
         set({ user: null, token: null, isAuthenticated: false });
       },
     }),

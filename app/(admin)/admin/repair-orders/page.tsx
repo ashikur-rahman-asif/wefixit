@@ -1,6 +1,7 @@
 "use client";
 
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
+import { Loader } from "@/components/ui/loader";
 import {
   Select,
   SelectContent,
@@ -160,10 +161,10 @@ export default function AdminRepairsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={7} className="h-[400px] text-center">
-                    <div className="flex flex-col items-center justify-center text-textGray">
-                      <div className="w-8 h-8 border-4 border-brand/30 border-t-brand rounded-full animate-spin mb-4" />
-                      <p className="font-medium">Loading repairs...</p>
-                    </div>
+                      <div className="flex flex-col items-center justify-center text-textGray">
+                        <Loader size="md" />
+                        <p className="font-medium mt-3">Loading repairs...</p>
+                      </div>
                   </TableCell>
                 </TableRow>
               ) : repairs.length === 0 ? (

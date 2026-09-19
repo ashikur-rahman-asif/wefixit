@@ -2,7 +2,8 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Package, ExternalLink, Clock, Loader2 } from "lucide-react";
+import { Package, ExternalLink, Clock } from "lucide-react";
+import { PageLoader } from "@/components/ui/loader";
 import Link from "next/link";
 import { useCustomerOrders } from "@/features/orders/hooks/use-customer-orders";
 
@@ -35,10 +36,7 @@ export default function OrdersPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-16">
-          <Loader2 className="w-8 h-8 animate-spin text-brand mb-4" />
-          <p className="text-gray-500 text-sm">Loading your orders...</p>
-        </div>
+        <PageLoader message="Loading your orders..." className="py-8 min-h-[200px]" />
       ) : orders.length > 0 ? (
         <div className="space-y-4">
           {orders.map((order) => (

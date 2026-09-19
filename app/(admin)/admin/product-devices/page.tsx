@@ -1,26 +1,26 @@
 "use client";
 
-import { AdminProductCategory } from "@/types/admin";
+import { AdminProductDevice } from "@/types/admin";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
-import { ProductCategoryFormModal } from "./_components/ProductCategoryFormModal";
-import { type ProductCategoryFormData } from "@/validators/admin";
-import { ProductCategoryTable } from "./_components/ProductCategoryTable";
+import { ProductDeviceFormModal } from "./_components/ProductDeviceFormModal";
+import { type EcommerceDeviceFormData } from "@/validators/admin";
+import { ProductDeviceTable } from "./_components/ProductDeviceTable";
 import {
-  useProductCategories,
-  useCreateProductCategory,
-  useUpdateProductCategory,
-  useDeleteProductCategory,
-} from "@/features/products/hooks/use-admin-product-categories";
+  useProductDevices,
+  useCreateProductDevice,
+  useUpdateProductDevice,
+  useDeleteProductDevice,
+} from "@/features/products/hooks/use-admin-product-devices";
 import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationModal";
 import { Pagination } from "@/components/ui/pagination";
 
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
 
-function ProductCategoriesContent() {
+function ProductDevicesContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,17 +29,17 @@ function ProductCategoriesContent() {
   const search = searchParams.get("search") || "";
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<AdminProductCategory | null>(null);
-  const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
+  const [editingDevice, setEditingDevice] = useState<AdminProductDevice | null>(null);
+  const [deviceToDelete, setDeviceToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
 
-  const { data: response, isLoading } = useProductCategories({ page, search });
-  const categories = response?.data || [];
+  const { data: response, isLoading } = useProductDevices({ page, search });
+  const devices = response?.data || [];
   const meta = response?.meta;
 
-  const createMutation = useCreateProductCategory();
-  const updateMutation = useUpdateProductCategory();
-  const deleteMutation = useDeleteProductCategory();
+  const createMutation = useCreateProductDevice();
+  const updateMutation = useUpdateProductDevice();
+  const deleteMutation = useDeleteProductDevice();
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -48,23 +48,23 @@ function ProductCategoriesContent() {
   };
 
   const openAddModal = () => {
-    setEditingCategory(null);
+    setEditingDevice(null);
     setIsModalOpen(true);
   };
 
-  const openEditModal = (category: AdminProductCategory) => {
-    setEditingCategory(category);
+  const openEditModal = (device: AdminProductDevice) => {
+    setEditingDevice(device);
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (data: ProductCategoryFormData) => {
+  const handleSubmit = (data: EcommerceDeviceFormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
     formData.append("is_active", data.is_active ? "1" : "0");
 
-    if (editingCategory) {
-      updateMutation.mutate({ id: editingCategory.id, data: formData }, {
+    if (editingDevice) {
+      updateMutation.mutate({ id: editingDevice.id, data: formData }, {
         onSuccess: () => setIsModalOpen(false)
       });
     } else {
@@ -75,13 +75,13 @@ function ProductCategoriesContent() {
   };
 
   const handleDelete = (id: number) => {
-    setCategoryToDelete(id);
+    setDeviceToDelete(id);
   };
 
   const handleConfirmDelete = () => {
-    if (categoryToDelete) {
-      deleteMutation.mutate(categoryToDelete, {
-        onSettled: () => setCategoryToDelete(null),
+    if (deviceToDelete) {
+      deleteMutation.mutate(deviceToDelete, {
+        onSettled: () => setDeviceToDelete(null),
       });
     }
   };
@@ -89,11 +89,11 @@ function ProductCategoriesContent() {
   const handleToggleStatus = (id: number, newStatus: boolean) => {
     setPendingStatuses((prev) => {
       const next = { ...prev };
-      const category = categories.find((c) => c.id === id);
+      const device = devices.find((d) => d.id === id);
 
-      if (!category) return next;
+      if (!device) return next;
 
-      if (category.is_active === newStatus) {
+      if (device.is_active === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -106,12 +106,12 @@ function ProductCategoriesContent() {
   const handleSaveStatuses = async () => {
     const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
       const id = Number(idStr);
-      const category = categories.find((c) => c.id === id);
-      if (!category) return Promise.resolve();
+      const device = devices.find((d) => d.id === id);
+      if (!device) return Promise.resolve();
       
       const formData = new FormData();
-      formData.append("name", category.name);
-      if (category.slug) formData.append("slug", category.slug);
+      formData.append("name", device.name);
+      if (device.slug) formData.append("slug", device.slug);
       formData.append("is_active", newStatus ? "1" : "0");
       
       return updateMutation.mutateAsync({ id, data: formData });
@@ -130,20 +130,20 @@ function ProductCategoriesContent() {
   return (
     <div className="bg-[#F8F9FB] min-h-screen p-6">
       <DeleteConfirmationModal
-        isOpen={!!categoryToDelete}
-        onClose={() => setCategoryToDelete(null)}
+        isOpen={!!deviceToDelete}
+        onClose={() => setDeviceToDelete(null)}
         onConfirm={handleConfirmDelete}
-        title="Delete Product Category"
-        description="Are you sure you want to delete this category? This action cannot be undone."
+        title="Delete Product Device"
+        description="Are you sure you want to delete this device? This action cannot be undone."
         isDeleting={deleteMutation.isPending}
       />
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Product Categories
+            Product Devices
           </h1>
           <p className="text-textGray text-sm">
-            Manage product categories for ecommerce
+            Manage product devices for ecommerce
           </p>
         </div>
         <button
@@ -151,12 +151,12 @@ function ProductCategoriesContent() {
           className="h-11 px-5 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          Add Category
+          Add Device
         </button>
       </div>
 
-      <ProductCategoryTable
-        categories={categories}
+      <ProductDeviceTable
+        devices={devices}
         pendingStatuses={pendingStatuses}
         isLoading={isLoading}
         isDeleting={deleteMutation.isPending}
@@ -196,10 +196,10 @@ function ProductCategoriesContent() {
       {}
       <div className="h-24"></div>
 
-      <ProductCategoryFormModal
+      <ProductDeviceFormModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        editingCategory={editingCategory}
+        editingDevice={editingDevice}
         onSubmit={handleSubmit}
         isSubmitting={createMutation.isPending || updateMutation.isPending}
       />
@@ -207,16 +207,16 @@ function ProductCategoriesContent() {
   );
 }
 
-export default function ProductCategoriesPage() {
+export default function ProductDevicesPage() {
   return (
     <Suspense
       fallback={
         <div className="flex h-[400px] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          <Loader size="lg" />
         </div>
       }
     >
-      <ProductCategoriesContent />
+      <ProductDevicesContent />
     </Suspense>
   );
 }

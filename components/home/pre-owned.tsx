@@ -2,7 +2,7 @@
 
 import Container from "@/components/container";
 import { buttonVariants } from "@/components/ui/button";
-import { Product } from "@/features/products/types/product.types";
+import { useFeaturedProducts } from "@/features/products/hooks/use-featured-products";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
@@ -11,73 +11,6 @@ import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductCard } from "../product-card";
 import { SectionTitle } from "../section-title";
-
-const preOwnedProducts: Product[] = [
-  {
-    id: 1,
-    image: "/home-slider/watch.webp",
-    title: "Apple Watch Series 8 GPS 41mm",
-    price: 199.99,
-    discountPrice: 329.0,
-    slug: "apple-watch-series-8",
-  },
-  {
-    id: 2,
-    image: "/home-slider/iphone.webp",
-    title: "iPhone 13 Pro Max 256GB – Unlocked",
-    price: 549.0,
-    discountPrice: 899.0,
-    slug: "iphone-13-pro-max",
-  },
-  {
-    id: 3,
-    image: "/home-slider/android.webp",
-    title: "Samsung Galaxy S22 Ultra 128GB",
-    price: 399.0,
-    discountPrice: 649.99,
-    slug: "samsung-galaxy-s22-ultra",
-  },
-  {
-    id: 4,
-    image: "/home-slider/laptop.webp",
-    title: 'MacBook Air M1 13" 8GB RAM',
-    price: 699.0,
-    discountPrice: 999.0,
-    slug: "macbook-air-m1",
-  },
-  {
-    id: 5,
-    image: "/home-slider/ipad.webp",
-    title: "iPad Air 5th Gen 64GB WiFi",
-    price: 399.0,
-    discountPrice: 599.0,
-    slug: "ipad-air-5th-gen",
-  },
-  {
-    id: 6,
-    image: "/home-slider/tablet.webp",
-    title: "Samsung Galaxy Tab S8 128GB",
-    price: 329.0,
-    discountPrice: 499.99,
-    slug: "samsung-galaxy-tab-s8",
-  },
-  {
-    id: 7,
-    image: "/home-slider/laptop-1st.webp",
-    title: "Dell XPS 13 Intel i7 16GB RAM",
-    price: 749.0,
-    discountPrice: 1099.0,
-    slug: "dell-xps-13",
-  },
-  {
-    id: 8,
-    image: "/home-slider/main.webp",
-    title: "GoPro HERO6 4K Action Camera",
-    price: 99.5,
-    discountPrice: 149.99,
-    slug: "gopro-hero6",
-  },
-];
 
 const subscribe = () => () => {};
 
@@ -107,6 +40,10 @@ export function PreOwned() {
     () => false,
   );
 
+  const { data: products = [], isLoading } = useFeaturedProducts();
+
+  const showSkeleton = !mounted || isLoading;
+
   return (
     <section className=" overflow-hidden">
       <Container>
@@ -133,13 +70,13 @@ export function PreOwned() {
           </div>
         </div>
 
-        {!mounted ? (
+        {showSkeleton ? (
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {[0, 1, 2, 3].map((i) => (
               <ProductCardSkeleton key={i} />
             ))}
           </div>
-        ) : (
+        ) : products.length === 0 ? null : (
           <Swiper
             modules={[Navigation, A11y]}
             navigation={{
@@ -156,14 +93,14 @@ export function PreOwned() {
               1280: { slidesPerView: 4, spaceBetween: 24 },
             }}
             className="overflow-hidden">
-            {preOwnedProducts.map((product) => (
-              <SwiperSlide key={product.title} className="h-auto">
+            {products.map((product) => (
+              <SwiperSlide key={product.slug} className="h-auto">
                 <ProductCard
                   image={product.image}
                   title={product.title}
                   price={product.price}
                   discountPrice={product.discountPrice}
-                  href={`/pre-owned/${product.slug}`}
+                  href={`/shop/${product.slug}`}
                   className="h-full"
                 />
               </SwiperSlide>
@@ -182,3 +119,4 @@ export function PreOwned() {
     </section>
   );
 }
+

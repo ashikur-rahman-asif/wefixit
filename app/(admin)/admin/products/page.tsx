@@ -16,7 +16,7 @@ import { DeleteConfirmationModal } from "@/components/admin/DeleteConfirmationMo
 import { Pagination } from "@/components/ui/pagination";
 
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
 
 function ProductsContent() {
   const router = useRouter();
@@ -33,6 +33,7 @@ function ProductsContent() {
 
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [pendingFeatured, setPendingFeatured] = useState<Record<number, boolean>>({}); 
 
   const { data: response, isLoading } = useAdminProducts({ 
     page, 
@@ -84,33 +85,62 @@ function ProductsContent() {
     });
   };
 
+  const handleToggleFeatured = (id: number, newFeatured: boolean) => {
+    setPendingFeatured((prev) => {
+      const next = { ...prev };
+      const product = products.find((p) => p.id === id);
+
+      if (!product) return next;
+
+      if (product.is_featured === newFeatured) {
+        delete next[id];
+      } else {
+        next[id] = newFeatured;
+      }
+
+      return next;
+    });
+  };
+
   const handleSaveStatuses = async () => {
-    const promises = Object.entries(pendingStatuses).map(([idStr, newStatus]) => {
-      const id = Number(idStr);
+    
+    const changedIds = new Set([
+      ...Object.keys(pendingStatuses).map(Number),
+      ...Object.keys(pendingFeatured).map(Number),
+    ]);
+
+    const promises = [...changedIds].map((id) => {
       const product = products.find((p) => p.id === id);
       if (!product) return Promise.resolve();
-      
+
       const formData = new FormData();
       formData.append("title", product.title);
       formData.append("slug", product.slug);
       formData.append("price", product.price.toString());
-      if (product.product_category_id) formData.append("product_category_id", product.product_category_id.toString());
-      if (product.product_brand_id) formData.append("product_brand_id", product.product_brand_id.toString());
-      if (product.product_device_id) formData.append("product_device_id", product.product_device_id.toString());
-      formData.append("is_active", newStatus ? "1" : "0");
-      
+      if (product.product_category_id) formData.append("categoryId", product.product_category_id.toString());
+      if (product.product_brand_id) formData.append("brandId", product.product_brand_id.toString());
+      if (product.product_device_id) formData.append("deviceId", product.product_device_id.toString());
+
+      const newStatus = pendingStatuses[id] ?? product.is_active;
+      const newFeatured = pendingFeatured[id] ?? product.is_featured;
+      formData.append("isActive", newStatus ? "1" : "0");
+      formData.append("isFeatured", newFeatured ? "1" : "0");
+
       return updateMutation.mutateAsync({ id, data: formData });
     });
 
     try {
       await Promise.all(promises);
       setPendingStatuses({});
+      setPendingFeatured({});
     } catch (error) {
       console.error(error);
     }
   };
 
-  const hasPendingChanges = Object.keys(pendingStatuses).length > 0;
+  const hasPendingChanges =
+    Object.keys(pendingStatuses).length > 0 ||
+    Object.keys(pendingFeatured).length > 0;
 
   return (
     <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-screen">
@@ -145,10 +175,12 @@ function ProductsContent() {
       <ProductTable
         products={products}
         pendingStatuses={pendingStatuses}
+        pendingFeatured={pendingFeatured}
         isLoading={isLoading}
         isDeleting={deleteMutation.isPending}
         onDelete={handleDelete}
         onToggleStatus={handleToggleStatus}
+        onToggleFeatured={handleToggleFeatured}
       />
       
       {meta && meta.lastPage > 1 && (
@@ -164,7 +196,10 @@ function ProductsContent() {
       {hasPendingChanges && (
         <div className="fixed bottom-0 left-0 lg:left-64 right-0 p-4 bg-white border-t border-gray-200 z-40 flex items-center justify-end gap-3 px-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
           <button
-            onClick={() => setPendingStatuses({})}
+            onClick={() => {
+              setPendingStatuses({});
+              setPendingFeatured({});
+            }}
             className="h-11 px-6 bg-gray-50 text-titleBlack rounded-xl text-sm font-bold hover:bg-gray-100 transition-colors cursor-pointer"
           >
             Cancel
@@ -191,7 +226,7 @@ export default function ProductsPage() {
     <Suspense
       fallback={
         <div className="flex h-[400px] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          <Loader size="lg" />
         </div>
       }
     >

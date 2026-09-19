@@ -3,7 +3,8 @@
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { AdminProduct } from "@/types/admin";
-import { Edit2, Package, Trash2 } from "lucide-react";
+import { Edit2, Package, Star, Trash2 } from "lucide-react";
+import { Loader } from "@/components/ui/loader";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -18,24 +19,28 @@ import {
 interface ProductTableProps {
   products: AdminProduct[];
   pendingStatuses: Record<number, boolean>;
+  pendingFeatured: Record<number, boolean>;
   isLoading: boolean;
   isDeleting: boolean;
   onDelete: (id: number) => void;
   onToggleStatus: (id: number, status: boolean) => void;
+  onToggleFeatured: (id: number, featured: boolean) => void;
 }
 
 export function ProductTable({
   products,
   pendingStatuses,
+  pendingFeatured,
   isLoading,
   isDeleting,
   onDelete,
   onToggleStatus,
+  onToggleFeatured,
 }: ProductTableProps) {
   if (isLoading) {
     return (
-      <div className="bg-white rounded-[20px] border border-gray-100 p-8 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
+      <div className="bg-white rounded-[20px] border border-gray-100 p-8 flex justify-center items-center min-h-[200px]">
+        <Loader size="md" />
       </div>
     );
   }
@@ -75,6 +80,9 @@ export function ProductTable({
               <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
                 Status
               </TableHead>
+              <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
+                Featured
+              </TableHead>
               <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto text-right">
                 Actions
               </TableHead>
@@ -84,6 +92,8 @@ export function ProductTable({
             {products.map((product) => {
               const currentStatus =
                 pendingStatuses[product.id] ?? product.is_active;
+              const currentFeatured =
+                pendingFeatured[product.id] ?? product.is_featured;
 
               return (
                 <TableRow 
@@ -161,6 +171,32 @@ export function ProductTable({
                         {currentStatus ? "Active" : "Inactive"}
                       </span>
                     </div>
+                  </TableCell>
+                  <TableCell className="px-6 py-4">
+                    <button
+                      onClick={() =>
+                        onToggleFeatured(product.id, !currentFeatured)
+                      }
+                      title={currentFeatured ? "Remove from featured" : "Mark as featured"}
+                      className="flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <Star
+                        className={cn(
+                          "w-5 h-5 transition-colors",
+                          currentFeatured
+                            ? "fill-amber-400 text-amber-400"
+                            : "text-gray-300 hover:text-amber-400",
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "text-sm font-semibold",
+                          currentFeatured ? "text-amber-500" : "text-gray-400",
+                        )}
+                      >
+                        {currentFeatured ? "Featured" : ""}
+                      </span>
+                    </button>
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">

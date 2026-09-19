@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Loader, PageLoader } from "@/components/ui/loader";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -142,9 +143,9 @@ function AdminUsersContent() {
                 {isLoading ? (
                   <TableRow>
                     <TableCell colSpan={7} className="h-[400px] text-center">
-                      <div className="flex flex-col items-center justify-center text-gray-400">
-                        <div className="w-8 h-8 border-4 border-gray-200 border-t-brand rounded-full animate-spin mb-4" />
-                        <p>Loading users...</p>
+                      <div className="flex flex-col items-center justify-center gap-3">
+                        <Loader size="md" />
+                        <p className="text-muted-foreground text-sm font-medium">Loading users...</p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -263,10 +264,7 @@ export default function AdminUsersPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-[#F8F9FB] flex items-center justify-center p-6">
-          <div className="flex flex-col items-center gap-4 text-gray-400">
-            <div className="w-8 h-8 border-4 border-gray-200 border-t-brand rounded-full animate-spin" />
-            <p className="text-sm font-medium">Loading users...</p>
-          </div>
+          <PageLoader message="Loading users..." />
         </div>
       }
     >

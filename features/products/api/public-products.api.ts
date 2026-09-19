@@ -1,5 +1,5 @@
 import { PaginatedResponse, ApiResponse } from "@/types/admin";
-import { Product } from "../types/product.types";
+import { Product, ProductApiResponse } from "../types/product.types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -15,6 +15,16 @@ interface GetPublicProductsParams {
   search?: string;
 }
 
+const mapProduct = (p: ProductApiResponse): Product => ({
+  ...p,
+  discountPrice: p.discount_price,
+  categoryId: p.product_category_id,
+  brandId: p.product_brand_id,
+  deviceId: p.product_device_id,
+  shortDescription: p.short_description,
+  reviewsCount: p.reviews_count,
+});
+
 export const publicProductsApi = {
   getProducts: async (params?: GetPublicProductsParams) => {
     
@@ -28,7 +38,7 @@ export const publicProductsApi = {
     }
 
     const response = await fetch(url.toString(), {
-      next: { revalidate: 180 }, // Cache for 3 minutes (ISR)
+      next: { revalidate: 180 }, 
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -39,8 +49,11 @@ export const publicProductsApi = {
       throw new Error("Failed to fetch products");
     }
 
-    const data: PaginatedResponse<Product> = await response.json();
-    return data;
+    const data: PaginatedResponse<ProductApiResponse> = await response.json();
+    return {
+      ...data,
+      data: data.data.map(mapProduct),
+    } as PaginatedResponse<Product>;
   },
 
   getProductBySlug: async (slug: string) => {
@@ -57,8 +70,8 @@ export const publicProductsApi = {
       throw new Error("Failed to fetch product details");
     }
 
-    const data: ApiResponse<Product> = await response.json();
-    return data.data;
+    const data: ApiResponse<ProductApiResponse> = await response.json();
+    return mapProduct(data.data);
   },
 
   getCategories: async () => {
@@ -90,5 +103,15 @@ export const publicProductsApi = {
     if (!response.ok) throw new Error("Failed to fetch devices");
     const data = await response.json();
     return data.data || data;
+  },
+
+  getFeaturedProducts: async (): Promise<Product[]> => {
+    const response = await fetch(`${API_URL}/featured-products`, {
+      next: { revalidate: 180 }, 
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error("Failed to fetch featured products");
+    const data: { data: ProductApiResponse[] } = await response.json();
+    return (data.data || []).map(mapProduct);
   },
 };

@@ -1,13 +1,14 @@
 "use client";
 
 import Container from "@/components/container";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { useMounted } from "@/hooks/use-mounted";
 import { useCartStore } from "@/stores/cart.store";
 import { ArrowRight, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Loader } from "@/components/ui/loader";
+import { calculateShipping } from "@/lib/shipping";
 
 export default function CartPage() {
   const isMounted = useMounted();
@@ -30,7 +31,7 @@ export default function CartPage() {
   }
 
   const subtotal = getTotalPrice();
-  const shipping = subtotal > 0 ? 15 : 0;
+  const shipping = calculateShipping(subtotal);
   const total = subtotal + shipping;
 
   return (
@@ -56,12 +57,11 @@ export default function CartPage() {
             Looks like you haven&apos;t added anything to your cart yet. Browse
             our products and find something you love.
           </p>
-          <Button
-            render={<Link href="/shop" />}
-            size="lg"
-            className="rounded-full px-8">
+          <Link
+            href="/shop"
+            className={buttonVariants({ size: "lg", className: "rounded-full px-8" })}>
             Continue Shopping
-          </Button>
+          </Link>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -84,6 +84,7 @@ export default function CartPage() {
                         src={item.image}
                         alt={item.title}
                         fill
+                        sizes="96px"
                         className="object-contain mix-blend-multiply p-2"
                       />
                     ) : (
@@ -185,12 +186,16 @@ export default function CartPage() {
                 </span>
               </div>
 
-              <Button
-                render={<Link href="/checkout" />}
-                className="w-full rounded-full h-14 text-base font-semibold group">
+              <Link
+                href="/checkout"
+                className={buttonVariants({
+                  variant: "default",
+                  className: "w-full rounded-full h-14 text-base font-semibold group",
+                })}
+              >
                 Proceed to Checkout
                 <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-              </Button>
+              </Link>
 
               <div className="mt-6 text-center">
                 <Link

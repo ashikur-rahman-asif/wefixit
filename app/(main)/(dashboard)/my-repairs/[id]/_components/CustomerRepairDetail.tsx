@@ -7,9 +7,9 @@ import {
   CheckCircle2,
   Clock,
   FileText,
-  Loader2,
   Smartphone,
 } from "lucide-react";
+import { PageLoader } from "@/components/ui/loader";
 import Link from "next/link";
 
 const getStatusColor = (status: string) => {
@@ -39,9 +39,8 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8 flex flex-col items-center justify-center min-h-[400px]">
-        <Loader2 className="w-10 h-10 animate-spin text-brand mb-4" />
-        <p className="text-gray-500">Loading repair details...</p>
+      <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8">
+        <PageLoader message="Loading repair details..." />
       </div>
     );
   }

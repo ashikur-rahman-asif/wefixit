@@ -3,13 +3,14 @@
 import { useCartStore } from "@/stores/cart.store";
 import Image from "next/image";
 import { useMemo } from "react";
+import { calculateShipping } from "@/lib/shipping";
 
 export function CheckoutSummary() {
   const { items, getTotalPrice } = useCartStore();
 
   const { subtotal, shipping, total } = useMemo(() => {
     const subtotal = getTotalPrice();
-    const shipping = subtotal > 0 ? 15 : 0;
+    const shipping = calculateShipping(subtotal);
     return { subtotal, shipping, total: subtotal + shipping };
   }, [getTotalPrice]);
 
@@ -26,6 +27,7 @@ export function CheckoutSummary() {
                   src={item.image}
                   alt={item.title}
                   fill
+                  sizes="64px"
                   className="object-contain mix-blend-multiply p-1.5"
                 />
               ) : (

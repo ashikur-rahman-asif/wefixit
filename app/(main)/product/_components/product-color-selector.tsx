@@ -13,23 +13,26 @@ export function ProductColorSelector({
   colors = [],
   onColorChange,
 }: ProductColorSelectorProps) {
-  const [selectedColorId, setSelectedColorId] = useState(colors?.[0]?.id);
+  
+  const validColors = colors.filter(c => c.image || (c.images && c.images.length > 0));
+
+  const [selectedColorId, setSelectedColorId] = useState(validColors?.[0]?.id);
 
   const handleColorSelect = (color: ProductColor, index: number) => {
     setSelectedColorId(color.id);
     onColorChange?.(color);
-    window.dispatchEvent(new CustomEvent("product-image-change", { detail: index }));
   };
 
-  if (!colors || colors.length === 0) return null;
+  
+  if (validColors.length <= 1) return null;
 
   return (
     <div>
       <p className="text-[#605F5F] text-lg font-semibold">
-        Color: <span className="text-black font-medium">{colors.find((c) => c.id === selectedColorId)?.name}</span>
+        Color: <span className="text-black font-medium">{validColors.find((c) => c.id === selectedColorId)?.name}</span>
       </p>
       <div className="flex flex-wrap items-center gap-2 mt-3">
-        {colors.map((color, index) => (
+        {validColors.map((color, index) => (
           <button
             key={color.id}
             onClick={() => handleColorSelect(color, index)}

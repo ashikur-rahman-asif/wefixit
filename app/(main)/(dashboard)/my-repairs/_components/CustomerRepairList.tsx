@@ -2,7 +2,8 @@
 
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Wrench, ExternalLink, Clock, Smartphone, Loader2 } from "lucide-react";
+import { Wrench, ExternalLink, Clock, Smartphone } from "lucide-react";
+import { PageLoader } from "@/components/ui/loader";
 import Link from "next/link";
 import { useCustomerRepairs } from "@/features/repairs/hooks/use-customer-repairs";
 
@@ -40,10 +41,7 @@ export function CustomerRepairList() {
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-16">
-          <Loader2 className="w-8 h-8 animate-spin text-brand mb-4" />
-          <p className="text-gray-500 text-sm">Loading your repairs...</p>
-        </div>
+        <PageLoader message="Loading your repairs..." className="py-8 min-h-[200px]" />
       ) : repairs.length > 0 ? (
         <div className="space-y-4">
           {repairs.map((repair) => (

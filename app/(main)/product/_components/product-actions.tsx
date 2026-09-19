@@ -109,7 +109,7 @@ export function ProductActions({
         <span className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-1.5">
           <p className="text-primary font-medium text-sm">Shipping:</p>
           <p className="text-secondary font-semibold text-sm">
-            Free for orders above $100
+            Free for orders above $1,000
           </p>
         </span>
       </div>

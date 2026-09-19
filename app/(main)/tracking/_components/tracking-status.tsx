@@ -7,11 +7,11 @@ import {
   PenTool,
   Smartphone,
   Truck,
-  Loader2,
   Wallet,
   Package,
   XCircle,
 } from "lucide-react";
+import { PageLoader } from "@/components/ui/loader";
 import { useTrackRepair } from "@/features/repairs/hooks/use-track-repair";
 import { useTrackOrder } from "@/features/orders/hooks/use-track-order";
 import { cn } from "@/lib/utils";
@@ -71,9 +71,8 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
 
   if (isLoading) {
     return (
-      <div className="w-full mt-6 md:mt-10 bg-lightBrand/50 rounded-2xl py-20 px-4 text-center mb-6 md:mb-10 flex flex-col items-center justify-center">
-        <Loader2 className="w-12 h-12 text-brand animate-spin mb-4" />
-        <h2 className="text-primary text-xl font-bold">Tracking your order...</h2>
+      <div className="w-full mt-6 md:mt-10 bg-lightBrand/50 rounded-2xl mb-6 md:mb-10">
+        <PageLoader message="Tracking your order..." className="py-16" />
       </div>
     );
   }
