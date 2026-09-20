@@ -35,7 +35,7 @@ function ProductsContent() {
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
   const [pendingFeatured, setPendingFeatured] = useState<Record<number, boolean>>({}); 
 
-  const { data: response, isLoading } = useAdminProducts({ 
+  const { data: response, isLoading, isFetching } = useAdminProducts({ 
     page, 
     search,
     category,
@@ -177,6 +177,7 @@ function ProductsContent() {
         pendingStatuses={pendingStatuses}
         pendingFeatured={pendingFeatured}
         isLoading={isLoading}
+        isFetching={isFetching}
         isDeleting={deleteMutation.isPending}
         onDelete={handleDelete}
         onToggleStatus={handleToggleStatus}

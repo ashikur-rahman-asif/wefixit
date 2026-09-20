@@ -102,7 +102,7 @@ export function ServiceTable({
                     checked={
                       pendingStatuses[service.id] ?? Boolean(service.isActive)
                     }
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean) =>
                       onToggleStatus(service.id, checked)
                     }
                     className="data-[state=checked]:bg-brand cursor-pointer"

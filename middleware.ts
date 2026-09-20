@@ -37,16 +37,25 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (
-    userRole === "admin" &&
-    (pathname.startsWith("/checkout") || pathname.startsWith("/account"))
-  ) {
+  const protectedUserRoutes = [
+    "/account",
+    "/checkout",
+    "/order-success",
+    "/orders",
+    "/my-repairs",
+  ];
+
+  const isProtectedUserRoute = protectedUserRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  if (userRole === "admin" && isProtectedUserRoute) {
     const errorUrl = new URL("/403", request.url);
     errorUrl.searchParams.set("error", "admin_checkout");
     return NextResponse.redirect(errorUrl);
   }
 
-  if (!token && pathname.startsWith("/account")) {
+  if (!token && isProtectedUserRoute) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);

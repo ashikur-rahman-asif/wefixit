@@ -96,7 +96,7 @@ function AdminOrdersContent() {
 
             <Select
               value={status}
-              onValueChange={(val) => handleFilterChange("status", val)}>
+              onValueChange={(val: string | null) => handleFilterChange("status", val || "")}>
               <SelectTrigger className="w-full md:w-[150px] h-10 border-gray-200 text-titleBlack">
                 <SelectValue placeholder="Status">
                   {status === "all"
@@ -138,7 +138,7 @@ function AdminOrdersContent() {
 
             <Select
               value={paymentStatus}
-              onValueChange={(val) => handleFilterChange("paymentStatus", val)}>
+              onValueChange={(val: string | null) => handleFilterChange("paymentStatus", val || "")}>
               <SelectTrigger className="w-full md:w-[150px] h-10 border-gray-200 text-titleBlack">
                 <SelectValue placeholder="Payment">
                   {paymentStatus === "all"
@@ -325,7 +325,7 @@ function AdminOrdersContent() {
               <span>Show :</span>
               <Select
                 value={perPage.toString()}
-                onValueChange={(val) => handleFilterChange("perPage", val)}>
+                onValueChange={(val: string | null) => handleFilterChange("perPage", val || "")}>
                 <SelectTrigger className="w-[70px] h-9 border-gray-200 focus:ring-0 focus:ring-offset-0 text-titleBlack">
                   <SelectValue placeholder="15" />
                 </SelectTrigger>

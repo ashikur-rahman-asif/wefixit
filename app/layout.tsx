@@ -26,6 +26,7 @@ export const metadata: Metadata = {
 };
 
 import { QueryProvider } from "@/components/providers/query-provider";
+import { AuthInterceptor } from "@/components/auth-interceptor";
 import { Toaster } from "sonner";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className={cn("font-sans bg-white")}>
         <NextTopLoader color="#0072de" showSpinner={false} />
         <QueryProvider>{children}</QueryProvider>
+        <AuthInterceptor />
         <Toaster richColors position="top-center" />
       </body>
     </html>

@@ -28,6 +28,7 @@ export function CheckoutForm() {
   const { user } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const stripeRef = useRef<StripePaymentRef>(null);
+  const createdOrderIdRef = useRef<string | null>(null);
 
   const { mutateAsync: createOrder } = useCreateOrder();
 
@@ -54,6 +55,7 @@ export function CheckoutForm() {
     handleSubmit,
     getValues,
     control,
+    trigger,
     formState: { errors },
   } = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
@@ -66,11 +68,12 @@ export function CheckoutForm() {
   });
 
   const onSuccessfulPayment = useCallback(
-    () => {
+    (passedOrderId?: string) => {
+      const id = passedOrderId || createdOrderIdRef.current;
       toast.success("Order placed successfully!");
       clearCart();
       resetCheckout();
-      router.push("/order-success");
+      router.push(`/order-success${id ? `?order_id=${id}` : ""}`);
     },
     [clearCart, resetCheckout, router]
   );
@@ -88,8 +91,8 @@ export function CheckoutForm() {
     async (formData: CheckoutInput) => {
       setIsSubmitting(true);
       try {
-        await createOrder(getPayload(formData));
-        onSuccessfulPayment();
+        const response = await createOrder(getPayload(formData));
+        onSuccessfulPayment(response.data.order.reference);
       } catch (error) {
         const err = error as Error;
         toast.error(err.message || "Failed to place order.");
@@ -102,13 +105,17 @@ export function CheckoutForm() {
 
   const handleBeforeStripePayment = useCallback(async (): Promise<string | null> => {
     
-    const isValid = await handleSubmit(async () => {})();
-    if (!isValid) return null;
+    const isValid = await trigger();
+    if (!isValid) {
+      toast.error("Please fill in all required billing details correctly.");
+      return null;
+    }
 
     const formData = getValues();
     try {
       setIsSubmitting(true);
       const response = await createOrder(getPayload(formData));
+      createdOrderIdRef.current = response.data.order.reference;
       return response.data.payment?.clientSecret || null;
     } catch (error) {
       const err = error as Error;
@@ -117,7 +124,7 @@ export function CheckoutForm() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [handleSubmit, getValues, getPayload, createOrder]);
+  }, [trigger, getValues, getPayload, createOrder]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start flex-col-reverse lg:flex-row">

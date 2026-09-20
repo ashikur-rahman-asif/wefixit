@@ -122,7 +122,7 @@ export function BrandTable({
                     checked={
                       pendingStatuses[brand.id] ?? Boolean(brand.is_active)
                     }
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean) =>
                       onToggleStatus(brand.id, checked)
                     }
                     className="data-[state=checked]:bg-brand cursor-pointer"

@@ -9,9 +9,10 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { ProductGrade } from "@/types/admin";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { gradeSchema, type GradeFormData } from "@/validators/admin";
+import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 
 interface GradeFormModalProps {
@@ -29,8 +30,7 @@ export function GradeFormModal({
   onSubmit,
   isSubmitting,
 }: GradeFormModalProps) {
-  const {
-    register,
+  const { control, register,
     handleSubmit,
     formState: { errors },
   } = useForm<GradeFormData>({
@@ -92,11 +92,12 @@ export function GradeFormModal({
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-            <input
-              type="checkbox"
-              id="is_active"
-              {...register("is_active")}
-              className="w-4 h-4 rounded border-gray-300 text-brand focus:ring-brand cursor-pointer"
+            <Controller
+              name="is_active"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch checked={value} onCheckedChange={onChange} />
+              )}
             />
             <div>
               <label

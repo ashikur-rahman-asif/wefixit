@@ -39,7 +39,7 @@ export function Hero() {
                 </p>
               </Link>
               <Link
-                href="/track-repair"
+                href="/tracking"
                 className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl">
                 <Image
                   src="/track.png"
@@ -50,7 +50,7 @@ export function Hero() {
                   className="w-[52px] h-[52px] sm:w-[60px] sm:h-[60px] md:w-16 md:h-16 lg:w-20 lg:h-20 shrink-0 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300"
                 />
                 <p className="text-[13px] sm:text-sm md:text-xl lg:text-[27px] font-prompt text-black font-bold leading-tight lg:leading-8 group-hover:text-brand transition-colors duration-300">
-                  Track Your <br /> Repair
+                  Track Your <br /> Repair or Order
                 </p>
               </Link>
             </div>

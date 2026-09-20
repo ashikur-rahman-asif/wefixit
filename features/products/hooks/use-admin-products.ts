@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { productsApi } from "../api/admin-products.api";
@@ -21,6 +21,7 @@ export const useAdminProducts = (params?: UseProductsProps) => {
     queryKey: ["adminProducts", params],
     queryFn: () => productsApi.getProducts(params),
     staleTime: 1000 * 60 * 5,
+    placeholderData: keepPreviousData,
   });
 };
 

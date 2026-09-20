@@ -14,6 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deviceSchema, type DeviceFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 import { AdminDevice } from "@/types/admin";
 
@@ -124,11 +125,12 @@ export function DeviceFormModal({
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-            <input
-              type="checkbox"
-              id="is_active"
-              {...register("is_active")}
-              className="w-4 h-4 rounded border-gray-300 text-brand focus:ring-brand cursor-pointer"
+            <Controller
+              name="is_active"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch checked={value} onCheckedChange={onChange} />
+              )}
             />
             <div>
               <label

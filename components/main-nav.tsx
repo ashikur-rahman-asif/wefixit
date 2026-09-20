@@ -7,7 +7,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useCartStore } from "@/stores/cart.store";
 import { LogOut, ShoppingCart, User as UserIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -28,6 +28,7 @@ const navItems = [
 
 export function MainNav() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -45,15 +46,14 @@ export function MainNav() {
   );
   const isTransparent = isTransparentMode && !isScrolled;
 
-  const handleLogout = async () => {
-    try {
-      await authApi.logout();
-    } catch (error) {
+  const handleLogout = () => {
+    clearAuth();
+    toast.success("Logged out successfully");
+    router.replace("/");
+
+    authApi.logout().catch((error) => {
       console.error("Logout failed on server", error);
-    } finally {
-      clearAuth();
-      toast.success("Logged out successfully");
-    }
+    });
   };
 
   useEffect(() => {

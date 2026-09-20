@@ -15,6 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, type ServiceFormData } from "@/validators/admin";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { useDevices } from "@/features/devices/hooks/use-admin-devices";
@@ -151,11 +152,12 @@ export function ServiceFormModal({
           </div>
 
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-            <input
-              type="checkbox"
-              id="isActive"
-              {...register("isActive")}
-              className="w-4 h-4 rounded border-gray-300 text-brand focus:ring-brand cursor-pointer"
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch checked={value} onCheckedChange={onChange} />
+              )}
             />
             <div>
               <label

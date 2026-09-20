@@ -12,7 +12,13 @@ export const metadata: Metadata = {
 
 import { ConfettiEffect } from "./_components/confetti-effect";
 
-export default async function OrderSuccessPage() {
+export default async function OrderSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const orderId = params.order_id as string | undefined;
 
   return (
     <>
@@ -43,6 +49,15 @@ export default async function OrderSuccessPage() {
           Thank you for your purchase. We&apos;ve received your order and will
           start processing it right away.
         </p>
+
+        {orderId && (
+          <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 mb-8 inline-block min-w-[300px]">
+            <p className="text-sm text-muted-foreground mb-1">Your Order ID</p>
+            <p className="text-2xl font-mono font-bold text-primary tracking-wider">
+              {orderId}
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link

@@ -64,7 +64,7 @@ export default function ProductReviewsPage() {
       </div>
       
       <div className="mb-6 flex justify-end">
-        <Select value={status} onValueChange={(val) => setStatus(val || "all")}>
+        <Select value={status} onValueChange={(val: string | null) => setStatus(val || "all")}>
           <SelectTrigger className="w-[180px] h-10 bg-white border-gray-200">
             <SelectValue placeholder="Filter by status">
               {status === "all" ? "All Reviews" : status === "pending" ? "Pending" : status === "approved" ? "Approved" : "Filter by status"}

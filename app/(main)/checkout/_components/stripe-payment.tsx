@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState, forwardRef, useImperativeHandle } from "react";
+import { toast } from "sonner";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
@@ -46,10 +47,14 @@ const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSu
 
     if (!stripe || !elements) return;
 
+    if (!nameOnCard.trim()) {
+      toast.error("Please enter the name on your card.");
+      return;
+    }
+
     const clientSecret = await onBeforePayment();
     
     if (!clientSecret) {
-      
       return;
     }
 

@@ -91,7 +91,7 @@ function AdminUsersContent() {
 
               <Select
                 value={role}
-                onValueChange={(val) => handleFilterChange("role", val)}
+                onValueChange={(val: string | null) => handleFilterChange("role", val || "")}
               >
                 <SelectTrigger className="md:w-37.5 h-10 border-gray-200 text-sm">
                   <SelectValue placeholder="All Roles" />
@@ -110,7 +110,7 @@ function AdminUsersContent() {
               </span>
               <Select
                 value={perPage.toString()}
-                onValueChange={(val) => handleFilterChange("perPage", val)}
+                onValueChange={(val: string | null) => handleFilterChange("perPage", val || "")}
               >
                 <SelectTrigger className="w-[70px] h-10 border-gray-200 text-sm">
                   <SelectValue />

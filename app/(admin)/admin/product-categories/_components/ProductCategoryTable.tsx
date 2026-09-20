@@ -82,7 +82,7 @@ export function ProductCategoryTable({
                       pendingStatuses[category.id] ??
                       Boolean(category.is_active)
                     }
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean) =>
                       onToggleStatus(category.id, checked)
                     }
                     className="data-[state=checked]:bg-brand cursor-pointer"

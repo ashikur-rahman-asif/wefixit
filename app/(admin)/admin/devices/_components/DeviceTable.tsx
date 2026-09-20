@@ -102,7 +102,7 @@ export function DeviceTable({
                     checked={
                       pendingStatuses[device.id] ?? Boolean(device.is_active)
                     }
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={(checked: boolean) =>
                       onToggleStatus(device.id, checked)
                     }
                     className="data-[state=checked]:bg-brand cursor-pointer"

@@ -216,7 +216,7 @@ export function RecentOrdersTable({
             <span>Show :</span>
             <Select
               value={itemsPerPage.toString()}
-              onValueChange={(val) => {
+              onValueChange={(val: string | null) => {
                 setItemsPerPage(Number(val));
                 setCurrentPage(1);
               }}>

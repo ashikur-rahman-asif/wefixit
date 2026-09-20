@@ -431,7 +431,7 @@ export function ProductForm({
                   <div className="md:col-span-4 mb-2">
                     <label className="block text-sm font-semibold text-titleBlack mb-1.5">Select Existing Color (Optional)</label>
                     <Select
-                      onValueChange={(val) => {
+                      onValueChange={(val: string | null) => {
                         const selectedColor = globalColors.find(c => c.id.toString() === val);
                         if (selectedColor) {
                           setValue(`colors.${index}.name`, selectedColor.name);

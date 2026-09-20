@@ -21,6 +21,7 @@ interface ProductTableProps {
   pendingStatuses: Record<number, boolean>;
   pendingFeatured: Record<number, boolean>;
   isLoading: boolean;
+  isFetching?: boolean;
   isDeleting: boolean;
   onDelete: (id: number) => void;
   onToggleStatus: (id: number, status: boolean) => void;
@@ -32,6 +33,7 @@ export function ProductTable({
   pendingStatuses,
   pendingFeatured,
   isLoading,
+  isFetching,
   isDeleting,
   onDelete,
   onToggleStatus,
@@ -60,7 +62,10 @@ export function ProductTable({
   }
 
   return (
-    <div className="bg-white rounded-[20px] border border-gray-100 overflow-hidden">
+    <div className={cn(
+      "bg-white rounded-[20px] border border-gray-100 overflow-hidden transition-opacity duration-200",
+      isFetching ? "opacity-60 pointer-events-none" : "opacity-100"
+    )}>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-[#F8F9FB] border-b border-gray-100">
@@ -158,7 +163,7 @@ export function ProductTable({
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={currentStatus}
-                        onCheckedChange={(checked) =>
+                        onCheckedChange={(checked: boolean) =>
                           onToggleStatus(product.id, checked)
                         }
                         className="data-[state=checked]:bg-brand cursor-pointer"

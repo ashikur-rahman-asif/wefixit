@@ -38,16 +38,14 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await authApi.logout();
-    } catch (error) {
+  const handleLogout = () => {
+    clearAuth();
+    toast.success("Logged out successfully");
+    router.replace("/auth/login");
+
+    authApi.logout().catch((error) => {
       console.error("Logout failed on server", error);
-    } finally {
-      clearAuth();
-      toast.success("Logged out successfully");
-      router.push("/auth/login");
-    }
+    });
   };
 
   const isActive = (path: string) => {
@@ -147,12 +145,16 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
               if (link.children) {
                 return (
                   <li key={index}>
-                    <Accordion className="w-full space-y-0">
+                    <Accordion 
+                      className="w-full space-y-0" 
+                      defaultValue={link.children?.some(c => isActive(c.href)) ? [link.title.toLowerCase()] : []}
+                    >
                       <AccordionItem value={link.title.toLowerCase()} className="border-none">
                         <AccordionTrigger
                           className={cn(
-                            "flex items-center cursor-pointer rounded-xl transition-colors text-gray-300 font-medium hover:text-white hover:bg-white/5 hover:no-underline",
-                            isCollapsed ? "justify-center p-3" : "justify-between px-4 py-3"
+                            "flex items-center cursor-pointer rounded-xl transition-colors font-medium hover:text-white hover:bg-white/5 hover:no-underline",
+                            isCollapsed ? "justify-center p-3" : "justify-between px-4 py-3",
+                            link.children?.some(c => isActive(c.href)) ? "text-white bg-white/5" : "text-gray-300"
                           )}
                           title={link.title}
                         >

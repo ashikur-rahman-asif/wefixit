@@ -92,7 +92,7 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Brand</label>
           <Select
             value={filters.brand}
-            onValueChange={(val) => setFilters(prev => ({ ...prev, brand: val || "all" }))}
+            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, brand: val || "all" }))}
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
@@ -112,7 +112,7 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
           <Select
             value={filters.category}
-            onValueChange={(val) => setFilters(prev => ({ ...prev, category: val || "all" }))}
+            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, category: val || "all" }))}
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
@@ -132,7 +132,7 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Device</label>
           <Select
             value={filters.device}
-            onValueChange={(val) => setFilters(prev => ({ ...prev, device: val || "all" }))}
+            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, device: val || "all" }))}
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
@@ -152,7 +152,7 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Status</label>
           <Select
             value={filters.status}
-            onValueChange={(val) => setFilters(prev => ({ ...prev, status: val || "all" }))}
+            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, status: val || "all" }))}
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
