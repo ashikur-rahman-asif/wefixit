@@ -120,6 +120,7 @@ export const productSchema = z.object({
   })).optional(),
   stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
   isActive: z.boolean().default(true),
+  isFeatured: z.boolean().default(false),
   image: z
     .union([z.instanceof(File), z.string()])
     .nullable()

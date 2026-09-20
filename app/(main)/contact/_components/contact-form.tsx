@@ -8,6 +8,7 @@ import * as z from "zod";
 import { Input } from "@/components/form-elements/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useSubmitContact } from "@/features/contact/hooks/use-contact";
 
 const contactFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -29,10 +30,15 @@ export function ContactForm() {
     resolver: zodResolver(contactFormSchema),
   });
 
+  const submitMutation = useSubmitContact();
+
   const onSubmit = async (data: ContactFormValues) => {
-    console.log(data);
-    toast.success("Message sent successfully!");
-    reset();
+    submitMutation.mutate(data, {
+      onSuccess: () => {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        reset();
+      },
+    });
   };
 
   return (
@@ -88,8 +94,8 @@ export function ContactForm() {
             variant="brand"
             size="lg"
             className="w-full md:w-auto font-prompt"
-            disabled={isSubmitting}>
-            {isSubmitting ? "Sending..." : "Send Message"}
+            disabled={submitMutation.isPending}>
+            {submitMutation.isPending ? "Sending..." : "Send Message"}
           </Button>
         </div>
       </form>

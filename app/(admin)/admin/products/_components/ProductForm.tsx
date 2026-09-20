@@ -58,6 +58,7 @@ export function ProductForm({
       discountPrice: initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
       stock: initialData.stock != null ? Number(initialData.stock) : 0,
       isActive: initialData.is_active,
+      isFeatured: initialData.is_featured || false,
       categoryId: initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
       brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
       deviceId: initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
@@ -76,6 +77,7 @@ export function ProductForm({
       discountPrice: undefined,
       stock: 0,
       isActive: true,
+      isFeatured: false,
       categoryId: "",
       brandId: "",
       deviceId: "",
@@ -103,6 +105,14 @@ export function ProductForm({
     control,
     name: "colors",
   });
+
+  const watchedCategoryId = useWatch({
+    control,
+    name: "categoryId",
+  });
+
+  const selectedCategory = categories.find((c) => c.id.toString() === watchedCategoryId?.toString());
+  const isPreOwnedCategory = selectedCategory?.name.toLowerCase() === "pre owned";
 
   const totalCalculatedStock = watchedColors?.reduce((sum, color) => sum + (Number(color.stock) || 0), 0) || 0;
 
@@ -254,7 +264,23 @@ export function ProductForm({
                 />
               </div>
 
-              <div>
+              {isPreOwnedCategory && (
+                <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100 mt-5">
+                  <div>
+                    <label className="text-sm font-semibold text-titleBlack block mb-0.5">Featured Product</label>
+                    <p className="text-[13px] font-medium text-gray-500">Show this product on the home page?</p>
+                  </div>
+                  <Controller
+                    name="isFeatured"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Switch checked={value} onCheckedChange={onChange} />
+                    )}
+                  />
+                </div>
+              )}
+
+              <div className="mt-5">
                 <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
                 <Controller
                   name="categoryId"

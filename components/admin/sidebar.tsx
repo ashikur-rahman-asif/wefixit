@@ -17,7 +17,8 @@ import {
   List,
   Award,
   Palette,
-  Smartphone
+  Smartphone,
+  Mail
 } from "lucide-react";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import Logo from "@/components/icons/logo";
@@ -26,6 +27,8 @@ import { authApi } from "@/features/auth/api/auth.api";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useQuery } from "@tanstack/react-query";
+import { dashboardApi } from "@/features/dashboard/api/admin-dashboard.api";
 import {
   Accordion,
   AccordionItem,
@@ -37,6 +40,14 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
   const pathname = usePathname();
   const clearAuth = useAuthStore((state) => state.clearAuth);
   const router = useRouter();
+
+  const { data: statsRes } = useQuery({
+    queryKey: ["adminDashboardStats"],
+    queryFn: dashboardApi.getDashboardStats,
+    staleTime: 60 * 1000,
+  });
+
+  const newMessagesCount = statsRes?.data?.contactMessages?.new || 0;
 
   const handleLogout = () => {
     clearAuth();
@@ -100,6 +111,12 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
         { title: "Blog List", href: "/admin/blogs", icon: FileText },
         { title: "Categories", href: "/admin/blog-categories", icon: List },
       ],
+    },
+    {
+      title: "Contact Messages",
+      href: "/admin/contact-messages",
+      icon: Mail,
+      badge: newMessagesCount > 0 ? newMessagesCount : undefined,
     },
     { title: "Customer", href: "#", icon: Users, hasRightArrow: true },
     {
@@ -202,8 +219,15 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
                       </>
                     ) : (
                       <>
-                        <Icon className="w-5 h-5 shrink-0" />
-                        {!isCollapsed && <span className="font-medium">{link.title}</span>}
+                        <div className="flex items-center gap-3">
+                          <Icon className="w-5 h-5 shrink-0" />
+                          {!isCollapsed && <span className="font-medium">{link.title}</span>}
+                        </div>
+                        {!isCollapsed && link.badge && (
+                          <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                            {link.badge}
+                          </span>
+                        )}
                       </>
                     )}
                   </Link>

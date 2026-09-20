@@ -359,3 +359,17 @@ export interface AdminProduct {
   created_at: string;
   updated_at: string;
 }
+
+export interface AdminContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  subject: string | null;
+  message: string;
+  status: 'new' | 'read' | 'replied';
+  statusLabel: string;
+  admin_notes: string | null;
+  created_at: string;
+  updated_at: string;
+}

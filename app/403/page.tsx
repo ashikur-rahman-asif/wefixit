@@ -1,4 +1,10 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "403 Forbidden | WeFixit",
+  description: "You do not have permission to access this page.",
+};
 import { ShieldX } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 

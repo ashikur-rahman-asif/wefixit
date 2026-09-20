@@ -178,30 +178,34 @@ export function ProductTable({
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4">
-                    <button
-                      onClick={() =>
-                        onToggleFeatured(product.id, !currentFeatured)
-                      }
-                      title={currentFeatured ? "Remove from featured" : "Mark as featured"}
-                      className="flex items-center gap-1.5 cursor-pointer"
-                    >
-                      <Star
-                        className={cn(
-                          "w-5 h-5 transition-colors",
-                          currentFeatured
-                            ? "fill-amber-400 text-amber-400"
-                            : "text-gray-300 hover:text-amber-400",
-                        )}
-                      />
-                      <span
-                        className={cn(
-                          "text-sm font-semibold",
-                          currentFeatured ? "text-amber-500" : "text-gray-400",
-                        )}
+                    {product.category?.name?.toLowerCase() === "pre owned" ? (
+                      <button
+                        onClick={() =>
+                          onToggleFeatured(product.id, !currentFeatured)
+                        }
+                        title={currentFeatured ? "Remove from featured" : "Mark as featured"}
+                        className="flex items-center gap-1.5 cursor-pointer"
                       >
-                        {currentFeatured ? "Featured" : ""}
-                      </span>
-                    </button>
+                        <Star
+                          className={cn(
+                            "w-5 h-5 transition-colors",
+                            currentFeatured
+                              ? "fill-amber-400 text-amber-400"
+                              : "text-gray-300 hover:text-amber-400",
+                          )}
+                        />
+                        <span
+                          className={cn(
+                            "text-sm font-semibold",
+                            currentFeatured ? "text-amber-500" : "text-gray-400",
+                          )}
+                        >
+                          {currentFeatured ? "Featured" : ""}
+                        </span>
+                      </button>
+                    ) : (
+                      <span className="text-gray-400 text-sm">-</span>
+                    )}
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
