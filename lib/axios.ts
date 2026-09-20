@@ -15,6 +15,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const token = Cookies.get("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -31,11 +35,11 @@ api.interceptors.response.use(
       if (typeof window !== "undefined") {
         localStorage.removeItem("auth-storage");
         Cookies.remove("user_role", { path: "/" });
-        Cookies.remove("user_role");
+        Cookies.remove("token", { path: "/" });
 
         if (window.location.pathname !== "/auth/login") {
           
-          window.location.href = "/auth/login?clear=1";
+          window.location.href = window.location.origin + "/auth/login?clear=1";
         }
       }
     }

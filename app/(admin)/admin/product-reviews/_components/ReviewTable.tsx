@@ -18,7 +18,8 @@ import {
 interface ReviewTableProps {
   reviews: AdminReview[];
   isLoading: boolean;
-  onToggleStatus: (id: number) => void;
+  onToggleStatus: (id: number, newStatus: boolean) => void;
+  pendingStatuses: Record<number, boolean>;
   isToggling: boolean;
 }
 
@@ -26,6 +27,7 @@ export function ReviewTable({
   reviews,
   isLoading,
   onToggleStatus,
+  pendingStatuses,
   isToggling,
 }: ReviewTableProps) {
   if (isLoading) {
@@ -129,16 +131,16 @@ export function ReviewTable({
                   <TableCell className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <Switch
-                        checked={review.is_approved}
-                        onCheckedChange={() => onToggleStatus(review.id)}
+                        checked={pendingStatuses[review.id] ?? review.is_approved}
+                        onCheckedChange={(val) => onToggleStatus(review.id, val)}
                         disabled={isToggling}
                       />
                       <span
                         className={cn(
                           "text-sm font-semibold",
-                          review.is_approved ? "text-titleBlack" : "text-textGray",
+                          (pendingStatuses[review.id] ?? review.is_approved) ? "text-titleBlack" : "text-textGray",
                         )}>
-                        {review.is_approved ? "Yes" : "No"}
+                        {(pendingStatuses[review.id] ?? review.is_approved) ? "Yes" : "No"}
                       </span>
                     </div>
                   </TableCell>

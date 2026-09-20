@@ -22,6 +22,7 @@ const navItems = [
 
   { label: "Shop", href: "/shop" },
   { label: "Repair", href: "/repair" },
+  { label: "Blog", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -39,7 +40,7 @@ export function MainNav() {
   const mounted = useMounted();
   const totalItems = mounted ? cartItemsTotal : 0;
 
-  const isTransparentMode = ["/services", "/contact"].includes(
+  const isTransparentMode = ["/services", "/contact", "/blog"].includes(
     pathname,
   );
   const isTransparent = isTransparentMode && !isScrolled;

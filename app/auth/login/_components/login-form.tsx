@@ -14,6 +14,7 @@ import { useAuthStore } from "@/stores/auth.store";
 import { Input } from "@/components/form-elements/input";
 import { PasswordInput } from "@/components/form-elements/password-input/password-input";
 import { LogoIcon } from "@/components/icons/logo-copy";
+import Cookies from "js-cookie";
 
 export function LoginForm() {
   const router = useRouter();
@@ -37,25 +38,33 @@ export function LoginForm() {
   function onSubmit(inputs: LoginInput) {
     login(inputs, {
       onSuccess: (res) => {
-        if (res.data?.user && res.data?.token) {
-          const isAdmin = res.data.user.roles?.includes("admin");
+        const user = res.data?.user;
+        const token = res.data?.token;
 
-          
-          
-          router.prefetch(isAdmin ? "/admin" : "/");
-
-          setAuth(res.data.user);
-          toast.success(res.message || "Login successful!");
-
-          if (isAdmin) {
-            router.replace("/admin");
-          } else {
-            router.replace("/");
-          }
+        if (!user || !token) {
+          toast.error("Invalid login response.");
+          return;
         }
+
+        const isAdmin = user.roles?.includes("admin");
+
+        Cookies.set("token", token, {
+          expires: 7,
+          path: "/",
+        });
+
+        setAuth(user);
+
+        toast.success(res.message || "Login successful!");
+
+        router.replace(isAdmin ? "/admin" : "/");
       },
       onError: (error) => {
-        handleFormError(error, setError, "Login failed. Please try again.");
+        handleFormError(
+          error,
+          setError,
+          "Login failed. Please try again."
+        );
       },
     });
   }

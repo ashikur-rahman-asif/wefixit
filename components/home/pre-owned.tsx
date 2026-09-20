@@ -44,6 +44,10 @@ export function PreOwned() {
 
   const showSkeleton = !mounted || isLoading;
 
+  if (!showSkeleton && products.length === 0) {
+    return null;
+  }
+
   return (
     <section className=" overflow-hidden">
       <Container>

@@ -27,6 +27,7 @@ export function useAdminReviews(params?: { page?: number; perPage?: number; stat
   return {
     ...query,
     toggleApproval: toggleApprovalMutation.mutate,
+    toggleApprovalAsync: toggleApprovalMutation.mutateAsync,
     isToggling: toggleApprovalMutation.isPending,
   };
 }
