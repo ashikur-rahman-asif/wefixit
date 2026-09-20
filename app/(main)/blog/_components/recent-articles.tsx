@@ -7,42 +7,20 @@ import "swiper/css";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RecentBlogCard } from "./recent-blog-card";
+import { Blog } from "@/features/blogs/types/blog.types";
+import { format } from "date-fns";
 
-// Dummy data for recent articles
-const recentArticlesData = [
-  {
-    id: 1,
-    imageSrc: "/blog/top-blog-1.jpg",
-    date: "16 May 2022",
-    category: "Career Tips",
-    title: "How Intrapreneurship Can Help You Stand Out At Work",
-  },
-  {
-    id: 2,
-    imageSrc: "/blog/top-blog-2.jpg",
-    date: "3 Sep 2022",
-    category: "Interviews",
-    title: "How To Know Your Resume Is Ready To Be Submitted",
-  },
-  {
-    id: 3,
-    imageSrc: "/blog/top-blog-1.jpg",
-    date: "7 Feb 2022",
-    category: "Interviews",
-    title: "How To Sharpen Your Social Skills When You WFH",
-  },
-  {
-    id: 4,
-    imageSrc: "/blog/top-blog-2.jpg",
-    date: "12 Jan 2022",
-    category: "Career Tips",
-    title: "5 Tips for Staying Productive Working from Home",
-  },
-];
+function stripTags(html: string) {
+  return html.replace(/<[^>]*>?/gm, '');
+}
+
+interface RecentArticlesProps {
+  articles: Blog[];
+}
 
 const subscribe = () => () => {};
 
-export function RecentArticles() {
+export function RecentArticles({ articles }: RecentArticlesProps) {
   const mounted = useSyncExternalStore(
     subscribe,
     () => true,
@@ -57,8 +35,8 @@ export function RecentArticles() {
     <section className="pt-12 md:pt-16 lg:pt-20 overflow-hidden">
       <div className="flex items-end justify-between mb-8 md:mb-12 gap-4 flex-wrap">
         <SectionTitle
-          title="Recently Articles"
-          description="Newest update article from jobify"
+          title="Recent Articles"
+          description="Newest update article from wefixit"
           align="left"
           className="flex-1"
         />
@@ -93,14 +71,14 @@ export function RecentArticles() {
           1024: { slidesPerView: 3, spaceBetween: 24 },
         }}
         className="overflow-hidden !pb-4">
-        {recentArticlesData.map((article) => (
+        {articles.map((article) => (
           <SwiperSlide key={article.id} className="h-auto">
             <RecentBlogCard
-              imageSrc={article.imageSrc}
-              date={article.date}
-              category={article.category}
+              imageSrc={article.image || "/blog/top-blog-1.jpg"}
+              date={article.published_at ? format(new Date(article.published_at), "d MMM yyyy") : format(new Date(article.created_at), "d MMM yyyy")}
+              category={article.category?.name || "General"}
               title={article.title}
-              href={`/blog/${article.id}`}
+              href={`/blog/${article.slug}`}
             />
           </SwiperSlide>
         ))}

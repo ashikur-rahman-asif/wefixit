@@ -95,6 +95,14 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
       ],
     },
     { title: "Product Grades", href: "/admin/product-grades", icon: Star },
+    {
+      title: "Blogs",
+      icon: FileText,
+      children: [
+        { title: "Blog List", href: "/admin/blogs", icon: FileText },
+        { title: "Categories", href: "/admin/blog-categories", icon: List },
+      ],
+    },
     { title: "Customer", href: "#", icon: Users, hasRightArrow: true },
     {
       title: "Orders",

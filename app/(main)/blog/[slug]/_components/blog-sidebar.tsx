@@ -1,7 +1,6 @@
 import { RecentBlogCard } from "../../_components/recent-blog-card";
 
 export function BlogSidebar() {
-  // Dummy data for the sidebar
   const articles = [
     {
       id: 1,
