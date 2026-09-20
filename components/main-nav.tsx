@@ -1,14 +1,14 @@
 "use client";
 
+import { authApi } from "@/features/auth/api/auth.api";
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth.store";
 import { useCartStore } from "@/stores/cart.store";
-import { ShoppingCart, User as UserIcon, LogOut } from "lucide-react";
+import { LogOut, ShoppingCart, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { authApi } from "@/features/auth/api/auth.api";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import Container from "./container";
@@ -19,10 +19,10 @@ import { buttonVariants } from "./ui/button";
 
 const navItems = [
   { label: "Services", href: "/services" },
-  { label: "Repair", href: "/repair" },
-  { label: "About Us", href: "/about" },
+
   { label: "Shop", href: "/shop" },
-  { label: "Blog", href: "/blog" },
+  { label: "Repair", href: "/repair" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export function MainNav() {
@@ -39,7 +39,9 @@ export function MainNav() {
   const mounted = useMounted();
   const totalItems = mounted ? cartItemsTotal : 0;
 
-  const isTransparentMode = pathname === "/services";
+  const isTransparentMode = ["/services", "/contact"].includes(
+    pathname,
+  );
   const isTransparent = isTransparentMode && !isScrolled;
 
   const handleLogout = async () => {
@@ -149,7 +151,12 @@ export function MainNav() {
               +88-01516540594
             </a>
             {!mounted ? (
-              <div className={cn("h-[46px] w-[108px] animate-pulse rounded-full", isTransparent ? "bg-white/20" : "bg-gray-200")} />
+              <div
+                className={cn(
+                  "h-[46px] w-[108px] animate-pulse rounded-full",
+                  isTransparent ? "bg-white/20" : "bg-gray-200",
+                )}
+              />
             ) : isAuthenticated ? (
               <div className="relative group">
                 <div className="h-10 w-10 rounded-full border-2 border-brand bg-white flex items-center justify-center cursor-pointer overflow-hidden transition-transform group-hover:scale-105 shadow-sm">
@@ -159,12 +166,14 @@ export function MainNav() {
                 <div className="absolute right-0 top-full pt-3 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-1000">
                   <div className="bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.2)] border border-gray-100 relative">
                     <div className="absolute -top-1.5 right-3.5 w-3 h-3 bg-white border-l border-t border-gray-100 transform rotate-45"></div>
-                    
+
                     <div className="px-4 py-3 border-b border-gray-100 relative z-10 bg-white rounded-t-xl">
                       <p className="text-base font-semibold text-gray-900 leading-tight">
                         {user?.name || user?.first_name || "User"}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">{user?.phone || ""}</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {user?.phone || ""}
+                      </p>
                     </div>
 
                     <div className="py-2 relative z-10 bg-white rounded-b-xl flex flex-col gap-1 px-2">
@@ -262,7 +271,9 @@ export function MainNav() {
                     <p className="text-sm font-semibold text-gray-900 truncate">
                       {user?.name || user?.first_name || "User"}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5 truncate">{user?.phone || ""}</p>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">
+                      {user?.phone || ""}
+                    </p>
                   </div>
                 </div>
                 <Link
