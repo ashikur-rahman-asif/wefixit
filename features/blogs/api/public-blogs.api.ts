@@ -26,6 +26,24 @@ export const publicBlogsApi = {
     }>;
   },
 
+  getTopBlogs: async () => {
+    const params = new URLSearchParams({
+      is_top: "1",
+    });
+
+    const response = await fetch(`${API_URL}/blogs?${params.toString()}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch top blogs");
+    }
+
+    return response.json() as Promise<{
+      data: Blog[];
+    }>;
+  },
+
   getBlogBySlug: async (slug: string) => {
     const response = await fetch(`${API_URL}/blogs/${slug}`, {
       next: { revalidate: 60 },

@@ -27,11 +27,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const category = resolvedSearchParams.category as string | undefined;
 
   const response = await publicBlogsApi.getBlogs(page, category);
-  
   const allBlogs = response.data;
   
-  const topBlogs = allBlogs.filter((b) => b.is_top).slice(0, 2);
-  const otherBlogs = allBlogs.filter((b) => !b.is_top);
+  const topBlogsResponse = await publicBlogsApi.getTopBlogs();
+  const topBlogs = topBlogsResponse.data.filter((b) => b.is_top).slice(0, 2);
+  
+  const topBlogIds = new Set(topBlogs.map(b => b.id));
+  const otherBlogs = allBlogs.filter((b) => !topBlogIds.has(b.id));
   
   const recentBlogs = otherBlogs.slice(0, 4);
   
