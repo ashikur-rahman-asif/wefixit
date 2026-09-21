@@ -11,17 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import { StarRating } from "@/components/ui/star-rating";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { handleFormError } from "@/lib/handle-form-error";
 import { Product } from "@/features/products/types/product.types";
+import { useProductReviews, useSubmitReview } from "@/features/reviews/hooks/use-reviews";
+import { handleFormError } from "@/lib/handle-form-error";
+import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/auth.store";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useSubmitReview, useProductReviews } from "@/features/reviews/hooks/use-reviews";
-import { useAuthStore } from "@/stores/auth.store";
-import { Loader } from "@/components/ui/loader";
+import { z } from "zod";
 
 const reviewSchema = z.object({
   rating: z.number().min(1, "Please select a rating between 1 and 5").max(5),
@@ -69,14 +68,6 @@ export function ProductReviews({ product }: ProductReviewsProps) {
       }
     );
   };
-
-  if (isLoading && reviews.length === 0) {
-    return (
-      <div className="mt-6 md:mt-10 flex justify-center py-12">
-        <Loader size="md" />
-      </div>
-    );
-  }
 
   return (
     <div className="mt-2 flex flex-col gap-8">
@@ -160,7 +151,28 @@ export function ProductReviews({ product }: ProductReviewsProps) {
       </div>
 
       <div className="mt-2">
-        {!hasReviews ? (
+        {isLoading && reviews.length === 0 ? (
+          <div className="grid gap-6">
+            {Array.from({ length: product.reviewsCount ? Math.min(product.reviewsCount, visibleCount) : 1 }).map((_, i) => (
+              <div key={i} className="border-b pb-6 last:border-0 last:pb-0 animate-pulse">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="size-12 rounded-full bg-muted"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-32 bg-muted rounded"></div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-24 bg-muted rounded"></div>
+                      <div className="h-3 w-16 bg-muted rounded"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-full max-w-2xl bg-muted rounded"></div>
+                  <div className="h-4 w-5/6 max-w-xl bg-muted rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : !hasReviews ? (
           <div className="text-center py-12 md:py-16 bg-muted/30 rounded-xl border border-border/50">
             <p className="text-lg md:text-xl font-medium text-primary">
               No reviews yet
