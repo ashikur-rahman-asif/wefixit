@@ -51,9 +51,7 @@ export function BlogTable({
         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
           <FileText className="w-8 h-8 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-titleBlack mb-1">
-          No blogs found
-        </h3>
+        <h3 className="text-lg font-semibold text-titleBlack mb-1">No blogs found</h3>
         <p className="text-textGray">Get started by writing a new blog.</p>
       </div>
     );
@@ -84,13 +82,11 @@ export function BlogTable({
           </TableHeader>
           <TableBody>
             {blogs.map((blog) => {
-              const currentStatus =
-                pendingStatuses[blog.id] ?? blog.is_published;
-              const currentTop =
-                pendingTop[blog.id] ?? blog.is_top;
+              const currentStatus = pendingStatuses[blog.id] ?? blog.is_published;
+              const currentTop = pendingTop[blog.id] ?? blog.is_top;
 
               return (
-                <TableRow 
+                <TableRow
                   key={blog.id}
                   className="hover:bg-gray-50/50 border-none transition-colors"
                 >
@@ -98,12 +94,7 @@ export function BlogTable({
                     <div className="flex items-center gap-3">
                       <div className="w-16 h-12 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0 relative">
                         {blog.image ? (
-                          <Image
-                            src={blog.image}
-                            alt={blog.title}
-                            fill
-                            className="object-cover"
-                          />
+                          <Image src={blog.image} alt={blog.title} fill className="object-cover" />
                         ) : (
                           <FileText className="w-5 h-5 text-gray-400" />
                         )}
@@ -112,9 +103,7 @@ export function BlogTable({
                         <div className="font-semibold text-titleBlack text-sm line-clamp-1 max-w-[250px]">
                           {blog.title}
                         </div>
-                        <div className="text-gray-600 font-medium text-xs mt-0.5">
-                          {blog.slug}
-                        </div>
+                        <div className="text-gray-600 font-medium text-xs mt-0.5">{blog.slug}</div>
                       </div>
                     </div>
                   </TableCell>
@@ -125,25 +114,22 @@ export function BlogTable({
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={currentStatus}
-                        onCheckedChange={(checked: boolean) =>
-                          onToggleStatus(blog.id, checked)
-                        }
+                        onCheckedChange={(checked: boolean) => onToggleStatus(blog.id, checked)}
                         className="data-[state=checked]:bg-brand cursor-pointer"
                       />
                       <span
                         className={cn(
                           "text-sm font-semibold w-20 inline-block",
                           currentStatus ? "text-titleBlack" : "text-gray-600",
-                        )}>
+                        )}
+                      >
                         {currentStatus ? "Published" : "Draft"}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4">
                     <button
-                      onClick={() =>
-                        onToggleTop(blog.id, !currentTop)
-                      }
+                      onClick={() => onToggleTop(blog.id, !currentTop)}
                       title={currentTop ? "Remove from Top Blogs" : "Mark as Top Blog"}
                       className="flex items-center gap-1.5 cursor-pointer"
                     >
@@ -170,14 +156,16 @@ export function BlogTable({
                       <Link
                         href={`/admin/blogs/${blog.id}`}
                         className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                        title="Edit">
+                        title="Edit"
+                      >
                         <Edit2 className="w-4 h-4" />
                       </Link>
                       <button
                         onClick={() => onDelete(blog.id)}
                         disabled={isDeleting}
                         className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                        title="Delete">
+                        title="Delete"
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>

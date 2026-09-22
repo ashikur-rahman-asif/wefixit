@@ -18,7 +18,7 @@ export type CheckoutInput = z.infer<typeof checkoutSchema>;
 
 export const getCheckoutDefaultValues = (
   user: User | null | undefined,
-  formData: Partial<CheckoutInput>
+  formData: Partial<CheckoutInput>,
 ): CheckoutInput => ({
   firstName: formData?.firstName || user?.first_name || "",
   lastName: formData?.lastName || user?.last_name || "",

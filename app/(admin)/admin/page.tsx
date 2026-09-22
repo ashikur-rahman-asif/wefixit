@@ -9,7 +9,11 @@ import { TopStats } from "@/components/admin/dashboard/TopStats";
 import { DashboardSkeleton } from "@/components/admin/dashboard/DashboardSkeleton";
 
 export default function AdminDashboard() {
-  const { data: response, isLoading, isError } = useQuery({
+  const {
+    data: response,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["adminDashboardStats"],
     queryFn: dashboardApi.getDashboardStats,
     staleTime: 60 * 1000,

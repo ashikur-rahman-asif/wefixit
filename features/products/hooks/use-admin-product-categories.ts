@@ -21,7 +21,7 @@ export const useAllProductCategories = () => {
   return useQuery({
     queryKey: ["adminAllProductCategories"],
     queryFn: productCategoriesApi.getAllCategories,
-    staleTime: 1000 * 60 * 30, 
+    staleTime: 1000 * 60 * 30,
   });
 };
 

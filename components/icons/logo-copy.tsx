@@ -4,9 +4,7 @@ import { cn } from "@/lib/utils";
 
 export type LogoColor = "white" | "black";
 
-export function LogoIcon(
-  props: SVGProps<SVGSVGElement> & { color?: LogoColor },
-) {
+export function LogoIcon(props: SVGProps<SVGSVGElement> & { color?: LogoColor }) {
   const { color, className, ...rest } = props;
   return (
     <svg
@@ -14,7 +12,8 @@ export function LogoIcon(
       viewBox="0 0 104 24"
       fill="none"
       {...rest}
-      className={cn("duration-300 ", className)}>
+      className={cn("duration-300 ", className)}
+    >
       <g clipPath="url(#logo_a)">
         <path
           fill={color === "white" ? "#fff" : "#041B29"}

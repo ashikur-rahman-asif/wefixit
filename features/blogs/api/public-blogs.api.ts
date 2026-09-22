@@ -11,7 +11,7 @@ export const publicBlogsApi = {
     });
 
     const response = await fetch(`${API_URL}/blogs?${params.toString()}`, {
-      next: { revalidate: 60 }, 
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {

@@ -7,7 +7,7 @@ export const useBrands = () => {
   return useQuery({
     queryKey: ["adminBrands"],
     queryFn: brandsApi.getBrands,
-    staleTime: 1000 * 60 * 20, 
+    staleTime: 1000 * 60 * 20,
   });
 };
 

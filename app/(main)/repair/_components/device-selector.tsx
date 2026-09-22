@@ -23,7 +23,8 @@ export function DeviceSelector({ devices }: DeviceSelectorProps) {
             selectedDevice === device.name
               ? "border-brand ring-1 ring-brand/50"
               : "border-transparent",
-          )}>
+          )}
+        >
           {device.icon ? (
             <Image
               src={device.icon}
@@ -37,9 +38,7 @@ export function DeviceSelector({ devices }: DeviceSelectorProps) {
               No Icon
             </div>
           )}
-          <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
-            {device.name}
-          </h3>
+          <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">{device.name}</h3>
           {selectedDevice === device.name && (
             <div className="absolute top-3 right-3 bg-brand rounded-full p-1">
               <CheckIcon className="size-3 md:size-4 text-white" />

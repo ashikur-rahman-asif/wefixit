@@ -11,28 +11,33 @@ interface ProductHeroProps {
 }
 
 export function ProductHero({ product, discountPercentage }: ProductHeroProps) {
-  const [selectedColor, setSelectedColor] = useState<ProductColor | undefined>(
-    product.colors?.[0]
-  );
+  const [selectedColor, setSelectedColor] = useState<ProductColor | undefined>(product.colors?.[0]);
 
-  const colorImages = selectedColor?.images?.length ? selectedColor.images : (selectedColor?.image ? [selectedColor.image] : []);
-  const globalImages = product.images?.length ? product.images : (product.image ? [product.image] : []);
-  
-  
+  const colorImages = selectedColor?.images?.length
+    ? selectedColor.images
+    : selectedColor?.image
+      ? [selectedColor.image]
+      : [];
+  const globalImages = product.images?.length
+    ? product.images
+    : product.image
+      ? [product.image]
+      : [];
+
   const combinedImages = [...colorImages, ...globalImages].filter(Boolean).slice(0, 4);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
       <div className="md:sticky md:top-24 md:self-start z-10">
         <ProductImageGallery
-          key={selectedColor?.id || 'default'}
+          key={selectedColor?.id || "default"}
           images={combinedImages}
           discountPercentage={discountPercentage}
         />
       </div>
       <div>
-        <ProductInteractive 
-          product={product} 
+        <ProductInteractive
+          product={product}
           selectedColor={selectedColor}
           onColorChange={setSelectedColor}
         />

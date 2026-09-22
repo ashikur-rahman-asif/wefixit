@@ -38,15 +38,19 @@ export function ColorFormModal({
     formState: { errors },
   } = useForm<ColorFormData>({
     resolver: zodResolver(colorSchema),
-    values: open ? (editingColor ? {
-      name: editingColor.name,
-      hex: editingColor.hex,
-      is_active: editingColor.is_active,
-    } : {
-      name: "",
-      hex: "#000000",
-      is_active: true,
-    }) : undefined,
+    values: open
+      ? editingColor
+        ? {
+            name: editingColor.name,
+            hex: editingColor.hex,
+            is_active: editingColor.is_active,
+          }
+        : {
+            name: "",
+            hex: "#000000",
+            is_active: true,
+          }
+      : undefined,
     defaultValues: {
       name: "",
       hex: "#000000",
@@ -70,62 +74,64 @@ export function ColorFormModal({
           </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col flex-1 h-full overflow-hidden"
+        >
           <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
-          <div>
-            <Input
-              label="Color Name"
-              required
-              type="text"
-              {...register("name")}
-              placeholder="e.g., Midnight Black"
-              error={errors.name?.message?.toString()}
-              autoFocus
-            />
-          </div>
-
-          <div className="flex gap-3">
-            <div className="w-12 h-12 rounded-xl border border-gray-200 overflow-hidden shrink-0">
-              <input
-                type="color"
-                value={hexValue || "#000000"}
-                onChange={(e) => setValue("hex", e.target.value)}
-                className="w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
-              />
-            </div>
-            <div className="flex-1">
+            <div>
               <Input
-                label="Hex Code"
+                label="Color Name"
                 required
                 type="text"
-                {...register("hex")}
-                placeholder="#000000"
-                error={errors.hex?.message?.toString()}
+                {...register("name")}
+                placeholder="e.g., Midnight Black"
+                error={errors.name?.message?.toString()}
+                autoFocus
               />
             </div>
-          </div>
 
-          <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-            <Controller
-              name="is_active"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Switch checked={value} onCheckedChange={onChange} />
-              )}
-            />
-            <div>
-              <label
-                htmlFor="is_active"
-                className="text-sm font-semibold text-titleBlack cursor-pointer"
-              >
-                Active
-              </label>
-              <p className="text-[13px] font-medium text-gray-500">
-                Active colors are visible to customers
-              </p>
+            <div className="flex gap-3">
+              <div className="w-12 h-12 rounded-xl border border-gray-200 overflow-hidden shrink-0">
+                <input
+                  type="color"
+                  value={hexValue || "#000000"}
+                  onChange={(e) => setValue("hex", e.target.value)}
+                  className="w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  label="Hex Code"
+                  required
+                  type="text"
+                  {...register("hex")}
+                  placeholder="#000000"
+                  error={errors.hex?.message?.toString()}
+                />
+              </div>
             </div>
-          </div>
 
+            <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+              <Controller
+                name="is_active"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Switch checked={value} onCheckedChange={onChange} />
+                )}
+              />
+              <div>
+                <label
+                  htmlFor="is_active"
+                  className="text-sm font-semibold text-titleBlack cursor-pointer"
+                >
+                  Active
+                </label>
+                <p className="text-[13px] font-medium text-gray-500">
+                  Active colors are visible to customers
+                </p>
+              </div>
+            </div>
           </div>
           <SheetFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex flex-row justify-end gap-3 sm:space-x-0 mt-auto shrink-0">
             <button
@@ -140,11 +146,7 @@ export function ColorFormModal({
               disabled={isSubmitting}
               className="flex-1 h-11 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting
-                ? "Saving..."
-                : editingColor
-                  ? "Save Changes"
-                  : "Add Color"}
+              {isSubmitting ? "Saving..." : editingColor ? "Save Changes" : "Add Color"}
             </button>
           </SheetFooter>
         </form>

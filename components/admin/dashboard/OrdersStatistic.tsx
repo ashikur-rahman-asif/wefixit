@@ -1,7 +1,7 @@
 "use client";
 
 import { OrderStats } from "@/types/admin";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import {
   Select,
   SelectContent,
@@ -10,18 +10,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const COLORS = ['#4f46e5', '#f97316', '#fdba74', '#10b981', '#ef4444', '#8b5cf6'];
+const COLORS = ["#4f46e5", "#f97316", "#fdba74", "#10b981", "#ef4444", "#8b5cf6"];
 
 export function OrdersStatistic({ orders }: { orders: OrderStats }) {
-
   const orderStatsData = Object.entries(orders.byStatus || {}).map(([key, value], index) => ({
     name: key.charAt(0).toUpperCase() + key.slice(1),
     value: value,
-    color: COLORS[index % COLORS.length]
+    color: COLORS[index % COLORS.length],
   }));
 
   if (orderStatsData.length === 0) {
-    orderStatsData.push({ name: 'No Orders', value: 1, color: '#e5e7eb' });
+    orderStatsData.push({ name: "No Orders", value: 1, color: "#e5e7eb" });
   }
 
   return (
@@ -39,7 +38,7 @@ export function OrdersStatistic({ orders }: { orders: OrderStats }) {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div className="h-48 w-full flex justify-center mt-4">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -57,7 +56,13 @@ export function OrdersStatistic({ orders }: { orders: OrderStats }) {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+            <Tooltip
+              contentStyle={{
+                borderRadius: "8px",
+                border: "none",
+                boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+              }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>
@@ -74,10 +79,15 @@ export function OrdersStatistic({ orders }: { orders: OrderStats }) {
             {orderStatsData.map((stat, idx) => (
               <tr key={idx}>
                 <td className="py-2.5 flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: stat.color }}></div>
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: stat.color }}
+                  ></div>
                   <span className="text-textGray text-[13px] font-medium">{stat.name}</span>
                 </td>
-                <td className="py-2.5 text-right text-textGray text-[13px] font-medium">{stat.name === 'No Orders' ? 0 : stat.value}</td>
+                <td className="py-2.5 text-right text-textGray text-[13px] font-medium">
+                  {stat.name === "No Orders" ? 0 : stat.value}
+                </td>
               </tr>
             ))}
           </tbody>

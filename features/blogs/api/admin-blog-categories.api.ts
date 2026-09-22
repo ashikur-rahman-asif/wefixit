@@ -8,17 +8,25 @@ export const adminBlogCategoriesApi = {
   },
 
   getBlogCategory: async (id: number) => {
-    const response = await axiosInstance.get<{ data: BlogCategory }>(`/admin/blog-categories/${id}`);
+    const response = await axiosInstance.get<{ data: BlogCategory }>(
+      `/admin/blog-categories/${id}`,
+    );
     return response.data.data;
   },
 
   createBlogCategory: async (data: CreateBlogCategoryDto) => {
-    const response = await axiosInstance.post<{ data: BlogCategory }>("/admin/blog-categories", data);
+    const response = await axiosInstance.post<{ data: BlogCategory }>(
+      "/admin/blog-categories",
+      data,
+    );
     return response.data.data;
   },
 
   updateBlogCategory: async (id: number, data: UpdateBlogCategoryDto) => {
-    const response = await axiosInstance.put<{ data: BlogCategory }>(`/admin/blog-categories/${id}`, data);
+    const response = await axiosInstance.put<{ data: BlogCategory }>(
+      `/admin/blog-categories/${id}`,
+      data,
+    );
     return response.data.data;
   },
 

@@ -36,7 +36,7 @@ export function MultiImageUpload({
   const handleFiles = useCallback(
     (newFiles: File[]) => {
       let filesToAdd = newFiles.filter((file) => file.type.startsWith("image/"));
-      
+
       if (maxSizeKB) {
         filesToAdd = filesToAdd.filter((file) => file.size <= maxSizeKB * 1024);
       }
@@ -49,7 +49,7 @@ export function MultiImageUpload({
         onChange([...value, ...filesToAdd]);
       }
     },
-    [onChange, value, maxSizeKB, maxFiles]
+    [onChange, value, maxSizeKB, maxFiles],
   );
 
   const onDrop = useCallback(
@@ -60,7 +60,7 @@ export function MultiImageUpload({
         handleFiles(Array.from(e.dataTransfer.files));
       }
     },
-    [handleFiles]
+    [handleFiles],
   );
 
   const onFileChange = useCallback(
@@ -70,14 +70,14 @@ export function MultiImageUpload({
       }
       e.target.value = "";
     },
-    [handleFiles]
+    [handleFiles],
   );
 
   const handleRemove = useCallback(
     (indexToRemove: number) => {
       onChange(value.filter((_, idx) => idx !== indexToRemove));
     },
-    [onChange, value]
+    [onChange, value],
   );
 
   const getPreviewUrl = (file: File | string) => {
@@ -95,7 +95,10 @@ export function MultiImageUpload({
       {value.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {value.map((file, idx) => (
-            <div key={idx} className="relative group aspect-square rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+            <div
+              key={idx}
+              className="relative group aspect-square rounded-xl overflow-hidden border border-gray-200 bg-gray-50"
+            >
               <Image
                 src={getPreviewUrl(file)}
                 alt={`Preview ${idx + 1}`}
@@ -124,7 +127,7 @@ export function MultiImageUpload({
             isDragging
               ? "border-brand bg-brand/5"
               : "border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300",
-            className
+            className,
           )}
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
@@ -151,9 +154,7 @@ export function MultiImageUpload({
         </div>
       )}
 
-      {recommendationText && (
-        <p className="text-xs text-gray-400">{recommendationText}</p>
-      )}
+      {recommendationText && <p className="text-xs text-gray-400">{recommendationText}</p>}
     </div>
   );
 }

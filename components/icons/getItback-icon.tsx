@@ -5,11 +5,7 @@ export function GetItBackIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `get-it-back-clip-${uniqueId}`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path
           fill="#efe7e4"

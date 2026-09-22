@@ -35,8 +35,10 @@ interface ProductReviewsProps {
 
 export function ProductReviews({ product }: ProductReviewsProps) {
   const [visibleCount, setVisibleCount] = useState(3);
-  
-  const { data: reviewsResponse, isLoading } = useProductReviews(product.slug, { perPage: visibleCount });
+
+  const { data: reviewsResponse, isLoading } = useProductReviews(product.slug, {
+    perPage: visibleCount,
+  });
   const reviews = reviewsResponse?.data || [];
   const totalReviews = reviewsResponse?.meta?.total || product.reviewsCount || 0;
   const hasReviews = totalReviews > 0;
@@ -46,11 +48,18 @@ export function ProductReviews({ product }: ProductReviewsProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { mutate: submitReview, isPending } = useSubmitReview(product.slug);
 
-  const { register, handleSubmit, control, setValue, reset, setError, formState: { errors } } =
-    useForm<ReviewFormData>({
-      resolver: zodResolver(reviewSchema),
-      defaultValues: { rating: 0, review: "" },
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<ReviewFormData>({
+    resolver: zodResolver(reviewSchema),
+    defaultValues: { rating: 0, review: "" },
+  });
 
   const rating = useWatch({ control, name: "rating" });
 
@@ -64,8 +73,8 @@ export function ProductReviews({ product }: ProductReviewsProps) {
         },
         onError: (error) => {
           handleFormError(error, setError, "Failed to submit review.");
-        }
-      }
+        },
+      },
     );
   };
 
@@ -77,9 +86,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
           <div className="flex items-center gap-2 mt-2">
             <StarRating rating={hasReviews ? product.rating || 0 : 0} />
             <p className="text-secondary font-medium">
-              {hasReviews
-                ? `${product.rating} out of 5 (${totalReviews} Reviews)`
-                : "0 Review"}
+              {hasReviews ? `${product.rating} out of 5 (${totalReviews} Reviews)` : "0 Review"}
             </p>
           </div>
         </div>
@@ -88,14 +95,10 @@ export function ProductReviews({ product }: ProductReviewsProps) {
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger render={<Button />}>Write a Review</DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="grid gap-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
                 <DialogHeader>
                   <DialogTitle>Write a Review</DialogTitle>
-                  <DialogDescription>
-                    Share your experience with this product.
-                  </DialogDescription>
+                  <DialogDescription>Share your experience with this product.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div className="flex flex-col gap-2">
@@ -109,17 +112,13 @@ export function ProductReviews({ product }: ProductReviewsProps) {
                           onClick={() => setValue("rating", i, { shouldValidate: true })}
                           className={cn(
                             "size-7 cursor-pointer transition-colors",
-                            rating >= i
-                              ? "text-gold fill-gold"
-                              : "text-black/20 fill-transparent",
+                            rating >= i ? "text-gold fill-gold" : "text-black/20 fill-transparent",
                           )}
                         />
                       ))}
                     </div>
                     {errors.rating && (
-                      <p className="text-sm font-medium text-red-500">
-                        {errors.rating.message}
-                      </p>
+                      <p className="text-sm font-medium text-red-500">{errors.rating.message}</p>
                     )}
                   </div>
                   <div className="grid gap-2">
@@ -133,9 +132,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
                       {...register("review")}
                     />
                     {errors.review && (
-                      <p className="text-sm font-medium text-red-500">
-                        {errors.review.message}
-                      </p>
+                      <p className="text-sm font-medium text-red-500">{errors.review.message}</p>
                     )}
                   </div>
                 </div>
@@ -153,7 +150,9 @@ export function ProductReviews({ product }: ProductReviewsProps) {
       <div className="mt-2">
         {isLoading && reviews.length === 0 ? (
           <div className="grid gap-6">
-            {Array.from({ length: product.reviewsCount ? Math.min(product.reviewsCount, visibleCount) : 1 }).map((_, i) => (
+            {Array.from({
+              length: product.reviewsCount ? Math.min(product.reviewsCount, visibleCount) : 1,
+            }).map((_, i) => (
               <div key={i} className="border-b pb-6 last:border-0 last:pb-0 animate-pulse">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="size-12 rounded-full bg-muted"></div>
@@ -174,19 +173,13 @@ export function ProductReviews({ product }: ProductReviewsProps) {
           </div>
         ) : !hasReviews ? (
           <div className="text-center py-12 md:py-16 bg-muted/30 rounded-xl border border-border/50">
-            <p className="text-lg md:text-xl font-medium text-primary">
-              No reviews yet
-            </p>
-            <p className="text-secondary mt-2">
-              Be the first to share your thoughts!
-            </p>
+            <p className="text-lg md:text-xl font-medium text-primary">No reviews yet</p>
+            <p className="text-secondary mt-2">Be the first to share your thoughts!</p>
           </div>
         ) : (
           <div className="grid gap-6">
             {reviews.map((review) => (
-              <div
-                key={review.id}
-                className="border-b pb-6 last:border-0 last:pb-0">
+              <div key={review.id} className="border-b pb-6 last:border-0 last:pb-0">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="size-12 rounded-full bg-brand/10 flex items-center justify-center font-bold text-brand uppercase">
                     {review.name.charAt(0)}
@@ -195,9 +188,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
                     <p className="font-medium text-primary">{review.name}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <StarRating rating={review.rating} />
-                      <span className="text-xs text-secondary">
-                        • {review.date}
-                      </span>
+                      <span className="text-xs text-secondary">• {review.date}</span>
                     </div>
                   </div>
                 </div>

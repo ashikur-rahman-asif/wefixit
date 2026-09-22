@@ -1,24 +1,15 @@
-import { SVGProps } from 'react';
+import { SVGProps } from "react";
 
 export function HouseIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={30}
-      height={30}
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} fill="none" {...props}>
       <path fill="#E9EAEB" d="M27.461 6.01H2.54v21.33h24.922V6.01Z" />
       <path fill="#B9BBC1" d="M27.46 6.01h-3.163v21.33h3.164V6.01Z" />
       <path
         fill="#FDC74F"
         d="M27.548 6.01H2.452V2.507c0-.28.227-.507.507-.507h24.083c.28 0 .506.227.506.507v3.501Z"
       />
-      <path
-        fill="#FCA629"
-        d="M27.041 2.001h-2.657v2.636h3.164v-2.13a.507.507 0 0 0-.507-.506Z"
-      />
+      <path fill="#FCA629" d="M27.041 2.001h-2.657v2.636h3.164v-2.13a.507.507 0 0 0-.507-.506Z" />
       <path
         fill="#E60D28"
         d="M2.539 12.359a2.077 2.077 0 0 1-2.077-2.077V8.59h4.154v1.692c0 1.147-.93 2.077-2.077 2.077Z"
@@ -49,20 +40,11 @@ export function HouseIcon(props: SVGProps<SVGSVGElement>) {
       />
       <path fill="#FC502A" d="M4.616 8.59H.462L2.45 4.637h3.585L4.615 8.59Z" />
       <path fill="#fff" d="M8.77 8.59H4.615l1.42-3.953H9.62L8.77 8.59Z" />
-      <path
-        fill="#FC502A"
-        d="M12.923 8.59H8.77l.851-3.953h3.586l-.284 3.953Z"
-      />
+      <path fill="#FC502A" d="M12.923 8.59H8.77l.851-3.953h3.586l-.284 3.953Z" />
       <path fill="#fff" d="M17.077 8.59h-4.154l.284-3.953h3.586l.284 3.953Z" />
-      <path
-        fill="#FC502A"
-        d="M21.23 8.59h-4.153l-.284-3.953h3.586l.852 3.953Z"
-      />
+      <path fill="#FC502A" d="M21.23 8.59h-4.153l-.284-3.953h3.586l.852 3.953Z" />
       <path fill="#fff" d="M25.384 8.59h-4.153l-.852-3.953h3.586l1.42 3.953Z" />
-      <path
-        fill="#FC502A"
-        d="M29.538 8.59h-4.154l-1.42-3.953h3.586l1.988 3.953Z"
-      />
+      <path fill="#FC502A" d="M29.538 8.59h-4.154l-1.42-3.953h3.586l1.988 3.953Z" />
       <path
         fill="#8B8996"
         d="M28.612 25.392H1.388a.949.949 0 0 0-.949.948v1.39c0 .149.12.27.27.27h28.583a.27.27 0 0 0 .268-.27v-1.39a.949.949 0 0 0-.948-.948Z"
@@ -83,10 +65,7 @@ export function HouseIcon(props: SVGProps<SVGSVGElement>) {
         fill="#00C6C8"
         d="M10.04 25.391H4.202V15.187c0-.21.169-.378.378-.378h5.08c.209 0 .378.169.378.378V25.39Z"
       />
-      <path
-        fill="#0FB0C0"
-        d="M9.661 14.809H6.865v10.583h3.174V15.187a.378.378 0 0 0-.378-.378Z"
-      />
+      <path fill="#0FB0C0" d="M9.661 14.809H6.865v10.583h3.174V15.187a.378.378 0 0 0-.378-.378Z" />
       <path
         fill="#000"
         d="M8.408 20.786a.44.44 0 0 0 .44-.44v-.79a.44.44 0 0 0-.88 0v.79c0 .243.198.44.44.44Z"

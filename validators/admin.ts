@@ -6,10 +6,7 @@ export const serviceSchema = z.object({
   deviceIds: z.array(z.number()).min(1, "At least one device must be selected"),
   icon: z
     .any()
-    .refine(
-      (val) => val !== null && val !== undefined && val !== "",
-      "Service icon is required",
-    ),
+    .refine((val) => val !== null && val !== undefined && val !== "", "Service icon is required"),
   isActive: z.boolean(),
 });
 
@@ -30,10 +27,7 @@ export const brandSchema = z.object({
   deviceIds: z.array(z.number()).min(1, "At least one device must be selected"),
   icon: z
     .any()
-    .refine(
-      (val) => val !== null && val !== undefined && val !== "",
-      "Brand icon is required",
-    ),
+    .refine((val) => val !== null && val !== undefined && val !== "", "Brand icon is required"),
   is_active: z.boolean(),
 });
 
@@ -44,10 +38,7 @@ export const deviceSchema = z.object({
   slug: z.string().optional(),
   icon: z
     .any()
-    .refine(
-      (val) => val !== null && val !== undefined && val !== "",
-      "Device icon is required",
-    ),
+    .refine((val) => val !== null && val !== undefined && val !== "", "Device icon is required"),
   is_active: z.boolean(),
 });
 
@@ -58,10 +49,7 @@ export const colorSchema = z.object({
   hex: z
     .string()
     .min(1, "Hex code is required")
-    .regex(
-      /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/,
-      "Invalid hex code (e.g. #000000)",
-    ),
+    .regex(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "Invalid hex code (e.g. #000000)"),
   is_active: z.boolean(),
 });
 
@@ -79,7 +67,6 @@ export const blogCategorySchema = z.object({
   slug: z.string().optional(),
 });
 export type BlogCategoryFormData = z.infer<typeof blogCategorySchema>;
-
 
 export const ecommerceBrandSchema = z.object({
   name: z.string().min(1, "Brand name is required"),
@@ -99,9 +86,7 @@ const optionalNumber = z
   .union([z.literal(""), z.coerce.number().min(0, "Must be 0 or more")])
   .optional();
 
-const optionalId = z
-  .union([z.literal(""), z.coerce.number().int().positive()])
-  .optional();
+const optionalId = z.union([z.literal(""), z.coerce.number().int().positive()]).optional();
 
 export const productSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -114,10 +99,14 @@ export const productSchema = z.object({
   shortDescription: z.string().optional(),
   description: z.string().optional(),
   specification: z.string().optional(),
-  specifications: z.array(z.object({
-    key: z.string().min(1, "Key is required"),
-    value: z.string().min(1, "Value is required")
-  })).optional(),
+  specifications: z
+    .array(
+      z.object({
+        key: z.string().min(1, "Key is required"),
+        value: z.string().min(1, "Value is required"),
+      }),
+    )
+    .optional(),
   stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
@@ -133,10 +122,7 @@ export const productSchema = z.object({
         name: z.string().min(1, "Color name is required"),
         hex: z
           .string()
-          .regex(
-            /^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/,
-            "Valid hex code required",
-          ),
+          .regex(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "Valid hex code required"),
         stock: z.coerce.number().min(0).default(0),
         position: z.coerce.number().min(0).default(0),
         image: z
@@ -163,10 +149,7 @@ export const blogSchema = z.object({
   meta_description: z.string().optional(),
   image: z
     .any()
-    .refine(
-      (val) => val !== null && val !== undefined && val !== "",
-      "Featured image is required",
-    ),
+    .refine((val) => val !== null && val !== undefined && val !== "", "Featured image is required"),
 });
 
 export type BlogFormData = z.infer<typeof blogSchema>;

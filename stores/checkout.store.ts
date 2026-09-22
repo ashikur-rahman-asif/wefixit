@@ -27,6 +27,6 @@ export const useCheckoutStore = create<CheckoutState>()(
     {
       name: "checkout-storage",
       storage: createJSONStorage(() => sessionStorage),
-    }
-  )
+    },
+  ),
 );

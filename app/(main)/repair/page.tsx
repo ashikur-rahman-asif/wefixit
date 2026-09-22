@@ -7,7 +7,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Book a Repair | WeFixIt",
-  description: "Book a repair for your device. Our experts will assess your device and get it back to you in no time.",
+  description:
+    "Book a repair for your device. Our experts will assess your device and get it back to you in no time.",
 };
 
 export default function RepairPage() {
@@ -24,7 +25,8 @@ export default function RepairPage() {
           <div className="py-24 flex justify-center">
             <Loader size="md" />
           </div>
-        }>
+        }
+      >
         <RepairWizard />
       </Suspense>
     </Container>

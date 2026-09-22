@@ -61,17 +61,13 @@ export function BrandTable({
         <TableBody className="divide-y divide-gray-50">
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 Loading brands...
               </TableCell>
             </TableRow>
           ) : brands.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 No brands found. Add one to get started.
               </TableCell>
             </TableRow>
@@ -79,7 +75,8 @@ export function BrandTable({
             brands.map((brand) => (
               <TableRow
                 key={brand.id}
-                className="hover:bg-gray-50/50 border-none transition-colors">
+                className="hover:bg-gray-50/50 border-none transition-colors"
+              >
                 <TableCell className="px-6 py-4">
                   <div className="w-10 h-10 rounded-lg border border-gray-100 overflow-hidden flex items-center justify-center bg-gray-50">
                     {brand.icon ? (
@@ -107,7 +104,8 @@ export function BrandTable({
                       {brand.deviceIds.map((id) => (
                         <span
                           key={id}
-                          className="inline-flex items-center px-2 py-0.5 rounded-md bg-brand/10 text-brand text-xs font-medium">
+                          className="inline-flex items-center px-2 py-0.5 rounded-md bg-brand/10 text-brand text-xs font-medium"
+                        >
                           {deviceMap[id] ?? `#${id}`}
                         </span>
                       ))}
@@ -119,12 +117,8 @@ export function BrandTable({
 
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={
-                      pendingStatuses[brand.id] ?? Boolean(brand.is_active)
-                    }
-                    onCheckedChange={(checked: boolean) =>
-                      onToggleStatus(brand.id, checked)
-                    }
+                    checked={pendingStatuses[brand.id] ?? Boolean(brand.is_active)}
+                    onCheckedChange={(checked: boolean) => onToggleStatus(brand.id, checked)}
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />
                 </TableCell>
@@ -133,14 +127,16 @@ export function BrandTable({
                     <button
                       onClick={() => onEdit(brand)}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                      title="Edit">
+                      title="Edit"
+                    >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDelete(brand.id)}
                       disabled={isDeleting}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                      title="Delete">
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>

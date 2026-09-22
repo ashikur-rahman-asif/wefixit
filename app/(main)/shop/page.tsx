@@ -19,7 +19,7 @@ export default async function ShopPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
-  const filterKeys = Object.keys(searchParams).filter(key => key !== 'page');
+  const filterKeys = Object.keys(searchParams).filter((key) => key !== "page");
   const hasActiveFilters = filterKeys.length > 0;
 
   const currentCategorySlug = searchParams.category as string | undefined;
@@ -48,11 +48,12 @@ export default async function ShopPage(props: {
   ]);
 
   const currentProducts = productsData.data || [];
-  
-  const fallbackMaxPrice = currentProducts.length > 0
-    ? Math.max(...currentProducts.map(p => Number(p.discountPrice || p.price)))
-    : 100000;
-    
+
+  const fallbackMaxPrice =
+    currentProducts.length > 0
+      ? Math.max(...currentProducts.map((p) => Number(p.discountPrice || p.price)))
+      : 100000;
+
   const sliderMax = productsData.meta?.maxPrice || fallbackMaxPrice;
 
   const totalPages = productsData.meta?.lastPage || 1;
@@ -61,7 +62,7 @@ export default async function ShopPage(props: {
   return (
     <Container className="py-8">
       <div className="flex items-center justify-between lg:justify-end bg-lightBrand lg:bg-transparent p-3 lg:p-0 rounded-md mb-6">
-        <MobileFilter 
+        <MobileFilter
           categories={categories}
           devices={devices}
           brands={brands}
@@ -73,7 +74,7 @@ export default async function ShopPage(props: {
         />
         <SortDropdown />
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <ShopSidebar
           categories={categories}

@@ -25,7 +25,7 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
   });
@@ -94,7 +94,8 @@ export function ContactForm() {
             variant="brand"
             size="lg"
             className="w-full md:w-auto font-prompt"
-            disabled={submitMutation.isPending}>
+            disabled={submitMutation.isPending}
+          >
             {submitMutation.isPending ? "Sending..." : "Send Message"}
           </Button>
         </div>

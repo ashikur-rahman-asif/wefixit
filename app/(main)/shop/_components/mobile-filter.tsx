@@ -43,8 +43,8 @@ export function MobileFilter(props: MobileFilterProps) {
 
   return (
     <>
-      <Button 
-        variant="brand" 
+      <Button
+        variant="brand"
         className="flex items-center gap-2 lg:hidden rounded-md text-base font-semibold py-1.5 px-4 h-auto"
         onClick={() => setIsOpen(true)}
       >
@@ -55,7 +55,7 @@ export function MobileFilter(props: MobileFilterProps) {
       <div
         className={cn(
           "fixed inset-0 bg-black/60 z-[998] transition-opacity duration-300 lg:hidden backdrop-blur-sm",
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}
         onClick={() => setIsOpen(false)}
       />
@@ -63,7 +63,7 @@ export function MobileFilter(props: MobileFilterProps) {
       <div
         className={cn(
           "fixed top-0 right-0 h-dvh w-[85%] max-w-[340px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          isOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200/60 shrink-0 sticky top-0 bg-white z-10">

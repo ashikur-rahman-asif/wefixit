@@ -6,11 +6,7 @@ export function DeliveryCarIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `${id}-clip`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" {...props}>
       <path
         fill="#ffa95f"
         d="m31.24 19.215-1.695-1.211-.023-4.773c-.002-.436-.316-.738-.768-.738h-5.247l-3.222 12.024h9.018c.553 0 1.122-.449 1.27-1.002l.923-3.44c.094-.353-.003-.679-.257-.86"
@@ -43,14 +39,8 @@ export function DeliveryCarIcon(props: SVGProps<SVGSVGElement>) {
         fill="#eceaec"
         d="M11.992 19.507a7.014 7.014 0 1 0 0-14.028 7.014 7.014 0 0 0 0 14.028"
       />
-      <path
-        fill="#fff"
-        d="M11.992 18.004a5.511 5.511 0 1 0 0-11.022 5.511 5.511 0 0 0 0 11.022"
-      />
-      <path
-        fill="#5d5360"
-        d="M11.992 13.495a1.002 1.002 0 1 0 0-2.004 1.002 1.002 0 0 0 0 2.004"
-      />
+      <path fill="#fff" d="M11.992 18.004a5.511 5.511 0 1 0 0-11.022 5.511 5.511 0 0 0 0 11.022" />
+      <path fill="#5d5360" d="M11.992 13.495a1.002 1.002 0 1 0 0-2.004 1.002 1.002 0 0 0 0 2.004" />
       <path
         fill="#c3ddff"
         d="m29.545 18.004-.007-1.503h-2.23c-.071 0-.168-.015-.223-.085-.048-.064-.058-.168-.026-.286l.403-1.503.035-.13h-.52c-.553 0-1.121.449-1.27 1.002l-.402 1.503c-.149.553.18 1.002.733 1.002z"

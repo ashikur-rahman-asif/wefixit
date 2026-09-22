@@ -5,7 +5,7 @@ import { toast } from "sonner";
 export function handleFormError<T extends FieldValues>(
   error: unknown,
   setError?: UseFormSetError<T>,
-  fallbackMessage: string = "An unexpected error occurred. Please try again."
+  fallbackMessage: string = "An unexpected error occurred. Please try again.",
 ) {
   if (isAxiosError(error) && error.response) {
     const { status, data } = error.response;

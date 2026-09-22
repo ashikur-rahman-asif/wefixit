@@ -38,16 +38,20 @@ export function ProductFilters() {
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case "active": return "Active";
-      case "inactive": return "Inactive";
-      case "out_of_stock": return "Out of Stock";
-      default: return "All Status";
+      case "active":
+        return "Active";
+      case "inactive":
+        return "Inactive";
+      case "out_of_stock":
+        return "Out of Stock";
+      default:
+        return "All Status";
     }
   };
 
   const handleFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
-    
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value && value !== "all") {
         params.set(key, value);
@@ -55,8 +59,8 @@ export function ProductFilters() {
         params.delete(key);
       }
     });
-    
-    params.delete("page"); 
+
+    params.delete("page");
     router.push(pathname + "?" + params.toString());
   };
 
@@ -71,38 +75,44 @@ export function ProductFilters() {
     router.push(pathname);
   };
 
-  const hasActiveFilters = Array.from(searchParams.keys()).some(
-    (key) => !["page"].includes(key)
-  );
+  const hasActiveFilters = Array.from(searchParams.keys()).some((key) => !["page"].includes(key));
 
   return (
     <div className="bg-white rounded-xl p-4 border border-gray-200 mb-6 space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
-        
         <Input
           label="Name"
           labelClassName="text-sm font-semibold text-titleBlack mb-1.5"
           placeholder="e.g. iPhone"
           className="w-full"
           value={filters.search}
-          onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+          onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
         />
 
         <div className="space-y-0 relative">
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Brand</label>
           <Select
             value={filters.brand}
-            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, brand: val || "all" }))}
+            onValueChange={(val: string | null) =>
+              setFilters((prev) => ({ ...prev, brand: val || "all" }))
+            }
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
-                {filters.brand === "all" ? "All Brands" : brands.find((b: { slug: string, name: string }) => b.slug === filters.brand)?.name || "All Brands"}
+                {filters.brand === "all"
+                  ? "All Brands"
+                  : brands.find((b: { slug: string; name: string }) => b.slug === filters.brand)
+                      ?.name || "All Brands"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false}>
-              <SelectItem value="all" label="All Brands">All Brands</SelectItem>
+              <SelectItem value="all" label="All Brands">
+                All Brands
+              </SelectItem>
               {brands.map((b: { id: number; name: string; slug: string }) => (
-                <SelectItem key={b.id} value={b.slug} label={b.name}>{b.name}</SelectItem>
+                <SelectItem key={b.id} value={b.slug} label={b.name}>
+                  {b.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -112,17 +122,27 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
           <Select
             value={filters.category}
-            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, category: val || "all" }))}
+            onValueChange={(val: string | null) =>
+              setFilters((prev) => ({ ...prev, category: val || "all" }))
+            }
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
-                {filters.category === "all" ? "All Categories" : categories.find((c: { slug: string, name: string }) => c.slug === filters.category)?.name || "All Categories"}
+                {filters.category === "all"
+                  ? "All Categories"
+                  : categories.find(
+                      (c: { slug: string; name: string }) => c.slug === filters.category,
+                    )?.name || "All Categories"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false}>
-              <SelectItem value="all" label="All Categories">All Categories</SelectItem>
+              <SelectItem value="all" label="All Categories">
+                All Categories
+              </SelectItem>
               {categories.map((c: { id: number; name: string; slug: string }) => (
-                <SelectItem key={c.id} value={c.slug} label={c.name}>{c.name}</SelectItem>
+                <SelectItem key={c.id} value={c.slug} label={c.name}>
+                  {c.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -132,17 +152,26 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Device</label>
           <Select
             value={filters.device}
-            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, device: val || "all" }))}
+            onValueChange={(val: string | null) =>
+              setFilters((prev) => ({ ...prev, device: val || "all" }))
+            }
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
-                {filters.device === "all" ? "All Devices" : devices.find((d: { slug: string, name: string }) => d.slug === filters.device)?.name || "All Devices"}
+                {filters.device === "all"
+                  ? "All Devices"
+                  : devices.find((d: { slug: string; name: string }) => d.slug === filters.device)
+                      ?.name || "All Devices"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false}>
-              <SelectItem value="all" label="All Devices">All Devices</SelectItem>
+              <SelectItem value="all" label="All Devices">
+                All Devices
+              </SelectItem>
               {devices.map((d: { id: number; name: string; slug: string }) => (
-                <SelectItem key={d.id} value={d.slug} label={d.name}>{d.name}</SelectItem>
+                <SelectItem key={d.id} value={d.slug} label={d.name}>
+                  {d.name}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -152,7 +181,9 @@ export function ProductFilters() {
           <label className="block text-sm font-semibold text-titleBlack mb-1.5">Status</label>
           <Select
             value={filters.status}
-            onValueChange={(val: string | null) => setFilters(prev => ({ ...prev, status: val || "all" }))}
+            onValueChange={(val: string | null) =>
+              setFilters((prev) => ({ ...prev, status: val || "all" }))
+            }
           >
             <SelectTrigger className="w-full h-10 lg:h-12 bg-white border-gray-200 rounded-lg text-sm text-titleBlack">
               <SelectValue placeholder="Select option">
@@ -160,10 +191,18 @@ export function ProductFilters() {
               </SelectValue>
             </SelectTrigger>
             <SelectContent alignItemWithTrigger={false}>
-              <SelectItem value="all" label="All Status">All Status</SelectItem>
-              <SelectItem value="active" label="Active">Active</SelectItem>
-              <SelectItem value="inactive" label="Inactive">Inactive</SelectItem>
-              <SelectItem value="out_of_stock" label="Out of Stock">Out of Stock</SelectItem>
+              <SelectItem value="all" label="All Status">
+                All Status
+              </SelectItem>
+              <SelectItem value="active" label="Active">
+                Active
+              </SelectItem>
+              <SelectItem value="inactive" label="Inactive">
+                Inactive
+              </SelectItem>
+              <SelectItem value="out_of_stock" label="Out of Stock">
+                Out of Stock
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -177,7 +216,7 @@ export function ProductFilters() {
           <Search className="w-4 h-4 mr-2" />
           Filter
         </button>
-        
+
         {hasActiveFilters && (
           <button
             onClick={handleClear}

@@ -57,19 +57,14 @@ export function RepairUpdateCard({
     const payload: Record<string, string | number | null> = {};
     if (data.status !== repair.status) payload.status = data.status;
 
-    const parsedPartsCost =
-      data.partsCost === "" ? null : Number(data.partsCost);
-    if (parsedPartsCost !== repair.partsCost)
-      payload.partsCost = parsedPartsCost;
+    const parsedPartsCost = data.partsCost === "" ? null : Number(data.partsCost);
+    if (parsedPartsCost !== repair.partsCost) payload.partsCost = parsedPartsCost;
 
-    const parsedServiceCharge =
-      data.serviceCharge === "" ? null : Number(data.serviceCharge);
-    if (parsedServiceCharge !== repair.serviceCharge)
-      payload.serviceCharge = parsedServiceCharge;
+    const parsedServiceCharge = data.serviceCharge === "" ? null : Number(data.serviceCharge);
+    if (parsedServiceCharge !== repair.serviceCharge) payload.serviceCharge = parsedServiceCharge;
 
     const trimmedNotes = data.diagnosisNotes.trim();
-    if (trimmedNotes !== (repair.notes || ""))
-      payload.diagnosisNotes = trimmedNotes;
+    if (trimmedNotes !== (repair.notes || "")) payload.diagnosisNotes = trimmedNotes;
 
     if (Object.keys(payload).length > 0) {
       onUpdate(payload);
@@ -84,7 +79,8 @@ export function RepairUpdateCard({
           onClick={onDelete}
           disabled={isDeleting}
           className="text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-colors flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-50"
-          title="Delete Repair">
+          title="Delete Repair"
+        >
           {isDeleting ? (
             <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
@@ -95,18 +91,14 @@ export function RepairUpdateCard({
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-titleBlack mb-2">
-            Status
-          </label>
+          <label className="block text-sm font-semibold text-titleBlack mb-2">Status</label>
           <Controller
             name="status"
             control={control}
             render={({ field: { value, onChange } }) => (
               <Select value={value} onValueChange={onChange}>
                 <SelectTrigger className="w-full h-11 border-gray-200 text-titleBlack font-semibold">
-                  <SelectValue placeholder="Status">
-                    {value?.replace("_", " ")}
-                  </SelectValue>
+                  <SelectValue placeholder="Status">{value?.replace("_", " ")}</SelectValue>
                 </SelectTrigger>
                 <SelectContent alignItemWithTrigger={false}>
                   <SelectItem value="pending">Pending</SelectItem>
@@ -114,9 +106,7 @@ export function RepairUpdateCard({
                   <SelectItem value="received">Received</SelectItem>
                   <SelectItem value="diagnosing">Diagnosing</SelectItem>
                   <SelectItem value="repairing">Repairing</SelectItem>
-                  <SelectItem value="ready_for_delivery">
-                    Ready For Delivery
-                  </SelectItem>
+                  <SelectItem value="ready_for_delivery">Ready For Delivery</SelectItem>
                   <SelectItem value="completed">Completed</SelectItem>
                   <SelectItem value="delivered">Delivered</SelectItem>
                   <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -163,13 +153,15 @@ export function RepairUpdateCard({
             {...register("diagnosisNotes")}
             placeholder="Add any technical notes or message for the customer..."
             rows={4}
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-titleBlack focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all resize-none"></textarea>
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-titleBlack focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-brand transition-all resize-none"
+          ></textarea>
         </div>
 
         <button
           type="submit"
           disabled={isUpdating}
-          className="w-full h-11 bg-brand text-white rounded-xl font-bold hover:bg-brand/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+          className="w-full h-11 bg-brand text-white rounded-xl font-bold hover:bg-brand/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        >
           {isUpdating ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />

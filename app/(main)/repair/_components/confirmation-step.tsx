@@ -19,20 +19,16 @@ export function ConfirmationStep({ orderId }: ConfirmationStepProps) {
         />
       </div>
 
-      <h2 className="text-3xl font-bold text-primary mb-4">
-        Repair Request Submitted!
-      </h2>
+      <h2 className="text-3xl font-bold text-primary mb-4">Repair Request Submitted!</h2>
 
       <p className="text-muted-foreground mb-6 text-lg">
-        Thank you! Your repair request has been successfully placed. Our
-        representative will call you very soon.
+        Thank you! Your repair request has been successfully placed. Our representative will call
+        you very soon.
       </p>
 
       <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 mb-8 inline-block min-w-[300px]">
         <p className="text-sm text-muted-foreground mb-1">Your Order ID</p>
-        <p className="text-2xl font-mono font-bold text-primary tracking-wider">
-          {orderId}
-        </p>
+        <p className="text-2xl font-mono font-bold text-primary tracking-wider">{orderId}</p>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -41,7 +37,8 @@ export function ConfirmationStep({ orderId }: ConfirmationStepProps) {
           className={buttonVariants({
             size: "lg",
             className: "w-full sm:w-auto",
-          })}>
+          })}
+        >
           Return to Home
         </Link>
         <Link
@@ -50,7 +47,8 @@ export function ConfirmationStep({ orderId }: ConfirmationStepProps) {
             variant: "outline",
             size: "lg",
             className: "w-full sm:w-auto",
-          })}>
+          })}
+        >
           View My Repairs
         </Link>
       </div>

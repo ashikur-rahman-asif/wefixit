@@ -87,7 +87,8 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
         <p className="text-secondary text-base md:text-lg max-w-lg mx-auto leading-relaxed">
           We couldn&apos;t find any order matching{" "}
           <span className="font-semibold text-brand">&quot;{cleanOrderId}&quot;</span>
-          {isOrder ? " with the provided email address." : "."} Please ensure your details are correct and try again.
+          {isOrder ? " with the provided email address." : "."} Please ensure your details are
+          correct and try again.
         </p>
       </div>
     );
@@ -108,7 +109,7 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
     steps = ORDER_STEPS;
     const orderStatus = orderData.data.status;
     statusLabel = orderStatus.replace("_", " ").toUpperCase();
-    
+
     if (orderStatus === "pending_payment") currentStepIndex = 0;
     else if (orderStatus === "processing") currentStepIndex = 1;
     else if (orderStatus === "completed") currentStepIndex = 2;
@@ -116,7 +117,7 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
       currentStepIndex = 0;
       isCancelled = true;
     }
-    
+
     isFullyDelivered = orderStatus === "completed";
   }
 
@@ -142,9 +143,7 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
       <div className="md:mb-7 mb-4">
         <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2 flex items-center gap-2">
           Status:{" "}
-          <span className={cn(isCancelled ? "text-red-500" : "text-brand")}>
-            {statusLabel}
-          </span>
+          <span className={cn(isCancelled ? "text-red-500" : "text-brand")}>{statusLabel}</span>
           {isCancelled && <XCircle className="text-red-500 w-8 h-8" />}
         </h3>
         <p className="text-secondary text-sm md:text-base max-w-2xl mt-2">
@@ -179,37 +178,37 @@ export function TrackingStatus({ orderId, email }: { orderId: string; email?: st
                 key={step.id}
                 className={cn(
                   "flex flex-col items-center relative",
-                  index !== steps.length - 1 ? "flex-1" : "w-24 md:w-32"
-                )}>
+                  index !== steps.length - 1 ? "flex-1" : "w-24 md:w-32",
+                )}
+              >
                 <div
                   className={cn(
                     "w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center z-10 transition-all duration-300",
                     bgColor,
-                    dotStatus === "current" ? borderColor : ""
-                  )}>
-                  <step.icon
-                    className={cn(
-                      "w-5 h-5 md:w-6 md:h-6",
-                      iconColor
-                    )}
-                  />
+                    dotStatus === "current" ? borderColor : "",
+                  )}
+                >
+                  <step.icon className={cn("w-5 h-5 md:w-6 md:h-6", iconColor)} />
                 </div>
                 {index !== steps.length - 1 && (
                   <div
                     className={cn(
                       "absolute top-5 md:top-7 left-1/2 w-full h-[2px] -z-0",
                       dotStatus === "completed" ? "bg-brand" : "bg-gray-200",
-                      isCancelled && "bg-gray-200"
+                      isCancelled && "bg-gray-200",
                     )}
                   />
                 )}
                 <p
                   className={cn(
                     "mt-3 text-xs md:text-sm font-medium text-center w-24 md:w-32",
-                    dotStatus === "completed" || dotStatus === "current" || dotStatus === "cancelled"
+                    dotStatus === "completed" ||
+                      dotStatus === "current" ||
+                      dotStatus === "cancelled"
                       ? "text-primary"
-                      : "text-muted-foreground"
-                  )}>
+                      : "text-muted-foreground",
+                  )}
+                >
                   {step.title}
                 </p>
               </div>

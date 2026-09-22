@@ -150,7 +150,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 labelStyles.weight[labelWeight],
                 disabled && "text-muted-foreground",
                 labelClassName,
-              )}>
+              )}
+            >
               {label}
               {required && <span className="text-red-500 ml-1">*</span>}
             </span>
@@ -172,14 +173,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             data-focus={isFocus}
             data-hover={isHover}
             onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}>
+            onMouseLeave={handleOnMouseLeave}
+          >
             {prefix ? (
               <span
-                className={cn(
-                  `input-prefix`,
-                  "whitespace-nowrap leading-normal",
-                  prefixClassName,
-                )}>
+                className={cn(`input-prefix`, "whitespace-nowrap leading-normal", prefixClassName)}
+              >
                 {prefix}
               </span>
             ) : null}
@@ -219,11 +218,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
             {suffix ? (
               <span
-                className={cn(
-                  `input-suffix`,
-                  "whitespace-nowrap leading-normal",
-                  suffixClassName,
-                )}>
+                className={cn(`input-suffix`, "whitespace-nowrap leading-normal", suffixClassName)}
+              >
                 {suffix}
               </span>
             ) : null}
@@ -237,7 +233,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               `input-helper-text`,
               disabled && "text-muted-foreground",
               helperClassName,
-            )}>
+            )}
+          >
             {helperText}
           </FieldHelperText>
         ) : null}

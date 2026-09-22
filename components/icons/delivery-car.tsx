@@ -1,14 +1,8 @@
-import { SVGProps } from 'react';
+import { SVGProps } from "react";
 
 export function DeliveryCarIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={30}
-      height={30}
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} fill="none" {...props}>
       <g clipPath="url(#a)">
         <path
           fill="#FFA95F"
@@ -46,10 +40,7 @@ export function DeliveryCarIcon(props: SVGProps<SVGSVGElement>) {
           fill="#fff"
           d="M11.242 16.879a5.166 5.166 0 1 0 0-10.333 5.166 5.166 0 0 0 0 10.333Z"
         />
-        <path
-          fill="#5D5360"
-          d="M11.242 12.651a.94.94 0 1 0 0-1.879.94.94 0 0 0 0 1.88Z"
-        />
+        <path fill="#5D5360" d="M11.242 12.651a.94.94 0 1 0 0-1.879.94.94 0 0 0 0 1.88Z" />
         <path
           fill="#C3DDFF"
           d="m27.699 16.879-.007-1.41h-2.09c-.067 0-.159-.013-.21-.08-.045-.059-.054-.156-.024-.268l.378-1.409.032-.121h-.486c-.519 0-1.052.42-1.191.94l-.378 1.408c-.139.519.17.94.688.94h3.288Z"

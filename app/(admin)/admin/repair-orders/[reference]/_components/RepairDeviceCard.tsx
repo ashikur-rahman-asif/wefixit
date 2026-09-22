@@ -69,9 +69,7 @@ export function RepairDeviceCard({ repair }: { repair: AdminRepairDetail }) {
             ) : (
               <Truck className="w-5 h-5 text-gray-600 font-medium" />
             )}
-            <span className="font-semibold text-titleBlack">
-              {repair.handoverMethodLabel}
-            </span>
+            <span className="font-semibold text-titleBlack">{repair.handoverMethodLabel}</span>
           </div>
         </div>
       </div>

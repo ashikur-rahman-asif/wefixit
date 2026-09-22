@@ -1,6 +1,5 @@
 "use client";
 
-import { Blog } from "@/features/blogs/types/blog.types";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
@@ -22,7 +21,7 @@ function BlogsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const page = Number(searchParams.get("page")) || 1;
 
   const [blogToDelete, setBlogToDelete] = useState<number | null>(null);
@@ -31,7 +30,9 @@ function BlogsContent() {
 
   const { data: response, isLoading } = useAdminBlogs(page);
   const blogs = response?.data || [];
-  const meta = response ? { currentPage: response.current_page, lastPage: response.last_page } : null;
+  const meta = response
+    ? { currentPage: response.current_page, lastPage: response.last_page }
+    : null;
 
   const updateMutation = useUpdateBlog();
   const deleteMutation = useDeleteBlog();
@@ -90,18 +91,18 @@ function BlogsContent() {
 
   const handleSaveStatuses = async () => {
     const changedIds = new Set([...Object.keys(pendingStatuses), ...Object.keys(pendingTop)]);
-    
+
     const promises = Array.from(changedIds).map((idStr) => {
       const id = Number(idStr);
       const blog = blogs.find((b) => b.id === id);
       if (!blog) return Promise.resolve();
-      
+
       const is_published = pendingStatuses[id] ?? blog.is_published;
       const is_top = pendingTop[id] ?? blog.is_top;
-      
-      return updateMutation.mutateAsync({ 
-        id, 
-        data: { is_published, is_top }
+
+      return updateMutation.mutateAsync({
+        id,
+        data: { is_published, is_top },
       });
     });
 
@@ -114,7 +115,8 @@ function BlogsContent() {
     }
   };
 
-  const hasPendingChanges = Object.keys(pendingStatuses).length > 0 || Object.keys(pendingTop).length > 0;
+  const hasPendingChanges =
+    Object.keys(pendingStatuses).length > 0 || Object.keys(pendingTop).length > 0;
 
   return (
     <div className="bg-[#F8F9FB] min-h-screen p-6">
@@ -128,12 +130,8 @@ function BlogsContent() {
       />
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Blogs
-          </h1>
-          <p className="text-textGray text-sm">
-            Manage your blog posts
-          </p>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Blogs</h1>
+          <p className="text-textGray text-sm">Manage your blog posts</p>
         </div>
         <Link
           href="/admin/blogs/new"
@@ -154,7 +152,7 @@ function BlogsContent() {
         onToggleStatus={handleToggleStatus}
         onToggleTop={handleToggleTop}
       />
-      
+
       {meta && meta.lastPage > 1 && (
         <div className="mt-6 flex justify-center">
           <Pagination

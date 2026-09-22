@@ -25,7 +25,8 @@ export function ContactHero() {
                 Get in Touch with WeFixIt
               </h1>
               <p className="max-w-[75ch] mx-auto text-sm sm:text-base md:text-[17px] font-montserrat text-gray-200">
-                Have questions, need assistance, or want to schedule a repair? Reach out to us today! Our friendly team at WeFixIt is here to provide you with prompt support
+                Have questions, need assistance, or want to schedule a repair? Reach out to us
+                today! Our friendly team at WeFixIt is here to provide you with prompt support
               </p>
             </div>
           </div>

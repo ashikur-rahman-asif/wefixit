@@ -23,7 +23,7 @@ export default function ColorsPage() {
 
   const { data: response, isLoading } = useColors();
   const colors = response?.data || [];
-  
+
   const createMutation = useCreateColor();
   const updateMutation = useUpdateColor();
   const deleteMutation = useDeleteColor();
@@ -46,12 +46,15 @@ export default function ColorsPage() {
     };
 
     if (editingColor) {
-      updateMutation.mutate({ id: editingColor.id, data: payload }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingColor.id, data: payload },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(payload, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -113,12 +116,8 @@ export default function ColorsPage() {
       />
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Colors
-          </h1>
-          <p className="text-textGray text-sm">
-            Manage product colors for the catalog
-          </p>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Colors</h1>
+          <p className="text-textGray text-sm">Manage product colors for the catalog</p>
         </div>
         <button
           onClick={openAddModal}

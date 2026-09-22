@@ -40,8 +40,8 @@ export default async function SingleBlogPage({ params }: SingleBlogPageProps) {
     notFound();
   }
 
-  const date = blog.published_at 
-    ? format(new Date(blog.published_at), "d MMM yyyy") 
+  const date = blog.published_at
+    ? format(new Date(blog.published_at), "d MMM yyyy")
     : format(new Date(blog.created_at), "d MMM yyyy");
 
   return (

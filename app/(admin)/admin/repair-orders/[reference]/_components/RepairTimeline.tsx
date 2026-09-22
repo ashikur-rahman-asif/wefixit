@@ -48,7 +48,8 @@ export function RepairTimeline({ repair }: { repair: AdminRepairDetail }) {
                   <div
                     className={`w-5 h-5 mt-1 rounded-full border-2 shrink-0 z-10 ${getOrderStatusColor(
                       event.status,
-                    )}`}></div>
+                    )}`}
+                  ></div>
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -56,7 +57,8 @@ export function RepairTimeline({ repair }: { repair: AdminRepairDetail }) {
                           <span
                             className={`px-2 py-0.5 rounded-md text-[11px] capitalize ${getOrderStatusColor(
                               event.status,
-                            )}`}>
+                            )}`}
+                          >
                             {event.title}
                           </span>
                         </p>
@@ -64,8 +66,7 @@ export function RepairTimeline({ repair }: { repair: AdminRepairDetail }) {
                           {event.user
                             ? `By ${event.user.firstName} ${event.user.lastName}`
                             : "System update"}{" "}
-                          on{" "}
-                          {dayjs(event.occurredAt).format("MMM D, YYYY h:mm A")}
+                          on {dayjs(event.occurredAt).format("MMM D, YYYY h:mm A")}
                         </p>
                       </div>
 
@@ -73,7 +74,8 @@ export function RepairTimeline({ repair }: { repair: AdminRepairDetail }) {
                         <button
                           onClick={() => setEventToDelete(event.id)}
                           className="opacity-0 group-hover:opacity-100 w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition-all cursor-pointer"
-                          title="Remove Timeline Event">
+                          title="Remove Timeline Event"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       )}
@@ -89,39 +91,34 @@ export function RepairTimeline({ repair }: { repair: AdminRepairDetail }) {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-textGray font-semibold">
-              No timeline events found.
-            </p>
+            <p className="text-sm text-textGray font-semibold">No timeline events found.</p>
           )}
         </div>
       </div>
 
       <AlertDialog
         open={eventToDelete !== null}
-        onOpenChange={(open) => !open && setEventToDelete(null)}>
+        onOpenChange={(open) => !open && setEventToDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Remove Timeline Event?</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this event? This action cannot be
-              undone. If this is the latest event, the repair status will be
-              rolled back to the previous milestone.
+              Are you sure you want to delete this event? This action cannot be undone. If this is
+              the latest event, the repair status will be rolled back to the previous milestone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={deleteMutation.isPending}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel disabled={deleteMutation.isPending}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={(e) => {
                 e.preventDefault();
                 handleDelete();
               }}
               disabled={deleteMutation.isPending}
-              className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2">
-              {deleteMutation.isPending && (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              )}
+              className="bg-red-500 hover:bg-red-600 text-white flex items-center gap-2"
+            >
+              {deleteMutation.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
               Remove Event
             </AlertDialogAction>
           </AlertDialogFooter>

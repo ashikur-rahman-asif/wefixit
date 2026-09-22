@@ -1,17 +1,12 @@
-import * as React from "react"
-import { SVGProps, useId } from "react"
+import * as React from "react";
+import { SVGProps, useId } from "react";
 
 const Logo = (props: SVGProps<SVGSVGElement>) => {
-  const uniqueId = useId()
-  const clipId = `logo-clip-${uniqueId}`
+  const uniqueId = useId();
+  const clipId = `logo-clip-${uniqueId}`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 104 24"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 24" fill="none" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path
           fill="currentColor"
@@ -32,7 +27,7 @@ const Logo = (props: SVGProps<SVGSVGElement>) => {
         </clipPath>
       </defs>
     </svg>
-  )
-}
+  );
+};
 
-export default Logo
+export default Logo;

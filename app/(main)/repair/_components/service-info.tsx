@@ -29,9 +29,7 @@ export function ServiceInfo({
   return (
     <div className="flex flex-col gap-10">
       <div>
-        <h2 className="text-2xl font-semibold text-primary mb-6">
-          Select the main issue
-        </h2>
+        <h2 className="text-2xl font-semibold text-primary mb-6">Select the main issue</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {services.length === 0 ? (
             <div className="col-span-full py-8 text-center text-muted-foreground">
@@ -47,7 +45,8 @@ export function ServiceInfo({
                   selectedIssue === issue.slug
                     ? "border-brand ring-1 ring-brand/50"
                     : "border-transparent",
-                )}>
+                )}
+              >
                 <div className="relative size-12 md:size-16 flex items-center justify-center mix-blend-multiply">
                   {issue.icon ? (
                     <Image
@@ -77,12 +76,9 @@ export function ServiceInfo({
 
       <div>
         <div className="mb-4">
-          <h2 className="text-2xl font-semibold text-primary">
-            What do you want to fix?
-          </h2>
+          <h2 className="text-2xl font-semibold text-primary">What do you want to fix?</h2>
           <p className="text-muted-foreground mt-1 text-sm md:text-base">
-            Our experts will assess your device and get it back to you in no
-            time.
+            Our experts will assess your device and get it back to you in no time.
           </p>
         </div>
 

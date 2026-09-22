@@ -65,13 +65,8 @@ export function OrderUpdateCard({
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-titleBlack mb-2">
-            Order Status
-          </label>
-          <Select
-            value={currentStatus}
-            onValueChange={(v) => setLocalStatus(v ?? undefined)}
-          >
+          <label className="block text-sm font-semibold text-titleBlack mb-2">Order Status</label>
+          <Select value={currentStatus} onValueChange={(v) => setLocalStatus(v ?? undefined)}>
             <SelectTrigger className="w-full h-11 border-gray-200 text-titleBlack font-semibold">
               <SelectValue placeholder="Status">
                 {currentStatus === "pending_payment"
@@ -98,9 +93,7 @@ export function OrderUpdateCard({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-titleBlack mb-2">
-            Payment Status
-          </label>
+          <label className="block text-sm font-semibold text-titleBlack mb-2">Payment Status</label>
           <Select
             value={currentPaymentStatus}
             onValueChange={(v) => setLocalPaymentStatus(v ?? undefined)}
@@ -129,8 +122,7 @@ export function OrderUpdateCard({
 
         <div>
           <label className="block text-sm font-semibold text-titleBlack mb-2">
-            Update Note{" "}
-            <span className="text-textGray font-normal">(Optional)</span>
+            Update Note <span className="text-textGray font-normal">(Optional)</span>
           </label>
           <textarea
             value={note}

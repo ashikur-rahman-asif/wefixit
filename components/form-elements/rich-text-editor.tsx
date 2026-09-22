@@ -39,7 +39,14 @@ import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
-import { EditorContent, useEditor, type Editor, NodeViewWrapper, ReactNodeViewRenderer, type NodeViewProps } from "@tiptap/react";
+import {
+  EditorContent,
+  useEditor,
+  type Editor,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+  type NodeViewProps,
+} from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef } from "react";
 import { FieldError } from "./field-error-text";
@@ -59,7 +66,11 @@ const ImageNodeView = ({ node, deleteNode }: NodeViewProps) => {
   return (
     <NodeViewWrapper className="relative inline-block group max-w-full group-hover:opacity-100 transition-all duration-200">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={node.attrs.src} alt={node.attrs.alt} className="max-w-full rounded-md shadow-sm block m-0" />
+      <img
+        src={node.attrs.src}
+        alt={node.attrs.alt}
+        className="max-w-full rounded-md shadow-sm block m-0"
+      />
       <button
         type="button"
         onClick={deleteNode}
@@ -81,7 +92,6 @@ const CustomImage = Image.extend({
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const colorInputRef = useRef<HTMLInputElement>(null);
-
 
   if (!editor) {
     return null;
@@ -133,11 +143,20 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
             <button
               key={level}
               type="button"
-              onClick={() => editor.chain().focus().toggleHeading({ level: level as 1 | 2 | 3 | 4 | 5 | 6 }).run()}
+              onClick={() =>
+                editor
+                  .chain()
+                  .focus()
+                  .toggleHeading({ level: level as 1 | 2 | 3 | 4 | 5 | 6 })
+                  .run()
+              }
               className={cn(
                 "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-                editor.isActive("heading", { level }) ? "bg-muted text-foreground" : "text-muted-foreground"
-              )}>
+                editor.isActive("heading", { level })
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground",
+              )}
+            >
               <Icon className="size-4" />
             </button>
           );
@@ -154,8 +173,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           disabled={!editor.can().chain().focus().toggleBold().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("bold") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("bold") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconBold className="size-4" />
         </button>
         <button
@@ -164,8 +184,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           disabled={!editor.can().chain().focus().toggleItalic().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("italic") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("italic") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconItalic className="size-4" />
         </button>
         <button
@@ -173,8 +194,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("underline") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("underline") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconUnderline className="size-4" />
         </button>
         <button
@@ -183,8 +205,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           disabled={!editor.can().chain().focus().toggleStrike().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("strike") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("strike") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconStrikethrough className="size-4" />
         </button>
       </div>
@@ -194,10 +217,10 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
       {/* Alignment */}
       <div className="flex items-center gap-0.5 mr-1">
         {[
-          { icon: IconAlignLeft, align: 'left' },
-          { icon: IconAlignCenter, align: 'center' },
-          { icon: IconAlignRight, align: 'right' },
-          { icon: IconAlignJustified, align: 'justify' },
+          { icon: IconAlignLeft, align: "left" },
+          { icon: IconAlignCenter, align: "center" },
+          { icon: IconAlignRight, align: "right" },
+          { icon: IconAlignJustified, align: "justify" },
         ].map(({ icon: Icon, align }) => (
           <button
             key={align}
@@ -205,8 +228,11 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
             onClick={() => editor.chain().focus().setTextAlign(align).run()}
             className={cn(
               "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-              editor.isActive({ textAlign: align }) ? "bg-muted text-foreground" : "text-muted-foreground"
-            )}>
+              editor.isActive({ textAlign: align })
+                ? "bg-muted text-foreground"
+                : "text-muted-foreground",
+            )}
+          >
             <Icon className="size-4" />
           </button>
         ))}
@@ -221,8 +247,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("bulletList") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("bulletList") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconList className="size-4" />
         </button>
         <button
@@ -230,8 +257,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("orderedList") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("orderedList") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconListNumbers className="size-4" />
         </button>
         <button
@@ -239,8 +267,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("blockquote") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("blockquote") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconQuote className="size-4" />
         </button>
         <button
@@ -248,8 +277,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("codeBlock") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("codeBlock") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconCode className="size-4" />
         </button>
       </div>
@@ -263,8 +293,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleSubscript().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("subscript") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("subscript") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconSubscript className="size-4" />
         </button>
         <button
@@ -272,8 +303,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleSuperscript().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("superscript") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("superscript") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconSuperscript className="size-4" />
         </button>
         <button
@@ -281,27 +313,29 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={() => editor.chain().focus().toggleHighlight().run()}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("highlight") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("highlight") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconHighlight className="size-4" />
         </button>
-        
+
         {/* Color Picker */}
         <div className="relative flex items-center justify-center">
           <input
             type="color"
             onChange={handleColorChange}
-            value={editor.getAttributes('textStyle').color || '#000000'}
+            value={editor.getAttributes("textStyle").color || "#000000"}
             ref={colorInputRef}
             className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
             title="Text Color"
           />
           <button
             type="button"
-            className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground pointer-events-none">
-            <div 
+            className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground pointer-events-none"
+          >
+            <div
               className="w-4 h-4 rounded-full border border-gray-300"
-              style={{ backgroundColor: editor.getAttributes('textStyle').color || 'currentColor' }} 
+              style={{ backgroundColor: editor.getAttributes("textStyle").color || "currentColor" }}
             />
           </button>
         </div>
@@ -316,15 +350,17 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           onClick={setLink}
           className={cn(
             "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
-            editor.isActive("link") ? "bg-muted text-foreground" : "text-muted-foreground"
-          )}>
+            editor.isActive("link") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+        >
           <IconLink className="size-4" />
         </button>
         <button
           type="button"
           onClick={() => editor.chain().focus().unsetLink().run()}
           disabled={!editor.isActive("link")}
-          className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50">
+          className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
+        >
           <IconUnlink className="size-4" />
         </button>
         <div className="relative">
@@ -338,7 +374,8 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50">
+            className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50"
+          >
             <IconPhoto className="size-4" />
           </button>
         </div>
@@ -350,7 +387,8 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
-        className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground">
+        className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+      >
         <IconClearFormatting className="size-4" />
       </button>
     </div>
@@ -371,7 +409,7 @@ export function RichTextEditor({
       StarterKit.configure({
         heading: {
           levels: [1, 2, 3, 4, 5, 6],
-        }
+        },
       }),
       Placeholder.configure({
         placeholder: placeholder || "Write something...",
@@ -385,7 +423,7 @@ export function RichTextEditor({
       }),
       Underline,
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       TextStyle,
       Color,
@@ -399,8 +437,7 @@ export function RichTextEditor({
     },
     editorProps: {
       attributes: {
-        class:
-          "prose prose-sm dark:prose-invert max-w-none min-h-[500px] focus:outline-none p-4",
+        class: "prose prose-sm dark:prose-invert max-w-none min-h-[500px] focus:outline-none p-4",
       },
     },
   });
@@ -422,9 +459,9 @@ export function RichTextEditor({
       <div
         className={cn(
           "flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-transparent shadow-sm transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary",
-          error &&
-            "border-red-500 focus-within:border-red-500 focus-within:ring-red-500",
-        )}>
+          error && "border-red-500 focus-within:border-red-500 focus-within:ring-red-500",
+        )}
+      >
         <MenuBar editor={editor} />
         <EditorContent editor={editor} className="bg-transparent" />
       </div>

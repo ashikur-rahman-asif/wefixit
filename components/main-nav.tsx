@@ -41,9 +41,7 @@ export function MainNav() {
   const mounted = useMounted();
   const totalItems = mounted ? cartItemsTotal : 0;
 
-  const isTransparentMode = ["/services", "/contact", "/blog"].includes(
-    pathname,
-  );
+  const isTransparentMode = ["/services", "/contact", "/blog"].includes(pathname);
   const isTransparent = isTransparentMode && !isScrolled;
 
   const handleLogout = () => {
@@ -81,12 +79,9 @@ export function MainNav() {
       className={cn(
         "top-0 z-[990] transition-colors duration-300 w-full",
         isTransparentMode ? "fixed" : "sticky",
-        isTransparent
-          ? "bg-transparent"
-          : isScrolled
-            ? "bg-[#F3F4F6]"
-            : "bg-white",
-      )}>
+        isTransparent ? "bg-transparent" : isScrolled ? "bg-[#F3F4F6]" : "bg-white",
+      )}
+    >
       <Container className="flex items-center justify-between py-5 md:py-6">
         <div className="flex items-center gap-3 md:gap-0">
           <button
@@ -95,15 +90,13 @@ export function MainNav() {
               "lg:hidden p-1 -ml-1 hover:text-brand transition-colors",
               isTransparent ? "text-white" : "text-secondary",
             )}
-            aria-label="Open Menu">
+            aria-label="Open Menu"
+          >
             <HamburgerIcon className="w-7 h-7" />
           </button>
 
           <Link href="/" className="flex items-center shrink-0">
-            <LogoIcon
-              className="h-5 md:h-6 w-auto"
-              color={isTransparent ? "white" : undefined}
-            />
+            <LogoIcon className="h-5 md:h-6 w-auto" color={isTransparent ? "white" : undefined} />
           </Link>
         </div>
 
@@ -117,12 +110,9 @@ export function MainNav() {
                     href={item.href}
                     className={cn(
                       "text-lg font-medium hover:text-brand transition-colors duration-200 flex items-center gap-1",
-                      isActive
-                        ? "text-brand"
-                        : isTransparent
-                          ? "text-white"
-                          : "text-secondary",
-                    )}>
+                      isActive ? "text-brand" : isTransparent ? "text-white" : "text-secondary",
+                    )}
+                  >
                     {item.label}
                   </Link>
                 </li>
@@ -146,9 +136,7 @@ export function MainNav() {
             )}
           </Link>
           <div className="hidden lg:flex items-center gap-4">
-            <a
-              href="tel:+8801516540594"
-              className={buttonVariants({ variant: "brand" })}>
+            <a href="tel:+8801516540594" className={buttonVariants({ variant: "brand" })}>
               +88-01516540594
             </a>
             {!mounted ? (
@@ -172,27 +160,28 @@ export function MainNav() {
                       <p className="text-base font-semibold text-gray-900 leading-tight">
                         {user?.name || user?.first_name || "User"}
                       </p>
-                      <p className="text-sm text-gray-500 mt-1">
-                        {user?.phone || ""}
-                      </p>
+                      <p className="text-sm text-gray-500 mt-1">{user?.phone || ""}</p>
                     </div>
 
                     <div className="py-2 relative z-10 bg-white rounded-b-xl flex flex-col gap-1 px-2">
                       <Link
                         href="/account"
-                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors"
+                      >
                         <UserIcon className="mr-3 h-4 w-4" />
                         <span>Manage Account</span>
                       </Link>
                       <Link
                         href="/orders"
-                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors"
+                      >
                         <ShoppingCart className="mr-3 h-4 w-4" />
                         <span>My Order</span>
                       </Link>
                       <button
                         onClick={handleLogout}
-                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors text-left">
+                        className="flex items-center w-full text-gray-700 font-medium py-2 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors text-left"
+                      >
                         <LogOut className="mr-3 h-4 w-4" />
                         <span>Logout</span>
                       </button>
@@ -205,7 +194,8 @@ export function MainNav() {
                 href="/auth/login"
                 className={buttonVariants({
                   variant: isTransparent ? "white-outline" : "default",
-                })}>
+                })}
+              >
                 Log In
               </Link>
             )}
@@ -216,9 +206,7 @@ export function MainNav() {
       <div
         className={cn(
           "fixed inset-0 bg-black/60 z-[998] transition-opacity duration-300 lg:hidden backdrop-blur-sm",
-          isMobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none",
+          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}
         onClick={() => setIsMobileMenuOpen(false)}
       />
@@ -227,18 +215,21 @@ export function MainNav() {
         className={cn(
           "fixed top-0 left-0 h-dvh w-[80%] max-w-[320px] bg-white z-[999] shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden flex flex-col",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
-        )}>
+        )}
+      >
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <Link
             href="/"
             className="flex items-center shrink-0"
-            onClick={() => setIsMobileMenuOpen(false)}>
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
             <LogoIcon className="h-5 w-auto" />
           </Link>
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="p-2 text-secondary hover:text-brand transition-colors bg-gray-50 hover:bg-gray-100 rounded-full"
-            aria-label="Close Menu">
+            aria-label="Close Menu"
+          >
             <CrossIcon className="w-5 h-5 ml-1.5 mb-1.5" />
           </button>
         </div>
@@ -250,7 +241,8 @@ export function MainNav() {
                 <Link
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-semibold text-primary hover:text-brand transition-colors duration-200 block">
+                  className="text-lg font-semibold text-primary hover:text-brand transition-colors duration-200 block"
+                >
                   {item.label}
                 </Link>
               </li>
@@ -272,22 +264,22 @@ export function MainNav() {
                     <p className="text-sm font-semibold text-gray-900 truncate">
                       {user?.name || user?.first_name || "User"}
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5 truncate">
-                      {user?.phone || ""}
-                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">{user?.phone || ""}</p>
                   </div>
                 </div>
                 <Link
                   href="/account"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors"
+                >
                   <UserIcon className="mr-3 h-5 w-5" />
                   <span>Manage Account</span>
                 </Link>
                 <Link
                   href="/orders"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors">
+                  className="flex items-center w-full text-gray-700 font-medium py-2.5 px-3 hover:bg-gray-50 hover:text-brand rounded-lg transition-colors"
+                >
                   <ShoppingCart className="mr-3 h-5 w-5" />
                   <span>My Order</span>
                 </Link>
@@ -296,7 +288,8 @@ export function MainNav() {
                     handleLogout();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center w-full text-red-600 font-medium py-2.5 px-3 hover:bg-red-50 rounded-lg transition-colors text-left">
+                  className="flex items-center w-full text-red-600 font-medium py-2.5 px-3 hover:bg-red-50 rounded-lg transition-colors text-left"
+                >
                   <LogOut className="mr-3 h-5 w-5" />
                   <span>Log Out</span>
                 </button>
@@ -308,7 +301,8 @@ export function MainNav() {
                 className={buttonVariants({
                   variant: "default",
                   className: "w-full justify-center text-base py-3",
-                })}>
+                })}
+              >
                 Log In
               </Link>
             )}
@@ -317,7 +311,8 @@ export function MainNav() {
               className={buttonVariants({
                 variant: "brand",
                 className: "w-full justify-center text-base py-3 shadow-sm",
-              })}>
+              })}
+            >
               +88-01516540594
             </a>
           </div>

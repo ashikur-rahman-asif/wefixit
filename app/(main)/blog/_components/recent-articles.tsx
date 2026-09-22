@@ -10,10 +10,6 @@ import { RecentBlogCard } from "./recent-blog-card";
 import { Blog } from "@/features/blogs/types/blog.types";
 import { format } from "date-fns";
 
-function stripTags(html: string) {
-  return html.replace(/<[^>]*>?/gm, '');
-}
-
 interface RecentArticlesProps {
   articles: Blog[];
 }
@@ -45,13 +41,15 @@ export function RecentArticles({ articles }: RecentArticlesProps) {
           <button
             id="recent-articles-prev"
             aria-label="Previous"
-            className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer">
+            className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer"
+          >
             <ChevronLeft className="size-5" />
           </button>
           <button
             id="recent-articles-next"
             aria-label="Next"
-            className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer">
+            className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-primary hover:bg-brand hover:text-white hover:border-brand transition-all duration-200 disabled:opacity-30 cursor-pointer"
+          >
             <ChevronRight className="size-5" />
           </button>
         </div>
@@ -70,12 +68,17 @@ export function RecentArticles({ articles }: RecentArticlesProps) {
           640: { slidesPerView: 2, spaceBetween: 20 },
           1024: { slidesPerView: 3, spaceBetween: 24 },
         }}
-        className="overflow-hidden !pb-4">
+        className="overflow-hidden !pb-4"
+      >
         {articles.map((article) => (
           <SwiperSlide key={article.id} className="h-auto">
             <RecentBlogCard
               imageSrc={article.image || "/blog/top-blog-1.jpg"}
-              date={article.published_at ? format(new Date(article.published_at), "d MMM yyyy") : format(new Date(article.created_at), "d MMM yyyy")}
+              date={
+                article.published_at
+                  ? format(new Date(article.published_at), "d MMM yyyy")
+                  : format(new Date(article.created_at), "d MMM yyyy")
+              }
               category={article.category?.name || "General"}
               title={article.title}
               href={`/blog/${article.slug}`}

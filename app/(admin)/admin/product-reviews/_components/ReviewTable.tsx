@@ -44,9 +44,7 @@ export function ReviewTable({
         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
           <MessageSquare className="w-8 h-8 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-titleBlack mb-1">
-          No reviews found
-        </h3>
+        <h3 className="text-lg font-semibold text-titleBlack mb-1">No reviews found</h3>
         <p className="text-textGray">There are no reviews to display yet.</p>
       </div>
     );
@@ -117,14 +115,17 @@ export function ReviewTable({
                             "w-4 h-4",
                             i < review.rating
                               ? "fill-amber-400 text-amber-400"
-                              : "fill-gray-100 text-gray-100"
+                              : "fill-gray-100 text-gray-100",
                           )}
                         />
                       ))}
                     </div>
                   </TableCell>
                   <TableCell className="px-6 py-4">
-                    <p className="text-sm text-textGray line-clamp-2 max-w-[300px]" title={review.comment}>
+                    <p
+                      className="text-sm text-textGray line-clamp-2 max-w-[300px]"
+                      title={review.comment}
+                    >
                       {review.comment || <span className="italic">No comment provided</span>}
                     </p>
                   </TableCell>
@@ -138,8 +139,11 @@ export function ReviewTable({
                       <span
                         className={cn(
                           "text-sm font-semibold",
-                          (pendingStatuses[review.id] ?? review.is_approved) ? "text-titleBlack" : "text-textGray",
-                        )}>
+                          (pendingStatuses[review.id] ?? review.is_approved)
+                            ? "text-titleBlack"
+                            : "text-textGray",
+                        )}
+                      >
                         {(pendingStatuses[review.id] ?? review.is_approved) ? "Yes" : "No"}
                       </span>
                     </div>

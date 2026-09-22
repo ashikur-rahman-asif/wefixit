@@ -21,25 +21,22 @@ export function Stepper({ steps, currentStep }: StepperProps) {
                 className={cn(
                   "absolute -top-8 text-xs md:text-base font-medium whitespace-nowrap",
                   isActive || isCompleted ? "text-brand" : "text-primary",
-                )}>
+                )}
+              >
                 {step}
               </span>
               <div
                 className={cn(
                   "size-5 md:size-6 rounded-full border-2 flex items-center justify-center bg-background z-10",
                   isActive || isCompleted ? "border-brand" : "border-gray-300",
-                )}>
-                {(isActive || isCompleted) && (
-                  <div className="size-2 rounded-full bg-brand" />
                 )}
+              >
+                {(isActive || isCompleted) && <div className="size-2 rounded-full bg-brand" />}
               </div>
             </div>
             {index < steps.length - 1 && (
               <div
-                className={cn(
-                  "h-0.5 flex-1",
-                  index < currentIndex ? "bg-brand" : "bg-gray-300",
-                )}
+                className={cn("h-0.5 flex-1", index < currentIndex ? "bg-brand" : "bg-gray-300")}
               />
             )}
           </div>

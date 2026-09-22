@@ -5,12 +5,7 @@ export function MailBoxIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `${id}-clip`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={64}
-      height={64}
-      fill="none"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={64} height={64} fill="none" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path
           fill="#f1f2f2"

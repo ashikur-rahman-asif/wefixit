@@ -14,9 +14,7 @@ export function InfoStep({ errors = {}, onClearError }: InfoStepProps) {
   const email = useRepairStore((state) => state.email);
   const phone = useRepairStore((state) => state.phone);
   const location = useRepairStore((state) => state.location);
-  const additionalComments = useRepairStore(
-    (state) => state.additionalComments,
-  );
+  const additionalComments = useRepairStore((state) => state.additionalComments);
   const updateField = useRepairStore((state) => state.updateField);
 
   const user = useAuthStore((state) => state.user);
@@ -24,12 +22,9 @@ export function InfoStep({ errors = {}, onClearError }: InfoStepProps) {
   return (
     <div className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="mb-8 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-primary">
-          Your Information
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-primary">Your Information</h2>
         <p className="text-muted-foreground mt-2 text-sm md:text-base">
-          Please provide your contact details so we can reach you about your
-          repair.
+          Please provide your contact details so we can reach you about your repair.
         </p>
       </div>
 
@@ -105,9 +100,7 @@ export function InfoStep({ errors = {}, onClearError }: InfoStepProps) {
         />
 
         <div className="flex flex-col">
-          <label className="block text-sm md:text-base mb-2 font-medium">
-            Additional Comments
-          </label>
+          <label className="block text-sm md:text-base mb-2 font-medium">Additional Comments</label>
           <Textarea
             value={additionalComments}
             onChange={(e) => updateField("additionalComments", e.target.value)}

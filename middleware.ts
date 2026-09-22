@@ -37,17 +37,9 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  const protectedUserRoutes = [
-    "/account",
-    "/checkout",
-    "/order-success",
-    "/orders",
-    "/my-repairs",
-  ];
+  const protectedUserRoutes = ["/account", "/checkout", "/order-success", "/orders", "/my-repairs"];
 
-  const isProtectedUserRoute = protectedUserRoutes.some((route) =>
-    pathname.startsWith(route)
-  );
+  const isProtectedUserRoute = protectedUserRoutes.some((route) => pathname.startsWith(route));
 
   if (userRole === "admin" && isProtectedUserRoute) {
     const errorUrl = new URL("/403", request.url);
@@ -65,7 +57,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)"],
 };

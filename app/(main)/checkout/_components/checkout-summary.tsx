@@ -38,13 +38,9 @@ export function CheckoutSummary() {
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-primary text-sm line-clamp-1">
-                {item.title}
-              </h4>
+              <h4 className="font-semibold text-primary text-sm line-clamp-1">{item.title}</h4>
               {item.color && (
-                <p className="text-xs text-secondary mt-0.5 capitalize">
-                  Color: {item.color.name}
-                </p>
+                <p className="text-xs text-secondary mt-0.5 capitalize">Color: {item.color.name}</p>
               )}
             </div>
             <div className="font-semibold text-primary whitespace-nowrap">

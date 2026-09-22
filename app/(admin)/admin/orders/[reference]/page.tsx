@@ -43,10 +43,7 @@ export default function AdminOrderDetailsPage({
     return (
       <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
         <h2 className="text-xl font-bold text-gray-700">Order Not Found</h2>
-        <Link
-          href="/admin/orders"
-          className="text-brand hover:underline flex items-center gap-2"
-        >
+        <Link href="/admin/orders" className="text-brand hover:underline flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Back to Orders
         </Link>
       </div>

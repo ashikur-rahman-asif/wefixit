@@ -23,18 +23,12 @@ export const authApi = {
   },
 
   verifyRegistrationOtp: async (data: VerifyOtpPayload) => {
-    const response = await api.post<BasicResponse>(
-      "/verify-registration-otp",
-      data,
-    );
+    const response = await api.post<BasicResponse>("/verify-registration-otp", data);
     return response.data;
   },
 
   resendRegistrationOtp: async (email: string) => {
-    const response = await api.post<BasicResponse>(
-      "/resend-registration-otp",
-      { email },
-    );
+    const response = await api.post<BasicResponse>("/resend-registration-otp", { email });
     return response.data;
   },
 
@@ -63,7 +57,10 @@ export const authApi = {
   },
 
   updateProfile: async (data: ProfileUpdatePayload) => {
-    const response = await api.post<{ status: string; message: string; data: User }>("/profile/update", data);
+    const response = await api.post<{ status: string; message: string; data: User }>(
+      "/profile/update",
+      data,
+    );
     return response.data;
   },
 

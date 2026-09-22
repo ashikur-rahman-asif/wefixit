@@ -26,11 +26,11 @@ export const repairsApi = {
       diagnosisNotes?: string;
       partsCost?: number;
       serviceCharge?: number;
-    }
+    },
   ) => {
     const response = await axios.put<ApiResponse<AdminRepairDetail>>(
       `/admin/repairs/${reference}`,
-      data
+      data,
     );
     return response.data.data;
   },
@@ -41,13 +41,15 @@ export const repairsApi = {
   },
 
   revertRepair: async (reference: string) => {
-    const response = await axios.post<ApiResponse<AdminRepairDetail>>(`/admin/repairs/${reference}/revert`);
+    const response = await axios.post<ApiResponse<AdminRepairDetail>>(
+      `/admin/repairs/${reference}/revert`,
+    );
     return response.data.data;
   },
 
   deleteEvent: async (reference: string, eventId: number) => {
     const response = await axios.delete<ApiResponse<AdminRepairDetail>>(
-      `/admin/repairs/${reference}/events/${eventId}`
+      `/admin/repairs/${reference}/events/${eventId}`,
     );
     return response.data.data;
   },

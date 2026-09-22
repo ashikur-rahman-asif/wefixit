@@ -25,26 +25,18 @@ export function ProductCard({
 }: ProductCardProps) {
   const cardClasses = cn(
     "relative p-4 sm:p-6 font-montserrat bg-lightBrand border border-black/5 rounded-[14px] flex flex-col h-full justify-between transition-all duration-300",
-    variant === "slider"
-      ? "items-center text-center"
-      : "sm:items-center sm:text-center",
+    variant === "slider" ? "items-center text-center" : "sm:items-center sm:text-center",
     variant === "product" && "hover:shadow-md hover:-translate-y-1",
     className,
   );
 
   const cardContent = (
     <>
-      {variant === "product" &&
-        discountPrice &&
-        price &&
-        Number(discountPrice) < Number(price) && (
-          <div className="absolute top-4 left-4 bg-gold text-titleBlack text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
-            {Math.round(
-              ((Number(price) - Number(discountPrice)) / Number(price)) * 100,
-            )}
-            % OFF
-          </div>
-        )}
+      {variant === "product" && discountPrice && price && Number(discountPrice) < Number(price) && (
+        <div className="absolute top-4 left-4 bg-gold text-titleBlack text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
+          {Math.round(((Number(price) - Number(discountPrice)) / Number(price)) * 100)}% OFF
+        </div>
+      )}
 
       <div className="w-full flex justify-center items-center mb-2  min-h-40">
         {image ? (
@@ -66,17 +58,20 @@ export function ProductCard({
         className={cn(
           "w-full flex flex-col flex-1",
           variant === "slider" ? "items-center text-center" : "sm:items-center",
-        )}>
+        )}
+      >
         {variant === "slider" ? (
           <>
             <h2
               className="text-titleBlack text-lg sm:text-2xl lg:text-[28px] font-semibold mb-2  line-clamp-2"
-              title={title}>
+              title={title}
+            >
               {title}
             </h2>
             <Button
               variant="brand"
-              className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base">
+              className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base"
+            >
               {sliderButtonText}
             </Button>
           </>
@@ -84,7 +79,8 @@ export function ProductCard({
           <>
             <h2
               className="text-primary text-left sm:text-center text-base md:text-lg font-medium leading-tight line-clamp-2"
-              title={title}>
+              title={title}
+            >
               {title}
             </h2>
 
@@ -93,9 +89,7 @@ export function ProductCard({
                 ${discountPrice ?? price}
               </span>
               {discountPrice && (
-                <del className="text-secondary text-sm md:text-base font-medium">
-                  ${price}
-                </del>
+                <del className="text-secondary text-sm md:text-base font-medium">${price}</del>
               )}
             </div>
           </>

@@ -32,18 +32,14 @@ interface PreOwnedGridProps {
   skeletonCount?: number;
 }
 
-export function PreOwnedGrid({
-  products,
-  skeletonCount = 8,
-}: PreOwnedGridProps) {
+export function PreOwnedGrid({ products, skeletonCount = 8 }: PreOwnedGridProps) {
   const mounted = useSyncExternalStore(
     subscribe,
     () => true,
     () => false,
   );
 
-  const gridClass =
-    "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6";
+  const gridClass = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6";
 
   if (!mounted) {
     return (

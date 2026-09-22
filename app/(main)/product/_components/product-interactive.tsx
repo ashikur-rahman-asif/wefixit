@@ -9,15 +9,15 @@ interface ProductInteractiveProps {
   onColorChange?: (color: ProductColor) => void;
 }
 
-export function ProductInteractive({ product, selectedColor, onColorChange }: ProductInteractiveProps) {
-
+export function ProductInteractive({
+  product,
+  selectedColor,
+  onColorChange,
+}: ProductInteractiveProps) {
   return (
     <div>
       <ProductInfo product={product} />
-      <ProductColorSelector
-        colors={product.colors}
-        onColorChange={onColorChange || (() => {})}
-      />
+      <ProductColorSelector colors={product.colors} onColorChange={onColorChange || (() => {})} />
       <ProductActions
         product={product}
         isOutOfStock={product.stock === 0}

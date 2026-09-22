@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import React from 'react';
+import { useCallback, useState } from "react";
+import React from "react";
 
 type InteractiveEventProps<T extends HTMLElement = HTMLElement> = {
   readOnly?: boolean;
@@ -25,7 +25,7 @@ export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
       setIsFocus(true);
       onFocus?.(e);
     },
-    [readOnly, onFocus]
+    [readOnly, onFocus],
   );
 
   const handleOnBlur = useCallback(
@@ -34,7 +34,7 @@ export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
       setIsFocus(false);
       onBlur?.(e);
     },
-    [readOnly, onBlur]
+    [readOnly, onBlur],
   );
 
   const handleOnMouseEnter = useCallback(
@@ -43,7 +43,7 @@ export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
       setIsHover(true);
       onMouseEnter?.(e);
     },
-    [readOnly, onMouseEnter]
+    [readOnly, onMouseEnter],
   );
 
   const handleOnMouseLeave = useCallback(
@@ -52,7 +52,7 @@ export function useInteractiveEvent<T extends HTMLElement = HTMLElement>({
       setIsHover(false);
       onMouseLeave?.(e);
     },
-    [readOnly, onMouseLeave]
+    [readOnly, onMouseLeave],
   );
 
   return { isFocus, isHover, handleOnFocus, handleOnBlur, handleOnMouseEnter, handleOnMouseLeave };

@@ -25,7 +25,8 @@ export function BlogHero() {
                 Stay Informed with the WeFixIt Blog
               </h1>
               <p className="max-w-[75ch] mx-auto text-sm sm:text-base md:text-[17px] font-montserrat text-gray-200">
-                Explore the latest insights, tips, and trends in phone repair, technology, and gadget care on the WeFixIt Blog. Dive into informative articles
+                Explore the latest insights, tips, and trends in phone repair, technology, and
+                gadget care on the WeFixIt Blog. Dive into informative articles
               </p>
             </div>
           </div>

@@ -9,7 +9,7 @@ export const adminReviewsApi = {
 
   toggleApproval: async (id: number) => {
     const response = await api.patch<{ status: string; message: string; data: unknown }>(
-      `/admin/reviews/${id}/toggle-approval`
+      `/admin/reviews/${id}/toggle-approval`,
     );
     return response.data;
   },

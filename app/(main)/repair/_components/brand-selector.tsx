@@ -34,7 +34,8 @@ export function BrandSelector({ brands }: BrandSelectorProps) {
             selectedBrand === brand.name
               ? "border-brand ring-1 ring-brand/50"
               : "border-transparent",
-          )}>
+          )}
+        >
           <div className="relative h-16 md:h-20 w-24 md:w-32 flex items-center justify-center">
             {brand.icon ? (
               <Image
@@ -48,9 +49,7 @@ export function BrandSelector({ brands }: BrandSelectorProps) {
               <span className="text-gray-400 text-xs">No Icon</span>
             )}
           </div>
-          <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">
-            {brand.name}
-          </h3>
+          <h3 className="text-primary font-bold text-[22px] md:text-2xl mt-4">{brand.name}</h3>
           {selectedBrand === brand.name && (
             <div className="absolute top-3 right-3 bg-brand rounded-full p-1">
               <CheckIcon className="size-3 md:size-4 text-white" />

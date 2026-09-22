@@ -16,8 +16,8 @@ interface GetProductsParams {
 
 export const productsApi = {
   getProducts: async (params?: GetProductsParams) => {
-    const response = await api.get<PaginatedResponse<AdminProduct>>("/admin/products", { 
-      params: { ...params, includeInactive: 1 } 
+    const response = await api.get<PaginatedResponse<AdminProduct>>("/admin/products", {
+      params: { ...params, includeInactive: 1 },
     });
     return response.data;
   },

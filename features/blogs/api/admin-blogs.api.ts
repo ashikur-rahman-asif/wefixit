@@ -3,7 +3,12 @@ import { Blog, CreateBlogDto, UpdateBlogDto } from "../types/blog.types";
 
 export const adminBlogsApi = {
   getBlogs: async (page = 1) => {
-    const response = await axiosInstance.get<{ data: Blog[]; current_page: number; last_page: number; total: number }>(`/admin/blogs?page=${page}`);
+    const response = await axiosInstance.get<{
+      data: Blog[];
+      current_page: number;
+      last_page: number;
+      total: number;
+    }>(`/admin/blogs?page=${page}`);
     return response.data;
   },
 
@@ -17,7 +22,8 @@ export const adminBlogsApi = {
     formData.append("title", data.title);
     formData.append("blog_category_id", data.blog_category_id.toString());
     formData.append("content", data.content);
-    if (data.is_published !== undefined) formData.append("is_published", data.is_published ? "1" : "0");
+    if (data.is_published !== undefined)
+      formData.append("is_published", data.is_published ? "1" : "0");
     if (data.is_top !== undefined) formData.append("is_top", data.is_top ? "1" : "0");
     if (data.meta_title) formData.append("meta_title", data.meta_title);
     if (data.meta_description) formData.append("meta_description", data.meta_description);
@@ -31,14 +37,17 @@ export const adminBlogsApi = {
 
   updateBlog: async (id: number, data: UpdateBlogDto) => {
     const formData = new FormData();
-    formData.append("_method", "PUT"); 
+    formData.append("_method", "PUT");
     if (data.title) formData.append("title", data.title);
-    if (data.blog_category_id) formData.append("blog_category_id", data.blog_category_id.toString());
+    if (data.blog_category_id)
+      formData.append("blog_category_id", data.blog_category_id.toString());
     if (data.content) formData.append("content", data.content);
-    if (data.is_published !== undefined) formData.append("is_published", data.is_published ? "1" : "0");
+    if (data.is_published !== undefined)
+      formData.append("is_published", data.is_published ? "1" : "0");
     if (data.is_top !== undefined) formData.append("is_top", data.is_top ? "1" : "0");
     if (data.meta_title !== undefined) formData.append("meta_title", data.meta_title || "");
-    if (data.meta_description !== undefined) formData.append("meta_description", data.meta_description || "");
+    if (data.meta_description !== undefined)
+      formData.append("meta_description", data.meta_description || "");
     if (data.image instanceof File) formData.append("image", data.image);
 
     const response = await axiosInstance.post<{ data: Blog }>(`/admin/blogs/${id}`, formData, {

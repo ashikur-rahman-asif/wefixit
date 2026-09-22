@@ -60,11 +60,7 @@ export function LoginForm() {
         router.replace(isAdmin ? "/admin" : "/");
       },
       onError: (error) => {
-        handleFormError(
-          error,
-          setError,
-          "Login failed. Please try again."
-        );
+        handleFormError(error, setError, "Login failed. Please try again.");
       },
     });
   }
@@ -78,22 +74,15 @@ export function LoginForm() {
       </div>
       <div className="w-full max-w-[510px] rounded-xl bg-white p-8 shadow-sm">
         <div className="mb-8">
-          <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
-            Welcome Back
-          </h2>
+          <h2 className="text-center text-2xl font-bold text-black md:text-3xl">Welcome Back</h2>
           <div className="mt-3 flex justify-center gap-1 text-sm">
             <span>New User?</span>
-            <Link
-              href="/auth/register"
-              className="cursor-pointer text-brand hover:underline">
+            <Link href="/auth/register" className="cursor-pointer text-brand hover:underline">
               Create an account
             </Link>
           </div>
         </div>
-        <form
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-3">
+        <form noValidate onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-3">
           <Input
             size="md"
             label="Email"
@@ -117,7 +106,8 @@ export function LoginForm() {
           <div className="col-span-full flex justify-end">
             <Link
               href="/auth/forgot-password"
-              className="text-sm font-medium text-red-500 hover:underline">
+              className="text-sm font-medium text-red-500 hover:underline"
+            >
               Forgot Password?
             </Link>
           </div>
@@ -126,7 +116,8 @@ export function LoginForm() {
               type="submit"
               variant="brand"
               disabled={isPending}
-              className="w-full rounded-3xl py-3 font-semibold text-white">
+              className="w-full rounded-3xl py-3 font-semibold text-white"
+            >
               {isPending ? "Please wait..." : "Log In"}
             </Button>
           </div>

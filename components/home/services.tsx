@@ -11,22 +11,19 @@ const services = [
     icon: HouseIcon,
     iconBg: "#EFF4FF",
     title: "Drop off at our store location",
-    description:
-      "You bring the damaged device to our store location for repair",
+    description: "You bring the damaged device to our store location for repair",
   },
   {
     icon: ClockIcon,
     iconBg: "#FFEEEF",
     title: "On-Site repair in 30 min",
-    description:
-      "Our certified technician comes to your location to fix the damaged device",
+    description: "Our certified technician comes to your location to fix the damaged device",
   },
   {
     icon: DeliveryCarIcon,
     iconBg: "#E0FCED",
     title: "Expedited pick up and delivery",
-    description:
-      "We offer an express pickup and delivery service if you are in a hurry.",
+    description: "We offer an express pickup and delivery service if you are in a hurry.",
   },
   {
     icon: DeliveryBoyIcon,
@@ -53,10 +50,12 @@ export function Services() {
             return (
               <div
                 key={service.title}
-                className="bg-white rounded-[14px] p-4 sm:p-5 md:px-6 flex flex-col">
+                className="bg-white rounded-[14px] p-4 sm:p-5 md:px-6 flex flex-col"
+              >
                 <div
                   className="rounded-full p-4 inline-flex self-start"
-                  style={{ backgroundColor: service.iconBg }}>
+                  style={{ backgroundColor: service.iconBg }}
+                >
                   <Icon className="size-8" />
                 </div>
                 <div className="flex-1">

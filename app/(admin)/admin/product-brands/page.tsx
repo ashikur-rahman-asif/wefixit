@@ -24,7 +24,7 @@ function ProductBrandsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") || "";
 
@@ -64,12 +64,15 @@ function ProductBrandsContent() {
     formData.append("is_active", data.is_active ? "1" : "0");
 
     if (editingBrand) {
-      updateMutation.mutate({ id: editingBrand.id, data: formData }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingBrand.id, data: formData },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -108,12 +111,12 @@ function ProductBrandsContent() {
       const id = Number(idStr);
       const brand = brands.find((b) => b.id === id);
       if (!brand) return Promise.resolve();
-      
+
       const formData = new FormData();
       formData.append("name", brand.name);
       if (brand.slug) formData.append("slug", brand.slug);
       formData.append("is_active", newStatus ? "1" : "0");
-      
+
       return updateMutation.mutateAsync({ id, data: formData });
     });
 
@@ -142,9 +145,7 @@ function ProductBrandsContent() {
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
             Product Brands
           </h1>
-          <p className="text-textGray text-sm">
-            Manage product brands for ecommerce
-          </p>
+          <p className="text-textGray text-sm">Manage product brands for ecommerce</p>
         </div>
         <button
           onClick={openAddModal}
@@ -164,7 +165,7 @@ function ProductBrandsContent() {
         onDelete={handleDelete}
         onToggleStatus={handleToggleStatus}
       />
-      
+
       {meta && meta.lastPage > 1 && (
         <div className="mt-6 flex justify-center">
           <Pagination

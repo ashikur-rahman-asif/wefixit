@@ -7,7 +7,7 @@ export function ShopPagination({ totalPages }: { totalPages: number }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const currentPage = Number(searchParams.get("page")) || 1;
 
   const handlePageChange = (page: number) => {

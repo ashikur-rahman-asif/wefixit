@@ -5,11 +5,7 @@ export function RepairedIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `repaired-clip-${uniqueId}`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path
           fill="#61626d"
@@ -19,18 +15,9 @@ export function RepairedIcon(props: SVGProps<SVGSVGElement>) {
           fill="#3f404c"
           d="M36.167 37.078 16.322 17.232c-1.255 1.16-2.624 2.045-4.154 2.474l11.423 11.422 8.992 8.993 11.696 11.696c.429-1.53 1.315-2.899 2.474-4.154z"
         />
-        <path
-          fill="#cdcecc"
-          d="M39.085 27.554 58.147 8.49 55.22 5.563 36.156 24.627z"
-        />
-        <path
-          fill="#e5e5e5"
-          d="M39.085 27.554 58.147 8.49 55.22 5.563 36.156 24.627z"
-        />
-        <path
-          fill="#cdcecc"
-          d="m36.157 24.627 1.382 1.382L56.602 6.945l-1.38-1.381z"
-        />
+        <path fill="#cdcecc" d="M39.085 27.554 58.147 8.49 55.22 5.563 36.156 24.627z" />
+        <path fill="#e5e5e5" d="M39.085 27.554 58.147 8.49 55.22 5.563 36.156 24.627z" />
+        <path fill="#cdcecc" d="m36.157 24.627 1.382 1.382L56.602 6.945l-1.38-1.381z" />
         <path
           fill="#ff8c01"
           d="m38.138 31.847 1.455-1.456a1.716 1.716 0 0 0 0-2.428l-3.845-3.845a1.717 1.717 0 0 0-2.428 0l-1.456 1.455z"

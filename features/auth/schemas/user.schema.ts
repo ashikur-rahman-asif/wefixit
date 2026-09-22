@@ -1,14 +1,8 @@
 import { z } from "zod";
 
-const emailSchema = z
-  .string()
-  .trim()
-  .min(1, "Email is required")
-  .email("Invalid email address");
+const emailSchema = z.string().trim().min(1, "Email is required").email("Invalid email address");
 
-const passwordSchema = z
-  .string()
-  .min(6, "Password must be at least 6 characters");
+const passwordSchema = z.string().min(6, "Password must be at least 6 characters");
 
 const phoneSchema = z.string().trim().min(10, "Phone number must be valid");
 
@@ -26,10 +20,7 @@ export const loginSchema = z.object({
 export type LoginInput = z.infer<typeof loginSchema>;
 
 export const registerSchema = z.object({
-  firstName: z
-    .string()
-    .trim()
-    .min(2, "First name must be at least 2 characters"),
+  firstName: z.string().trim().min(2, "First name must be at least 2 characters"),
   lastName: z.string().trim().min(2, "Last name must be at least 2 characters"),
   phone: phoneSchema,
   email: emailSchema,

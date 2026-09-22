@@ -35,10 +35,8 @@ export function RegisterForm() {
   const router = useRouter();
 
   const { mutate: registerUser, isPending: isRegistering } = useRegister();
-  const { mutate: verifyOtp, isPending: isVerifying } =
-    useVerifyRegistrationOtp();
-  const { mutate: resendOtp, isPending: isResending } =
-    useResendRegistrationOtp();
+  const { mutate: verifyOtp, isPending: isVerifying } = useVerifyRegistrationOtp();
+  const { mutate: resendOtp, isPending: isResending } = useResendRegistrationOtp();
 
   const registrationForm = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -76,11 +74,7 @@ export function RegisterForm() {
         setStep(2);
       },
       onError: (error) =>
-        handleFormError(
-          error,
-          registrationForm.setError,
-          "Registration failed. Please try again.",
-        ),
+        handleFormError(error, registrationForm.setError, "Registration failed. Please try again."),
     });
   }
 
@@ -91,8 +85,7 @@ export function RegisterForm() {
         setTimeLeft(120);
         toast.success("OTP sent successfully!");
       },
-      onError: (error) =>
-        handleFormError(error, undefined, "Failed to resend OTP."),
+      onError: (error) => handleFormError(error, undefined, "Failed to resend OTP."),
     });
   }
 
@@ -106,11 +99,7 @@ export function RegisterForm() {
           router.push("/auth/login");
         },
         onError: (error) =>
-          handleFormError(
-            error,
-            otpForm.setError,
-            "Verification failed. Please try again.",
-          ),
+          handleFormError(error, otpForm.setError, "Verification failed. Please try again."),
       },
     );
   }
@@ -133,9 +122,7 @@ export function RegisterForm() {
               </h2>
               <div className="mt-3 flex justify-center gap-1 text-sm">
                 <span>Already have an account?</span>
-                <Link
-                  href="/auth/login"
-                  className="cursor-pointer text-brand hover:underline">
+                <Link href="/auth/login" className="cursor-pointer text-brand hover:underline">
                   Login
                 </Link>
               </div>
@@ -143,7 +130,8 @@ export function RegisterForm() {
             <form
               noValidate
               onSubmit={registrationForm.handleSubmit(handleRegister)}
-              className="grid grid-cols-2 gap-3">
+              className="grid grid-cols-2 gap-3"
+            >
               <Input
                 size="md"
                 label="First Name"
@@ -197,7 +185,8 @@ export function RegisterForm() {
                   type="submit"
                   variant="brand"
                   disabled={isRegistering}
-                  className="w-full rounded-3xl py-3 font-semibold text-white">
+                  className="w-full rounded-3xl py-3 font-semibold text-white"
+                >
                   {isRegistering ? "Sending OTP..." : "Register"}
                 </Button>
               </div>
@@ -209,9 +198,7 @@ export function RegisterForm() {
         {step === 2 && (
           <>
             <div className="mb-8">
-              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
-                Verify OTP
-              </h2>
+              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">Verify OTP</h2>
               <p className="mt-3 text-center text-sm text-gray-500">
                 We have sent a verification code to{" "}
                 <span className="font-semibold">{formData?.email}</span>.
@@ -220,7 +207,8 @@ export function RegisterForm() {
             <form
               noValidate
               onSubmit={otpForm.handleSubmit(handleVerifyOTP)}
-              className="flex flex-col gap-4">
+              className="flex flex-col gap-4"
+            >
               <div className="flex justify-center mb-2">
                 <Controller
                   name="otp"
@@ -240,14 +228,13 @@ export function RegisterForm() {
                   type="submit"
                   variant="brand"
                   disabled={isVerifying}
-                  className={cn("w-full rounded-3xl py-3 font-semibold text-white")}>
+                  className={cn("w-full rounded-3xl py-3 font-semibold text-white")}
+                >
                   {isVerifying ? "Verifying..." : "Verify OTP"}
                 </Button>
               </div>
               <div className="text-center mt-2 flex justify-center gap-1 text-sm">
-                <span className="text-gray-500">
-                  Didn&apos;t receive the code?
-                </span>
+                <span className="text-gray-500">Didn&apos;t receive the code?</span>
                 <button
                   type="button"
                   disabled={timeLeft > 0 || isResending}
@@ -255,9 +242,10 @@ export function RegisterForm() {
                     "font-medium",
                     timeLeft > 0
                       ? "text-gray-400 cursor-not-allowed"
-                      : "text-brand hover:underline cursor-pointer"
+                      : "text-brand hover:underline cursor-pointer",
                   )}
-                  onClick={handleResend}>
+                  onClick={handleResend}
+                >
                   Resend {timeLeft > 0 && `(${formatTime(timeLeft)})`}
                 </button>
               </div>
@@ -265,7 +253,8 @@ export function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-sm font-medium text-gray-500 hover:underline cursor-pointer">
+                  className="text-sm font-medium text-gray-500 hover:underline cursor-pointer"
+                >
                   Change Email
                 </button>
               </div>

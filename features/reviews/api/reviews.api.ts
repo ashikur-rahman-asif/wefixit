@@ -20,7 +20,9 @@ export interface PaginatedReviews {
 
 export const reviewsApi = {
   getProductReviews: async (productSlug: string, params?: { page?: number; perPage?: number }) => {
-    const response = await api.get<PaginatedReviews>(`/products/${productSlug}/reviews`, { params });
+    const response = await api.get<PaginatedReviews>(`/products/${productSlug}/reviews`, {
+      params,
+    });
     return response.data;
   },
 

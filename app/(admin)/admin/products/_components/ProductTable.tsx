@@ -53,19 +53,19 @@ export function ProductTable({
         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
           <Package className="w-8 h-8 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-titleBlack mb-1">
-          No products found
-        </h3>
+        <h3 className="text-lg font-semibold text-titleBlack mb-1">No products found</h3>
         <p className="text-textGray">Get started by creating a new product.</p>
       </div>
     );
   }
 
   return (
-    <div className={cn(
-      "bg-white rounded-[20px] border border-gray-100 overflow-hidden transition-opacity duration-200",
-      isFetching ? "opacity-60 pointer-events-none" : "opacity-100"
-    )}>
+    <div
+      className={cn(
+        "bg-white rounded-[20px] border border-gray-100 overflow-hidden transition-opacity duration-200",
+        isFetching ? "opacity-60 pointer-events-none" : "opacity-100",
+      )}
+    >
       <div className="overflow-x-auto">
         <Table>
           <TableHeader className="bg-[#F8F9FB] border-b border-gray-100">
@@ -95,13 +95,11 @@ export function ProductTable({
           </TableHeader>
           <TableBody>
             {products.map((product) => {
-              const currentStatus =
-                pendingStatuses[product.id] ?? product.is_active;
-              const currentFeatured =
-                pendingFeatured[product.id] ?? product.is_featured;
+              const currentStatus = pendingStatuses[product.id] ?? product.is_active;
+              const currentFeatured = pendingFeatured[product.id] ?? product.is_featured;
 
               return (
-                <TableRow 
+                <TableRow
                   key={product.id}
                   className="hover:bg-gray-50/50 border-none transition-colors"
                 >
@@ -120,9 +118,7 @@ export function ProductTable({
                         )}
                       </div>
                       <div>
-                        <div className="font-semibold text-titleBlack text-sm">
-                          {product.title}
-                        </div>
+                        <div className="font-semibold text-titleBlack text-sm">{product.title}</div>
                         <div className="text-gray-600 font-medium text-xs mt-0.5">
                           {product.slug}
                         </div>
@@ -140,7 +136,9 @@ export function ProductTable({
                         </span>
                       </div>
                     ) : (
-                      <span className="font-semibold text-titleBlack text-sm">${product.price}</span>
+                      <span className="font-semibold text-titleBlack text-sm">
+                        ${product.price}
+                      </span>
                     )}
                   </TableCell>
                   <TableCell className="px-6 py-4">
@@ -152,7 +150,8 @@ export function ProductTable({
                           : product.stock > 0
                             ? "bg-orange-50 text-orange-700"
                             : "bg-red-50 text-red-700",
-                      )}>
+                      )}
+                    >
                       {product.stock} in stock
                     </span>
                   </TableCell>
@@ -163,16 +162,15 @@ export function ProductTable({
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={currentStatus}
-                        onCheckedChange={(checked: boolean) =>
-                          onToggleStatus(product.id, checked)
-                        }
+                        onCheckedChange={(checked: boolean) => onToggleStatus(product.id, checked)}
                         className="data-[state=checked]:bg-brand cursor-pointer"
                       />
                       <span
                         className={cn(
                           "text-sm font-semibold w-20 inline-block",
                           currentStatus ? "text-titleBlack" : "text-gray-600",
-                        )}>
+                        )}
+                      >
                         {currentStatus ? "Active" : "Inactive"}
                       </span>
                     </div>
@@ -180,9 +178,7 @@ export function ProductTable({
                   <TableCell className="px-6 py-4">
                     {product.category?.name?.toLowerCase() === "pre owned" ? (
                       <button
-                        onClick={() =>
-                          onToggleFeatured(product.id, !currentFeatured)
-                        }
+                        onClick={() => onToggleFeatured(product.id, !currentFeatured)}
                         title={currentFeatured ? "Remove from featured" : "Mark as featured"}
                         className="flex items-center gap-1.5 cursor-pointer"
                       >
@@ -212,14 +208,16 @@ export function ProductTable({
                       <Link
                         href={`/admin/products/${product.slug}/edit`}
                         className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                        title="Edit">
+                        title="Edit"
+                      >
                         <Edit2 className="w-4 h-4" />
                       </Link>
                       <button
                         onClick={() => onDelete(product.id)}
                         disabled={isDeleting}
                         className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                        title="Delete">
+                        title="Delete"
+                      >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>

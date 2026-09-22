@@ -36,7 +36,7 @@ export const useCreateBlogCategory = () => {
       queryClient.invalidateQueries({ queryKey: blogCategoryKeys.lists() });
       toast.success("Blog category created successfully");
     },
-    onError: (error: AxiosError<{message?: string}>) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       toast.error(error.response?.data?.message || "Failed to create blog category");
     },
   });
@@ -53,7 +53,7 @@ export const useUpdateBlogCategory = () => {
       queryClient.invalidateQueries({ queryKey: blogCategoryKeys.detail(variables.id) });
       toast.success("Blog category updated successfully");
     },
-    onError: (error: AxiosError<{message?: string}>) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       toast.error(error.response?.data?.message || "Failed to update blog category");
     },
   });
@@ -68,7 +68,7 @@ export const useDeleteBlogCategory = () => {
       queryClient.invalidateQueries({ queryKey: blogCategoryKeys.lists() });
       toast.success("Blog category deleted successfully");
     },
-    onError: (error: AxiosError<{message?: string}>) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       toast.error(error.response?.data?.message || "Failed to delete blog category");
     },
   });

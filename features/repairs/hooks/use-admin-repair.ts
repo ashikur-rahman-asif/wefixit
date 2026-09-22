@@ -61,9 +61,7 @@ export const useDeleteRepairEvent = (reference: string) => {
       queryClient.invalidateQueries({ queryKey: ["adminRepairs"] });
     },
     onError: (error: AxiosError<{ message?: string }>) => {
-      toast.error(
-        error?.response?.data?.message || "Failed to remove timeline event"
-      );
+      toast.error(error?.response?.data?.message || "Failed to remove timeline event");
     },
   });
 };

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+echo "Running pre-commit checks..."
+
+# Step 1: Run lint-staged (Prettier + ESLint on staged files)
+echo "\nStep 1/2 - Linting and formatting staged files..."
+pnpm exec lint-staged
+if [ $? -ne 0 ]; then
+  echo "\nLint-staged failed. Fix the errors above before committing."
+  exit 1
+fi
+
+# Step 2: TypeScript type check (full project)
+echo "\nStep 2/2 - Running TypeScript type check..."
+pnpm exec tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo "\nTypeScript errors found. Fix them before committing."
+  exit 1
+fi
+
+echo "\nAll checks passed! Committing..."

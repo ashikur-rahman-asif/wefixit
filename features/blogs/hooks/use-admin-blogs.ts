@@ -36,7 +36,7 @@ export const useCreateBlog = () => {
       queryClient.invalidateQueries({ queryKey: blogKeys.lists() });
       toast.success("Blog created successfully");
     },
-    onError: (error: AxiosError<{message?: string, errors?: Record<string, string[]>}>) => {
+    onError: (error: AxiosError<{ message?: string; errors?: Record<string, string[]> }>) => {
       if (error.response?.data?.errors) {
         const firstError = Object.values(error.response.data.errors)[0] as string[];
         toast.error(firstError[0] || "Failed to create blog");
@@ -58,7 +58,7 @@ export const useUpdateBlog = () => {
       queryClient.invalidateQueries({ queryKey: blogKeys.detail(variables.id) });
       toast.success("Blog updated successfully");
     },
-    onError: (error: AxiosError<{message?: string, errors?: Record<string, string[]>}>) => {
+    onError: (error: AxiosError<{ message?: string; errors?: Record<string, string[]> }>) => {
       if (error.response?.data?.errors) {
         const firstError = Object.values(error.response.data.errors)[0] as string[];
         toast.error(firstError[0] || "Failed to update blog");
@@ -78,7 +78,7 @@ export const useDeleteBlog = () => {
       queryClient.invalidateQueries({ queryKey: blogKeys.lists() });
       toast.success("Blog deleted successfully");
     },
-    onError: (error: AxiosError<{message?: string, errors?: Record<string, string[]>}>) => {
+    onError: (error: AxiosError<{ message?: string; errors?: Record<string, string[]> }>) => {
       toast.error(error.response?.data?.message || "Failed to delete blog");
     },
   });

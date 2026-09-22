@@ -17,7 +17,7 @@ export const usePublicProducts = (params?: UsePublicProductsParams) => {
   return useQuery({
     queryKey: ["public-products", params],
     queryFn: () => publicProductsApi.getProducts(params),
-    staleTime: 1000 * 60 * 3, 
+    staleTime: 1000 * 60 * 3,
   });
 };
 
@@ -25,7 +25,7 @@ export const usePublicProductDetails = (slug: string) => {
   return useQuery({
     queryKey: ["public-product", slug],
     queryFn: () => publicProductsApi.getProductBySlug(slug),
-    staleTime: 1000 * 60 * 3, 
+    staleTime: 1000 * 60 * 3,
     enabled: !!slug,
   });
 };

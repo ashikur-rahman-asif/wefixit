@@ -6,11 +6,7 @@ export function DeliveryBoyIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `${id}-clip`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" {...props}>
       <g fillRule="evenodd" clipPath={`url(#${clipId})`} clipRule="evenodd">
         <path
           fill="#fcd770"

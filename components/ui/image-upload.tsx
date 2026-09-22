@@ -9,11 +9,11 @@ interface ImageUploadProps {
   value?: File | string | null;
   onChange: (file: File | null) => void;
   className?: string;
-  
+
   maxSizeKB?: number;
-  
+
   exactDimensions?: { width: number; height: number };
-  
+
   maxDimensions?: { width: number; height: number };
 }
 
@@ -42,7 +42,7 @@ export function ImageUpload({
     (file: File) => {
       onChange(file);
     },
-    [onChange]
+    [onChange],
   );
 
   const onDrop = useCallback(
@@ -54,7 +54,7 @@ export function ImageUpload({
         handleFile(file);
       }
     },
-    [handleFile]
+    [handleFile],
   );
 
   const onFileChange = useCallback(
@@ -65,7 +65,7 @@ export function ImageUpload({
       }
       e.target.value = "";
     },
-    [handleFile]
+    [handleFile],
   );
 
   const handleRemove = useCallback(
@@ -73,7 +73,7 @@ export function ImageUpload({
       e.stopPropagation();
       onChange(null);
     },
-    [onChange]
+    [onChange],
   );
 
   const getPreviewUrl = () => {
@@ -104,7 +104,7 @@ export function ImageUpload({
             ? "border-brand bg-brand/5"
             : "border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300",
           previewUrl ? "border-solid border-gray-200" : "",
-          className
+          className,
         )}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -121,12 +121,7 @@ export function ImageUpload({
 
         {previewUrl ? (
           <div className="relative w-full h-full min-h-40 flex items-center justify-center bg-gray-100">
-            <Image
-              src={previewUrl}
-              alt="Preview"
-              fill
-              className="object-contain p-4"
-            />
+            <Image src={previewUrl} alt="Preview" fill className="object-contain p-4" />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button
                 type="button"
@@ -151,9 +146,7 @@ export function ImageUpload({
         )}
       </div>
 
-      {recommendationText && (
-        <p className="text-xs text-gray-400">{recommendationText}</p>
-      )}
+      {recommendationText && <p className="text-xs text-gray-400">{recommendationText}</p>}
     </div>
   );
 }

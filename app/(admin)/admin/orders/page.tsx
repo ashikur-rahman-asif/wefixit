@@ -72,9 +72,7 @@ function AdminOrdersContent() {
       />
 
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-[28px] font-bold text-titleBlack leading-none">
-          Orders Management
-        </h1>
+        <h1 className="text-[28px] font-bold text-titleBlack leading-none">Orders Management</h1>
       </div>
 
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
@@ -96,7 +94,8 @@ function AdminOrdersContent() {
 
             <Select
               value={status}
-              onValueChange={(val: string | null) => handleFilterChange("status", val || "")}>
+              onValueChange={(val: string | null) => handleFilterChange("status", val || "")}
+            >
               <SelectTrigger className="w-full md:w-[150px] h-10 border-gray-200 text-titleBlack">
                 <SelectValue placeholder="Status">
                   {status === "all"
@@ -138,7 +137,8 @@ function AdminOrdersContent() {
 
             <Select
               value={paymentStatus}
-              onValueChange={(val: string | null) => handleFilterChange("paymentStatus", val || "")}>
+              onValueChange={(val: string | null) => handleFilterChange("paymentStatus", val || "")}
+            >
               <SelectTrigger className="w-full md:w-[150px] h-10 border-gray-200 text-titleBlack">
                 <SelectValue placeholder="Payment">
                   {paymentStatus === "all"
@@ -208,9 +208,7 @@ function AdminOrdersContent() {
             <TableBody className="divide-y divide-gray-50 relative">
               {isLoading && (
                 <TableRow>
-                  <TableCell
-                    colSpan={8}
-                    className="h-32 text-center text-textGray">
+                  <TableCell colSpan={8} className="h-32 text-center text-textGray">
                     <div className="flex items-center justify-center">
                       <Loader size="md" />
                     </div>
@@ -221,7 +219,8 @@ function AdminOrdersContent() {
                 <TableRow>
                   <TableCell
                     colSpan={8}
-                    className="px-6 py-12 text-center text-gray-600 font-medium">
+                    className="px-6 py-12 text-center text-gray-600 font-medium"
+                  >
                     No orders found matching your criteria.
                   </TableCell>
                 </TableRow>
@@ -230,10 +229,9 @@ function AdminOrdersContent() {
                 orders.map((order) => (
                   <TableRow
                     key={order.id}
-                    onClick={() =>
-                      router.push(`/admin/orders/${order.reference}`)
-                    }
-                    className="hover:bg-gray-50/50 border-none transition-colors cursor-pointer">
+                    onClick={() => router.push(`/admin/orders/${order.reference}`)}
+                    className="hover:bg-gray-50/50 border-none transition-colors cursor-pointer"
+                  >
                     <TableCell className="px-6 py-4 text-titleBlack text-sm font-semibold">
                       {order.reference}
                     </TableCell>
@@ -265,7 +263,8 @@ function AdminOrdersContent() {
                         className={cn(
                           "px-3 py-1 rounded-full text-xs font-semibold capitalize",
                           getPaymentStatusColor(order.paymentStatus),
-                        )}>
+                        )}
+                      >
                         {order.paymentStatusLabel}
                       </span>
                     </TableCell>
@@ -274,7 +273,8 @@ function AdminOrdersContent() {
                         className={cn(
                           "px-3 py-1 rounded-full text-xs font-semibold capitalize",
                           getOrderStatusColor(order.status),
-                        )}>
+                        )}
+                      >
                         {order.statusLabel}
                       </span>
                     </TableCell>
@@ -285,7 +285,8 @@ function AdminOrdersContent() {
                             className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
-                            viewBox="0 0 24 24">
+                            viewBox="0 0 24 24"
+                          >
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -308,7 +309,8 @@ function AdminOrdersContent() {
                           }}
                           disabled={deleteMutation.isPending}
                           className="inline-flex items-center justify-center bg-white border border-gray-200 text-red-500 w-8 h-8 rounded-lg hover:bg-red-50 hover:text-red-600 hover:border-red-100 shadow-sm transition-all duration-200 cursor-pointer disabled:opacity-50"
-                          title="Delete Order">
+                          title="Delete Order"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -325,7 +327,8 @@ function AdminOrdersContent() {
               <span>Show :</span>
               <Select
                 value={perPage.toString()}
-                onValueChange={(val: string | null) => handleFilterChange("perPage", val || "")}>
+                onValueChange={(val: string | null) => handleFilterChange("perPage", val || "")}
+              >
                 <SelectTrigger className="w-[70px] h-9 border-gray-200 focus:ring-0 focus:ring-offset-0 text-titleBlack">
                   <SelectValue placeholder="15" />
                 </SelectTrigger>
@@ -340,15 +343,10 @@ function AdminOrdersContent() {
             <div className="flex items-center gap-3">
               <button
                 disabled={meta.currentPage === 1}
-                onClick={() =>
-                  handleFilterChange("page", String(meta.currentPage - 1))
-                }
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
+                onClick={() => handleFilterChange("page", String(meta.currentPage - 1))}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -358,55 +356,47 @@ function AdminOrdersContent() {
                 </svg>
               </button>
               <div className="flex">
-                {Array.from({ length: meta.lastPage }, (_, i) => i + 1).map(
-                  (p) => {
-                    if (
-                      p === 1 ||
-                      p === meta.lastPage ||
-                      (p >= meta.currentPage - 1 && p <= meta.currentPage + 1)
-                    ) {
-                      return (
-                        <button
-                          key={p}
-                          onClick={() => handleFilterChange("page", String(p))}
-                          className={cn(
-                            "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
-                            meta.currentPage === p
-                              ? "bg-brand text-white border border-brand z-10"
-                              : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
-                            p === 1 && "rounded-l-md border-l",
-                            p === meta.lastPage && "rounded-r-md",
-                          )}>
-                          {p}
-                        </button>
-                      );
-                    } else if (
-                      p === meta.currentPage - 2 ||
-                      p === meta.currentPage + 2
-                    ) {
-                      return (
-                        <span
-                          key={p}
-                          className="w-9 h-9 flex items-center justify-center text-textGray border-t border-b border-r border-gray-200">
-                          ...
-                        </span>
-                      );
-                    }
-                    return null;
-                  },
-                )}
+                {Array.from({ length: meta.lastPage }, (_, i) => i + 1).map((p) => {
+                  if (
+                    p === 1 ||
+                    p === meta.lastPage ||
+                    (p >= meta.currentPage - 1 && p <= meta.currentPage + 1)
+                  ) {
+                    return (
+                      <button
+                        key={p}
+                        onClick={() => handleFilterChange("page", String(p))}
+                        className={cn(
+                          "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
+                          meta.currentPage === p
+                            ? "bg-brand text-white border border-brand z-10"
+                            : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
+                          p === 1 && "rounded-l-md border-l",
+                          p === meta.lastPage && "rounded-r-md",
+                        )}
+                      >
+                        {p}
+                      </button>
+                    );
+                  } else if (p === meta.currentPage - 2 || p === meta.currentPage + 2) {
+                    return (
+                      <span
+                        key={p}
+                        className="w-9 h-9 flex items-center justify-center text-textGray border-t border-b border-r border-gray-200"
+                      >
+                        ...
+                      </span>
+                    );
+                  }
+                  return null;
+                })}
               </div>
               <button
                 disabled={meta.currentPage === meta.lastPage}
-                onClick={() =>
-                  handleFilterChange("page", String(meta.currentPage + 1))
-                }
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
+                onClick={() => handleFilterChange("page", String(meta.currentPage + 1))}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -426,11 +416,8 @@ function AdminOrdersContent() {
 export default function AdminOrdersPage() {
   return (
     <Suspense
-      fallback={
-        <div className="p-6 text-center text-gray-600 font-medium">
-          Loading orders...
-        </div>
-      }>
+      fallback={<div className="p-6 text-center text-gray-600 font-medium">Loading orders...</div>}
+    >
       <AdminOrdersContent />
     </Suspense>
   );

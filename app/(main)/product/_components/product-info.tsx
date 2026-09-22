@@ -20,27 +20,34 @@ export function ProductInfo({ product }: ProductInfoProps) {
       )}
 
       <div className="flex items-center gap-2 my-3">
-        <StarRating rating={product.reviewsCount && product.reviewsCount > 0 ? (product.rating || 0) : 0} />
+        <StarRating
+          rating={product.reviewsCount && product.reviewsCount > 0 ? product.rating || 0 : 0}
+        />
         <p className="text-secondary text-sm md:text-lg font-medium font-sans">
-          {product.reviewsCount && product.reviewsCount > 0 ? `${product.reviewsCount} Reviews` : "0 Review"}
+          {product.reviewsCount && product.reviewsCount > 0
+            ? `${product.reviewsCount} Reviews`
+            : "0 Review"}
         </p>
       </div>
 
       <div className="flex items-center gap-3 my-3">
-        <p className="text-brand font-bold text-2xl md:text-[28px]">${product.discountPrice || product.price}</p>
+        <p className="text-brand font-bold text-2xl md:text-[28px]">
+          ${product.discountPrice || product.price}
+        </p>
         {product.discountPrice && (
-          <del className="text-primary font-medium text-base md:text-lg">
-            ${product.price}
-          </del>
+          <del className="text-primary font-medium text-base md:text-lg">${product.price}</del>
         )}
       </div>
-      
+
       {product.discountPrice && (
         <div className="flex items-center gap-2 my-3">
           <LabelIcon className="w-4 h-4 shrink-0" />
           <p className="text-primary text-sm md:text-base font-medium font-sans">
-            Save <span className="font-bold">
-              {calculateDiscountPercentage(product.price, product.discountPrice)}</span>% right now!
+            Save{" "}
+            <span className="font-bold">
+              {calculateDiscountPercentage(product.price, product.discountPrice)}
+            </span>
+            % right now!
           </p>
         </div>
       )}

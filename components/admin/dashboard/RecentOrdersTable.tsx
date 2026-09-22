@@ -22,11 +22,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export function RecentOrdersTable({
-  recentOrders,
-}: {
-  recentOrders: RecentOrder[];
-}) {
+export function RecentOrdersTable({ recentOrders }: { recentOrders: RecentOrder[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,19 +39,14 @@ export function RecentOrdersTable({
 
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedOrders = filteredOrders.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
+  const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
       <div className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-100">
         <div className="flex items-center gap-3">
           <div className="w-1.5 h-6 bg-titleBlack rounded-full"></div>
-          <h2 className="text-[18px] font-bold text-titleBlack">
-            Recent Orders
-          </h2>
+          <h2 className="text-[18px] font-bold text-titleBlack">Recent Orders</h2>
         </div>
 
         <div className="flex items-center gap-4">
@@ -67,12 +58,15 @@ export function RecentOrdersTable({
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
-              } }
-              className="py-2 text-sm" label={""}            />
+              }}
+              className="py-2 text-sm"
+              label={""}
+            />
           </div>
-          <button 
+          <button
             onClick={() => router.push("/admin/orders")}
-            className="bg-brand text-white px-4 py-2 rounded-lg text-[13px] font-medium hover:bg-blue-700 transition-colors cursor-pointer">
+            className="bg-brand text-white px-4 py-2 rounded-lg text-[13px] font-medium hover:bg-blue-700 transition-colors cursor-pointer"
+          >
             View All Orders
           </button>
         </div>
@@ -124,7 +118,8 @@ export function RecentOrdersTable({
                 <TableRow
                   key={idx}
                   onClick={() => router.push(`/admin/orders/${order.reference}`)}
-                  className="hover:bg-gray-50/50 border-none transition-colors cursor-pointer">
+                  className="hover:bg-gray-50/50 border-none transition-colors cursor-pointer"
+                >
                   <TableCell className="px-6 py-4 text-titleBlack text-sm font-semibold">
                     {order.reference}
                   </TableCell>
@@ -145,14 +140,14 @@ export function RecentOrdersTable({
                     <div className="flex items-center gap-2">
                       <div
                         className="flex items-center justify-center w-4 h-4 rounded-full"
-                        style={{ backgroundColor: orderType.bgColor }}>
+                        style={{ backgroundColor: orderType.bgColor }}
+                      >
                         <div
                           className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: orderType.color }}></div>
+                          style={{ backgroundColor: orderType.color }}
+                        ></div>
                       </div>
-                      <span
-                        className="text-sm font-semibold"
-                        style={{ color: orderType.color }}>
+                      <span className="text-sm font-semibold" style={{ color: orderType.color }}>
                         {orderType.label}
                       </span>
                     </div>
@@ -168,25 +163,23 @@ export function RecentOrdersTable({
                     })}
                   </TableCell>
                   <TableCell className="px-6 py-4 font-semibold">
-                    <span 
+                    <span
                       className={cn(
                         "px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide",
-                        getPaymentStatusColor(order.paymentStatus)
+                        getPaymentStatusColor(order.paymentStatus),
                       )}
                     >
                       {order.paymentStatus === "paid" ? "Yes" : "No"}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 font-semibold">
-                    <span 
+                    <span
                       className={cn(
                         "px-3 py-1 rounded-full text-xs font-semibold capitalize tracking-wide",
-                        getOrderStatusColor(order.status)
+                        getOrderStatusColor(order.status),
                       )}
                     >
-                      {order.status === "pending_payment"
-                        ? "Pending"
-                        : order.status}
+                      {order.status === "pending_payment" ? "Pending" : order.status}
                     </span>
                   </TableCell>
                   <TableCell className="px-6 py-4 font-semibold text-right">
@@ -199,9 +192,7 @@ export function RecentOrdersTable({
             })}
             {paginatedOrders.length === 0 && (
               <TableRow>
-                <TableCell
-                  colSpan={9}
-                  className="px-6 py-8 text-center text-gray-600 font-medium">
+                <TableCell colSpan={9} className="px-6 py-8 text-center text-gray-600 font-medium">
                   No orders found.
                 </TableCell>
               </TableRow>
@@ -219,7 +210,8 @@ export function RecentOrdersTable({
               onValueChange={(val: string | null) => {
                 setItemsPerPage(Number(val));
                 setCurrentPage(1);
-              }}>
+              }}
+            >
               <SelectTrigger className="w-[70px] h-9 border-gray-200 focus:ring-0 focus:ring-offset-0 text-titleBlack">
                 <SelectValue placeholder="5" />
               </SelectTrigger>
@@ -236,54 +228,47 @@ export function RecentOrdersTable({
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M15 19l-7-7 7-7"></path>
+                  d="M15 19l-7-7 7-7"
+                ></path>
               </svg>
             </button>
             <div className="flex">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={cn(
-                      "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
-                      currentPage === page
-                        ? "bg-[#5161ff] text-white border border-[#5161ff] z-10"
-                        : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
-                      page === 1 && "rounded-l-md border-l",
-                      page === totalPages && "rounded-r-md"
-                    )}>
-                    {page}
-                  </button>
-                ),
-              )}
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={cn(
+                    "w-9 h-9 flex items-center justify-center font-medium transition-colors cursor-pointer",
+                    currentPage === page
+                      ? "bg-[#5161ff] text-white border border-[#5161ff] z-10"
+                      : "text-titleBlack border-t border-b border-r border-gray-200 hover:bg-gray-50",
+                    page === 1 && "rounded-l-md border-l",
+                    page === totalPages && "rounded-r-md",
+                  )}
+                >
+                  {page}
+                </button>
+              ))}
             </div>
             <button
               disabled={currentPage === totalPages}
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-textGray hover:bg-gray-100 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M9 5l7 7-7 7"></path>
+                  d="M9 5l7 7-7 7"
+                ></path>
               </svg>
             </button>
           </div>

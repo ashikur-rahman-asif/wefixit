@@ -8,14 +8,7 @@ import { usePublicBrands } from "@/features/brands/hooks/use-public-brands";
 import { usePublicServices } from "@/features/services/hooks/use-public-services";
 import { useSubmitRepair } from "@/features/repairs/hooks/use-submit-repair";
 
-export const WIZARD_STEPS = [
-  "Device",
-  "Brands",
-  "Service",
-  "Handover",
-  "Info",
-  "Confirmation",
-];
+export const WIZARD_STEPS = ["Device", "Brands", "Service", "Handover", "Info", "Confirmation"];
 
 export function useRepairWizard() {
   const { data: devicesResponse, isLoading: isLoadingDevices } = usePublicDevices();
@@ -46,16 +39,15 @@ export function useRepairWizard() {
 
   const storeData = useRepairStore();
 
-  const selectedDeviceObj = devices.find(
-    (d) => d.name === storeData.selectedDevice
-  );
+  const selectedDeviceObj = devices.find((d) => d.name === storeData.selectedDevice);
 
   const currentBrands = brands.filter((brand) =>
-    brand.deviceIds?.includes(Number(selectedDeviceObj?.id))
+    brand.deviceIds?.includes(Number(selectedDeviceObj?.id)),
   );
 
-  const currentServices = services.filter((service) => 
-    service.deviceIds?.includes(Number(selectedDeviceObj?.id)) || !service.deviceIds?.length
+  const currentServices = services.filter(
+    (service) =>
+      service.deviceIds?.includes(Number(selectedDeviceObj?.id)) || !service.deviceIds?.length,
   );
 
   const currentStepParam = searchParams.get("step");
@@ -99,12 +91,9 @@ export function useRepairWizard() {
     if (user) {
       if (!storeData.firstName && user.first_name)
         storeData.updateField("firstName", user.first_name);
-      if (!storeData.lastName && user.last_name)
-        storeData.updateField("lastName", user.last_name);
-      if (!storeData.email && user.email)
-        storeData.updateField("email", user.email);
-      if (!storeData.phone && user.phone)
-        storeData.updateField("phone", user.phone);
+      if (!storeData.lastName && user.last_name) storeData.updateField("lastName", user.last_name);
+      if (!storeData.email && user.email) storeData.updateField("email", user.email);
+      if (!storeData.phone && user.phone) storeData.updateField("phone", user.phone);
     }
   };
 
@@ -230,10 +219,11 @@ export function useRepairWizard() {
       (currentIndex >= 2 && !storeData.selectedBrand)) &&
     currentStep !== "Confirmation";
 
-  const isGlobalLoading = !isMounted || (currentStep !== "Confirmation" && (isInvalidStep || isLoadingDevices || isLoadingBrands));
+  const isGlobalLoading =
+    !isMounted ||
+    (currentStep !== "Confirmation" && (isInvalidStep || isLoadingDevices || isLoadingBrands));
 
   return {
-    
     devices,
     currentBrands,
     currentServices,

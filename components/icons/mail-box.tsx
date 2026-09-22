@@ -1,13 +1,8 @@
-import { SVGProps } from 'react';
+import { SVGProps } from "react";
 
 export function MailBoxIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 65 64"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 65 64" fill="none" {...props}>
       <g clipPath="url(#a)">
         <path
           fill="#F1F2F2"

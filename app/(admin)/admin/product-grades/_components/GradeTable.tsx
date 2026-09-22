@@ -19,13 +19,7 @@ interface GradeTableProps {
   onDelete: (id: number) => void;
 }
 
-export function GradeTable({
-  grades,
-  isLoading,
-  isDeleting,
-  onEdit,
-  onDelete,
-}: GradeTableProps) {
+export function GradeTable({ grades, isLoading, isDeleting, onEdit, onDelete }: GradeTableProps) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
       <Table>
@@ -48,19 +42,13 @@ export function GradeTable({
         <TableBody className="divide-y divide-gray-50">
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={4}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+              <TableCell colSpan={4} className="h-32 text-center text-gray-600 font-medium">
                 Loading product grades...
               </TableCell>
             </TableRow>
           ) : grades?.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={4}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+              <TableCell colSpan={4} className="h-32 text-center text-gray-600 font-medium">
                 No product grades found. Add one to get started.
               </TableCell>
             </TableRow>

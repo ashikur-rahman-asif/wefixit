@@ -28,9 +28,7 @@ export default function NotFound() {
         </p>
       </div>
 
-      <Link
-        href="/"
-        className={cn(buttonVariants({ size: "lg" }), "mt-2 px-10")}>
+      <Link href="/" className={cn(buttonVariants({ size: "lg" }), "mt-2 px-10")}>
         Home
       </Link>
     </Container>

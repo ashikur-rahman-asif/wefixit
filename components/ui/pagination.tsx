@@ -8,12 +8,7 @@ interface PaginationProps {
   className?: string;
 }
 
-export function Pagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-  className,
-}: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange, className }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = [];
@@ -26,10 +21,10 @@ export function Pagination({
   } else {
     pages.push(1);
     if (currentPage > 3) pages.push("...");
-    
+
     let start = Math.max(2, currentPage - 1);
     let end = Math.min(totalPages - 1, currentPage + 1);
-    
+
     if (currentPage <= 3) {
       end = 4;
     } else if (currentPage >= totalPages - 2) {
@@ -54,7 +49,7 @@ export function Pagination({
         <ChevronLeft className="w-4 h-4" />
       </button>
 
-      {pages.map((page, i) => (
+      {pages.map((page, i) =>
         typeof page === "number" ? (
           <button
             key={i}
@@ -63,7 +58,7 @@ export function Pagination({
               "w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-colors",
               currentPage === page
                 ? "bg-brand text-white border border-brand"
-                : "border border-gray-200 text-gray-600 hover:bg-gray-50"
+                : "border border-gray-200 text-gray-600 hover:bg-gray-50",
             )}
           >
             {page}
@@ -72,8 +67,8 @@ export function Pagination({
           <div key={i} className="w-9 h-9 flex items-center justify-center text-gray-400">
             <MoreHorizontal className="w-4 h-4" />
           </div>
-        )
-      ))}
+        ),
+      )}
 
       <button
         onClick={() => onPageChange(currentPage + 1)}

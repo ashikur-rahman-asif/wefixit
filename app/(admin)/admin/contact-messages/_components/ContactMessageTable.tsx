@@ -35,12 +35,8 @@ export function ContactMessageTable({ messages, isLoading, onView }: Props) {
         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
           <Mail className="w-8 h-8 text-gray-400" />
         </div>
-        <h3 className="text-lg font-semibold text-titleBlack mb-1">
-          No messages found
-        </h3>
-        <p className="text-textGray">
-          There are no contact messages matching your criteria.
-        </p>
+        <h3 className="text-lg font-semibold text-titleBlack mb-1">No messages found</h3>
+        <p className="text-textGray">There are no contact messages matching your criteria.</p>
       </div>
     );
   }
@@ -74,22 +70,14 @@ export function ContactMessageTable({ messages, isLoading, onView }: Props) {
                 key={msg.id}
                 className={cn(
                   "border-b border-gray-50 transition-colors cursor-pointer",
-                  msg.status === "new" ? "bg-brand/5 hover:bg-brand/10" : "hover:bg-gray-50"
+                  msg.status === "new" ? "bg-brand/5 hover:bg-brand/10" : "hover:bg-gray-50",
                 )}
                 onClick={() => onView(msg)}
               >
                 <TableCell className="px-6 py-4">
-                  <div className="font-semibold text-titleBlack text-sm">
-                    {msg.name}
-                  </div>
-                  <div className="text-gray-500 font-medium text-xs mt-0.5">
-                    {msg.email}
-                  </div>
-                  {msg.phone && (
-                    <div className="text-gray-400 text-[11px] mt-0.5">
-                      {msg.phone}
-                    </div>
-                  )}
+                  <div className="font-semibold text-titleBlack text-sm">{msg.name}</div>
+                  <div className="text-gray-500 font-medium text-xs mt-0.5">{msg.email}</div>
+                  {msg.phone && <div className="text-gray-400 text-[11px] mt-0.5">{msg.phone}</div>}
                 </TableCell>
                 <TableCell className="px-6 py-4">
                   <div className="text-sm font-medium text-gray-800 line-clamp-1 max-w-[300px]">
@@ -109,8 +97,8 @@ export function ContactMessageTable({ messages, isLoading, onView }: Props) {
                       msg.status === "new"
                         ? "bg-red-50 text-red-600"
                         : msg.status === "read"
-                        ? "bg-blue-50 text-blue-600"
-                        : "bg-green-50 text-green-600"
+                          ? "bg-blue-50 text-blue-600"
+                          : "bg-green-50 text-green-600",
                     )}
                   >
                     {msg.status === "new" && <Inbox className="w-3.5 h-3.5" />}

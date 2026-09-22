@@ -31,13 +31,15 @@ export function SectionTitle({
           "items-end text-right": align === "right",
         },
         className,
-      )}>
+      )}
+    >
       {subtitle && (
         <span
           className={cn(
             "text-[16px] font-bold text-brand uppercase tracking-[0.2em] leading-normal",
             subtitleClassName,
-          )}>
+          )}
+        >
           {subtitle}
         </span>
       )}
@@ -45,7 +47,8 @@ export function SectionTitle({
         className={cn(
           "text-[28px] md:text-[40px] font-bold text-primary  md:tracking-[-1px] leading-[1.2] md:leading-[1.15]",
           titleClassName,
-        )}>
+        )}
+      >
         {title}
       </h2>
       {description && (
@@ -58,7 +61,8 @@ export function SectionTitle({
               "ml-auto": align === "right",
             },
             descriptionClassName,
-          )}>
+          )}
+        >
           {description}
         </p>
       )}

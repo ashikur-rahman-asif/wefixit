@@ -7,7 +7,7 @@ export const useDevices = () => {
   return useQuery({
     queryKey: ["adminDevices"],
     queryFn: devicesApi.getDevices,
-    staleTime: 1000 * 60 * 20, 
+    staleTime: 1000 * 60 * 20,
   });
 };
 

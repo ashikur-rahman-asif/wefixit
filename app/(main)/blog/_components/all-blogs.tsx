@@ -9,7 +9,7 @@ import { Blog } from "@/features/blogs/types/blog.types";
 import { format } from "date-fns";
 
 function stripTags(html: string) {
-  return html.replace(/<[^>]*>?/gm, '');
+  return html.replace(/<[^>]*>?/gm, "");
 }
 
 interface AllBlogsProps {
@@ -58,10 +58,14 @@ export function AllBlogs({ blogs, meta }: AllBlogsProps) {
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              
+
               <div className="flex flex-col flex-1 py-1 md:py-2">
                 <div className="flex items-center gap-2 text-secondary text-xs md:text-sm font-semibold mb-2 md:mb-3">
-                  <span>{article.published_at ? format(new Date(article.published_at), "d MMM yyyy") : format(new Date(article.created_at), "d MMM yyyy")}</span>
+                  <span>
+                    {article.published_at
+                      ? format(new Date(article.published_at), "d MMM yyyy")
+                      : format(new Date(article.created_at), "d MMM yyyy")}
+                  </span>
                   <span className="size-1 bg-secondary/60 rounded-full"></span>
                   <span>{article.category?.name || "General"}</span>
                 </div>

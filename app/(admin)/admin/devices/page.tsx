@@ -23,7 +23,7 @@ export default function DevicesPage() {
 
   const { data: response, isLoading } = useDevices();
   const devices = response?.data || [];
-  
+
   const createMutation = useCreateDevice();
   const updateMutation = useUpdateDevice();
   const deleteMutation = useDeleteDevice();
@@ -43,18 +43,21 @@ export default function DevicesPage() {
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
     formData.append("isActive", data.is_active ? "1" : "0");
-    
+
     if (data.icon && data.icon instanceof File) {
       formData.append("icon", data.icon);
     }
 
     if (editingDevice) {
-      updateMutation.mutate({ id: editingDevice.id, data: formData }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingDevice.id, data: formData },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -93,12 +96,12 @@ export default function DevicesPage() {
       const id = Number(idStr);
       const device = devices.find((d) => d.id === id);
       if (!device) return Promise.resolve();
-      
+
       const formData = new FormData();
       formData.append("name", device.name);
       if (device.slug) formData.append("slug", device.slug);
       formData.append("isActive", newStatus ? "1" : "0");
-      
+
       return updateMutation.mutateAsync({ id, data: formData });
     });
 
@@ -124,9 +127,7 @@ export default function DevicesPage() {
       />
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Devices
-          </h1>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Devices</h1>
           <p className="text-textGray text-sm">
             Manage device types for the catalog (e.g., Phones, Tablets)
           </p>

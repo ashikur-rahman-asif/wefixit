@@ -37,10 +37,7 @@ export function MultiSelect({
     if (!isOpen) return;
 
     const handleOutsideClick = (event: PointerEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -80,7 +77,7 @@ export function MultiSelect({
           className={cn(
             "flex min-h-12 w-full items-center justify-between rounded-lg border bg-transparent px-3 py-2 text-sm ring-offset-background cursor-pointer transition duration-200",
             error ? "border-red-500" : "border-gray-200 hover:border-brand",
-            isOpen && "ring-[1.8px] ring-brand/50 border-brand"
+            isOpen && "ring-[1.8px] ring-brand/50 border-brand",
           )}
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -106,7 +103,7 @@ export function MultiSelect({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        isSelected ? "opacity-100 text-brand" : "opacity-0"
+                        isSelected ? "opacity-100 text-brand" : "opacity-0",
                       )}
                     />
                     <span>{option.label}</span>

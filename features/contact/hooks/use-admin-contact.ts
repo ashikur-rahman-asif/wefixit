@@ -22,13 +22,8 @@ export const useUpdateContactMessage = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: number;
-      data: { status?: string; admin_notes?: string };
-    }) => updateContactMessage(id, data),
+    mutationFn: ({ id, data }: { id: number; data: { status?: string; admin_notes?: string } }) =>
+      updateContactMessage(id, data),
     onSuccess: () => {
       toast.success("Contact message updated successfully");
       queryClient.invalidateQueries({ queryKey: ["admin-contact-messages"] });

@@ -4,9 +4,7 @@ export function CartSkeleton() {
   return (
     <Container className="py-6 md:py-8">
       <div className="flex items-center gap-3 mb-8 md:mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary">
-          Shopping Cart
-        </h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary">Shopping Cart</h1>
         <div className="h-7 w-20 bg-muted animate-pulse rounded-full" />
       </div>
 
@@ -22,7 +20,8 @@ export function CartSkeleton() {
           {[1, 2].map((i) => (
             <div
               key={i}
-              className="flex flex-col md:grid md:grid-cols-12 gap-4 md:gap-6 items-center py-4 md:py-6 border-b border-border/60">
+              className="flex flex-col md:grid md:grid-cols-12 gap-4 md:gap-6 items-center py-4 md:py-6 border-b border-border/60"
+            >
               <div className="col-span-6 flex items-center gap-4 w-full">
                 <div className="size-20 md:size-24 rounded-2xl bg-muted animate-pulse shrink-0" />
                 <div className="flex flex-col gap-2 w-full">

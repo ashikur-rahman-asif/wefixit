@@ -41,14 +41,15 @@ export function TrackForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-md mt-8 px-4 md:px-0 flex flex-col gap-4">
-      
+      className="w-full max-w-md mt-8 px-4 md:px-0 flex flex-col gap-4"
+    >
       <div className="w-full">
         <div
           className={cn(
             "relative flex items-center w-full h-14 rounded-full overflow-hidden bg-white border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all",
-            errors.orderId ? "border-red-500" : "border-gray-200"
-          )}>
+            errors.orderId ? "border-red-500" : "border-gray-200",
+          )}
+        >
           <input
             type="text"
             placeholder="Tracking ID (e.g., ORD-... or WFX-...)"
@@ -59,7 +60,8 @@ export function TrackForm() {
           <div className="pr-1.5 shrink-0">
             <button
               type="submit"
-              className="flex items-center justify-center w-11 h-11 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+              className="flex items-center justify-center w-11 h-11 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
               <Search className="w-5 h-5" />
             </button>
           </div>
@@ -74,13 +76,15 @@ export function TrackForm() {
       <div
         className={cn(
           "w-full transition-all duration-300 ease-in-out overflow-hidden",
-          isOrder ? "max-h-24 opacity-100" : "max-h-0 opacity-0"
-        )}>
+          isOrder ? "max-h-24 opacity-100" : "max-h-0 opacity-0",
+        )}
+      >
         <div
           className={cn(
             "relative flex items-center w-full h-14 rounded-full overflow-hidden bg-white border focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all",
-            errors.email ? "border-red-500" : "border-gray-200"
-          )}>
+            errors.email ? "border-red-500" : "border-gray-200",
+          )}
+        >
           <input
             type="email"
             placeholder="Email address used for the order"
@@ -90,9 +94,7 @@ export function TrackForm() {
           />
         </div>
         {errors.email && (
-          <p className="text-red-500 text-sm mt-2 pl-4 text-left w-full">
-            {errors.email.message}
-          </p>
+          <p className="text-red-500 text-sm mt-2 pl-4 text-left w-full">{errors.email.message}</p>
         )}
       </div>
     </form>

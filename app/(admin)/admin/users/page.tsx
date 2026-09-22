@@ -22,18 +22,16 @@ import { AdminUser } from "@/types/admin";
 import { Suspense } from "react";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAdminUsers, useUpdateUserRoles, useUsersFilter } from "@/features/users/hooks/use-admin-users";
+import {
+  useAdminUsers,
+  useUpdateUserRoles,
+  useUsersFilter,
+} from "@/features/users/hooks/use-admin-users";
 import { UpdateRoleModal } from "@/components/admin/UpdateRoleModal";
 
 function AdminUsersContent() {
-  const {
-    perPage,
-    role,
-    searchQuery,
-    setSearchQuery,
-    queryParams,
-    handleFilterChange,
-  } = useUsersFilter();
+  const { perPage, role, searchQuery, setSearchQuery, queryParams, handleFilterChange } =
+    useUsersFilter();
 
   const { data, isLoading } = useAdminUsers(queryParams);
   const updateRoleMutation = useUpdateUserRoles();
@@ -49,7 +47,7 @@ function AdminUsersContent() {
         { id: userToUpdate.id, roles },
         {
           onSettled: () => setUserToUpdate(null),
-        }
+        },
       );
     }
   };
@@ -68,9 +66,7 @@ function AdminUsersContent() {
         <div className="flex flex-col gap-4">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Users</h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Manage system users and their roles
-            </p>
+            <p className="text-sm text-gray-500 mt-1">Manage system users and their roles</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-100">
@@ -105,9 +101,7 @@ function AdminUsersContent() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500 whitespace-nowrap">
-                Show
-              </span>
+              <span className="text-sm text-gray-500 whitespace-nowrap">Show</span>
               <Select
                 value={perPage.toString()}
                 onValueChange={(val: string | null) => handleFilterChange("perPage", val || "")}
@@ -145,7 +139,9 @@ function AdminUsersContent() {
                     <TableCell colSpan={7} className="h-[400px] text-center">
                       <div className="flex flex-col items-center justify-center gap-3">
                         <Loader size="md" />
-                        <p className="text-muted-foreground text-sm font-medium">Loading users...</p>
+                        <p className="text-muted-foreground text-sm font-medium">
+                          Loading users...
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -153,9 +149,7 @@ function AdminUsersContent() {
                   <TableRow>
                     <TableCell colSpan={7} className="h-[400px] text-center">
                       <div className="flex flex-col items-center justify-center text-gray-500">
-                        <p className="text-lg font-medium text-gray-900 mb-1">
-                          No users found
-                        </p>
+                        <p className="text-lg font-medium text-gray-900 mb-1">No users found</p>
                         <p>Try adjusting your search or filters.</p>
                       </div>
                     </TableCell>
@@ -163,7 +157,7 @@ function AdminUsersContent() {
                 ) : (
                   users.map((user) => {
                     const isAdmin = user.roles.includes("admin");
-                    
+
                     return (
                       <TableRow
                         key={user.id}
@@ -193,7 +187,7 @@ function AdminUsersContent() {
                                   "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium capitalize",
                                   role === "admin"
                                     ? "bg-purple-100 text-purple-700 border border-purple-200"
-                                    : "bg-gray-100 text-gray-700 border border-gray-200"
+                                    : "bg-gray-100 text-gray-700 border border-gray-200",
                                 )}
                               >
                                 {role}
@@ -208,7 +202,7 @@ function AdminUsersContent() {
                               "p-2 rounded-lg transition-colors",
                               isAdmin
                                 ? "text-red-600 hover:bg-red-50"
-                                : "text-brand hover:bg-brand/10"
+                                : "text-brand hover:bg-brand/10",
                             )}
                             title={isAdmin ? "Remove Admin Access" : "Make Admin"}
                           >

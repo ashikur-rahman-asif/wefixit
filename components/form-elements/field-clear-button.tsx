@@ -1,20 +1,20 @@
-import React from 'react';
+import React from "react";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 const clearBtnStyles = {
-  base: 'inline-flex shrink-0 transform items-center justify-center rounded-full bg-muted/70 backdrop-blur text-foreground/90 transition-all duration-200 ease-in-out hover:bg-primary hover:text-primary-foreground',
+  base: "inline-flex shrink-0 transform items-center justify-center rounded-full bg-muted/70 backdrop-blur text-foreground/90 transition-all duration-200 ease-in-out hover:bg-primary hover:text-primary-foreground",
   size: {
-    sm: 'h-3.5 w-3.5',
-    md: 'h-4 w-4',
-    lg: 'h-4 w-4',
-    xl: 'h-[18px] w-[18px]',
+    sm: "h-3.5 w-3.5",
+    md: "h-4 w-4",
+    lg: "h-4 w-4",
+    xl: "h-[18px] w-[18px]",
   },
   hasSuffix: {
-    sm: 'me-1.5',
-    md: 'me-2',
-    lg: 'me-2.5',
-    xl: 'me-2.5',
+    sm: "me-1.5",
+    md: "me-2",
+    lg: "me-2.5",
+    xl: "me-2.5",
   },
 };
 
@@ -33,20 +33,17 @@ export function FieldClearButton({
   hasSuffix,
   className,
 }: FieldClearButtonProps) {
-  const Component = as || 'button';
+  const Component = as || "button";
   return (
     <Component
       type="button"
       onClick={onClick}
       className={cn(
         `input-clear-btn`,
-        'input-clear-btn',
+        "input-clear-btn",
         clearBtnStyles.base,
-        size && [
-          clearBtnStyles.size[size],
-          hasSuffix && clearBtnStyles.hasSuffix[size],
-        ],
-        className
+        size && [clearBtnStyles.size[size], hasSuffix && clearBtnStyles.hasSuffix[size]],
+        className,
       )}
     >
       {}
@@ -62,4 +59,4 @@ export function FieldClearButton({
   );
 }
 
-FieldClearButton.displayName = 'FieldClearButton';
+FieldClearButton.displayName = "FieldClearButton";

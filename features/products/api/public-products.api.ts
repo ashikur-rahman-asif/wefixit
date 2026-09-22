@@ -27,7 +27,6 @@ const mapProduct = (p: ProductApiResponse): Product => ({
 
 export const publicProductsApi = {
   getProducts: async (params?: GetPublicProductsParams) => {
-    
     const url = new URL(`${API_URL}/products`);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -38,7 +37,7 @@ export const publicProductsApi = {
     }
 
     const response = await fetch(url.toString(), {
-      next: { revalidate: 180 }, 
+      next: { revalidate: 180 },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -58,7 +57,7 @@ export const publicProductsApi = {
 
   getProductBySlug: async (slug: string) => {
     const response = await fetch(`${API_URL}/products/${slug}`, {
-      next: { revalidate: 180 }, 
+      next: { revalidate: 180 },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -81,7 +80,7 @@ export const publicProductsApi = {
     });
     if (!response.ok) throw new Error("Failed to fetch categories");
     const data = await response.json();
-    
+
     return data.data || data;
   },
 
@@ -107,7 +106,7 @@ export const publicProductsApi = {
 
   getFeaturedProducts: async (): Promise<Product[]> => {
     const response = await fetch(`${API_URL}/featured-products`, {
-      next: { revalidate: 180 }, 
+      next: { revalidate: 180 },
       headers: { "Content-Type": "application/json", Accept: "application/json" },
     });
     if (!response.ok) throw new Error("Failed to fetch featured products");

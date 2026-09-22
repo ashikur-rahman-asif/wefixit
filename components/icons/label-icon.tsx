@@ -2,11 +2,7 @@ import { SVGProps } from "react";
 
 export function LabelIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" {...props}>
       <path
         fill="#a1a1aa"
         fillRule="evenodd"

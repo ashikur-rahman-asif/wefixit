@@ -68,14 +68,12 @@ export default function Services() {
                 Your Trusted Phone Repair Experts Shop
               </h2>
               <p className="text-gray-500 text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-3 lg:mt-4 xl:mt-6">
-                At WeFixIt, we pride ourselves on delivering top-notch phone
-                repair services with unmatched expertise and care. Our dedicated
-                team of skilled technicians is committed to providing quick,
-                reliable, and affordable solutions to all your phone issues.
-                Discover our story, values, and the passion that drives us to
-                keep your devices running smoothly. Experience unparalleled
-                phone repair services at WeFixIt, where our skilled technicians
-                prioritize your needs with precision and professionalism.
+                At WeFixIt, we pride ourselves on delivering top-notch phone repair services with
+                unmatched expertise and care. Our dedicated team of skilled technicians is committed
+                to providing quick, reliable, and affordable solutions to all your phone issues.
+                Discover our story, values, and the passion that drives us to keep your devices
+                running smoothly. Experience unparalleled phone repair services at WeFixIt, where
+                our skilled technicians prioritize your needs with precision and professionalism.
               </p>
             </div>
           </div>
@@ -101,15 +99,13 @@ export default function Services() {
                 Why WeFixIt is Your Best Choice
               </h2>
               <p className="text-gray-500 text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-3 lg:mt-4 xl:mt-6">
-                WeFixIt stands out as your best choice for phone repairs due to
-                our unwavering commitment to excellence. Our experienced team
-                prioritizes precision, reliability, and efficiency, ensuring
-                every repair is performed to the highest standards. Learn how
-                our dedication to using quality parts, providing clear
-                communication, and delivering exceptional results has earned us
-                the trust of our customers. Discover the unparalleled commitment
-                and expertise that make WeFixIt your top choice for phone
-                repairs.
+                WeFixIt stands out as your best choice for phone repairs due to our unwavering
+                commitment to excellence. Our experienced team prioritizes precision, reliability,
+                and efficiency, ensuring every repair is performed to the highest standards. Learn
+                how our dedication to using quality parts, providing clear communication, and
+                delivering exceptional results has earned us the trust of our customers. Discover
+                the unparalleled commitment and expertise that make WeFixIt your top choice for
+                phone repairs.
               </p>
             </div>
           </div>
@@ -135,14 +131,12 @@ export default function Services() {
                 Expedited Pickup & Delivery Service
               </h2>
               <p className="text-gray-500 text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-3 lg:mt-4 xl:mt-6">
-                At WeFixIt, we pride ourselves on delivering top-notch phone
-                repair services with unmatched expertise and care. Our dedicated
-                team of skilled technicians is committed to providing quick,
-                reliable, and affordable solutions to all your phone issues.
-                Discover our story, values, and the passion that drives us to
-                keep your devices running smoothly. Experience unparalleled
-                phone repair services at WeFixIt, where our skilled technicians
-                prioritize your needs with precision and professionalism.
+                At WeFixIt, we pride ourselves on delivering top-notch phone repair services with
+                unmatched expertise and care. Our dedicated team of skilled technicians is committed
+                to providing quick, reliable, and affordable solutions to all your phone issues.
+                Discover our story, values, and the passion that drives us to keep your devices
+                running smoothly. Experience unparalleled phone repair services at WeFixIt, where
+                our skilled technicians prioritize your needs with precision and professionalism.
               </p>
             </div>
           </div>
@@ -168,14 +162,12 @@ export default function Services() {
                 Standard Pickup & Delivery at Your Door
               </h2>
               <p className="text-gray-500 text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-3 lg:mt-4 xl:mt-6">
-                At WeFixIt, we pride ourselves on delivering top-notch phone
-                repair services with unmatched expertise and care. Our dedicated
-                team of skilled technicians is committed to providing quick,
-                reliable, and affordable solutions to all your phone issues.
-                Discover our story, values, and the passion that drives us to
-                keep your devices running smoothly. Experience unparalleled
-                phone repair services at WeFixIt, where our skilled technicians
-                prioritize your needs with precision and professionalism.
+                At WeFixIt, we pride ourselves on delivering top-notch phone repair services with
+                unmatched expertise and care. Our dedicated team of skilled technicians is committed
+                to providing quick, reliable, and affordable solutions to all your phone issues.
+                Discover our story, values, and the passion that drives us to keep your devices
+                running smoothly. Experience unparalleled phone repair services at WeFixIt, where
+                our skilled technicians prioritize your needs with precision and professionalism.
               </p>
             </div>
           </div>

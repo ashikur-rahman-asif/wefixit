@@ -55,13 +55,7 @@ const testimonials = [
 
 const subscribe = () => () => {};
 
-function TestimonialCard({
-  quote,
-  name,
-  role,
-  image,
-  rating,
-}: (typeof testimonials)[0]) {
+function TestimonialCard({ quote, name, role, image, rating }: (typeof testimonials)[0]) {
   return (
     <div className="bg-white rounded-[14px] p-7 flex flex-col h-full">
       <StarRating rating={rating} className="mb-5" />
@@ -77,9 +71,7 @@ function TestimonialCard({
           className="rounded-full w-12 h-12 object-cover shrink-0"
         />
         <div>
-          <p className="text-sm font-bold text-titleBlack font-montserrat">
-            {name}
-          </p>
+          <p className="text-sm font-bold text-titleBlack font-montserrat">{name}</p>
           <p className="text-xs text-secondary font-montserrat">{role}</p>
         </div>
       </div>
@@ -92,10 +84,7 @@ function TestimonialSkeleton() {
     <div className="bg-white rounded-[14px] p-7 flex flex-col h-full min-h-[260px]">
       <div className="flex gap-1 mb-5">
         {[0, 1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="w-5 h-5 bg-black/10 rounded-full animate-pulse"
-          />
+          <div key={i} className="w-5 h-5 bg-black/10 rounded-full animate-pulse" />
         ))}
       </div>
       <div className="flex flex-col gap-2 flex-1 mb-6">
@@ -176,7 +165,8 @@ export function Testimonials() {
                   640: { slidesPerView: 2, spaceBetween: 20 },
                   1024: { slidesPerView: 3, spaceBetween: 24 },
                 }}
-                className="testimonials-swiper !pb-12">
+                className="testimonials-swiper !pb-12"
+              >
                 {testimonials.map((t, i) => (
                   <SwiperSlide key={i} style={{ height: "auto" }}>
                     <TestimonialCard {...t} />

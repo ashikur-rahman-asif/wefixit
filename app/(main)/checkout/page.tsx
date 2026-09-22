@@ -29,16 +29,11 @@ export default function CheckoutPage() {
           <div className="size-24 bg-muted/50 rounded-full flex items-center justify-center mb-6">
             <ShoppingCart className="size-10 text-secondary" />
           </div>
-          <h2 className="text-2xl font-bold text-primary mb-2">
-            Your cart is empty
-          </h2>
+          <h2 className="text-2xl font-bold text-primary mb-2">Your cart is empty</h2>
           <p className="text-secondary max-w-md mb-8">
             You need to add items to your cart before proceeding to checkout.
           </p>
-          <Button
-            render={<Link href="/shop" />}
-            size="lg"
-            className="rounded-full px-8">
+          <Button render={<Link href="/shop" />} size="lg" className="rounded-full px-8">
             Return to Shop
           </Button>
         </div>
@@ -48,9 +43,7 @@ export default function CheckoutPage() {
 
   return (
     <Container className="py-6 md:py-8">
-      <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8 md:mb-12">
-        Checkout
-      </h1>
+      <h1 className="text-3xl md:text-4xl font-bold text-primary mb-8 md:mb-12">Checkout</h1>
 
       <CheckoutForm />
     </Container>

@@ -1,5 +1,9 @@
 import { authApi } from "@/features/auth/api/auth.api";
-import { RegisterPayload, VerifyOtpPayload, ResetPasswordPayload } from "@/features/auth/types/auth.types";
+import {
+  RegisterPayload,
+  VerifyOtpPayload,
+  ResetPasswordPayload,
+} from "@/features/auth/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { LoginInput, ForgotPasswordInput } from "@/features/auth/schemas/user.schema";
 
@@ -53,6 +57,7 @@ export const useGetMe = () => {
 
 export const useUpdateProfile = () => {
   return useMutation({
-    mutationFn: (data: import("@/features/auth/types/auth.types").ProfileUpdatePayload) => authApi.updateProfile(data),
+    mutationFn: (data: import("@/features/auth/types/auth.types").ProfileUpdatePayload) =>
+      authApi.updateProfile(data),
   });
 };

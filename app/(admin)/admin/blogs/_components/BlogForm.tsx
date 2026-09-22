@@ -14,7 +14,13 @@ import { Input } from "@/components/form-elements/input";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { RichTextEditor } from "@/components/form-elements/rich-text-editor";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAdminBlogCategories } from "@/features/blogs/hooks/use-admin-blog-categories";
 
 interface BlogFormProps {
@@ -23,14 +29,10 @@ interface BlogFormProps {
   isSubmitting: boolean;
 }
 
-export function BlogForm({
-  initialData,
-  onSubmit,
-  isSubmitting,
-}: BlogFormProps) {
+export function BlogForm({ initialData, onSubmit, isSubmitting }: BlogFormProps) {
   const router = useRouter();
   const [isProcessingImages, setIsProcessingImages] = useState(false);
-  
+
   const { data: categories = [] } = useAdminBlogCategories();
 
   const {
@@ -41,17 +43,19 @@ export function BlogForm({
     formState: { errors },
   } = useForm({
     resolver: zodResolver(blogSchema),
-    values: initialData ? {
-      title: initialData.title || "",
-      slug: initialData.slug || "",
-      blog_category_id: initialData.blog_category_id,
-      content: initialData.content || "",
-      is_published: initialData.is_published,
-      is_top: initialData.is_top,
-      meta_title: initialData.meta_title || "",
-      meta_description: initialData.meta_description || "",
-      image: initialData.image || null,
-    } : undefined,
+    values: initialData
+      ? {
+          title: initialData.title || "",
+          slug: initialData.slug || "",
+          blog_category_id: initialData.blog_category_id,
+          content: initialData.content || "",
+          is_published: initialData.is_published,
+          is_top: initialData.is_top,
+          meta_title: initialData.meta_title || "",
+          meta_description: initialData.meta_description || "",
+          image: initialData.image || null,
+        }
+      : undefined,
     defaultValues: {
       title: "",
       slug: "",
@@ -68,15 +72,15 @@ export function BlogForm({
   const handleFormSubmit = async (data: BlogFormData) => {
     try {
       setIsProcessingImages(true);
-      
+
       const content = data.content || "";
       if (content.includes("data:image/")) {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = content;
-        
+
         const images = tempDiv.getElementsByTagName("img");
         const uploadPromises = [];
-        
+
         for (let i = 0; i < images.length; i++) {
           const img = images[i];
           if (img.src.startsWith("data:image/")) {
@@ -84,16 +88,18 @@ export function BlogForm({
               (async () => {
                 const fetchRes = await fetch(img.src);
                 const blob = await fetchRes.blob();
-                const extension = blob.type.split('/')[1] || 'png';
-                const file = new File([blob], `blog-image-${Date.now()}-${i}.${extension}`, { type: blob.type });
-                
+                const extension = blob.type.split("/")[1] || "png";
+                const file = new File([blob], `blog-image-${Date.now()}-${i}.${extension}`, {
+                  type: blob.type,
+                });
+
                 const url = await adminBlogsApi.uploadImage(file);
                 img.src = url;
-              })()
+              })(),
             );
           }
         }
-        
+
         if (uploadPromises.length > 0) {
           const toastId = toast.loading("Uploading images from editor...");
           await Promise.all(uploadPromises);
@@ -101,7 +107,7 @@ export function BlogForm({
           data.content = tempDiv.innerHTML;
         }
       }
-      
+
       onSubmit(data);
     } catch (error) {
       console.error("Failed to process images before submit:", error);
@@ -112,23 +118,27 @@ export function BlogForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="w-full relative pb-28 space-y-6 max-w-5xl">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="w-full relative pb-28 space-y-6 max-w-5xl"
+    >
       <div className="flex flex-col gap-6">
         <div className="space-y-6">
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
             <div>
-              <h2 className="text-xl font-bold text-titleBlack">Featured Image <span className="text-red-500">*</span></h2>
-              <p className="text-[13px] font-medium text-gray-500 mt-1">Recommended size: 1200 x 630 px</p>
+              <h2 className="text-xl font-bold text-titleBlack">
+                Featured Image <span className="text-red-500">*</span>
+              </h2>
+              <p className="text-[13px] font-medium text-gray-500 mt-1">
+                Recommended size: 1200 x 630 px
+              </p>
             </div>
             <div>
               <Controller
                 name="image"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <ImageUpload 
-                    value={value} 
-                    onChange={onChange} 
-                  />
+                  <ImageUpload value={value} onChange={onChange} />
                 )}
               />
               {errors.image && (
@@ -139,7 +149,7 @@ export function BlogForm({
 
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack mb-6">General Information</h2>
-            
+
             <div className="space-y-5">
               <Input
                 label="Blog Title"
@@ -148,10 +158,14 @@ export function BlogForm({
                 {...register("title", {
                   onChange: (e) => {
                     if (!initialData) {
-                      const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                      const generatedSlug = slugify(e.target.value, {
+                        lower: true,
+                        strict: true,
+                        trim: true,
+                      });
                       setValue("slug", generatedSlug, { shouldValidate: true });
                     }
-                  }
+                  },
                 })}
                 placeholder="e.g., How to fix a broken screen"
                 error={errors.title?.message?.toString()}
@@ -189,7 +203,7 @@ export function BlogForm({
 
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack mb-6">SEO Data (Optional)</h2>
-            
+
             <div className="space-y-5">
               <Input
                 label="Meta Title"
@@ -212,12 +226,16 @@ export function BlogForm({
         <div className="space-y-6">
           <div className="bg-white rounded-2xl p-6 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack">Status & Organization</h2>
-            
+
             <div className="space-y-5">
               <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100">
                 <div>
-                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">Published Status</label>
-                  <p className="text-[13px] font-medium text-gray-500">Is this blog visible to users?</p>
+                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">
+                    Published Status
+                  </label>
+                  <p className="text-[13px] font-medium text-gray-500">
+                    Is this blog visible to users?
+                  </p>
                 </div>
                 <Controller
                   name="is_published"
@@ -230,8 +248,12 @@ export function BlogForm({
 
               <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100">
                 <div>
-                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">Top Blog</label>
-                  <p className="text-[13px] font-medium text-gray-500">Maximum 2 blogs can be top</p>
+                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">
+                    Top Blog
+                  </label>
+                  <p className="text-[13px] font-medium text-gray-500">
+                    Maximum 2 blogs can be top
+                  </p>
                 </div>
                 <Controller
                   name="is_top"
@@ -243,18 +265,25 @@ export function BlogForm({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
+                <label className="block text-sm font-semibold text-titleBlack mb-1.5">
+                  Category
+                </label>
                 <Controller
                   name="blog_category_id"
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Select onValueChange={(val: string | null) => val && onChange(Number(val))} value={value?.toString()}>
+                    <Select
+                      onValueChange={(val: string | null) => val && onChange(Number(val))}
+                      value={value?.toString()}
+                    >
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent>
                         {categories.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">No categories found</div>
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No categories found
+                          </div>
                         ) : (
                           categories.map((c) => (
                             <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
@@ -267,12 +296,13 @@ export function BlogForm({
                   )}
                 />
                 {errors.blog_category_id && (
-                  <p className="text-red-500 text-xs mt-1.5">{errors.blog_category_id.message?.toString()}</p>
+                  <p className="text-red-500 text-xs mt-1.5">
+                    {errors.blog_category_id.message?.toString()}
+                  </p>
                 )}
               </div>
             </div>
           </div>
-
         </div>
       </div>
 

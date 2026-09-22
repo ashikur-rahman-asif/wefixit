@@ -10,9 +10,7 @@ export function AdminHeader() {
         </SheetTrigger>
 
         <div>
-          <h1 className="text-2xl font-bold text-titleBlack leading-tight">
-            Dashboard
-          </h1>
+          <h1 className="text-2xl font-bold text-titleBlack leading-tight">Dashboard</h1>
         </div>
       </div>
 

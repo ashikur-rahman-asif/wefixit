@@ -2,13 +2,7 @@
 
 import { useCustomerRepair } from "@/features/repairs/hooks/use-customer-repairs";
 import { cn } from "@/lib/utils";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Clock,
-  FileText,
-  Smartphone,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, FileText, Smartphone } from "lucide-react";
 import { PageLoader } from "@/components/ui/loader";
 import Link from "next/link";
 
@@ -49,12 +43,8 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
     return (
       <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8 flex flex-col items-center justify-center min-h-[400px]">
         <p className="text-red-500 font-bold text-lg mb-2">Repair not found</p>
-        <p className="text-gray-500 mb-4">
-          We couldn&apos;t find the details for this repair.
-        </p>
-        <Link
-          href="/my-repairs"
-          className="text-brand hover:underline flex items-center gap-2">
+        <p className="text-gray-500 mb-4">We couldn&apos;t find the details for this repair.</p>
+        <Link href="/my-repairs" className="text-brand hover:underline flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Back to My Repairs
         </Link>
       </div>
@@ -72,7 +62,8 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
         <div>
           <Link
             href="/my-repairs"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand mb-3 transition-colors">
+            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand mb-3 transition-colors"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Repairs
           </Link>
@@ -84,7 +75,8 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
               className={cn(
                 "px-2.5 py-0.5 rounded-full text-xs font-semibold border",
                 getStatusColor(repair.status),
-              )}>
+              )}
+            >
               {repair.statusLabel}
             </span>
           </div>
@@ -103,11 +95,7 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
               repair.timeline.map((step, index) => (
                 <div key={index} className="relative pb-8 last:pb-0">
                   {index !== repair.timeline.length - 1 && (
-                    <div
-                      className={cn(
-                        "absolute left-3 top-6 -bottom-2 w-0.5 bg-brand",
-                      )}
-                    />
+                    <div className={cn("absolute left-3 top-6 -bottom-2 w-0.5 bg-brand")} />
                   )}
 
                   <div className="relative flex items-start gap-4">
@@ -128,9 +116,7 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
                         {new Date(step.occurredAt).toLocaleString()}
                       </p>
                       {step.description && (
-                        <p className="text-xs text-gray-600 mt-1">
-                          {step.description}
-                        </p>
+                        <p className="text-xs text-gray-600 mt-1">{step.description}</p>
                       )}
                     </div>
                   </div>
@@ -198,9 +184,7 @@ export function CustomerRepairDetail({ repairId }: { repairId: string }) {
               <div className="border-t border-border/60 pt-3 flex justify-between font-bold text-primary text-base">
                 <span>Total Estimate</span>
                 <span className="text-brand">
-                  {repair.total > 0
-                    ? `$${repair.total.toLocaleString()}`
-                    : "Pending"}
+                  {repair.total > 0 ? `$${repair.total.toLocaleString()}` : "Pending"}
                 </span>
               </div>
             </div>

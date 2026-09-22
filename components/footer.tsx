@@ -23,7 +23,8 @@ export function Footer() {
   return (
     <footer
       className="bg-cover bg-center bg-no-repeat bg-[#1c222f]"
-      style={{ backgroundImage: 'url("/footer-bg.png")' }}>
+      style={{ backgroundImage: 'url("/footer-bg.png")' }}
+    >
       <Container className="md:py-16 py-7">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           {}
@@ -32,24 +33,24 @@ export function Footer() {
               <Logo className="w-full h-auto text-white" />
             </div>
             <p className="text-[#EAEAEA] text-base leading-relaxed max-w-[320px]">
-              We are a trusted device repair center dedicated to bringing your
-              gadgets back to life. With expert technicians and quick turnaround
-              times, we ensure your devices work perfectly again.
+              We are a trusted device repair center dedicated to bringing your gadgets back to life.
+              With expert technicians and quick turnaround times, we ensure your devices work
+              perfectly again.
             </p>
             <div className="flex gap-5 pt-2">
-              <Link
-                href="#"
-                className="text-white hover:opacity-80 transition-opacity">
+              <Link href="#" className="text-white hover:opacity-80 transition-opacity">
                 <InstagramIcon className="w-6 h-6" />
               </Link>
               <Link
                 href="#"
-                className="text-white hover:opacity-80 transition-opacity grayscale brightness-200">
+                className="text-white hover:opacity-80 transition-opacity grayscale brightness-200"
+              >
                 <TwitterIcon className="w-6 h-6" />
               </Link>
               <Link
                 href="#"
-                className="text-white hover:opacity-80 transition-opacity grayscale brightness-200">
+                className="text-white hover:opacity-80 transition-opacity grayscale brightness-200"
+              >
                 <FacebookIcon className="w-6 h-6" />
               </Link>
             </div>
@@ -64,7 +65,8 @@ export function Footer() {
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors">
+                      className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -79,7 +81,8 @@ export function Footer() {
                   <li key={idx}>
                     <Link
                       href={link.href}
-                      className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors">
+                      className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -88,32 +91,28 @@ export function Footer() {
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <h4 className="text-white text-lg font-semibold mb-6">
-                Contact us
-              </h4>
+              <h4 className="text-white text-lg font-semibold mb-6">Contact us</h4>
               <ul className="space-y-4 mb-8">
                 <li>
                   <Link
                     href="mailto:yourinfo@gmail.com"
-                    className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors">
+                    className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors"
+                  >
                     yourinfo@gmail.com
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="tel:+5511122233344"
-                    className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors">
+                    className="text-[#D3D3D3] text-base font-medium hover:text-white transition-colors"
+                  >
                     +55 111 222 333 44
                   </Link>
                 </li>
               </ul>
 
-              <h4 className="text-white text-lg font-semibold mb-4">
-                Work schedule
-              </h4>
-              <p className="text-[#D3D3D3] text-base font-medium">
-                Mon-Fri: 10 AM - 7 PM
-              </p>
+              <h4 className="text-white text-lg font-semibold mb-4">Work schedule</h4>
+              <p className="text-[#D3D3D3] text-base font-medium">Mon-Fri: 10 AM - 7 PM</p>
             </div>
           </div>
         </div>
@@ -131,7 +130,8 @@ export function Footer() {
               viewBox="0 0 20 15"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="rounded-sm overflow-hidden">
+              className="rounded-sm overflow-hidden"
+            >
               <rect width="20" height="15" fill="#F0F0F0" />
               <path
                 d="M0 1.5H20V3H0V1.5ZM0 4.5H20V6H0V4.5ZM0 7.5H20V9H0V7.5ZM0 10.5H20V12H0V10.5ZM0 13.5H20V15H0V13.5Z"
@@ -154,7 +154,8 @@ export function Footer() {
               viewBox="0 0 10 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="text-[#D3D3D3]">
+              className="text-[#D3D3D3]"
+            >
               <path
                 d="M1 1L5 5L9 1"
                 stroke="currentColor"

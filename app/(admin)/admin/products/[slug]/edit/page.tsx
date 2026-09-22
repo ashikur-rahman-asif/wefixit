@@ -8,11 +8,7 @@ import { useAdminProduct, useUpdateProduct } from "@/features/products/hooks/use
 import { type ProductFormData } from "@/validators/admin";
 import { PageLoader } from "@/components/ui/loader";
 
-export default function EditProductPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default function EditProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const router = useRouter();
 
@@ -23,19 +19,19 @@ export default function EditProductPage({
     if (!product) return;
 
     const formData = new FormData();
-    
+
     formData.append("title", data.title);
     if (data.slug) formData.append("slug", data.slug);
     formData.append("price", data.price.toString());
     formData.append("stock", data.stock.toString());
     formData.append("isActive", data.isActive ? "1" : "0");
     formData.append("isFeatured", data.isFeatured ? "1" : "0");
-    
+
     if (data.discountPrice) formData.append("discountPrice", data.discountPrice.toString());
     if (data.categoryId) formData.append("categoryId", data.categoryId.toString());
     if (data.brandId) formData.append("brandId", data.brandId.toString());
     if (data.deviceId) formData.append("deviceId", data.deviceId.toString());
-    
+
     if (data.shortDescription) formData.append("shortDescription", data.shortDescription);
     if (data.description) formData.append("description", data.description);
 
@@ -51,7 +47,7 @@ export default function EditProductPage({
         if (img instanceof File) {
           formData.append(`images[${idx}]`, img);
         } else {
-          formData.append(`images[${idx}]`, img); 
+          formData.append(`images[${idx}]`, img);
         }
       });
     }
@@ -63,7 +59,7 @@ export default function EditProductPage({
         formData.append(`colors[${index}][hex]`, color.hex);
         formData.append(`colors[${index}][stock]`, color.stock.toString());
         formData.append(`colors[${index}][position]`, color.position.toString());
-        
+
         if (color.image) {
           if (color.image instanceof File) {
             formData.append(`colors[${index}][image]`, color.image);
@@ -80,7 +76,7 @@ export default function EditProductPage({
         onSuccess: () => {
           router.push("/admin/products");
         },
-      }
+      },
     );
   };
 
@@ -114,7 +110,12 @@ export default function EditProductPage({
             className="text-textGray hover:text-titleBlack transition-colors text-sm font-semibold flex items-center gap-1"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
             Back to Products
           </Link>
@@ -123,14 +124,15 @@ export default function EditProductPage({
           Edit Product
         </h1>
         <p className="text-textGray mt-1 text-[15px] font-medium">
-          Update the product information for <span className="text-titleBlack font-bold">{product.title}</span>.
+          Update the product information for{" "}
+          <span className="text-titleBlack font-bold">{product.title}</span>.
         </p>
       </div>
 
-      <ProductForm 
-        initialData={product} 
-        onSubmit={handleSubmit} 
-        isSubmitting={updateMutation.isPending} 
+      <ProductForm
+        initialData={product}
+        onSubmit={handleSubmit}
+        isSubmitting={updateMutation.isPending}
       />
     </div>
   );

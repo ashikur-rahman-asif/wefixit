@@ -18,7 +18,7 @@ import { ContactMessageModal } from "./_components/ContactMessageModal";
 import { ContactMessageTable } from "./_components/ContactMessageTable";
 
 export default function ContactMessagesPage() {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [status, setStatus] = useState<string>("all");
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
@@ -29,8 +29,7 @@ export default function ContactMessagesPage() {
     search: debouncedSearch || undefined,
   });
 
-  const [selectedMessage, setSelectedMessage] =
-    useState<AdminContactMessage | null>(null);
+  const [selectedMessage, setSelectedMessage] = useState<AdminContactMessage | null>(null);
 
   const messages = data?.data || [];
 
@@ -42,19 +41,16 @@ export default function ContactMessagesPage() {
             <Mail className="w-6 h-6 text-brand" />
             Contact Messages
           </h1>
-          <p className="text-textGray mt-1">
-            Manage inquiries and messages from the contact form.
-          </p>
+          <p className="text-textGray mt-1">Manage inquiries and messages from the contact form.</p>
         </div>
 
         <Button
           variant="outline"
           onClick={() => refetch()}
           disabled={isFetching}
-          className="flex items-center gap-2">
-          <RefreshCw
-            className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`}
-          />
+          className="flex items-center gap-2"
+        >
+          <RefreshCw className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`} />
           Refresh
         </Button>
       </div>
@@ -69,20 +65,18 @@ export default function ContactMessagesPage() {
           />
         </div>
         <div className="w-full md:w-64">
-          <Select
-            value={status}
-            onValueChange={(val) => setStatus(val || "all")}>
+          <Select value={status} onValueChange={(val) => setStatus(val || "all")}>
             <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-200">
               <SelectValue placeholder="Filter by status">
                 {status === "all"
                   ? "All Statuses"
                   : status === "new"
-                  ? "New"
-                  : status === "read"
-                  ? "Read"
-                  : status === "replied"
-                  ? "Replied (Resolved)"
-                  : "Filter by status"}
+                    ? "New"
+                    : status === "read"
+                      ? "Read"
+                      : status === "replied"
+                        ? "Replied (Resolved)"
+                        : "Filter by status"}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>

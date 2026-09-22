@@ -18,9 +18,7 @@ export function useAdminReviews(params?: { page?: number; perPage?: number; stat
       queryClient.invalidateQueries({ queryKey: ["admin-reviews"] });
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast.error(
-        error.response?.data?.message || "Failed to update review status"
-      );
+      toast.error(error.response?.data?.message || "Failed to update review status");
     },
   });
 

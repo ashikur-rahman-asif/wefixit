@@ -38,7 +38,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         plusJakartaSans.variable,
         montserrat.variable,
         prompt.variable,
-      )}>
+      )}
+    >
       <body className={cn("font-sans bg-white")}>
         <NextTopLoader color="#0072de" showSpinner={false} />
         <QueryProvider>{children}</QueryProvider>

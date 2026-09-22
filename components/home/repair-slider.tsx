@@ -95,7 +95,8 @@ export function RepairSlider() {
               </h2>
               <Link
                 href="/repair"
-                className="relative z-10 inline-flex items-center gap-2 bg-white text-titleBlack px-6 py-3 rounded-full font-bold hover:bg-gray-50 transition-colors mt-auto shadow-md">
+                className="relative z-10 inline-flex items-center gap-2 bg-white text-titleBlack px-6 py-3 rounded-full font-bold hover:bg-gray-50 transition-colors mt-auto shadow-md"
+              >
                 Repaired <ArrowRight className="size-4" />
               </Link>
             </div>
@@ -107,8 +108,9 @@ export function RepairSlider() {
                 {[0, 1, 2].map((i) => (
                   <div
                     key={i}
-                    className={`flex-1 bg-lightBrand border border-black/5 rounded-[14px] p-6 flex flex-col items-center ${i === 2 ? 'hidden md:flex' : ''}`}
-                    style={{ height: CARD_HEIGHT }}>
+                    className={`flex-1 bg-lightBrand border border-black/5 rounded-[14px] p-6 flex flex-col items-center ${i === 2 ? "hidden md:flex" : ""}`}
+                    style={{ height: CARD_HEIGHT }}
+                  >
                     <div className="w-32 h-32 bg-black/5 rounded-xl animate-pulse mt-4" />
 
                     <div className="w-20 h-5 bg-black/5 rounded-full animate-pulse mt-auto mb-4" />
@@ -131,7 +133,8 @@ export function RepairSlider() {
                   768: { slidesPerView: 3, spaceBetween: 28 },
                   1024: { slidesPerView: 3, spaceBetween: 28 },
                 }}
-                className="repair-swiper !pb-12 repair-swiper-container">
+                className="repair-swiper !pb-12 repair-swiper-container"
+              >
                 {repairItems.map((item, idx) => (
                   <SwiperSlide key={idx}>
                     <ProductCard

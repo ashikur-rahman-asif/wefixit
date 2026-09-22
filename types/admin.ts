@@ -340,7 +340,7 @@ export interface AdminProduct {
   description: string | null;
   short_description: string | null;
   specification: string | null;
-  specifications: { key: string; value: string }[] | null; 
+  specifications: { key: string; value: string }[] | null;
   image: string | null;
   stock: number;
   rating: number;
@@ -367,7 +367,7 @@ export interface AdminContactMessage {
   phone: string | null;
   subject: string | null;
   message: string;
-  status: 'new' | 'read' | 'replied';
+  status: "new" | "read" | "replied";
   statusLabel: string;
   admin_notes: string | null;
   created_at: string;

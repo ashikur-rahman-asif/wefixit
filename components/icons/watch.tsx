@@ -1,14 +1,8 @@
-import { SVGProps } from 'react';
+import { SVGProps } from "react";
 
 export function WatchIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={30}
-      height={30}
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} fill="none" {...props}>
       <g clipPath="url(#a)">
         <mask
           id="b"
@@ -18,7 +12,7 @@ export function WatchIcon(props: SVGProps<SVGSVGElement>) {
           y={0}
           maskUnits="userSpaceOnUse"
           style={{
-            maskType: 'luminance',
+            maskType: "luminance",
           }}
         >
           <path fill="#fff" d="M0 0h30v30H0V0Z" />
@@ -52,10 +46,7 @@ export function WatchIcon(props: SVGProps<SVGSVGElement>) {
             fill="#FFD05B"
             d="M13.59 14.06v4.698a2.348 2.348 0 1 0 0-4.697Zm4.698-7.984a5.636 5.636 0 1 0 11.273 0 5.636 5.636 0 0 0-11.273 0Z"
           />
-          <path
-            fill="#736572"
-            d="M12.651 16.41a.94.94 0 1 0 1.88 0 .94.94 0 0 0-1.88 0Z"
-          />
+          <path fill="#736572" d="M12.651 16.41a.94.94 0 1 0 1.88 0 .94.94 0 0 0-1.88 0Z" />
           <path
             fill="#FFC244"
             d="M24.916 10.72a5.636 5.636 0 0 1-5.636-5.636c0-1.304.447-2.5 1.19-3.455a5.621 5.621 0 0 0-2.182 4.447 5.636 5.636 0 0 0 5.636 5.636 5.62 5.62 0 0 0 4.447-2.182 5.606 5.606 0 0 1-3.455 1.19Z"

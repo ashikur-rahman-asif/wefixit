@@ -18,14 +18,14 @@ export function Hero() {
               Repair Solution
             </h1>
             <p className="text-[15px] sm:text-base text-black/80 font-montserrat mt-2 md:mt-5 max-w-120">
-              Experience fast, reliable, and expert phone repair services. From
-              broken screens to battery replacements, we bring your device back
-              to life in no time.
+              Experience fast, reliable, and expert phone repair services. From broken screens to
+              battery replacements, we bring your device back to life in no time.
             </p>
             <div className="flex items-center gap-4 md:gap-7 font-prompt mt-3 md:mt-12">
               <Link
                 href="/repair"
-                className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl">
+                className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+              >
                 <Image
                   src="/repair.png"
                   width={80}
@@ -40,7 +40,8 @@ export function Hero() {
               </Link>
               <Link
                 href="/tracking"
-                className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl">
+                className="flex items-center gap-2 md:gap-3 group cursor-pointer transition-all duration-300 hover:-translate-y-1 active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+              >
                 <Image
                   src="/track.png"
                   width={80}

@@ -12,7 +12,7 @@ import Image from "next/image";
 export default function OrderDetailsPage() {
   const params = useParams();
   const orderId = params.id as string;
-  
+
   const { data: order, isLoading } = useCustomerOrder(orderId);
 
   if (isLoading) {
@@ -28,7 +28,9 @@ export default function OrderDetailsPage() {
       <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8 min-h-[400px] flex flex-col items-center justify-center">
         <Package className="w-12 h-12 text-gray-300 mb-4" />
         <h3 className="text-lg font-bold text-primary mb-2">Order not found</h3>
-        <p className="text-gray-500 mb-6">We couldn&apos;t find the order you&apos;re looking for.</p>
+        <p className="text-gray-500 mb-6">
+          We couldn&apos;t find the order you&apos;re looking for.
+        </p>
         <Link href="/orders" className={buttonVariants({ variant: "outline" })}>
           Back to Orders
         </Link>
@@ -58,13 +60,21 @@ export default function OrderDetailsPage() {
       {}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-border/50">
         <div>
-          <Link href="/orders" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand mb-3 transition-colors">
+          <Link
+            href="/orders"
+            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-brand mb-3 transition-colors"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Orders
           </Link>
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-xl md:text-2xl font-bold text-primary">Order #{order.reference}</h1>
-            <span className={cn("px-2.5 py-0.5 rounded-full text-xs font-semibold border", getStatusColor(order.status))}>
+            <span
+              className={cn(
+                "px-2.5 py-0.5 rounded-full text-xs font-semibold border",
+                getStatusColor(order.status),
+              )}
+            >
               {order.statusLabel}
             </span>
           </div>
@@ -105,7 +115,9 @@ export default function OrderDetailsPage() {
         <div className="space-y-6">
           {}
           <div className="bg-gray-50 rounded-xl p-5 border border-border/50">
-            <h3 className="font-bold text-primary mb-4 text-sm uppercase tracking-wider">Order Summary</h3>
+            <h3 className="font-bold text-primary mb-4 text-sm uppercase tracking-wider">
+              Order Summary
+            </h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
@@ -132,7 +144,9 @@ export default function OrderDetailsPage() {
               <p className="font-semibold text-primary">{order.shippingAddress.name}</p>
               <p>{order.shippingAddress.phone}</p>
               <p className="pt-1">{order.shippingAddress.address}</p>
-              <p>{order.shippingAddress.city} - {order.shippingAddress.zip}</p>
+              <p>
+                {order.shippingAddress.city} - {order.shippingAddress.zip}
+              </p>
             </div>
           </div>
 

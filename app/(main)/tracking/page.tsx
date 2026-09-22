@@ -25,8 +25,8 @@ export default async function TrackingPage({
           TRACK YOUR ORDER
         </h1>
         <p className="text-center mt-4 text-muted-foreground font-medium text-sm md:text-base px-4 max-w-xl">
-          Please enter your Order ID (e.g., ORD-123456 or WFX-123456) as listed on your
-          receipt to receive the up-to-date status of your order or repair.
+          Please enter your Order ID (e.g., ORD-123456 or WFX-123456) as listed on your receipt to
+          receive the up-to-date status of your order or repair.
         </p>
         <TrackForm />
 

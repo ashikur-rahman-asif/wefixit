@@ -22,17 +22,14 @@ export default function SecurityPage() {
     <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8">
       <div className="mb-5 md:mb-6">
         <h1 className="text-xl md:text-2xl font-bold text-primary">Change Password</h1>
-        <p className="text-gray-500 mt-1 text-xs md:text-sm">Ensure your account is using a long, random password to stay secure.</p>
+        <p className="text-gray-500 mt-1 text-xs md:text-sm">
+          Ensure your account is using a long, random password to stay secure.
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
-        <PasswordInput
-          size="md"
-          label="Current Password"
-          placeholder="••••••••"
-          required
-        />
-        
+        <PasswordInput size="md" label="Current Password" placeholder="••••••••" required />
+
         <PasswordInput
           size="md"
           label="New Password"

@@ -57,17 +57,13 @@ export function ServiceTable({
         <TableBody className="divide-y divide-gray-50">
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 Loading services...
               </TableCell>
             </TableRow>
           ) : services.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 No services found. Add one to get started.
               </TableCell>
             </TableRow>
@@ -75,7 +71,8 @@ export function ServiceTable({
             services.map((service) => (
               <TableRow
                 key={service.id}
-                className="hover:bg-gray-50/50 border-none transition-colors">
+                className="hover:bg-gray-50/50 border-none transition-colors"
+              >
                 <TableCell className="px-6 py-4">
                   <div className="w-10 h-10 rounded-lg border border-gray-100 overflow-hidden flex items-center justify-center bg-gray-50">
                     {service.icon ? (
@@ -99,12 +96,8 @@ export function ServiceTable({
                 </TableCell>
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={
-                      pendingStatuses[service.id] ?? Boolean(service.isActive)
-                    }
-                    onCheckedChange={(checked: boolean) =>
-                      onToggleStatus(service.id, checked)
-                    }
+                    checked={pendingStatuses[service.id] ?? Boolean(service.isActive)}
+                    onCheckedChange={(checked: boolean) => onToggleStatus(service.id, checked)}
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />
                 </TableCell>
@@ -113,14 +106,16 @@ export function ServiceTable({
                     <button
                       onClick={() => onEdit(service)}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                      title="Edit">
+                      title="Edit"
+                    >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDelete(service.id)}
                       disabled={isDeleting}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 font-medium hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                      title="Delete">
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>

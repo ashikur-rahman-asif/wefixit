@@ -70,8 +70,7 @@ export default function AdminRepairsPage() {
             Repairs
           </h1>
           <p className="text-textGray mt-2 text-[15px] font-medium max-w-2xl leading-relaxed">
-            Manage all device repair requests, update their status, and track
-            progress.
+            Manage all device repair requests, update their status, and track progress.
           </p>
         </div>
       </div>
@@ -83,7 +82,8 @@ export default function AdminRepairsPage() {
               className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600 font-medium"
               fill="none"
               stroke="currentColor"
-              viewBox="0 0 24 24">
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -119,9 +119,7 @@ export default function AdminRepairsPage() {
                 <SelectItem value="received">Received</SelectItem>
                 <SelectItem value="diagnosing">Diagnosing</SelectItem>
                 <SelectItem value="repairing">Repairing</SelectItem>
-                <SelectItem value="ready_for_delivery">
-                  Ready For Delivery
-                </SelectItem>
+                <SelectItem value="ready_for_delivery">Ready For Delivery</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
                 <SelectItem value="delivered">Delivered</SelectItem>
                 <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -161,10 +159,10 @@ export default function AdminRepairsPage() {
               {isLoading ? (
                 <TableRow>
                   <TableCell colSpan={7} className="h-[400px] text-center">
-                      <div className="flex flex-col items-center justify-center text-textGray">
-                        <Loader size="md" />
-                        <p className="font-medium mt-3">Loading repairs...</p>
-                      </div>
+                    <div className="flex flex-col items-center justify-center text-textGray">
+                      <Loader size="md" />
+                      <p className="font-medium mt-3">Loading repairs...</p>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : repairs.length === 0 ? (
@@ -176,7 +174,8 @@ export default function AdminRepairsPage() {
                           className="w-8 h-8 text-gray-600 font-medium"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke="currentColor">
+                          stroke="currentColor"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -185,12 +184,8 @@ export default function AdminRepairsPage() {
                           />
                         </svg>
                       </div>
-                      <p className="font-medium text-titleBlack text-lg">
-                        No repairs found
-                      </p>
-                      <p className="text-sm mt-1">
-                        Try adjusting your filters or search query.
-                      </p>
+                      <p className="font-medium text-titleBlack text-lg">No repairs found</p>
+                      <p className="text-sm mt-1">Try adjusting your filters or search query.</p>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -198,11 +193,10 @@ export default function AdminRepairsPage() {
                 repairs.map((repair: AdminRepair) => (
                   <TableRow
                     key={repair.id}
-                    className="border-b-gray-50 hover:bg-gray-50/50 transition-colors">
+                    className="border-b-gray-50 hover:bg-gray-50/50 transition-colors"
+                  >
                     <TableCell className="px-6 py-4">
-                      <div className="font-bold text-titleBlack">
-                        #{repair.reference}
-                      </div>
+                      <div className="font-bold text-titleBlack">#{repair.reference}</div>
                       <div className="text-textGray text-xs font-semibold mt-0.5">
                         {repair.date}
                       </div>
@@ -219,9 +213,7 @@ export default function AdminRepairsPage() {
                       <div className="font-bold text-titleBlack text-sm">
                         {repair.device} - {repair.brand}
                       </div>
-                      <div className="text-textGray text-xs font-semibold">
-                        {repair.modelName}
-                      </div>
+                      <div className="text-textGray text-xs font-semibold">{repair.modelName}</div>
                     </TableCell>
                     <TableCell className="px-6 py-4 text-textGray text-sm font-semibold">
                       {repair.scheduledDate
@@ -237,7 +229,8 @@ export default function AdminRepairsPage() {
                     </TableCell>
                     <TableCell className="px-6 py-4 font-semibold">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getOrderStatusColor(repair.status)}`}>
+                        className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getOrderStatusColor(repair.status)}`}
+                      >
                         {repair.statusLabel}
                       </span>
                     </TableCell>
@@ -245,12 +238,14 @@ export default function AdminRepairsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/repair-orders/${repair.reference}`}
-                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-titleBlack px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-brand hover:text-white hover:border-brand transition-all duration-200">
+                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-titleBlack px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-brand hover:text-white hover:border-brand transition-all duration-200"
+                        >
                           <svg
                             className="w-4 h-4"
                             fill="none"
                             stroke="currentColor"
-                            viewBox="0 0 24 24">
+                            viewBox="0 0 24 24"
+                          >
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -268,7 +263,8 @@ export default function AdminRepairsPage() {
                         </Link>
                         <button
                           onClick={() => setRepairToDelete(repair.reference)}
-                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-red-500 px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-red-50 hover:border-red-200 transition-all duration-200 cursor-pointer">
+                          className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-red-500 px-3 py-1.5 rounded-lg text-[13px] font-medium hover:bg-red-50 hover:border-red-200 transition-all duration-200 cursor-pointer"
+                        >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -291,13 +287,15 @@ export default function AdminRepairsPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-titleBlack hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-titleBlack hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
                 Previous
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(meta.lastPage, p + 1))}
                 disabled={page === meta.lastPage}
-                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-titleBlack hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-titleBlack hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
                 Next
               </button>
             </div>

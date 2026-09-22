@@ -29,18 +29,11 @@ export default function NewBlogPage() {
           <ArrowLeft className="w-4 h-4" />
           Back to Blogs
         </Link>
-        <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-          Add New Blog
-        </h1>
-        <p className="text-textGray text-sm">
-          Create a new blog post
-        </p>
+        <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Add New Blog</h1>
+        <p className="text-textGray text-sm">Create a new blog post</p>
       </div>
 
-      <BlogForm
-        onSubmit={handleSubmit}
-        isSubmitting={createMutation.isPending}
-      />
+      <BlogForm onSubmit={handleSubmit} isSubmitting={createMutation.isPending} />
     </div>
   );
 }

@@ -3,7 +3,6 @@
 import { BlogCategory } from "@/features/blogs/types/blog.types";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import { BlogCategoryFormModal } from "./_components/BlogCategoryFormModal";
 import { type BlogCategoryFormData } from "@/validators/admin";
@@ -42,12 +41,15 @@ function BlogCategoriesContent() {
 
   const handleSubmit = (data: BlogCategoryFormData) => {
     if (editingCategory) {
-      updateMutation.mutate({ id: editingCategory.id, data }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingCategory.id, data },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(data, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -79,9 +81,7 @@ function BlogCategoriesContent() {
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
             Blog Categories
           </h1>
-          <p className="text-textGray text-sm">
-            Manage blog categories
-          </p>
+          <p className="text-textGray text-sm">Manage blog categories</p>
         </div>
         <button
           onClick={openAddModal}

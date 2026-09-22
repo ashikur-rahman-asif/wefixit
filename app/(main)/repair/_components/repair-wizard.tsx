@@ -2,10 +2,7 @@
 
 import { AuthModal } from "@/components/auth-modal";
 
-import {
-  useRepairWizard,
-  WIZARD_STEPS,
-} from "@/features/repairs/hooks/use-repair-wizard";
+import { useRepairWizard, WIZARD_STEPS } from "@/features/repairs/hooks/use-repair-wizard";
 import { BrandSelector } from "./brand-selector";
 import { ConfirmationStep } from "./confirmation-step";
 import { DeviceSelector } from "./device-selector";
@@ -49,7 +46,8 @@ export function RepairWizard() {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="relative rounded-[14px] border border-transparent bg-muted/20 py-6 md:py-12 flex flex-col items-center justify-center">
+                className="relative rounded-[14px] border border-transparent bg-muted/20 py-6 md:py-12 flex flex-col items-center justify-center"
+              >
                 <div className="size-16 md:size-20 rounded-full bg-muted mb-4" />
                 <div className="w-24 md:w-32 h-6 md:h-7 rounded-md bg-muted" />
               </div>
@@ -75,12 +73,7 @@ export function RepairWizard() {
           />
         );
       case "Handover":
-        return (
-          <HandoverSelector
-            error={handoverError}
-            onClearError={() => setHandoverError("")}
-          />
-        );
+        return <HandoverSelector error={handoverError} onClearError={() => setHandoverError("")} />;
       case "Info":
         return (
           <InfoStep
@@ -97,9 +90,7 @@ export function RepairWizard() {
       default:
         return (
           <div className="py-24 flex flex-col items-center justify-center text-center">
-            <h2 className="text-3xl font-bold text-primary">
-              Under Construction
-            </h2>
+            <h2 className="text-3xl font-bold text-primary">Under Construction</h2>
           </div>
         );
     }

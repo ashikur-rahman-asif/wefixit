@@ -1,21 +1,23 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { OTPInput as InputOTPBase } from 'input-otp';
+import * as React from "react";
+import { OTPInput as InputOTPBase } from "input-otp";
 
-import { cn } from '@/lib/utils';
-import { FieldError } from './field-error-text';
-import { FieldHelperText } from './field-helper-text';
-import { labelStyles } from './styles/label-styles';
-import { roundedStyles } from './styles/rounded-styles';
+import { cn } from "@/lib/utils";
+import { FieldError } from "./field-error-text";
+import { FieldHelperText } from "./field-helper-text";
+import { labelStyles } from "./styles/label-styles";
+import { roundedStyles } from "./styles/rounded-styles";
 
-export interface OTPInputProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof InputOTPBase>, 'size' | 'render' | 'children'> {
+export interface OTPInputProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof InputOTPBase>,
+  "size" | "render" | "children"
+> {
   label?: React.ReactNode;
   labelWeight?: keyof typeof labelStyles.weight;
   error?: string;
   helperText?: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   rounded?: keyof typeof roundedStyles;
   disabled?: boolean;
   required?: boolean;
@@ -26,26 +28,23 @@ export interface OTPInputProps
 }
 
 const slotSizeStyles = {
-  sm: 'h-8 w-8 text-sm',
-  md: 'h-10 w-10 text-base',
-  lg: 'h-12 w-12 text-lg',
-  xl: 'h-14 w-14 text-xl',
+  sm: "h-8 w-8 text-sm",
+  md: "h-10 w-10 text-base",
+  lg: "h-12 w-12 text-lg",
+  xl: "h-14 w-14 text-xl",
 };
 
-export const OTPInput = React.forwardRef<
-  React.ElementRef<typeof InputOTPBase>,
-  OTPInputProps
->(
+export const OTPInput = React.forwardRef<React.ElementRef<typeof InputOTPBase>, OTPInputProps>(
   (
     {
       className,
       containerClassName,
       label,
-      labelWeight = 'medium',
+      labelWeight = "medium",
       error,
       helperText,
-      size = 'lg',
-      rounded = 'lg',
+      size = "lg",
+      rounded = "lg",
       maxLength = 6,
       disabled,
       required,
@@ -54,19 +53,19 @@ export const OTPInput = React.forwardRef<
       helperClassName,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
-      <div className={cn(`otp-root`, 'flex flex-col', className)}>
+      <div className={cn(`otp-root`, "flex flex-col", className)}>
         {label ? (
           <span
             className={cn(
               `input-label`,
-              'block',
+              "block",
               labelStyles.size[size],
               labelStyles.weight[labelWeight],
-              disabled && 'text-muted-foreground',
-              labelClassName
+              disabled && "text-muted-foreground",
+              labelClassName,
             )}
           >
             {label}
@@ -78,17 +77,11 @@ export const OTPInput = React.forwardRef<
           ref={ref}
           maxLength={maxLength}
           disabled={disabled}
-          containerClassName={cn('flex items-center gap-2', containerClassName)}
+          containerClassName={cn("flex items-center gap-2", containerClassName)}
           render={({ slots }) => (
             <>
               {slots.map((slot, index) => (
-                <OTPInputSlot 
-                  key={index} 
-                  {...slot} 
-                  size={size} 
-                  rounded={rounded} 
-                  error={error} 
-                />
+                <OTPInputSlot key={index} {...slot} size={size} rounded={rounded} error={error} />
               ))}
             </>
           )}
@@ -100,8 +93,8 @@ export const OTPInput = React.forwardRef<
             size={size}
             className={cn(
               `input-helper-text`,
-              disabled && 'text-muted-foreground',
-              helperClassName
+              disabled && "text-muted-foreground",
+              helperClassName,
             )}
           >
             {helperText}
@@ -117,9 +110,9 @@ export const OTPInput = React.forwardRef<
         ) : null}
       </div>
     );
-  }
+  },
 );
-OTPInput.displayName = 'OTPInput';
+OTPInput.displayName = "OTPInput";
 
 interface OTPInputSlotProps {
   char: string | null;
@@ -135,19 +128,19 @@ function OTPInputSlot({
   hasFakeCaret,
   isActive,
   error,
-  size = 'lg',
-  rounded = 'lg',
+  size = "lg",
+  rounded = "lg",
 }: OTPInputSlotProps) {
   return (
     <div
       className={cn(
-        'relative flex items-center justify-center border transition-all',
+        "relative flex items-center justify-center border transition-all",
         roundedStyles[rounded],
         slotSizeStyles[size],
-        isActive && 'z-10 ring-[1.8px] ring-primary border-primary bg-transparent',
-        !isActive && !error && 'border-gray-200 bg-transparent hover:border-primary',
-        error && 'border-red-500 ring-[1.8px] ring-red-500 text-red-500',
-        !isActive && error && 'hover:border-red-500'
+        isActive && "z-10 ring-[1.8px] ring-primary border-primary bg-transparent",
+        !isActive && !error && "border-gray-200 bg-transparent hover:border-primary",
+        error && "border-red-500 ring-[1.8px] ring-red-500 text-red-500",
+        !isActive && error && "hover:border-red-500",
       )}
     >
       {char}

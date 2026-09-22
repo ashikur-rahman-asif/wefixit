@@ -19,7 +19,10 @@ export function TopBlogCard({
   href = "#",
 }: TopBlogCardProps) {
   return (
-    <Link href={href} className="group relative block w-full aspect-video md:aspect-4/3 lg:aspect-605/502 rounded-2xl overflow-hidden opacity-100 cursor-pointer">
+    <Link
+      href={href}
+      className="group relative block w-full aspect-video md:aspect-4/3 lg:aspect-605/502 rounded-2xl overflow-hidden opacity-100 cursor-pointer"
+    >
       <Image
         src={imageSrc}
         alt={title}

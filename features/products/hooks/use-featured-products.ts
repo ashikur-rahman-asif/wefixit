@@ -5,6 +5,6 @@ export const useFeaturedProducts = () => {
   return useQuery({
     queryKey: ["featured-products"],
     queryFn: () => publicProductsApi.getFeaturedProducts(),
-    staleTime: 1000 * 60 * 3, 
+    staleTime: 1000 * 60 * 3,
   });
 };

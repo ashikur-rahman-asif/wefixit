@@ -25,10 +25,7 @@ const HANDOVER_METHODS = [
   },
 ];
 
-export function HandoverSelector({ 
-  error,
-  onClearError
-}: HandoverSelectorProps) {
+export function HandoverSelector({ error, onClearError }: HandoverSelectorProps) {
   const selectedHandover = useRepairStore((state) => state.handoverMethod);
   const selectedDate = useRepairStore((state) => state.selectedDate);
   const selectedTime = useRepairStore((state) => state.selectedTime);
@@ -39,50 +36,55 @@ export function HandoverSelector({
     return d.toLocaleDateString("en-GB", {
       day: "numeric",
       month: "short",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
   return (
     <div className="space-y-12">
       <div className="max-w-[1000px] mx-auto grid md:grid-cols-2 gap-6 lg:gap-10">
-      {HANDOVER_METHODS.map((method) => {
-        const Icon = method.icon;
-        return (
-          <div
-            key={method.id}
-            className={cn(
-              "flex flex-col bg-lightBrand p-8 rounded-[14px] border transition duration-200 h-full",
-              selectedHandover === method.id ? "border-brand ring-1 ring-brand/50" : "border-transparent"
-            )}
-          >
-            <div className="flex items-center justify-center mb-6">
-              <Icon />
-            </div>
-            
-            <h3 className="text-[22px] md:text-2xl font-bold text-primary mb-3">
-              {method.title}
-            </h3>
-            
-            <p className="text-muted-foreground text-sm md:text-base mb-8 flex-grow leading-relaxed">
-              {method.description}
-            </p>
-            
-            <Button 
-              variant="brand" 
-              className={cn("w-full py-3 text-lg font-semibold", selectedHandover === method.id ? "bg-brand" : "")}
-              onClick={() => {
-                updateField("handoverMethod", method.id);
-                if (error) onClearError();
-              }}
+        {HANDOVER_METHODS.map((method) => {
+          const Icon = method.icon;
+          return (
+            <div
+              key={method.id}
+              className={cn(
+                "flex flex-col bg-lightBrand p-8 rounded-[14px] border transition duration-200 h-full",
+                selectedHandover === method.id
+                  ? "border-brand ring-1 ring-brand/50"
+                  : "border-transparent",
+              )}
             >
-              {selectedHandover === method.id && selectedDate && selectedTime
-                ? `${formatDate(selectedDate)} | ${selectedTime}`
-                : "Select Date & Time"}
-            </Button>
-          </div>
-        );
-      })}
+              <div className="flex items-center justify-center mb-6">
+                <Icon />
+              </div>
+
+              <h3 className="text-[22px] md:text-2xl font-bold text-primary mb-3">
+                {method.title}
+              </h3>
+
+              <p className="text-muted-foreground text-sm md:text-base mb-8 flex-grow leading-relaxed">
+                {method.description}
+              </p>
+
+              <Button
+                variant="brand"
+                className={cn(
+                  "w-full py-3 text-lg font-semibold",
+                  selectedHandover === method.id ? "bg-brand" : "",
+                )}
+                onClick={() => {
+                  updateField("handoverMethod", method.id);
+                  if (error) onClearError();
+                }}
+              >
+                {selectedHandover === method.id && selectedDate && selectedTime
+                  ? `${formatDate(selectedDate)} | ${selectedTime}`
+                  : "Select Date & Time"}
+              </Button>
+            </div>
+          );
+        })}
       </div>
 
       {selectedHandover && (

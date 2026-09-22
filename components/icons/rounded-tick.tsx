@@ -1,13 +1,8 @@
-import { SVGProps } from 'react';
+import { SVGProps } from "react";
 
 export function RoundedTickIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 18 18"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" fill="none" {...props}>
       <g clipPath="url(#a)">
         <mask
           id="b"
@@ -17,7 +12,7 @@ export function RoundedTickIcon(props: SVGProps<SVGSVGElement>) {
           y={0}
           maskUnits="userSpaceOnUse"
           style={{
-            maskType: 'luminance',
+            maskType: "luminance",
           }}
         >
           <path fill="#fff" d="M18 0H0v18h18V0Z" />
@@ -39,7 +34,7 @@ export function RoundedTickIcon(props: SVGProps<SVGSVGElement>) {
             y={0}
             maskUnits="userSpaceOnUse"
             style={{
-              maskType: 'luminance',
+              maskType: "luminance",
             }}
           >
             <path fill="#fff" d="M0 0h18v18H0V0Z" />

@@ -24,7 +24,7 @@ function ProductCategoriesContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") || "";
 
@@ -64,12 +64,15 @@ function ProductCategoriesContent() {
     formData.append("is_active", data.is_active ? "1" : "0");
 
     if (editingCategory) {
-      updateMutation.mutate({ id: editingCategory.id, data: formData }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingCategory.id, data: formData },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -108,12 +111,12 @@ function ProductCategoriesContent() {
       const id = Number(idStr);
       const category = categories.find((c) => c.id === id);
       if (!category) return Promise.resolve();
-      
+
       const formData = new FormData();
       formData.append("name", category.name);
       if (category.slug) formData.append("slug", category.slug);
       formData.append("is_active", newStatus ? "1" : "0");
-      
+
       return updateMutation.mutateAsync({ id, data: formData });
     });
 
@@ -142,9 +145,7 @@ function ProductCategoriesContent() {
           <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
             Product Categories
           </h1>
-          <p className="text-textGray text-sm">
-            Manage product categories for ecommerce
-          </p>
+          <p className="text-textGray text-sm">Manage product categories for ecommerce</p>
         </div>
         <button
           onClick={openAddModal}
@@ -164,7 +165,7 @@ function ProductCategoriesContent() {
         onDelete={handleDelete}
         onToggleStatus={handleToggleStatus}
       />
-      
+
       {meta && meta.lastPage > 1 && (
         <div className="mt-6 flex justify-center">
           <Pagination

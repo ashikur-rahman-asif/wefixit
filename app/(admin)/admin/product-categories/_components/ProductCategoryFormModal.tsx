@@ -32,21 +32,27 @@ export function ProductCategoryFormModal({
   onSubmit,
   isSubmitting,
 }: ProductCategoryFormModalProps) {
-  const { control, register,
+  const {
+    control,
+    register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<ProductCategoryFormData>({
     resolver: zodResolver(productCategorySchema),
-    values: open ? (editingCategory ? {
-      name: editingCategory.name,
-      slug: editingCategory.slug,
-      is_active: editingCategory.is_active,
-    } : {
-      name: "",
-      slug: "",
-      is_active: true,
-    }) : undefined,
+    values: open
+      ? editingCategory
+        ? {
+            name: editingCategory.name,
+            slug: editingCategory.slug,
+            is_active: editingCategory.is_active,
+          }
+        : {
+            name: "",
+            slug: "",
+            is_active: true,
+          }
+      : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -63,12 +69,17 @@ export function ProductCategoryFormModal({
               {editingCategory ? "Edit Product Category" : "Add Product Category"}
             </SheetTitle>
             <SheetDescription className="sr-only">
-              {editingCategory ? "Form to edit a product category." : "Form to add a new product category."}
+              {editingCategory
+                ? "Form to edit a product category."
+                : "Form to add a new product category."}
             </SheetDescription>
           </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col flex-1 h-full overflow-hidden"
+        >
           <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
             <div>
               <Input
@@ -77,9 +88,13 @@ export function ProductCategoryFormModal({
                 type="text"
                 {...register("name", {
                   onChange: (e) => {
-                    const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                    const generatedSlug = slugify(e.target.value, {
+                      lower: true,
+                      strict: true,
+                      trim: true,
+                    });
                     setValue("slug", generatedSlug, { shouldValidate: true });
-                  }
+                  },
                 })}
                 placeholder="e.g., Smartphones"
                 error={errors.name?.message?.toString()}
@@ -99,12 +114,12 @@ export function ProductCategoryFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-              name="is_active"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Switch checked={value} onCheckedChange={onChange} />
-              )}
-            />
+                name="is_active"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Switch checked={value} onCheckedChange={onChange} />
+                )}
+              />
               <div>
                 <label
                   htmlFor="is_active"
@@ -131,11 +146,7 @@ export function ProductCategoryFormModal({
               disabled={isSubmitting}
               className="flex-1 h-11 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting
-                ? "Saving..."
-                : editingCategory
-                  ? "Save Changes"
-                  : "Add Category"}
+              {isSubmitting ? "Saving..." : editingCategory ? "Save Changes" : "Add Category"}
             </button>
           </SheetFooter>
         </form>

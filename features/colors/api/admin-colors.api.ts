@@ -35,7 +35,13 @@ export const colorsApi = {
     return response.data;
   },
 
-  updateColor: async ({ id, data }: { id: number; data: { name?: string; hex?: string; isActive?: boolean } }) => {
+  updateColor: async ({
+    id,
+    data,
+  }: {
+    id: number;
+    data: { name?: string; hex?: string; isActive?: boolean };
+  }) => {
     const response = await api.put<ApiResponse<AdminColor>>(`/admin/colors/${id}`, data);
     return response.data;
   },

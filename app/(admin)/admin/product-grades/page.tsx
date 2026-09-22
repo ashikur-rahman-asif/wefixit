@@ -97,9 +97,7 @@ export default function ProductGradesPage() {
         onOpenChange={setIsModalOpen}
         editingGrade={editingGrade}
         onSubmit={handleSubmit}
-        isSubmitting={
-          createMutation.isPending || updateMutation.isPending
-        }
+        isSubmitting={createMutation.isPending || updateMutation.isPending}
       />
     </div>
   );

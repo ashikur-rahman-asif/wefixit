@@ -45,12 +45,12 @@ export function ForgotPasswordForm() {
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: { email: "" },
   });
-  
+
   const otpForm = useForm<VerifyOtpInput>({
     resolver: zodResolver(verifyOtpSchema),
     defaultValues: { otp: "" },
   });
-  
+
   const passwordForm = useForm<ResetPasswordInput>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: { password: "", confirmPassword: "" },
@@ -94,7 +94,7 @@ export function ForgotPasswordForm() {
         onError: (error) => {
           handleFormError(error, undefined, "Failed to resend OTP.");
         },
-      }
+      },
     );
   }
 
@@ -110,7 +110,7 @@ export function ForgotPasswordForm() {
         onError: (error) => {
           handleFormError(error, otpForm.setError, "Invalid OTP.");
         },
-      }
+      },
     );
   }
 
@@ -129,7 +129,7 @@ export function ForgotPasswordForm() {
         onError: (error) => {
           handleFormError(error, passwordForm.setError, "Failed to reset password.");
         },
-      }
+      },
     );
   }
 
@@ -142,7 +142,6 @@ export function ForgotPasswordForm() {
       </div>
 
       <div className="w-full max-w-[510px] rounded-xl bg-white p-8 shadow-sm">
-
         {}
         {step === 1 && (
           <>
@@ -157,7 +156,8 @@ export function ForgotPasswordForm() {
             <form
               noValidate
               onSubmit={emailForm.handleSubmit(handleSendOTP)}
-              className="flex flex-col gap-4">
+              className="flex flex-col gap-4"
+            >
               <Input
                 size="md"
                 label="Email"
@@ -172,7 +172,11 @@ export function ForgotPasswordForm() {
                   type="submit"
                   variant="brand"
                   disabled={isSending}
-                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isSending && "cursor-not-allowed opacity-70")}>
+                  className={cn(
+                    "w-full rounded-3xl py-3 font-semibold text-white",
+                    isSending && "cursor-not-allowed opacity-70",
+                  )}
+                >
                   {isSending ? "Sending OTP..." : "Send OTP"}
                 </Button>
               </div>
@@ -189,18 +193,16 @@ export function ForgotPasswordForm() {
         {step === 2 && (
           <>
             <div className="mb-8">
-              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">
-                Verify OTP
-              </h2>
+              <h2 className="text-center text-2xl font-bold text-black md:text-3xl">Verify OTP</h2>
               <p className="mt-3 text-center text-sm text-gray-500">
-                We have sent a verification code to{" "}
-                <span className="font-semibold">{email}</span>.
+                We have sent a verification code to <span className="font-semibold">{email}</span>.
               </p>
             </div>
             <form
               noValidate
               onSubmit={otpForm.handleSubmit(handleVerifyOTP)}
-              className="flex flex-col gap-4">
+              className="flex flex-col gap-4"
+            >
               <div className="flex justify-center mb-2">
                 <Controller
                   name="otp"
@@ -220,7 +222,11 @@ export function ForgotPasswordForm() {
                   type="submit"
                   variant="brand"
                   disabled={isVerifying}
-                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isVerifying && "cursor-not-allowed opacity-70")}>
+                  className={cn(
+                    "w-full rounded-3xl py-3 font-semibold text-white",
+                    isVerifying && "cursor-not-allowed opacity-70",
+                  )}
+                >
                   {isVerifying ? "Verifying..." : "Verify OTP"}
                 </Button>
               </div>
@@ -230,7 +236,8 @@ export function ForgotPasswordForm() {
                   type="button"
                   disabled={timeLeft > 0}
                   className={`font-medium ${timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-brand hover:underline"}`}
-                  onClick={handleResend}>
+                  onClick={handleResend}
+                >
                   Resend {timeLeft > 0 && `(${formatTime(timeLeft)})`}
                 </button>
               </div>
@@ -238,7 +245,8 @@ export function ForgotPasswordForm() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="text-sm font-medium text-gray-500 hover:underline cursor-pointer">
+                  className="text-sm font-medium text-gray-500 hover:underline cursor-pointer"
+                >
                   Change Email
                 </button>
               </div>
@@ -260,7 +268,8 @@ export function ForgotPasswordForm() {
             <form
               noValidate
               onSubmit={passwordForm.handleSubmit(handleSetPassword)}
-              className="flex flex-col gap-4">
+              className="flex flex-col gap-4"
+            >
               <PasswordInput
                 size="md"
                 label="New Password"
@@ -284,14 +293,17 @@ export function ForgotPasswordForm() {
                   type="submit"
                   variant="brand"
                   disabled={isResetting}
-                  className={cn("w-full rounded-3xl py-3 font-semibold text-white", isResetting && "cursor-not-allowed opacity-70")}>
+                  className={cn(
+                    "w-full rounded-3xl py-3 font-semibold text-white",
+                    isResetting && "cursor-not-allowed opacity-70",
+                  )}
+                >
                   {isResetting ? "Updating..." : "Update Password"}
                 </Button>
               </div>
             </form>
           </>
         )}
-
       </div>
 
       <div className="pb-8">

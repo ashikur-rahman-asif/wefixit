@@ -10,11 +10,7 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
   const gradF = `pickup-grad-f-${uniqueId}`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path
           fill={`url(#${gradB})`}
@@ -24,10 +20,7 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           fill={`url(#${gradC})`}
           d="M1.98 14.873 26.634.64a4.77 4.77 0 0 1 4.773 0l20.76 11.987c1.482.855 1.482 2.992 0 3.848L27.515 30.707a4.77 4.77 0 0 1-4.772 0L1.98 18.721c-1.48-.855-1.48-2.993 0-3.848"
         />
-        <path
-          fill="#dea861"
-          d="m9.974 10.258 26.48 15.288 7.024-4.055-26.48-15.288z"
-        />
+        <path fill="#dea861" d="m9.974 10.258 26.48 15.288 7.024-4.055-26.48-15.288z" />
         <path
           fill="#cc8241"
           d="m14.172 7.832 26.48 15.288-1.376.794-26.48-15.288zm22.282 17.714v5.8l7.024-4.055v-5.8z"
@@ -56,7 +49,8 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           x2={28.138}
           y1={39.275}
           y2={39.275}
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#cc8241" />
           <stop offset={1} stopColor="#dea861" />
         </linearGradient>
@@ -66,7 +60,8 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           x2={39.445}
           y1={7.25}
           y2={22.816}
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#dea861" />
           <stop offset={1} stopColor="#ebcba0" />
         </linearGradient>
@@ -76,7 +71,8 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           x2={55.613}
           y1={39.135}
           y2={27.088}
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#ab2c37" />
           <stop offset={1} stopColor="#ff7a85" />
         </linearGradient>
@@ -86,7 +82,8 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           x2={67.627}
           y1={44.831}
           y2={44.831}
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#ff4757" />
           <stop offset={1} stopColor="#ff7a85" />
         </linearGradient>
@@ -96,7 +93,8 @@ export function PickUpIcon(props: SVGProps<SVGSVGElement>) {
           x2={55.593}
           y1={34.185}
           y2={29.419}
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#c5baeb" />
           <stop offset={1} stopColor="#d7d1eb" />
         </linearGradient>

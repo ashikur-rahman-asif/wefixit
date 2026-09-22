@@ -16,10 +16,17 @@ export function OrderStatusHistory({ order }: { order: AdminOrderDetail }) {
                 {idx !== order.statusHistory.length - 1 && (
                   <div className="absolute left-2.5 top-7 bottom-[-24px] w-0.5 bg-gray-100"></div>
                 )}
-                <div className={`w-5 h-5 mt-1 rounded-full border-2 flex-shrink-0 z-10 ${getOrderStatusColor(history.toStatus)}`}></div>
+                <div
+                  className={`w-5 h-5 mt-1 rounded-full border-2 flex-shrink-0 z-10 ${getOrderStatusColor(history.toStatus)}`}
+                ></div>
                 <div>
                   <p className="font-semibold text-titleBlack text-sm flex items-center gap-1">
-                    Order status changed to <span className={`px-2 py-0.5 rounded-md text-[11px] capitalize ${getOrderStatusColor(history.toStatus)}`}>{history.toStatusLabel}</span>
+                    Order status changed to{" "}
+                    <span
+                      className={`px-2 py-0.5 rounded-md text-[11px] capitalize ${getOrderStatusColor(history.toStatus)}`}
+                    >
+                      {history.toStatusLabel}
+                    </span>
                   </p>
                   <p className="text-xs font-semibold text-textGray mt-1">
                     By {history.changedBy} on {dayjs(history.at).format("MMM D, YYYY h:mm A")}

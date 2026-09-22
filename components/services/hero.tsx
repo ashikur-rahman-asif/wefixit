@@ -25,7 +25,8 @@ export function ServicesHero() {
                 Professional Repair Solutions
               </h1>
               <p className="max-w-[75ch] mx-auto text-sm sm:text-base md:text-[17px] font-montserrat text-gray-200">
-                Explore our comprehensive range of expert repair services designed to address all your phone and electronic device needs
+                Explore our comprehensive range of expert repair services designed to address all
+                your phone and electronic device needs
               </p>
             </div>
           </div>

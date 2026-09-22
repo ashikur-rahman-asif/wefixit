@@ -16,10 +16,9 @@ export function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
-
 export function useDebouncedCallback<T, A extends Array<T>, R>(
   callback: (...args: A) => R,
-  delay: number
+  delay: number,
 ): (...args: A) => void {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
@@ -37,6 +36,6 @@ export function useDebouncedCallback<T, A extends Array<T>, R>(
         callbackRef.current(...args);
       }, delay);
     },
-    [delay]
+    [delay],
   );
 }

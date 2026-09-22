@@ -10,9 +10,9 @@ import { publicProductsApi } from "@/features/products/api/public-products.api";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-export async function generateMetadata(
-  props: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const params = await props.params;
   const product = await publicProductsApi.getProductBySlug(params.slug);
 
@@ -31,9 +31,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function ProductDetailsPage(props: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProductDetailsPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const productSlug = params.slug;
 
@@ -43,10 +41,7 @@ export default async function ProductDetailsPage(props: {
     notFound();
   }
 
-  const discountPercentage = calculateDiscountPercentage(
-    product.price,
-    product.discountPrice,
-  );
+  const discountPercentage = calculateDiscountPercentage(product.price, product.discountPrice);
 
   return (
     <Container className="py-6 md:py-8">

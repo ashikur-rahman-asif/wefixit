@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 export function AuthSidebar() {
   return (
@@ -8,7 +8,7 @@ export function AuthSidebar() {
       <Image
         priority
         alt="auth-image"
-        src={'/auth.webp'}
+        src={"/auth.webp"}
         className="h-full w-full object-cover"
         width={1350}
         height={1920}

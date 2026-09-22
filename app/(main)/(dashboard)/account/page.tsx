@@ -102,7 +102,11 @@ export default function AccountPage() {
         <p className="text-gray-500 mt-1 text-xs md:text-sm">Update your personal details below.</p>
       </div>
 
-      <form key={user?.id || "form-loading"} onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
+      <form
+        key={user?.id || "form-loading"}
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 max-w-2xl"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             size="md"
@@ -117,7 +121,10 @@ export default function AccountPage() {
             suffix={
               user?.first_name ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.firstName ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.firstName ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("firstName")}
                 />
               ) : null
@@ -136,7 +143,10 @@ export default function AccountPage() {
             suffix={
               user?.last_name ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.lastName ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.lastName ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("lastName")}
                 />
               ) : null
@@ -170,7 +180,10 @@ export default function AccountPage() {
             suffix={
               user?.phone ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.phone ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.phone ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("phone")}
                 />
               ) : null
@@ -191,7 +204,10 @@ export default function AccountPage() {
             suffix={
               user?.district ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.district ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.district ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("district")}
                 />
               ) : null
@@ -209,7 +225,10 @@ export default function AccountPage() {
             suffix={
               user?.upazila ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.upazila ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.upazila ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("upazila")}
                 />
               ) : null
@@ -230,7 +249,10 @@ export default function AccountPage() {
             suffix={
               user?.street_address ? (
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable.streetAddress ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable.streetAddress ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => toggleEdit("streetAddress")}
                 />
               ) : null

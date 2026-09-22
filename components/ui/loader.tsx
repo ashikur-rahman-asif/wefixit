@@ -17,7 +17,7 @@ export function Loader({ className, size = "md", ...props }: LoaderProps) {
       className={cn(
         "border-brand/30 border-t-brand rounded-full animate-spin",
         sizeClasses[size],
-        className
+        className,
       )}
       {...props}
     />
@@ -25,29 +25,21 @@ export function Loader({ className, size = "md", ...props }: LoaderProps) {
 }
 
 interface PageLoaderProps {
-  
   message?: string;
   className?: string;
   size?: LoaderProps["size"];
 }
 
-
-export function PageLoader({
-  message,
-  className,
-  size = "lg",
-}: PageLoaderProps) {
+export function PageLoader({ message, className, size = "lg" }: PageLoaderProps) {
   return (
     <div
       className={cn(
         "flex flex-col items-center justify-center gap-3 min-h-[300px] w-full",
-        className
+        className,
       )}
     >
       <Loader size={size} />
-      {message && (
-        <p className="text-sm text-muted-foreground font-medium">{message}</p>
-      )}
+      {message && <p className="text-sm text-muted-foreground font-medium">{message}</p>}
     </div>
   );
 }

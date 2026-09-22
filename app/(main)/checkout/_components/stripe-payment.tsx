@@ -1,18 +1,13 @@
 "use client";
 
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState, forwardRef, useImperativeHandle } from "react";
 import { toast } from "sonner";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
-    "pk_test_51O7c... dummy key ... Just to render UI"
+    "pk_test_51O7c... dummy key ... Just to render UI",
 );
 
 const CARD_ELEMENT_OPTIONS = {
@@ -37,97 +32,92 @@ export interface StripePaymentRef {
   submit: () => void;
 }
 
-const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(({ onSuccess, onBeforePayment }, ref) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [nameOnCard, setNameOnCard] = useState("");
+const CardPaymentForm = forwardRef<StripePaymentRef, StripePaymentProps>(
+  ({ onSuccess, onBeforePayment }, ref) => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [nameOnCard, setNameOnCard] = useState("");
 
-  const submitPayment = async () => {
+    const submitPayment = async () => {
+      if (!stripe || !elements) return;
 
-    if (!stripe || !elements) return;
+      if (!nameOnCard.trim()) {
+        toast.error("Please enter the name on your card.");
+        return;
+      }
 
-    if (!nameOnCard.trim()) {
-      toast.error("Please enter the name on your card.");
-      return;
-    }
+      const clientSecret = await onBeforePayment();
 
-    const clientSecret = await onBeforePayment();
-    
-    if (!clientSecret) {
-      return;
-    }
+      if (!clientSecret) {
+        return;
+      }
 
-    setErrorMessage(null);
+      setErrorMessage(null);
 
-    const cardElement = elements.getElement(CardElement);
-    if (!cardElement) {
-      return;
-    }
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) {
+        return;
+      }
 
-    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: nameOnCard || undefined,
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: nameOnCard || undefined,
+          },
         },
-      },
-    });
+      });
 
-    if (error) {
-      setErrorMessage(error.message ?? "Payment failed. Please try again.");
-      return;
-    }
+      if (error) {
+        setErrorMessage(error.message ?? "Payment failed. Please try again.");
+        return;
+      }
 
-    if (paymentIntent && paymentIntent.status === "succeeded") {
-      onSuccess();
-    }
-  };
+      if (paymentIntent && paymentIntent.status === "succeeded") {
+        onSuccess();
+      }
+    };
 
-  useImperativeHandle(ref, () => ({
-    submit: submitPayment,
-  }));
+    useImperativeHandle(ref, () => ({
+      submit: submitPayment,
+    }));
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    submitPayment();
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      submitPayment();
+    };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-primary mb-2">
-          Name on Card
-        </label>
-        <input
-          type="text"
-          value={nameOnCard}
-          onChange={(e) => setNameOnCard(e.target.value)}
-          placeholder="Ashikur Asif"
-          required
-          className="w-full px-4 py-3 rounded-xl border border-border/60 bg-white text-primary text-base placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-primary mb-2">
-          Card Information
-        </label>
-        <div className="border border-border/60 rounded-xl p-4 bg-white focus-within:ring-2 focus-within:ring-brand focus-within:border-transparent transition-all">
-          <CardElement options={CARD_ELEMENT_OPTIONS} />
+    return (
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-primary mb-2">Name on Card</label>
+          <input
+            type="text"
+            value={nameOnCard}
+            onChange={(e) => setNameOnCard(e.target.value)}
+            placeholder="Ashikur Asif"
+            required
+            className="w-full px-4 py-3 rounded-xl border border-border/60 bg-white text-primary text-base placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent transition-all"
+          />
         </div>
-      </div>
 
-      {errorMessage && (
-        <p className="text-red-500 text-sm mt-3">{errorMessage}</p>
-      )}
+        <div>
+          <label className="block text-sm font-medium text-primary mb-2">Card Information</label>
+          <div className="border border-border/60 rounded-xl p-4 bg-white focus-within:ring-2 focus-within:ring-brand focus-within:border-transparent transition-all">
+            <CardElement options={CARD_ELEMENT_OPTIONS} />
+          </div>
+        </div>
 
-      <p className="text-xs text-secondary text-center mt-4 flex items-center justify-center gap-1">
-        🔒 Secured by Stripe — your card details are never stored on our servers.
-      </p>
-    </form>
-  );
-});
+        {errorMessage && <p className="text-red-500 text-sm mt-3">{errorMessage}</p>}
+
+        <p className="text-xs text-secondary text-center mt-4 flex items-center justify-center gap-1">
+          🔒 Secured by Stripe — your card details are never stored on our servers.
+        </p>
+      </form>
+    );
+  },
+);
 CardPaymentForm.displayName = "CardPaymentForm";
 
 export const StripePayment = forwardRef<StripePaymentRef, StripePaymentProps>((props, ref) => {

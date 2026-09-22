@@ -21,7 +21,7 @@ export const useAllProductDevices = () => {
   return useQuery({
     queryKey: ["adminAllProductDevices"],
     queryFn: productDevicesApi.getAllDevices,
-    staleTime: 1000 * 60 * 30, 
+    staleTime: 1000 * 60 * 30,
   });
 };
 

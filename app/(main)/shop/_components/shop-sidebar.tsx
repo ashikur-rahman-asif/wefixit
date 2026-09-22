@@ -34,7 +34,7 @@ export function ShopSidebar({
     if (currentCategorySlug) params.set("category", currentCategorySlug);
     if (currentDeviceSlug) params.set("device", currentDeviceSlug);
     if (currentBrandSlug) params.set("brand", currentBrandSlug);
-    
+
     if (value && params.get(key) === value) {
       params.delete(key);
     } else if (value) {
@@ -44,7 +44,12 @@ export function ShopSidebar({
   };
 
   return (
-    <aside className={cn("col-span-3 h-fit self-start bg-lightBrand p-6 rounded-md space-y-6", className)}>
+    <aside
+      className={cn(
+        "col-span-3 h-fit self-start bg-lightBrand p-6 rounded-md space-y-6",
+        className,
+      )}
+    >
       {showHeading && (
         <div className="flex items-center justify-between pb-4 border-b border-gray-200/60">
           <h2 className="text-xl font-bold text-[#3E3E59]">Filters</h2>
@@ -66,9 +71,7 @@ export function ShopSidebar({
                   href={buildUrl("category", category.slug)}
                   className={cn(
                     "font-semibold transition-colors",
-                    isActive
-                      ? "text-brand underline"
-                      : "text-[#807E7E] hover:text-brand"
+                    isActive ? "text-brand underline" : "text-[#807E7E] hover:text-brand",
                   )}
                 >
                   {category.name}
@@ -89,9 +92,7 @@ export function ShopSidebar({
                   href={buildUrl("device", device.slug)}
                   className={cn(
                     "font-semibold transition-colors",
-                    isActive
-                      ? "text-brand underline"
-                      : "text-[#807E7E] hover:text-brand"
+                    isActive ? "text-brand underline" : "text-[#807E7E] hover:text-brand",
                   )}
                 >
                   {device.name}
@@ -118,9 +119,7 @@ export function ShopSidebar({
                   href={buildUrl("brand", brand.slug)}
                   className={cn(
                     "font-semibold transition-colors",
-                    isActive
-                      ? "text-brand underline"
-                      : "text-[#807E7E] hover:text-brand"
+                    isActive ? "text-brand underline" : "text-[#807E7E] hover:text-brand",
                   )}
                 >
                   {brand.name}

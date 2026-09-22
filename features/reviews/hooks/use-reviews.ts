@@ -3,7 +3,10 @@ import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { reviewsApi } from "../api/reviews.api";
 
-export function useProductReviews(productSlug: string, params?: { page?: number; perPage?: number }) {
+export function useProductReviews(
+  productSlug: string,
+  params?: { page?: number; perPage?: number },
+) {
   return useQuery({
     queryKey: ["product-reviews", productSlug, params],
     queryFn: () => reviewsApi.getProductReviews(productSlug, params),
@@ -22,9 +25,7 @@ export function useSubmitReview(productSlug: string) {
       queryClient.invalidateQueries({ queryKey: ["product-reviews", productSlug] });
     },
     onError: (error: AxiosError<{ message: string }>) => {
-      toast.error(
-        error.response?.data?.message || "Failed to submit review."
-      );
+      toast.error(error.response?.data?.message || "Failed to submit review.");
     },
   });
 }

@@ -48,22 +48,25 @@ export default function BrandsPage() {
     if (data.slug) formData.append("slug", data.slug);
     if (data.deviceName) formData.append("deviceName", data.deviceName);
     formData.append("isActive", data.is_active ? "1" : "0");
-    
+
     if (data.deviceIds && data.deviceIds.length > 0) {
       data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
     }
-    
+
     if (data.icon && data.icon instanceof File) {
       formData.append("icon", data.icon);
     }
 
     if (editingBrand) {
-      updateMutation.mutate({ id: editingBrand.id, data: formData }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingBrand.id, data: formData },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -102,13 +105,13 @@ export default function BrandsPage() {
       const id = Number(idStr);
       const brand = brands.find((b) => b.id === id);
       if (!brand) return Promise.resolve();
-      
+
       const formData = new FormData();
       formData.append("name", brand.name);
       if (brand.slug) formData.append("slug", brand.slug);
       if (brand.device_name) formData.append("deviceName", brand.device_name);
       formData.append("isActive", newStatus ? "1" : "0");
-      
+
       return updateMutation.mutateAsync({ id, data: formData });
     });
 
@@ -134,12 +137,8 @@ export default function BrandsPage() {
       />
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Brands
-          </h1>
-          <p className="text-textGray text-sm">
-            Manage product brands for the catalog
-          </p>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Brands</h1>
+          <p className="text-textGray text-sm">Manage product brands for the catalog</p>
         </div>
         <button
           onClick={openAddModal}

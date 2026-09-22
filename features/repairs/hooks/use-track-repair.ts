@@ -6,7 +6,7 @@ export const useTrackRepair = (orderId: string) => {
   return useQuery<TrackRepairResponse, Error>({
     queryKey: ["trackRepair", orderId],
     queryFn: () => publicRepairsApi.trackRepair(orderId),
-    enabled: !!orderId, 
-    retry: false, 
+    enabled: !!orderId,
+    retry: false,
   });
 };

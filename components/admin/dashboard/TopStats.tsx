@@ -2,7 +2,8 @@ import { DashboardStats } from "@/types/admin";
 import { Coins, PieChart as PieChartIcon, ShoppingCart } from "lucide-react";
 
 export function TopStats({ stats }: { stats: DashboardStats }) {
-  const avgOrderValue = stats.orders.total > 0 ? (stats.revenue.total / stats.orders.total).toFixed(2) : "0.00";
+  const avgOrderValue =
+    stats.orders.total > 0 ? (stats.revenue.total / stats.orders.total).toFixed(2) : "0.00";
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -13,7 +14,9 @@ export function TopStats({ stats }: { stats: DashboardStats }) {
           </div>
           <div>
             <p className="text-sm text-[#9A9A9A] font-medium">Total Earning</p>
-            <h3 className="text-3xl font-bold text-titleBlack mt-1">$ {stats.revenue.total.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-titleBlack mt-1">
+              $ {stats.revenue.total.toLocaleString()}
+            </h3>
           </div>
         </div>
         <div className="flex items-center gap-1 mt-4 text-xs font-bold">
@@ -45,7 +48,9 @@ export function TopStats({ stats }: { stats: DashboardStats }) {
           </div>
           <div>
             <p className="text-sm text-[#9A9A9A] font-medium">Total Orders</p>
-            <h3 className="text-3xl font-bold text-titleBlack mt-1">{stats.orders.total.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-titleBlack mt-1">
+              {stats.orders.total.toLocaleString()}
+            </h3>
           </div>
         </div>
         <div className="flex items-center gap-1 mt-4 text-xs font-bold">

@@ -20,7 +20,7 @@ export const publicBrandsApi = {
         name: brand.name,
         slug: brand.slug,
         icon: brand.icon || undefined,
-        deviceName: "", 
+        deviceName: "",
         deviceIds: (brand.deviceIds ?? brand.device_ids ?? []).map(Number),
       })),
     };

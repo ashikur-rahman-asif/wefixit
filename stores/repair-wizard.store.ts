@@ -16,10 +16,10 @@ interface RepairState {
   phone: string;
   location: string;
   additionalComments: string;
-  
+
   updateField: <K extends keyof Omit<RepairState, "updateField" | "reset">>(
     key: K,
-    value: RepairState[K]
+    value: RepairState[K],
   ) => void;
   reset: () => void;
 }

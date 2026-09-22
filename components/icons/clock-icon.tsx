@@ -7,12 +7,7 @@ export function ClockIcon(props: SVGProps<SVGSVGElement>) {
   const maskId = `${id}-mask`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={32}
-      height={32}
-      fill="none"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} fill="none" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <mask
           id={maskId}
@@ -21,7 +16,8 @@ export function ClockIcon(props: SVGProps<SVGSVGElement>) {
           x={0}
           y={0}
           maskUnits="userSpaceOnUse"
-          style={{ maskType: "luminance" }}>
+          style={{ maskType: "luminance" }}
+        >
           <path fill="#fff" d="M0 0h32v32H0z" />
         </mask>
         <g mask={`url(#${maskId})`}>

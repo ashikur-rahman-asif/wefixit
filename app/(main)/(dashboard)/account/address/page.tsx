@@ -60,11 +60,11 @@ export default function AddressPage() {
           <div className="mt-2 h-4 w-64 bg-gray-100 rounded-md animate-pulse"></div>
         </div>
         <div className="space-y-6 max-w-2xl mt-8">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
-             <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
-           </div>
-           <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
+            <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
+          </div>
+          <div className="h-[68px] w-full bg-gray-100 rounded-xl animate-pulse"></div>
         </div>
       </div>
     );
@@ -78,7 +78,9 @@ export default function AddressPage() {
     <div className="bg-white rounded-xl border border-border/50 p-5 md:p-8">
       <div className="mb-5 md:mb-8">
         <h1 className="text-xl md:text-2xl font-bold text-primary">Delivery Address</h1>
-        <p className="text-gray-500 mt-1 text-xs md:text-sm">Set your delivery address for easy checkout.</p>
+        <p className="text-gray-500 mt-1 text-xs md:text-sm">
+          Set your delivery address for easy checkout.
+        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl">
@@ -93,10 +95,13 @@ export default function AddressPage() {
               placeholder="e.g. Dhaka"
               required
               readOnly={!editable && hasDistrict}
-              inputClassName={(!editable && hasDistrict) ? "text-gray-500" : ""}
+              inputClassName={!editable && hasDistrict ? "text-gray-500" : ""}
               suffix={
                 <Pen
-                  className={cn("w-4 h-4 cursor-pointer transition-colors", editable ? "text-brand" : "text-gray-400 hover:text-brand")}
+                  className={cn(
+                    "w-4 h-4 cursor-pointer transition-colors",
+                    editable ? "text-brand" : "text-gray-400 hover:text-brand",
+                  )}
                   onClick={() => setEditable(!editable)}
                 />
               }
@@ -110,7 +115,7 @@ export default function AddressPage() {
               placeholder="e.g. Banani"
               required
               readOnly={!editable && hasUpazila}
-              inputClassName={(!editable && hasUpazila) ? "text-gray-500" : ""}
+              inputClassName={!editable && hasUpazila ? "text-gray-500" : ""}
             />
           </div>
 
@@ -123,7 +128,7 @@ export default function AddressPage() {
             placeholder="House 12, Road 5, Block C"
             required
             readOnly={!editable && hasStreetAddress}
-            inputClassName={(!editable && hasStreetAddress) ? "text-gray-500" : ""}
+            inputClassName={!editable && hasStreetAddress ? "text-gray-500" : ""}
           />
         </div>
 
@@ -131,7 +136,10 @@ export default function AddressPage() {
           <button
             type="submit"
             disabled={isPending || (!editable && hasStreetAddress)}
-            className={cn(buttonVariants({ variant: "brand" }), "w-full md:w-auto min-w-35 disabled:opacity-50")}
+            className={cn(
+              buttonVariants({ variant: "brand" }),
+              "w-full md:w-auto min-w-35 disabled:opacity-50",
+            )}
           >
             {isPending ? "Saving..." : "Save Address"}
           </button>

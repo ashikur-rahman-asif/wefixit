@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AdminContactMessage } from "@/types/admin";
 import {
   useUpdateContactMessage,
@@ -22,7 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
+
 import dayjs from "dayjs";
 import { Trash2, User, Mail, Phone, Clock, FileText } from "lucide-react";
 
@@ -57,7 +57,7 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
         onSuccess: () => {
           onClose();
         },
-      }
+      },
     );
   };
 
@@ -152,22 +152,20 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
 
           <div className="space-y-6 pt-6 border-t border-gray-100">
             <h4 className="text-sm font-bold text-titleBlack">Management</h4>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="col-span-1">
-                <label className="text-xs font-semibold text-gray-700 block mb-2">
-                  Status
-                </label>
+                <label className="text-xs font-semibold text-gray-700 block mb-2">Status</label>
                 <Select value={status} onValueChange={(val) => setStatus(val || "new")}>
                   <SelectTrigger className="w-full h-11">
                     <SelectValue>
                       {status === "new"
                         ? "New"
                         : status === "read"
-                        ? "Read"
-                        : status === "replied"
-                        ? "Replied (Resolved)"
-                        : "Select status"}
+                          ? "Read"
+                          : status === "replied"
+                            ? "Replied (Resolved)"
+                            : "Select status"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -177,7 +175,7 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="col-span-1 md:col-span-2">
                 <label className="text-xs font-semibold text-gray-700 block mb-2">
                   Admin Notes (Internal only)

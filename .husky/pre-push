@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Running pre-push checks..."
+
+# Build check — ensure the project builds successfully before pushing
+echo "\nRunning Next.js build check..."
+pnpm run build
+if [ $? -ne 0 ]; then
+  echo "\nBuild failed! Fix the errors above before pushing."
+  exit 1
+fi
+
+echo "\nBuild passed! Pushing..."

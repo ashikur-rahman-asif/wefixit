@@ -20,9 +20,7 @@ export const useCartStore = create<CartState>()(
       items: [],
       addItem: (newItem) =>
         set((state) => {
-          const existingItem = state.items.find(
-            (item) => item.id === newItem.id,
-          );
+          const existingItem = state.items.find((item) => item.id === newItem.id);
 
           if (existingItem) {
             return {
@@ -46,9 +44,7 @@ export const useCartStore = create<CartState>()(
 
       updateQuantity: (id, quantity) =>
         set((state) => ({
-          items: state.items.map((item) =>
-            item.id === id ? { ...item, quantity } : item,
-          ),
+          items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item)),
         })),
 
       increaseQuantity: (id) =>
@@ -61,22 +57,16 @@ export const useCartStore = create<CartState>()(
       decreaseQuantity: (id) =>
         set((state) => ({
           items: state.items
-            .map((item) =>
-              item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
-            )
+            .map((item) => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item))
             .filter((item) => item.quantity > 0),
         })),
 
       clearCart: () => set({ items: [] }),
 
-      getTotalItems: () =>
-        get().items.reduce((total, item) => total + item.quantity, 0),
+      getTotalItems: () => get().items.reduce((total, item) => total + item.quantity, 0),
 
       getTotalPrice: () =>
-        get().items.reduce(
-          (total, item) => total + item.price * item.quantity,
-          0,
-        ),
+        get().items.reduce((total, item) => total + item.price * item.quantity, 0),
     }),
     {
       name: "cart-storage",

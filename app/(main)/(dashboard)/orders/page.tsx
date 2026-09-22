@@ -40,7 +40,10 @@ export default function OrdersPage() {
       ) : orders.length > 0 ? (
         <div className="space-y-4">
           {orders.map((order) => (
-            <div key={order.id} className="border border-border/60 rounded-xl p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between hover:border-brand transition-colors">
+            <div
+              key={order.id}
+              className="border border-border/60 rounded-xl p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between hover:border-brand transition-colors"
+            >
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
                   <Package className="w-6 h-6 text-brand" />
@@ -48,12 +51,17 @@ export default function OrdersPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-bold text-primary text-lg">#{order.reference}</h3>
-                    <span className={cn("px-2.5 py-0.5 rounded-full text-xs font-semibold border", getStatusColor(order.status))}>
+                    <span
+                      className={cn(
+                        "px-2.5 py-0.5 rounded-full text-xs font-semibold border",
+                        getStatusColor(order.status),
+                      )}
+                    >
                       {order.statusLabel}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 mb-1">
-                    {order.itemsCount} {order.itemsCount === 1 ? 'item' : 'items'}
+                    {order.itemsCount} {order.itemsCount === 1 ? "item" : "items"}
                   </p>
                   <div className="flex items-center gap-4 text-xs text-gray-500 font-medium">
                     <span className="flex items-center gap-1">
@@ -64,11 +72,14 @@ export default function OrdersPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="w-full md:w-auto pt-4 md:pt-0 border-t border-gray-100 md:border-0">
                 <Link
                   href={`/orders/${order.reference}`}
-                  className={cn(buttonVariants({ variant: "outline" }), "w-full md:w-auto text-sm py-2 h-auto flex items-center gap-2")}
+                  className={cn(
+                    buttonVariants({ variant: "outline" }),
+                    "w-full md:w-auto text-sm py-2 h-auto flex items-center gap-2",
+                  )}
                 >
                   View Details
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -81,7 +92,9 @@ export default function OrdersPage() {
         <div className="text-center py-16">
           <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-primary mb-2">No orders found</h3>
-          <p className="text-gray-500 text-sm mb-6">Looks like you haven&apos;t placed any orders yet.</p>
+          <p className="text-gray-500 text-sm mb-6">
+            Looks like you haven&apos;t placed any orders yet.
+          </p>
           <Link href="/shop" className={buttonVariants({ variant: "brand" })}>
             Start Shopping
           </Link>

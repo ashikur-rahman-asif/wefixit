@@ -4,12 +4,7 @@ import { cn } from "@/lib/utils";
 
 const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-const MORNING_SLOTS = [
-  "08:00 - 09:00",
-  "09:00 - 10:00",
-  "10:00 - 11:00",
-  "11:00 - 12:00",
-];
+const MORNING_SLOTS = ["08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00"];
 
 const AFTERNOON_SLOTS = [
   "12:00 - 13:00",
@@ -36,7 +31,6 @@ export function DateTimePicker({
   selectedTime,
   onSelectTime,
 }: DateTimePickerProps) {
-
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const today = new Date();
@@ -45,13 +39,9 @@ export function DateTimePicker({
   const daysInMonth = new Date(
     currentMonth.getFullYear(),
     currentMonth.getMonth() + 1,
-    0
+    0,
   ).getDate();
-  const firstDayOfMonth = new Date(
-    currentMonth.getFullYear(),
-    currentMonth.getMonth(),
-    1
-  ).getDay();
+  const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
 
   const canGoPrev =
     currentMonth.getFullYear() > today.getFullYear() ||
@@ -60,15 +50,11 @@ export function DateTimePicker({
 
   const handlePrevMonth = () => {
     if (!canGoPrev) return;
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
-    );
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
-    );
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
   const monthName = currentMonth.toLocaleString("default", { month: "long" });
@@ -99,7 +85,6 @@ export function DateTimePicker({
 
   return (
     <div className="grid md:grid-cols-2 gap-4 md:gap-8 bg-transparent">
-
       <div className="bg-lightBrand rounded-[14px] p-8 md:p-10 border border-transparent">
         <div className="flex items-center justify-between mb-8">
           <button
@@ -107,7 +92,7 @@ export function DateTimePicker({
             disabled={!canGoPrev}
             className={cn(
               "p-1 rounded-full transition",
-              canGoPrev ? "hover:bg-slate-200/50 cursor-pointer" : "opacity-50 cursor-not-allowed"
+              canGoPrev ? "hover:bg-slate-200/50 cursor-pointer" : "opacity-50 cursor-not-allowed",
             )}
           >
             <ChevronLeft className="size-5 text-slate-400" />
@@ -154,7 +139,7 @@ export function DateTimePicker({
                       : isPast
                         ? "text-slate-300 cursor-not-allowed"
                         : "text-slate-600 hover:bg-slate-200/50 cursor-pointer",
-                    !isSelected && isToday && "border border-brand text-brand font-medium"
+                    !isSelected && isToday && "border border-brand text-brand font-medium",
                   )}
                 >
                   {date.getDate()}
@@ -177,7 +162,7 @@ export function DateTimePicker({
                   "px-5 py-2 md:py-2.5 rounded-full text-[13px] md:text-sm font-medium transition-colors cursor-pointer",
                   selectedTime === time
                     ? "bg-brand text-white"
-                    : "bg-[#e9eef6] text-slate-500 hover:bg-[#dfe5f0]"
+                    : "bg-[#e9eef6] text-slate-500 hover:bg-[#dfe5f0]",
                 )}
               >
                 {time}
@@ -197,7 +182,7 @@ export function DateTimePicker({
                   "px-5 py-2 md:py-2.5 rounded-full text-[13px] md:text-sm font-medium transition-colors cursor-pointer",
                   selectedTime === time
                     ? "bg-brand text-white"
-                    : "bg-[#e9eef6] text-slate-500 hover:bg-[#dfe5f0]"
+                    : "bg-[#e9eef6] text-slate-500 hover:bg-[#dfe5f0]",
                 )}
               >
                 {time}

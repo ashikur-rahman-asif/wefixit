@@ -56,19 +56,13 @@ export function ColorTable({
         <TableBody className="divide-y divide-gray-50">
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 Loading colors...
               </TableCell>
             </TableRow>
           ) : colors.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={5}
-                className="h-32 text-center text-gray-600 font-medium"
-              >
+              <TableCell colSpan={5} className="h-32 text-center text-gray-600 font-medium">
                 No colors found. Add one to get started.
               </TableCell>
             </TableRow>
@@ -79,7 +73,7 @@ export function ColorTable({
                 className="hover:bg-gray-50/50 border-none transition-colors"
               >
                 <TableCell className="px-6 py-4">
-                  <div 
+                  <div
                     className="w-8 h-8 rounded-full border border-gray-200 shadow-sm"
                     style={{ backgroundColor: color.hex }}
                     title={color.name}

@@ -65,7 +65,8 @@ export function ProductActions({
           <Button
             variant="outline"
             className="w-full text-red-500 border-red-200 bg-red-50 hover:bg-red-50 hover:text-red-500 disabled:cursor-not-allowed"
-            disabled>
+            disabled
+          >
             Out of Stock
           </Button>
         </div>
@@ -76,17 +77,17 @@ export function ProductActions({
               onClick={decrement}
               className="text-[#605F5F] hover:text-black transition-colors disabled:opacity-50 cursor-pointer"
               disabled={quantity <= 1 || isAlreadyInCart}
-              aria-label="Decrease quantity">
+              aria-label="Decrease quantity"
+            >
               <Minus className="w-4 h-4" strokeWidth={2.5} />
             </button>
-            <span className="text-black font-semibold text-base">
-              {quantity}
-            </span>
+            <span className="text-black font-semibold text-base">{quantity}</span>
             <button
               onClick={increment}
               className="text-[#605F5F] hover:text-black transition-colors disabled:opacity-50 cursor-pointer"
               disabled={isAlreadyInCart}
-              aria-label="Increase quantity">
+              aria-label="Increase quantity"
+            >
               <Plus className="w-4 h-4" strokeWidth={2.5} />
             </button>
           </div>
@@ -95,7 +96,8 @@ export function ProductActions({
               variant="default"
               className="w-full sm:flex-1 px-8 hover:bg-primary"
               onClick={handleAddToCart}
-              disabled={isAlreadyInCart}>
+              disabled={isAlreadyInCart}
+            >
               {isAlreadyInCart ? "Already in Cart" : "Add to Cart"}
             </Button>
             <Button variant="brand" className="w-full sm:flex-1 px-8" onClick={handleBuyNow}>
@@ -108,14 +110,10 @@ export function ProductActions({
         <ShippingIcon className="size-5 shrink-0 mt-0.5 sm:mt-1" />
         <span className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-1.5">
           <p className="text-primary font-medium text-sm">Shipping:</p>
-          <p className="text-secondary font-semibold text-sm">
-            Free for orders above $1,000
-          </p>
+          <p className="text-secondary font-semibold text-sm">Free for orders above $1,000</p>
         </span>
       </div>
-      <p className="text-primary font-medium text-sm mt-2 sm:mt-4">
-        Guaranteed & secure checkout
-      </p>
+      <p className="text-primary font-medium text-sm mt-2 sm:mt-4">Guaranteed & secure checkout</p>
       <div className="flex items-center flex-wrap gap-3 sm:gap-4 mt-3">
         <MastercardIcon className="h-5 sm:h-6 w-auto" />
         <VisaCardIcon className="h-4 sm:h-5 w-auto" />

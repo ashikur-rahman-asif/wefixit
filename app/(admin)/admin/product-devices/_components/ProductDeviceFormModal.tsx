@@ -32,21 +32,27 @@ export function ProductDeviceFormModal({
   onSubmit,
   isSubmitting,
 }: ProductDeviceFormModalProps) {
-  const { control, register,
+  const {
+    control,
+    register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<EcommerceDeviceFormData>({
     resolver: zodResolver(ecommerceDeviceSchema),
-    values: open ? (editingDevice ? {
-      name: editingDevice.name,
-      slug: editingDevice.slug,
-      is_active: editingDevice.is_active,
-    } : {
-      name: "",
-      slug: "",
-      is_active: true,
-    }) : undefined,
+    values: open
+      ? editingDevice
+        ? {
+            name: editingDevice.name,
+            slug: editingDevice.slug,
+            is_active: editingDevice.is_active,
+          }
+        : {
+            name: "",
+            slug: "",
+            is_active: true,
+          }
+      : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -63,12 +69,17 @@ export function ProductDeviceFormModal({
               {editingDevice ? "Edit Product Device" : "Add Product Device"}
             </SheetTitle>
             <SheetDescription className="sr-only">
-              {editingDevice ? "Form to edit a product device." : "Form to add a new product device."}
+              {editingDevice
+                ? "Form to edit a product device."
+                : "Form to add a new product device."}
             </SheetDescription>
           </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col flex-1 h-full overflow-hidden"
+        >
           <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
             <div>
               <Input
@@ -77,9 +88,13 @@ export function ProductDeviceFormModal({
                 type="text"
                 {...register("name", {
                   onChange: (e) => {
-                    const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                    const generatedSlug = slugify(e.target.value, {
+                      lower: true,
+                      strict: true,
+                      trim: true,
+                    });
                     setValue("slug", generatedSlug, { shouldValidate: true });
-                  }
+                  },
                 })}
                 placeholder="e.g., iPhone"
                 error={errors.name?.message?.toString()}
@@ -99,12 +114,12 @@ export function ProductDeviceFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-              name="is_active"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Switch checked={value} onCheckedChange={onChange} />
-              )}
-            />
+                name="is_active"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Switch checked={value} onCheckedChange={onChange} />
+                )}
+              />
               <div>
                 <label
                   htmlFor="is_active"
@@ -131,11 +146,7 @@ export function ProductDeviceFormModal({
               disabled={isSubmitting}
               className="flex-1 h-11 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting
-                ? "Saving..."
-                : editingDevice
-                  ? "Save Changes"
-                  : "Add Device"}
+              {isSubmitting ? "Saving..." : editingDevice ? "Save Changes" : "Add Device"}
             </button>
           </SheetFooter>
         </form>

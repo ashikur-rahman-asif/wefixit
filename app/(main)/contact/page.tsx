@@ -24,8 +24,7 @@ export default function ContactPage() {
             Contact Us
           </h2>
           <p className="text-secondary text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-2 text-center max-w-2xl">
-            Fill out the form and our team will get back to you as quickly as we
-            can.
+            Fill out the form and our team will get back to you as quickly as we can.
           </p>
         </div>
 
@@ -38,8 +37,7 @@ export default function ContactPage() {
               WhatsApp
             </h3>
             <p className="text-secondary text-sm md:text-base font-montserrat leading-relaxed">
-              Monday to Friday, from 8:30 to 21:00 and Saturdays form 10:00 to
-              18:00.
+              Monday to Friday, from 8:30 to 21:00 and Saturdays form 10:00 to 18:00.
             </p>
           </div>
 
@@ -51,8 +49,7 @@ export default function ContactPage() {
               +880 151 654 0594
             </h3>
             <p className="text-secondary text-sm md:text-base font-montserrat leading-relaxed">
-              Sunday to Thursday, from 10:00 to 21:00 and Friday form 10:00 to
-              18:00.
+              Sunday to Thursday, from 10:00 to 21:00 and Friday form 10:00 to 18:00.
             </p>
           </div>
 
@@ -64,8 +61,7 @@ export default function ContactPage() {
               hello@wefixit.com
             </h3>
             <p className="text-secondary text-sm md:text-base font-montserrat leading-relaxed">
-              Don&apos;t hesitate to contact us. We&apos;re here to solve your
-              doubts.
+              Don&apos;t hesitate to contact us. We&apos;re here to solve your doubts.
             </p>
           </div>
         </div>
@@ -78,8 +74,7 @@ export default function ContactPage() {
               Send us a message
             </h2>
             <p className="text-secondary text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-2 text-center max-w-2xl">
-              Fill out the form and our team will get back to you as quickly as
-              we can.
+              Fill out the form and our team will get back to you as quickly as we can.
             </p>
           </div>
           <ContactForm />
@@ -92,9 +87,8 @@ export default function ContactPage() {
             Find us on Google Maps
           </h2>
           <p className="text-secondary text-sm md:text-base lg:text-[15px] xl:text-lg font-montserrat leading-relaxed mt-2 text-center max-w-2xl">
-            If you have any questions you can report them below with the
-            following information, so that it is easy for us to reply to your
-            message.
+            If you have any questions you can report them below with the following information, so
+            that it is easy for us to reply to your message.
           </p>
         </div>
         <div className="w-full h-100 md:h-125 rounded-3xl overflow-hidden shadow-sm">
@@ -105,7 +99,8 @@ export default function ContactPage() {
             style={{ border: 0 }}
             allowFullScreen={false}
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"></iframe>
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </Container>
 

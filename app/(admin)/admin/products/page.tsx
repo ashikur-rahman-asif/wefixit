@@ -22,7 +22,7 @@ function ProductsContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  
+
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") || "";
   const category = searchParams.get("category") || "";
@@ -33,10 +33,14 @@ function ProductsContent() {
 
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
-  const [pendingFeatured, setPendingFeatured] = useState<Record<number, boolean>>({}); 
+  const [pendingFeatured, setPendingFeatured] = useState<Record<number, boolean>>({});
 
-  const { data: response, isLoading, isFetching } = useAdminProducts({ 
-    page, 
+  const {
+    data: response,
+    isLoading,
+    isFetching,
+  } = useAdminProducts({
+    page,
     search,
     category,
     brand,
@@ -103,7 +107,6 @@ function ProductsContent() {
   };
 
   const handleSaveStatuses = async () => {
-    
     const changedIds = new Set([
       ...Object.keys(pendingStatuses).map(Number),
       ...Object.keys(pendingFeatured).map(Number),
@@ -117,9 +120,11 @@ function ProductsContent() {
       formData.append("title", product.title);
       formData.append("slug", product.slug);
       formData.append("price", product.price.toString());
-      if (product.product_category_id) formData.append("categoryId", product.product_category_id.toString());
+      if (product.product_category_id)
+        formData.append("categoryId", product.product_category_id.toString());
       if (product.product_brand_id) formData.append("brandId", product.product_brand_id.toString());
-      if (product.product_device_id) formData.append("deviceId", product.product_device_id.toString());
+      if (product.product_device_id)
+        formData.append("deviceId", product.product_device_id.toString());
 
       const newStatus = pendingStatuses[id] ?? product.is_active;
       const newFeatured = pendingFeatured[id] ?? product.is_featured;
@@ -139,8 +144,7 @@ function ProductsContent() {
   };
 
   const hasPendingChanges =
-    Object.keys(pendingStatuses).length > 0 ||
-    Object.keys(pendingFeatured).length > 0;
+    Object.keys(pendingStatuses).length > 0 || Object.keys(pendingFeatured).length > 0;
 
   return (
     <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-screen">
@@ -183,7 +187,7 @@ function ProductsContent() {
         onToggleStatus={handleToggleStatus}
         onToggleFeatured={handleToggleFeatured}
       />
-      
+
       {meta && meta.lastPage > 1 && (
         <div className="mt-6 flex justify-center">
           <Pagination
@@ -217,7 +221,6 @@ function ProductsContent() {
 
       {}
       <div className="h-24"></div>
-
     </div>
   );
 }

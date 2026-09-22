@@ -23,7 +23,7 @@ export default function ServicesPage() {
 
   const { data: response, isLoading } = useServices();
   const services = response?.data || [];
-  
+
   const createMutation = useCreateService();
   const updateMutation = useUpdateService();
   const deleteMutation = useDeleteService();
@@ -43,22 +43,25 @@ export default function ServicesPage() {
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
     formData.append("isActive", data.isActive ? "1" : "0");
-    
+
     if (data.deviceIds && data.deviceIds.length > 0) {
       data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
     }
-    
+
     if (data.icon && data.icon instanceof File) {
       formData.append("icon", data.icon);
     }
 
     if (editingService) {
-      updateMutation.mutate({ id: editingService.id, data: formData }, {
-        onSuccess: () => setIsModalOpen(false)
-      });
+      updateMutation.mutate(
+        { id: editingService.id, data: formData },
+        {
+          onSuccess: () => setIsModalOpen(false),
+        },
+      );
     } else {
       createMutation.mutate(formData, {
-        onSuccess: () => setIsModalOpen(false)
+        onSuccess: () => setIsModalOpen(false),
       });
     }
   };
@@ -103,7 +106,9 @@ export default function ServicesPage() {
       if (service.slug) formData.append("slug", service.slug);
       formData.append("isActive", newStatus ? "1" : "0");
       if (service.deviceIds && service.deviceIds.length > 0) {
-        service.deviceIds.forEach((deviceId) => formData.append("deviceIds[]", deviceId.toString()));
+        service.deviceIds.forEach((deviceId) =>
+          formData.append("deviceIds[]", deviceId.toString()),
+        );
       }
 
       return updateMutation.mutateAsync({ id, data: formData });
@@ -131,12 +136,8 @@ export default function ServicesPage() {
       />
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">
-            Services
-          </h1>
-          <p className="text-textGray text-sm">
-            Manage product services for the catalog
-          </p>
+          <h1 className="text-[24px] font-bold text-titleBlack leading-none mb-1">Services</h1>
+          <p className="text-textGray text-sm">Manage product services for the catalog</p>
         </div>
         <button
           onClick={openAddModal}

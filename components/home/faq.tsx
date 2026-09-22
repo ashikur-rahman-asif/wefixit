@@ -50,10 +50,7 @@ export function FAQ() {
         <div className="mt-10 md:mt-14 max-w-[840px] mx-auto">
           <Accordion defaultValue={["item-0"]} className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border-black/10 px-0">
+              <AccordionItem key={index} value={`item-${index}`} className="border-black/10 px-0">
                 <AccordionTrigger className="text-left text-lg md:text-xl font-medium text-primary hover:no-underline py-3">
                   {faq.question}
                 </AccordionTrigger>

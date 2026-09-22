@@ -13,7 +13,13 @@ import { MultiImageUpload } from "@/components/ui/multi-image-upload";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { RichTextEditor } from "@/components/form-elements/rich-text-editor";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useProductCategories } from "@/features/products/hooks/use-admin-product-categories";
 import { useProductBrands } from "@/features/products/hooks/use-admin-product-brands";
 import { useProductDevices } from "@/features/products/hooks/use-admin-product-devices";
@@ -26,13 +32,9 @@ interface ProductFormProps {
   isSubmitting: boolean;
 }
 
-export function ProductForm({
-  initialData,
-  onSubmit,
-  isSubmitting,
-}: ProductFormProps) {
+export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductFormProps) {
   const router = useRouter();
-  
+
   const { data: categoriesResponse } = useProductCategories({ per_page: 100 });
   const { data: brandsResponse } = useProductBrands({ per_page: 100 });
   const { data: devicesResponse } = useProductDevices({ per_page: 100 });
@@ -51,25 +53,30 @@ export function ProductForm({
     formState: { errors },
   } = useForm({
     resolver: zodResolver(productSchema),
-    values: initialData ? {
-      title: initialData.title || "",
-      slug: initialData.slug || "",
-      price: initialData.price != null ? Number(initialData.price) : 0,
-      discountPrice: initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
-      stock: initialData.stock != null ? Number(initialData.stock) : 0,
-      isActive: initialData.is_active,
-      isFeatured: initialData.is_featured || false,
-      categoryId: initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
-      brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
-      deviceId: initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
-      shortDescription: initialData.short_description || "",
-      description: initialData.description || "",
-      specification: initialData.specification || "",
-      specifications: initialData.specifications || [],
-      image: initialData.image || null,
-      images: initialData.images || [],
-      colors: initialData.colors || [],
-    } : undefined,
+    values: initialData
+      ? {
+          title: initialData.title || "",
+          slug: initialData.slug || "",
+          price: initialData.price != null ? Number(initialData.price) : 0,
+          discountPrice:
+            initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
+          stock: initialData.stock != null ? Number(initialData.stock) : 0,
+          isActive: initialData.is_active,
+          isFeatured: initialData.is_featured || false,
+          categoryId:
+            initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
+          brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
+          deviceId:
+            initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
+          shortDescription: initialData.short_description || "",
+          description: initialData.description || "",
+          specification: initialData.specification || "",
+          specifications: initialData.specifications || [],
+          image: initialData.image || null,
+          images: initialData.images || [],
+          colors: initialData.colors || [],
+        }
+      : undefined,
     defaultValues: {
       title: "",
       slug: "",
@@ -91,12 +98,20 @@ export function ProductForm({
     },
   });
 
-  const { fields: colorFields, append: appendColor, remove: removeColor } = useFieldArray({
+  const {
+    fields: colorFields,
+    append: appendColor,
+    remove: removeColor,
+  } = useFieldArray({
     control,
     name: "colors",
   });
 
-  const { fields: specFields, append: appendSpec, remove: removeSpec } = useFieldArray({
+  const {
+    fields: specFields,
+    append: appendSpec,
+    remove: removeSpec,
+  } = useFieldArray({
     control,
     name: "specifications",
   });
@@ -111,10 +126,13 @@ export function ProductForm({
     name: "categoryId",
   });
 
-  const selectedCategory = categories.find((c) => c.id.toString() === watchedCategoryId?.toString());
+  const selectedCategory = categories.find(
+    (c) => c.id.toString() === watchedCategoryId?.toString(),
+  );
   const isPreOwnedCategory = selectedCategory?.name.toLowerCase() === "pre owned";
 
-  const totalCalculatedStock = watchedColors?.reduce((sum, color) => sum + (Number(color.stock) || 0), 0) || 0;
+  const totalCalculatedStock =
+    watchedColors?.reduce((sum, color) => sum + (Number(color.stock) || 0), 0) || 0;
 
   const onSubmitHandler = (data: ProductFormData) => {
     if (data.colors && data.colors.length > 0) {
@@ -124,12 +142,15 @@ export function ProductForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="w-full relative pb-28 space-y-6 max-w-5xl">
+    <form
+      onSubmit={handleSubmit(onSubmitHandler)}
+      className="w-full relative pb-28 space-y-6 max-w-5xl"
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack mb-6">General Information</h2>
-            
+
             <div className="space-y-5">
               <Input
                 label="Product Title"
@@ -138,10 +159,14 @@ export function ProductForm({
                 {...register("title", {
                   onChange: (e) => {
                     if (!initialData) {
-                      const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                      const generatedSlug = slugify(e.target.value, {
+                        lower: true,
+                        strict: true,
+                        trim: true,
+                      });
                       setValue("slug", generatedSlug, { shouldValidate: true });
                     }
-                  }
+                  },
                 })}
                 placeholder="e.g., iPhone 15 Pro Max"
                 error={errors.title?.message?.toString()}
@@ -165,7 +190,9 @@ export function ProductForm({
                   className="min-h-[120px] resize-y"
                 />
                 {errors.shortDescription && (
-                  <p className="text-red-500 text-xs mt-1.5">{errors.shortDescription.message?.toString()}</p>
+                  <p className="text-red-500 text-xs mt-1.5">
+                    {errors.shortDescription.message?.toString()}
+                  </p>
                 )}
               </div>
             </div>
@@ -186,7 +213,9 @@ export function ProductForm({
                 )}
               />
               {errors.description && (
-                <p className="text-red-500 text-xs mt-1.5">{errors.description.message?.toString()}</p>
+                <p className="text-red-500 text-xs mt-1.5">
+                  {errors.description.message?.toString()}
+                </p>
               )}
             </div>
           </div>
@@ -203,7 +232,7 @@ export function ProductForm({
                 Add Specification
               </button>
             </div>
-            
+
             {specFields.length === 0 ? (
               <div className="text-center py-8 text-textGray text-sm">
                 No specifications added yet. Click &quot;Add Specification&quot; to add one.
@@ -211,7 +240,10 @@ export function ProductForm({
             ) : (
               <div className="space-y-4">
                 {specFields.map((field, index) => (
-                  <div key={field.id} className="flex items-start gap-4 p-4 bg-gray-50/50 rounded-xl border border-gray-200 relative group">
+                  <div
+                    key={field.id}
+                    className="flex items-start gap-4 p-4 bg-gray-50/50 rounded-xl border border-gray-200 relative group"
+                  >
                     <div className="flex-1 space-y-4 md:space-y-0 md:flex md:gap-4 md:items-start">
                       <div className="w-full md:w-1/3">
                         <Input
@@ -248,11 +280,13 @@ export function ProductForm({
         <div className="space-y-6">
           <div className="bg-white rounded-2xl p-6 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack">Status & Organization</h2>
-            
+
             <div className="space-y-5">
               <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100">
                 <div>
-                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">Active Status</label>
+                  <label className="text-sm font-semibold text-titleBlack block mb-0.5">
+                    Active Status
+                  </label>
                   <p className="text-[13px] font-medium text-gray-500">Is this product visible?</p>
                 </div>
                 <Controller
@@ -267,8 +301,12 @@ export function ProductForm({
               {isPreOwnedCategory && (
                 <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-xl border border-gray-100 mt-5">
                   <div>
-                    <label className="text-sm font-semibold text-titleBlack block mb-0.5">Featured Product</label>
-                    <p className="text-[13px] font-medium text-gray-500">Show this product on the home page?</p>
+                    <label className="text-sm font-semibold text-titleBlack block mb-0.5">
+                      Featured Product
+                    </label>
+                    <p className="text-[13px] font-medium text-gray-500">
+                      Show this product on the home page?
+                    </p>
                   </div>
                   <Controller
                     name="isFeatured"
@@ -281,7 +319,9 @@ export function ProductForm({
               )}
 
               <div className="mt-5">
-                <label className="block text-sm font-semibold text-titleBlack mb-1.5">Category</label>
+                <label className="block text-sm font-semibold text-titleBlack mb-1.5">
+                  Category
+                </label>
                 <Controller
                   name="categoryId"
                   control={control}
@@ -292,7 +332,9 @@ export function ProductForm({
                       </SelectTrigger>
                       <SelectContent>
                         {categories.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">No categories found</div>
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No categories found
+                          </div>
                         ) : (
                           categories.map((c) => (
                             <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
@@ -318,7 +360,9 @@ export function ProductForm({
                       </SelectTrigger>
                       <SelectContent>
                         {brands.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">No brands found</div>
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No brands found
+                          </div>
                         ) : (
                           brands.map((b) => (
                             <SelectItem key={b.id} value={b.id.toString()} label={b.name}>
@@ -344,7 +388,9 @@ export function ProductForm({
                       </SelectTrigger>
                       <SelectContent>
                         {devices.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">No devices found</div>
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No devices found
+                          </div>
                         ) : (
                           devices.map((d) => (
                             <SelectItem key={d.id} value={d.id.toString()} label={d.name}>
@@ -362,7 +408,7 @@ export function ProductForm({
 
           <div className="bg-white rounded-2xl p-6 border border-gray-100 space-y-6">
             <h2 className="text-xl font-bold text-titleBlack">Pricing & Inventory</h2>
-            
+
             <div className="space-y-4">
               <Input
                 label="Price ($)"
@@ -399,18 +445,16 @@ export function ProductForm({
           <div className="bg-white rounded-2xl p-6 border border-gray-100 space-y-6">
             <div>
               <h2 className="text-xl font-bold text-titleBlack">Product Gallery</h2>
-              <p className="text-[13px] font-medium text-gray-500 mt-1">Recommended size: 640 x 640 px</p>
+              <p className="text-[13px] font-medium text-gray-500 mt-1">
+                Recommended size: 640 x 640 px
+              </p>
             </div>
             <div>
               <Controller
                 name="images"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <MultiImageUpload 
-                    value={value} 
-                    onChange={onChange} 
-                    maxSizeKB={2000}
-                  />
+                  <MultiImageUpload value={value} onChange={onChange} maxSizeKB={2000} />
                 )}
               />
               {errors.images && (
@@ -426,7 +470,16 @@ export function ProductForm({
           <h2 className="text-xl font-bold text-titleBlack">Color Variants</h2>
           <button
             type="button"
-            onClick={() => appendColor({ name: "", hex: "#000000", stock: 0, position: colorFields.length, image: null, images: [] })}
+            onClick={() =>
+              appendColor({
+                name: "",
+                hex: "#000000",
+                stock: 0,
+                position: colorFields.length,
+                image: null,
+                images: [],
+              })
+            }
             className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 text-titleBlack rounded-xl text-sm font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
           >
             <Plus className="w-4 h-4" />
@@ -441,7 +494,10 @@ export function ProductForm({
         ) : (
           <div className="space-y-6">
             {colorFields.map((field, index) => (
-              <div key={field.id} className="p-6 bg-gray-50/50 rounded-xl border border-gray-200 relative group">
+              <div
+                key={field.id}
+                className="p-6 bg-gray-50/50 rounded-xl border border-gray-200 relative group"
+              >
                 <button
                   type="button"
                   onClick={() => removeColor(index)}
@@ -450,15 +506,17 @@ export function ProductForm({
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
-                
+
                 <h3 className="font-semibold text-titleBlack mb-4">Color {index + 1}</h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   <div className="md:col-span-4 mb-2">
-                    <label className="block text-sm font-semibold text-titleBlack mb-1.5">Select Existing Color (Optional)</label>
+                    <label className="block text-sm font-semibold text-titleBlack mb-1.5">
+                      Select Existing Color (Optional)
+                    </label>
                     <Select
                       onValueChange={(val: string | null) => {
-                        const selectedColor = globalColors.find(c => c.id.toString() === val);
+                        const selectedColor = globalColors.find((c) => c.id.toString() === val);
                         if (selectedColor) {
                           setValue(`colors.${index}.name`, selectedColor.name);
                           setValue(`colors.${index}.hex`, selectedColor.hex);
@@ -470,12 +528,17 @@ export function ProductForm({
                       </SelectTrigger>
                       <SelectContent>
                         {globalColors.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">No colors found</div>
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No colors found
+                          </div>
                         ) : (
-                          globalColors.map(c => (
+                          globalColors.map((c) => (
                             <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
                               <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: c.hex }} />
+                                <div
+                                  className="w-4 h-4 rounded-full border border-gray-200"
+                                  style={{ backgroundColor: c.hex }}
+                                />
                                 <span>{c.name}</span>
                               </div>
                             </SelectItem>
@@ -484,7 +547,7 @@ export function ProductForm({
                       </SelectContent>
                     </Select>
                   </div>
-                  
+
                   <Input
                     label="Color Name"
                     required
@@ -493,7 +556,9 @@ export function ProductForm({
                     error={errors.colors?.[index]?.name?.message?.toString()}
                   />
                   <div>
-                    <label className="block text-sm font-semibold text-titleBlack mb-1.5">Hex Code</label>
+                    <label className="block text-sm font-semibold text-titleBlack mb-1.5">
+                      Hex Code
+                    </label>
                     <div className="flex items-center gap-2">
                       <input
                         type="color"
@@ -508,7 +573,7 @@ export function ProductForm({
                       />
                     </div>
                   </div>
-                  
+
                   <Input
                     label="Stock"
                     required
@@ -524,24 +589,26 @@ export function ProductForm({
                   />
                 </div>
 
-                  <div className="mt-4">
-                    <label className="block text-sm font-semibold text-titleBlack mb-0.5">Color Image (Optional)</label>
-                    <p className="text-[13px] font-medium text-gray-500 mb-2">Recommended size: 640 x 640 px</p>
-                    <Controller
-                      name={`colors.${index}.image` as const}
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <ImageUpload
-                          value={value}
-                          onChange={onChange}
-                          className="w-full md:w-50"
-                        />
-                      )}
-                    />
-                  </div>
-                  {errors.colors?.[index]?.image && (
-                    <p className="text-red-500 text-xs mt-1.5">{errors.colors?.[index]?.image?.message?.toString()}</p>
-                  )}
+                <div className="mt-4">
+                  <label className="block text-sm font-semibold text-titleBlack mb-0.5">
+                    Color Image (Optional)
+                  </label>
+                  <p className="text-[13px] font-medium text-gray-500 mb-2">
+                    Recommended size: 640 x 640 px
+                  </p>
+                  <Controller
+                    name={`colors.${index}.image` as const}
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <ImageUpload value={value} onChange={onChange} className="w-full md:w-50" />
+                    )}
+                  />
+                </div>
+                {errors.colors?.[index]?.image && (
+                  <p className="text-red-500 text-xs mt-1.5">
+                    {errors.colors?.[index]?.image?.message?.toString()}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -561,11 +628,7 @@ export function ProductForm({
           disabled={isSubmitting}
           className="h-11 px-8 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
         >
-          {isSubmitting
-            ? "Saving..."
-            : initialData
-              ? "Save Changes"
-              : "Add Product"}
+          {isSubmitting ? "Saving..." : initialData ? "Save Changes" : "Add Product"}
         </button>
       </div>
     </form>

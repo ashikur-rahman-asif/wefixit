@@ -3,7 +3,10 @@ export function DashboardSkeleton() {
     <div className="bg-[#F8F9FB] min-h-screen p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[0, 1, 2].map((i) => (
-          <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between animate-pulse">
+          <div
+            key={i}
+            className="bg-white rounded-2xl p-6 border border-gray-100 flex flex-col justify-between animate-pulse"
+          >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-full bg-gray-100 shrink-0" />
               <div className="flex-1 space-y-2 mt-1">

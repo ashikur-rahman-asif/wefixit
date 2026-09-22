@@ -10,8 +10,7 @@ const steps = [
   {
     icon: BookOnlineIcon,
     title: "Book it online",
-    description:
-      "Sign-up or create an account to get hassle free services next to your door step.",
+    description: "Sign-up or create an account to get hassle free services next to your door step.",
     color: "bg-[#0072de]",
   },
   {
@@ -53,18 +52,18 @@ export function HowWeWork() {
             return (
               <div
                 key={index}
-                className="relative rounded-[14px] bg-lightBrand px-4 pt-8 pb-5 flex flex-col items-center text-center">
+                className="relative rounded-[14px] bg-lightBrand px-4 pt-8 pb-5 flex flex-col items-center text-center"
+              >
                 <div
                   className={cn(
                     "absolute -top-5 left-1/2 -translate-x-1/2 flex items-center justify-center size-10 rounded-full text-white font-bold text-lg",
                     step.color,
-                  )}>
+                  )}
+                >
                   {index + 1}
                 </div>
                 <Icon className="size-16" />
-                <h3 className="text-xl md:text-2xl font-medium text-primary mt-3">
-                  {step.title}
-                </h3>
+                <h3 className="text-xl md:text-2xl font-medium text-primary mt-3">{step.title}</h3>
                 <p className="text-secondary mt-1">{step.description}</p>
               </div>
             );

@@ -6,11 +6,7 @@ export function HouseIcon(props: SVGProps<SVGSVGElement>) {
   const clipId = `${id}-clip`;
 
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-      fill="currentColor"
-      {...props}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" {...props}>
       <g clipPath={`url(#${clipId})`}>
         <path fill="#e9eaeb" d="M29.292 6.41H2.708v22.753h26.584z" />
         <path fill="#b9bbc1" d="M29.292 6.41h-3.375v22.753h3.375z" />
@@ -18,10 +14,7 @@ export function HouseIcon(props: SVGProps<SVGSVGElement>) {
           fill="#fdc74f"
           d="M29.384 6.41H2.615V2.675a.54.54 0 0 1 .54-.54h25.69a.54.54 0 0 1 .54.54z"
         />
-        <path
-          fill="#fca629"
-          d="M28.845 2.134H26.01v2.812h3.375V2.675a.54.54 0 0 0-.54-.54"
-        />
+        <path fill="#fca629" d="M28.845 2.134H26.01v2.812h3.375V2.675a.54.54 0 0 0-.54-.54" />
         <path
           fill="#e60d28"
           d="M2.708 13.183a2.215 2.215 0 0 1-2.215-2.215V9.163h4.43v1.805a2.215 2.215 0 0 1-2.215 2.215"
@@ -77,10 +70,7 @@ export function HouseIcon(props: SVGProps<SVGSVGElement>) {
           fill="#00c6c8"
           d="M10.709 27.084H4.483V16.2c0-.223.18-.403.403-.403h5.42c.222 0 .403.18.403.403z"
         />
-        <path
-          fill="#0fb0c0"
-          d="M10.306 15.796H7.323v11.288h3.386V16.2a.403.403 0 0 0-.403-.403"
-        />
+        <path fill="#0fb0c0" d="M10.306 15.796H7.323v11.288h3.386V16.2a.403.403 0 0 0-.403-.403" />
         <path
           fill="#000"
           d="M8.969 22.172c.259 0 .469-.21.469-.469v-.843a.469.469 0 1 0-.938 0v.843c0 .26.21.47.469.47"

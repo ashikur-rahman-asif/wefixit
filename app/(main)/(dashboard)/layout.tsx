@@ -29,11 +29,7 @@ const sidebarNavItems = [
   },
 ];
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -43,7 +39,9 @@ export default function DashboardLayout({
           {}
           <aside className="lg:w-1/4 w-full shrink-0">
             <div className="bg-white rounded-xl border border-border/50 p-4 lg:p-6 sticky top-24 lg:top-28">
-              <h3 className="text-base lg:text-lg font-bold text-primary mb-4 lg:mb-6 hidden lg:block">Manage Account</h3>
+              <h3 className="text-base lg:text-lg font-bold text-primary mb-4 lg:mb-6 hidden lg:block">
+                Manage Account
+              </h3>
               <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 scrollbar-hide">
                 {sidebarNavItems.map((item) => {
                   const isActive =
@@ -59,10 +57,15 @@ export default function DashboardLayout({
                         "flex items-center gap-2 lg:gap-3 px-4 py-2 lg:py-3 rounded-full lg:rounded-lg text-sm font-medium transition-colors shrink-0 border",
                         isActive
                           ? "bg-brand text-white border-brand"
-                          : "text-gray-600 bg-white border-gray-200 lg:border-transparent lg:bg-transparent hover:bg-gray-50 hover:text-brand"
+                          : "text-gray-600 bg-white border-gray-200 lg:border-transparent lg:bg-transparent hover:bg-gray-50 hover:text-brand",
                       )}
                     >
-                      <Icon className={cn("w-4 h-4 lg:w-5 lg:h-5", isActive ? "text-white" : "text-gray-400 group-hover:text-brand")} />
+                      <Icon
+                        className={cn(
+                          "w-4 h-4 lg:w-5 lg:h-5",
+                          isActive ? "text-white" : "text-gray-400 group-hover:text-brand",
+                        )}
+                      />
                       {item.title}
                     </Link>
                   );
@@ -72,9 +75,7 @@ export default function DashboardLayout({
           </aside>
 
           {}
-          <div className="flex-1 min-w-0">
-            {children}
-          </div>
+          <div className="flex-1 min-w-0">{children}</div>
         </div>
       </Container>
     </div>

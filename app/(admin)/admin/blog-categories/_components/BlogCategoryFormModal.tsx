@@ -38,13 +38,17 @@ export function BlogCategoryFormModal({
     formState: { errors },
   } = useForm<BlogCategoryFormData>({
     resolver: zodResolver(blogCategorySchema),
-    values: open ? (editingCategory ? {
-      name: editingCategory.name,
-      slug: editingCategory.slug,
-    } : {
-      name: "",
-      slug: "",
-    }) : undefined,
+    values: open
+      ? editingCategory
+        ? {
+            name: editingCategory.name,
+            slug: editingCategory.slug,
+          }
+        : {
+            name: "",
+            slug: "",
+          }
+      : undefined,
     defaultValues: {
       name: "",
       slug: "",
@@ -60,12 +64,17 @@ export function BlogCategoryFormModal({
               {editingCategory ? "Edit Blog Category" : "Add Blog Category"}
             </SheetTitle>
             <SheetDescription className="sr-only">
-              {editingCategory ? "Form to edit a blog category." : "Form to add a new blog category."}
+              {editingCategory
+                ? "Form to edit a blog category."
+                : "Form to add a new blog category."}
             </SheetDescription>
           </SheetHeader>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full overflow-hidden">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col flex-1 h-full overflow-hidden"
+        >
           <div className="px-4 pb-4 space-y-5 pt-2 flex-1 overflow-y-auto">
             <div>
               <Input
@@ -74,9 +83,13 @@ export function BlogCategoryFormModal({
                 type="text"
                 {...register("name", {
                   onChange: (e) => {
-                    const generatedSlug = slugify(e.target.value, { lower: true, strict: true, trim: true });
+                    const generatedSlug = slugify(e.target.value, {
+                      lower: true,
+                      strict: true,
+                      trim: true,
+                    });
                     setValue("slug", generatedSlug, { shouldValidate: true });
-                  }
+                  },
                 })}
                 placeholder="e.g., Career Tips"
                 error={errors.name?.message?.toString()}
@@ -107,11 +120,7 @@ export function BlogCategoryFormModal({
               disabled={isSubmitting}
               className="flex-1 h-11 bg-brand text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting
-                ? "Saving..."
-                : editingCategory
-                  ? "Save Changes"
-                  : "Add Category"}
+              {isSubmitting ? "Saving..." : editingCategory ? "Save Changes" : "Add Category"}
             </button>
           </SheetFooter>
         </form>

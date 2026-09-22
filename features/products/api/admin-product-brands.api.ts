@@ -9,7 +9,9 @@ interface GetProductBrandsParams {
 
 export const productBrandsApi = {
   getBrands: async (params?: GetProductBrandsParams) => {
-    const response = await api.get<PaginatedResponse<AdminProductBrand>>("/admin/product-brands", { params });
+    const response = await api.get<PaginatedResponse<AdminProductBrand>>("/admin/product-brands", {
+      params,
+    });
     return response.data;
   },
 
@@ -25,7 +27,10 @@ export const productBrandsApi = {
 
   updateBrand: async ({ id, data }: { id: number; data: FormData }) => {
     data.append("_method", "PUT");
-    const response = await api.post<ApiResponse<AdminProductBrand>>(`/admin/product-brands/${id}`, data);
+    const response = await api.post<ApiResponse<AdminProductBrand>>(
+      `/admin/product-brands/${id}`,
+      data,
+    );
     return response.data;
   },
 

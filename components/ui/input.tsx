@@ -24,8 +24,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <label
           className={cn(
             "absolute text-[13px] font-semibold -translate-y-[21px] top-4 z-10 bg-white px-1.5 left-3",
-            error ? "text-red-500" : "text-titleBlack"
-          )}>
+            error ? "text-red-500" : "text-titleBlack",
+          )}
+        >
           {label}
         </label>
         {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
@@ -54,15 +55,17 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(
         <label
           className={cn(
             "absolute text-[13px] font-semibold -translate-y-[21px] top-4 z-10 bg-white px-1.5 left-3",
-            error ? "text-red-500" : "text-titleBlack"
-          )}>
+            error ? "text-red-500" : "text-titleBlack",
+          )}
+        >
           {label}
         </label>
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           className="absolute right-4 top-1/2 -translate-y-1/2 text-titleBlack hover:text-gray-600 focus:outline-none transition-colors"
-          tabIndex={-1}>
+          tabIndex={-1}
+        >
           {showPassword ? (
             <Eye className="w-[18px] h-[18px]" />
           ) : (

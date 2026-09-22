@@ -42,17 +42,13 @@ export function BlogCategoryTable({
         <TableBody className="divide-y divide-gray-50">
           {isLoading ? (
             <TableRow>
-              <TableCell
-                colSpan={2}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={2} className="h-32 text-center text-gray-600 font-medium">
                 Loading categories...
               </TableCell>
             </TableRow>
           ) : categories.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={2}
-                className="h-32 text-center text-gray-600 font-medium">
+              <TableCell colSpan={2} className="h-32 text-center text-gray-600 font-medium">
                 No categories found. Add one to get started.
               </TableCell>
             </TableRow>
@@ -60,7 +56,8 @@ export function BlogCategoryTable({
             categories.map((category) => (
               <TableRow
                 key={category.id}
-                className="hover:bg-gray-50/50 border-none transition-colors">
+                className="hover:bg-gray-50/50 border-none transition-colors"
+              >
                 <TableCell className="px-6 py-4 font-semibold text-titleBlack text-sm">
                   {category.name}
                   <div className="text-[13px] text-gray-500 font-normal mt-0.5">
@@ -72,14 +69,16 @@ export function BlogCategoryTable({
                     <button
                       onClick={() => onEdit(category)}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 hover:text-brand hover:bg-brand/10 transition-colors cursor-pointer"
-                      title="Edit">
+                      title="Edit"
+                    >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDelete(category.id)}
                       disabled={isDeleting}
                       className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-600 hover:text-red-500 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                      title="Delete">
+                      title="Delete"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
