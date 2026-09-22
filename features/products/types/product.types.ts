@@ -59,3 +59,19 @@ export interface ProductApiResponse extends Omit<
   short_description?: string;
   reviews_count?: number;
 }
+
+export interface ShopFilters {
+  page: number;
+  category?: string;
+  device?: string;
+  brand?: string;
+  sort?: string;
+  minPrice: number;
+  maxPrice?: number;
+}
+
+export interface ShopFilterOptions {
+  categories: Category[];
+  devices: Device[];
+  brands: Brand[];
+}

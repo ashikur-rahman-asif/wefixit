@@ -1,18 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { FilterIcon, X } from "lucide-react";
 import { ShopSidebar } from "./shop-sidebar";
-import { Category } from "@/features/products/types/product.types";
-import { Brand, Device } from "@/features/repairs/types/repair.types";
+import { ShopFilterOptions } from "@/features/products/types/product.types";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
 
-interface MobileFilterProps {
-  categories: Category[];
-  devices: Device[];
-  brands: Brand[];
+interface MobileFilterProps extends ShopFilterOptions {
   currentCategorySlug?: string;
   currentDeviceSlug?: string;
   currentBrandSlug?: string;
@@ -30,16 +27,6 @@ export function MobileFilter(props: MobileFilterProps) {
     setPrevSearchString(searchString);
     setIsOpen(false);
   }
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <>

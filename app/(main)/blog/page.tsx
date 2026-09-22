@@ -1,3 +1,4 @@
+import { Blog } from "@/features/blogs/types/blog.types";
 import { Metadata } from "next";
 
 import { BlogHero } from "@/components/blog/hero";
@@ -26,18 +27,42 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const page = Number(resolvedSearchParams.page) || 1;
   const category = resolvedSearchParams.category as string | undefined;
 
-  const response = await publicBlogsApi.getBlogs(page, category);
-  const allBlogs = response.data;
+  let allBlogs: Blog[] = [];
+  let topBlogs: Blog[] = [];
+  let currentPage = page;
+  let lastPage = 1;
+  let apiError = false;
 
-  const topBlogsResponse = await publicBlogsApi.getTopBlogs();
-  const topBlogs = topBlogsResponse.data.filter((b) => b.is_top).slice(0, 2);
+  try {
+    const response = await publicBlogsApi.getBlogs(page, category);
+    allBlogs = response.data;
+    currentPage = response.current_page;
+    lastPage = response.last_page;
+
+    const topBlogsResponse = await publicBlogsApi.getTopBlogs();
+    topBlogs = topBlogsResponse.data.filter((b) => b.is_top).slice(0, 2);
+  } catch {
+    apiError = true;
+  }
 
   const topBlogIds = new Set(topBlogs.map((b) => b.id));
   const otherBlogs = allBlogs.filter((b) => !topBlogIds.has(b.id));
-
   const recentBlogs = otherBlogs.slice(0, 4);
-
   const isFirstPage = page === 1;
+
+  if (apiError) {
+    return (
+      <>
+        <BlogHero />
+        <Container className="py-6 lg:py-10">
+          <div className="flex flex-col items-center justify-center py-16 text-gray-500">
+            <p className="text-xl font-semibold">Unable to load blog posts</p>
+            <p className="mt-2 text-sm">Please try again later or contact support.</p>
+          </div>
+        </Container>
+      </>
+    );
+  }
 
   return (
     <>
@@ -70,8 +95,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         <AllBlogs
           blogs={allBlogs}
           meta={{
-            currentPage: response.current_page,
-            totalPages: response.last_page,
+            currentPage: currentPage,
+            totalPages: lastPage,
           }}
         />
       </Container>

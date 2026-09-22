@@ -14,28 +14,44 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const product = await publicProductsApi.getProductBySlug(params.slug);
-
-  if (!product) {
+  try {
+    const product = await publicProductsApi.getProductBySlug(params.slug);
+    if (!product) return { title: "Product Not Found" };
     return {
-      title: "Product Not Found",
+      title: `${product.title} | WeFixit`,
+      description: product.shortDescription || product.title,
+      openGraph: {
+        images: product.image ? [product.image] : [],
+      },
     };
+  } catch {
+    return { title: "Product | WeFixit" };
   }
-
-  return {
-    title: `${product.title} | WeFixit`,
-    description: product.shortDescription || product.title,
-    openGraph: {
-      images: product.image ? [product.image] : [],
-    },
-  };
 }
 
 export default async function ProductDetailsPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const productSlug = params.slug;
 
-  const product = await publicProductsApi.getProductBySlug(productSlug);
+  let product: Awaited<ReturnType<typeof publicProductsApi.getProductBySlug>> = null;
+  let apiError = false;
+
+  try {
+    product = await publicProductsApi.getProductBySlug(productSlug);
+  } catch {
+    apiError = true;
+  }
+
+  if (apiError) {
+    return (
+      <Container className="py-6 md:py-8">
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+          <p className="text-xl font-semibold">Unable to load product</p>
+          <p className="mt-2 text-sm">Please try again later or contact support.</p>
+        </div>
+      </Container>
+    );
+  }
 
   if (!product) {
     notFound();
