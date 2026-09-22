@@ -1,0 +1,33 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+build
+
+# Git
+.git
+.gitignore
+
+# Environment files (pass via --env-file or secrets)
+.env*
+!.env.example
+
+# Editor & OS
+.DS_Store
+*.log
+.vscode
+.idea
+
+# Husky
+.husky
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Misc
+README.md
+CLAUDE.md
+AGENTS.md

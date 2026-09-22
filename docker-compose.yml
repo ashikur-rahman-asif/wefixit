@@ -1,0 +1,13 @@
+
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wefixit-frontend
+    ports:
+      - "3069:3069"
+    restart: unless-stopped
+    env_file:
+      - .env
