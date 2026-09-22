@@ -40,10 +40,17 @@ export function RepairWizard() {
 
   const renderContent = () => {
     if (isGlobalLoading) {
+      const skeletonCount =
+        currentStep === "Brands" && currentBrands.length > 0
+          ? currentBrands.length
+          : currentStep === "Device" && devices.length > 0
+            ? devices.length
+            : 4;
+
       return (
         <div className="w-full animate-pulse mt-4">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+            {Array.from({ length: skeletonCount }).map((_, i) => (
               <div
                 key={i}
                 className="relative rounded-[14px] border border-transparent bg-muted/20 py-6 md:py-12 flex flex-col items-center justify-center"
