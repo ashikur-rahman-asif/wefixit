@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import { ProductDeviceFormModal } from "./_components/ProductDeviceFormModal";
-import { type EcommerceDeviceFormData } from "@/validators/admin";
+import { type EcommerceDeviceFormData } from "@/features/products/schemas/product.schema";
 import { ProductDeviceTable } from "./_components/ProductDeviceTable";
 import {
   useProductDevices,

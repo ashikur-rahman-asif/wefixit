@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { GradeFormModal } from "./_components/GradeFormModal";
-import { type GradeFormData } from "@/validators/admin";
+import { type GradeFormData } from "@/features/product-grades/schemas/product-grade.schema";
 import { GradeTable } from "./_components/GradeTable";
 import {
   useCreateProductGrade,

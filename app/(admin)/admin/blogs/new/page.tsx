@@ -1,7 +1,7 @@
 "use client";
 
 import { BlogForm } from "../_components/BlogForm";
-import { type BlogFormData } from "@/validators/admin";
+import { type BlogFormData } from "@/features/blogs/schemas/blog.schema";
 import { useCreateBlog } from "@/features/blogs/hooks/use-admin-blogs";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";

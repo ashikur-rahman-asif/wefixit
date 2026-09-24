@@ -13,7 +13,10 @@ import {
 import { AdminProductDevice } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ecommerceDeviceSchema, type EcommerceDeviceFormData } from "@/validators/admin";
+import {
+  ecommerceDeviceSchema,
+  type EcommerceDeviceFormData,
+} from "@/features/products/schemas/product.schema";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 

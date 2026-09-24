@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deviceSchema, type DeviceFormData } from "@/validators/admin";
+import { deviceSchema, type DeviceFormData } from "@/features/devices/schemas/device.schema";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";

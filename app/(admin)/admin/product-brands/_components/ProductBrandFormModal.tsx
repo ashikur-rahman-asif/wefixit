@@ -13,7 +13,10 @@ import {
 import { AdminProductBrand } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ecommerceBrandSchema, type EcommerceBrandFormData } from "@/validators/admin";
+import {
+  ecommerceBrandSchema,
+  type EcommerceBrandFormData,
+} from "@/features/products/schemas/product.schema";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 

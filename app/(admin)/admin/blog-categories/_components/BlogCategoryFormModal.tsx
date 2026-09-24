@@ -13,7 +13,10 @@ import {
 import { BlogCategory } from "@/features/blogs/types/blog.types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { blogCategorySchema, type BlogCategoryFormData } from "@/validators/admin";
+import {
+  blogCategorySchema,
+  type BlogCategoryFormData,
+} from "@/features/blogs/schemas/blog.schema";
 import { Input } from "@/components/form-elements/input";
 
 interface BlogCategoryFormModalProps {

@@ -2,7 +2,7 @@
 
 import { use } from "react";
 import { BlogForm } from "../_components/BlogForm";
-import { type BlogFormData } from "@/validators/admin";
+import { type BlogFormData } from "@/features/blogs/schemas/blog.schema";
 import { useAdminBlog, useUpdateBlog } from "@/features/blogs/hooks/use-admin-blogs";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";

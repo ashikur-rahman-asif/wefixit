@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { ColorFormModal } from "./_components/ColorFormModal";
-import { type ColorFormData } from "@/validators/admin";
+import { type ColorFormData } from "@/features/colors/schemas/color.schema";
 import { ColorTable } from "./_components/ColorTable";
 import {
   useColors,

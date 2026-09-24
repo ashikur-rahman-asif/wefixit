@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import { ProductBrandFormModal } from "./_components/ProductBrandFormModal";
-import { type EcommerceBrandFormData } from "@/validators/admin";
+import { type EcommerceBrandFormData } from "@/features/products/schemas/product.schema";
 import { ProductBrandTable } from "./_components/ProductBrandTable";
 import {
   useProductBrands,

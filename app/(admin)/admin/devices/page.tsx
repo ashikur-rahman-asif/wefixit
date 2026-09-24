@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { DeviceFormModal } from "./_components/DeviceFormModal";
-import { type DeviceFormData } from "@/validators/admin";
+import { type DeviceFormData } from "@/features/devices/schemas/device.schema";
 import { DeviceTable } from "./_components/DeviceTable";
 import {
   useDevices,

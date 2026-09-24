@@ -6,7 +6,7 @@ import { Plus, Trash2 } from "lucide-react";
 import slugify from "slugify";
 import { useRouter } from "next/navigation";
 
-import { productSchema, type ProductFormData } from "@/validators/admin";
+import { productSchema, type ProductFormData } from "@/features/products/schemas/product.schema";
 import { AdminProduct } from "@/types/admin";
 import { Input } from "@/components/form-elements/input";
 import { MultiImageUpload } from "@/components/ui/multi-image-upload";

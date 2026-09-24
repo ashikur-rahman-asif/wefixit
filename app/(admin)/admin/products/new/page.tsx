@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ProductForm } from "../_components/ProductForm";
 import { useCreateProduct } from "@/features/products/hooks/use-admin-products";
-import { type ProductFormData } from "@/validators/admin";
+import { type ProductFormData } from "@/features/products/schemas/product.schema";
 
 export default function AddProductPage() {
   const router = useRouter();

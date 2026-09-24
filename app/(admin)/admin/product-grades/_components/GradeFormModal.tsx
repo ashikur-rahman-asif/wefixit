@@ -11,7 +11,10 @@ import {
 import { ProductGrade } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { gradeSchema, type GradeFormData } from "@/validators/admin";
+import {
+  gradeSchema,
+  type GradeFormData,
+} from "@/features/product-grades/schemas/product-grade.schema";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 

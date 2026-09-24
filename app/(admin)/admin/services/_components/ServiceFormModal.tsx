@@ -13,7 +13,7 @@ import {
 import { AdminService } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { serviceSchema, type ServiceFormData } from "@/validators/admin";
+import { serviceSchema, type ServiceFormData } from "@/features/services/schemas/service.schema";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ProductForm } from "../../_components/ProductForm";
 import { useAdminProduct, useUpdateProduct } from "@/features/products/hooks/use-admin-products";
-import { type ProductFormData } from "@/validators/admin";
+import { type ProductFormData } from "@/features/products/schemas/product.schema";
 import { PageLoader } from "@/components/ui/loader";
 
 export default function EditProductPage({ params }: { params: Promise<{ slug: string }> }) {

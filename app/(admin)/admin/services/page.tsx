@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { ServiceFormModal } from "./_components/ServiceFormModal";
-import { type ServiceFormData } from "@/validators/admin";
+import { type ServiceFormData } from "@/features/services/schemas/service.schema";
 import { ServiceTable } from "./_components/ServiceTable";
 import {
   useServices,

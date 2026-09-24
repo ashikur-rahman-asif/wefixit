@@ -11,7 +11,7 @@ import {
 import { AdminColor } from "@/types/admin";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { colorSchema, type ColorFormData } from "@/validators/admin";
+import { colorSchema, type ColorFormData } from "@/features/colors/schemas/color.schema";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 

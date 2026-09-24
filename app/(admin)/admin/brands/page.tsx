@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { BrandFormModal } from "./_components/BrandFormModal";
-import { type BrandFormData } from "@/validators/admin";
+import { type BrandFormData } from "@/features/brands/schemas/brand.schema";
 import { BrandTable } from "./_components/BrandTable";
 import {
   useBrands,

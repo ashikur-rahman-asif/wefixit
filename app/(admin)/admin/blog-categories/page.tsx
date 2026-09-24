@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { BlogCategoryFormModal } from "./_components/BlogCategoryFormModal";
-import { type BlogCategoryFormData } from "@/validators/admin";
+import { type BlogCategoryFormData } from "@/features/blogs/schemas/blog.schema";
 import { BlogCategoryTable } from "./_components/BlogCategoryTable";
 import {
   useAdminBlogCategories,

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { adminBlogsApi } from "@/features/blogs/api/admin-blogs.api";
-import { blogSchema, type BlogFormData } from "@/validators/admin";
+import { blogSchema, type BlogFormData } from "@/features/blogs/schemas/blog.schema";
 import { Blog } from "@/features/blogs/types/blog.types";
 import { Input } from "@/components/form-elements/input";
 import { ImageUpload } from "@/components/ui/image-upload";

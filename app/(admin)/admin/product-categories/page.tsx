@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 import { ProductCategoryFormModal } from "./_components/ProductCategoryFormModal";
-import { type ProductCategoryFormData } from "@/validators/admin";
+import { type ProductCategoryFormData } from "@/features/products/schemas/product.schema";
 import { ProductCategoryTable } from "./_components/ProductCategoryTable";
 import {
   useProductCategories,

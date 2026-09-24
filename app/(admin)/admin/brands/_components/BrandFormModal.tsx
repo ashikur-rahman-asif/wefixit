@@ -13,7 +13,7 @@ import {
 import { AdminBrand } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { brandSchema, type BrandFormData } from "@/validators/admin";
+import { brandSchema, type BrandFormData } from "@/features/brands/schemas/brand.schema";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
