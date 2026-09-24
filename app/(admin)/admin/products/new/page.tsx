@@ -23,7 +23,6 @@ export default function AddProductPage() {
     if (data.discountPrice) formData.append("discount_price", data.discountPrice.toString());
     if (data.categoryId) formData.append("product_category_id", data.categoryId.toString());
     if (data.brandId) formData.append("product_brand_id", data.brandId.toString());
-    if (data.deviceId) formData.append("product_device_id", data.deviceId.toString());
 
     if (data.shortDescription) formData.append("short_description", data.shortDescription);
     if (data.description) formData.append("description", data.description);

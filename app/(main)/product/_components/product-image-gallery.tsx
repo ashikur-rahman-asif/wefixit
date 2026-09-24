@@ -6,22 +6,29 @@ import { useState } from "react";
 
 interface ProductImageGalleryProps {
   images?: string[];
+  thumbnails?: string[];
   discountPercentage?: number;
+  selectedImage?: string;
 }
 
 export function ProductImageGallery({
   images = [],
+  thumbnails = [],
   discountPercentage = 0,
+  selectedImage,
 }: ProductImageGalleryProps) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [prevFirstImage, setPrevFirstImage] = useState(images[0]);
-
-  if (images[0] !== prevFirstImage) {
-    setActiveImageIndex(0);
-    setPrevFirstImage(images[0]);
-  }
+  const [prevSelectedImage, setPrevSelectedImage] = useState(selectedImage);
 
   const displayImages = images.length > 0 ? images : ["/HP_Lptp.webp"];
+
+  if (selectedImage && selectedImage !== prevSelectedImage) {
+    const newIndex = displayImages.indexOf(selectedImage);
+    if (newIndex !== -1 && newIndex !== activeImageIndex) {
+      setActiveImageIndex(newIndex);
+    }
+    setPrevSelectedImage(selectedImage);
+  }
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -58,27 +65,36 @@ export function ProductImageGallery({
         ))}
       </div>
 
-      {displayImages.length > 1 && (
+      {thumbnails.length > 1 && (
         <div className="grid grid-cols-4 gap-3 sm:gap-4 h-20 sm:h-24">
-          {displayImages.slice(0, 4).map((img, index) => (
-            <button
-              key={index}
-              onClick={() => setActiveImageIndex(index)}
-              className={cn(
-                "relative w-full h-full border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
-                activeImageIndex === index ? "border-brand opacity-100" : "border-transparent ",
-              )}
-              aria-label={`View image ${index + 1}`}
-            >
-              <Image
-                src={img}
-                alt={`Thumbnail ${index + 1}`}
-                width={100}
-                height={100}
-                className="w-full h-full object-contain"
-              />
-            </button>
-          ))}
+          {thumbnails.map((img, index) => {
+            const activeThumbnailIndex = displayImages.indexOf(img);
+            return (
+              <button
+                key={index}
+                onClick={() => {
+                  if (activeThumbnailIndex !== -1) {
+                    setActiveImageIndex(activeThumbnailIndex);
+                  }
+                }}
+                className={cn(
+                  "relative w-full h-full border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
+                  activeImageIndex === activeThumbnailIndex
+                    ? "border-brand opacity-100"
+                    : "border-transparent ",
+                )}
+                aria-label={`View image ${index + 1}`}
+              >
+                <Image
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  width={100}
+                  height={100}
+                  className="w-full h-full object-contain"
+                />
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

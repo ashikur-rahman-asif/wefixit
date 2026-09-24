@@ -44,14 +44,17 @@ export function MainNav() {
   const isTransparentMode = ["/services", "/contact", "/blog"].includes(pathname);
   const isTransparent = isTransparentMode && !isScrolled;
 
-  const handleLogout = () => {
-    clearAuth();
-    toast.success("Logged out successfully");
-    router.replace("/");
-
-    authApi.logout().catch((error) => {
+  const handleLogout = async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
       console.error("Logout failed on server", error);
-    });
+    } finally {
+      clearAuth();
+      toast.success("Logged out successfully");
+      router.replace("/");
+      router.refresh();
+    }
   };
 
   useEffect(() => {

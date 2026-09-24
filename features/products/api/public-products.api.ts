@@ -8,7 +8,6 @@ interface GetPublicProductsParams {
   perPage?: number;
   category?: string;
   brand?: string;
-  device?: string;
   sort?: string;
   minPrice?: number;
   maxPrice?: number;
@@ -20,7 +19,6 @@ const mapProduct = (p: ProductApiResponse): Product => ({
   discountPrice: p.discount_price,
   categoryId: p.product_category_id,
   brandId: p.product_brand_id,
-  deviceId: p.product_device_id,
   shortDescription: p.short_description,
   reviewsCount: p.reviews_count,
 });
@@ -90,16 +88,6 @@ export const publicProductsApi = {
       headers: { "Content-Type": "application/json", Accept: "application/json" },
     });
     if (!response.ok) throw new Error("Failed to fetch brands");
-    const data = await response.json();
-    return data.data || data;
-  },
-
-  getDevices: async () => {
-    const response = await fetch(`${API_URL}/product-devices`, {
-      next: { revalidate: 180 },
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-    });
-    if (!response.ok) throw new Error("Failed to fetch devices");
     const data = await response.json();
     return data.data || data;
   },

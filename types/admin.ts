@@ -301,21 +301,12 @@ export interface AdminProductCategory {
   slug: string;
   icon: string | null;
   isActive: boolean;
+  isSystem?: boolean;
   created_at: string;
   updated_at: string;
 }
 
 export interface AdminProductBrand {
-  id: number;
-  name: string;
-  slug: string;
-  icon: string | null;
-  isActive: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface AdminProductDevice {
   id: number;
   name: string;
   slug: string;
@@ -331,10 +322,8 @@ export interface AdminProduct {
   slug: string;
   product_category_id: number;
   product_brand_id: number;
-  product_device_id: number;
   category: AdminProductCategory;
   brand: AdminProductBrand;
-  device: AdminProductDevice;
   price: number;
   discount_price: number | null;
   description: string | null;

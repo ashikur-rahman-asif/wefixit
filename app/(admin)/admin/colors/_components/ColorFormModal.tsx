@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 import {
   Sheet,
   SheetContent,
@@ -52,6 +54,13 @@ export function ColorFormModal({
   });
 
   const hexValue = useWatch({ control, name: "hex" });
+  const colorInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (colorInputRef.current && hexValue && colorInputRef.current.value !== hexValue) {
+      colorInputRef.current.value = hexValue;
+    }
+  }, [hexValue]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -88,8 +97,11 @@ export function ColorFormModal({
               <div className="w-12 h-12 rounded-xl border border-gray-200 overflow-hidden shrink-0">
                 <input
                   type="color"
-                  value={hexValue || "#000000"}
-                  onChange={(e) => setValue("hex", e.target.value)}
+                  ref={colorInputRef}
+                  defaultValue={hexValue || "#000000"}
+                  onChange={(e) =>
+                    setValue("hex", e.target.value, { shouldValidate: true, shouldDirty: true })
+                  }
                   className="w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4 cursor-pointer"
                 />
               </div>

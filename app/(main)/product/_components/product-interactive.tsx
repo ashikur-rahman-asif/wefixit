@@ -14,15 +14,16 @@ export function ProductInteractive({
   selectedColor,
   onColorChange,
 }: ProductInteractiveProps) {
+  const isOutOfStock =
+    product.colors && product.colors.length > 0
+      ? Number(selectedColor?.stock || 0) === 0
+      : Number(product.stock || 0) === 0;
+
   return (
     <div>
       <ProductInfo product={product} />
       <ProductColorSelector colors={product.colors} onColorChange={onColorChange || (() => {})} />
-      <ProductActions
-        product={product}
-        isOutOfStock={product.stock === 0}
-        selectedColor={selectedColor}
-      />
+      <ProductActions product={product} isOutOfStock={isOutOfStock} selectedColor={selectedColor} />
     </div>
   );
 }

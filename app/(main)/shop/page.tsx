@@ -1,27 +1,24 @@
 import Container from "@/components/container";
 import { ProductCard } from "@/components/product-card";
-import Link from "next/link";
-import { ShopSidebar } from "./_components/shop-sidebar";
-import { MobileFilter } from "./_components/mobile-filter";
-import { SortDropdown } from "./_components/sort-dropdown";
-import { ShopPagination } from "./_components/shop-pagination";
-import { Suspense } from "react";
 import { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
+import { MobileFilter } from "./_components/mobile-filter";
+import { ShopPagination } from "./_components/shop-pagination";
+import { ShopSidebar } from "./_components/shop-sidebar";
+import { SortDropdown } from "./_components/sort-dropdown";
 
 import { publicProductsApi } from "@/features/products/api/public-products.api";
+import { Product, ShopFilterOptions, ShopFilters } from "@/features/products/types/product.types";
 import { PaginatedResponse } from "@/types/admin";
-import { Product, ShopFilters, ShopFilterOptions } from "@/features/products/types/product.types";
 
 export const metadata: Metadata = {
   title: "Shop | WeFixIt",
   description: "Browse our collection of new and pre-owned devices, repair parts, and accessories.",
 };
 
-// ─── Data Fetcher ─────────────────────────────────────────────────────────────
-
 type ShopData = {
   categories: Awaited<ReturnType<typeof publicProductsApi.getCategories>>;
-  devices: Awaited<ReturnType<typeof publicProductsApi.getDevices>>;
   brands: Awaited<ReturnType<typeof publicProductsApi.getBrands>>;
   productsData: PaginatedResponse<Product>;
   error: boolean;
@@ -38,15 +35,13 @@ const emptyProductsData: PaginatedResponse<Product> = {
 
 async function getShopData(filters: ShopFilters): Promise<ShopData> {
   try {
-    const [categories, devices, brands, productsData] = await Promise.all([
+    const [categories, brands, productsData] = await Promise.all([
       publicProductsApi.getCategories(),
-      publicProductsApi.getDevices(),
       publicProductsApi.getBrands(),
       publicProductsApi.getProducts({
         page: filters.page,
         perPage: ITEMS_PER_PAGE,
         category: filters.category,
-        device: filters.device,
         brand: filters.brand,
         sort: filters.sort,
         minPrice: filters.minPrice,
@@ -54,11 +49,10 @@ async function getShopData(filters: ShopFilters): Promise<ShopData> {
       }),
     ]);
 
-    return { categories, devices, brands, productsData, error: false };
+    return { categories, brands, productsData, error: false };
   } catch {
     return {
       categories: [],
-      devices: [],
       brands: [],
       productsData: emptyProductsData,
       error: true,
@@ -79,14 +73,13 @@ export default async function ShopPage(props: {
   const filters: ShopFilters = {
     page: Number(searchParams.page) || 1,
     category: searchParams.category as string | undefined,
-    device: searchParams.device as string | undefined,
     brand: searchParams.brand as string | undefined,
     sort: searchParams.sort as string | undefined,
     minPrice: Number(searchParams.minPrice) || 0,
     maxPrice: Number(searchParams.maxPrice) || undefined,
   };
 
-  const { categories, devices, brands, productsData, error } = await getShopData(filters);
+  const { categories, brands, productsData, error } = await getShopData(filters);
 
   if (error) {
     return (
@@ -108,10 +101,9 @@ export default async function ShopPage(props: {
   const totalPages = productsData.meta?.lastPage || 1;
   const hasProducts = currentProducts.length > 0;
 
-  const filterOptions: ShopFilterOptions = { categories, devices, brands };
+  const filterOptions: ShopFilterOptions = { categories, brands };
   const activeFilters = {
     currentCategorySlug: filters.category,
-    currentDeviceSlug: filters.device,
     currentBrandSlug: filters.brand,
     sliderMax,
     hasActiveFilters,

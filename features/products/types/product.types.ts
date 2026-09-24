@@ -4,6 +4,7 @@ export interface ProductColor {
   hex: string;
   image?: string;
   images?: string[];
+  stock?: number;
 }
 
 export interface Category {
@@ -20,13 +21,6 @@ export interface Brand {
   icon?: string | null;
 }
 
-export interface Device {
-  id: string | number;
-  name: string;
-  slug: string;
-  icon?: string | null;
-}
-
 export interface Product {
   id: string | number;
   title: string;
@@ -36,7 +30,6 @@ export interface Product {
   discountPrice?: number;
   categoryId?: string | number;
   brandId?: string | number;
-  deviceId?: string | number;
   description?: string;
   shortDescription?: string;
   specification?: string;
@@ -50,12 +43,11 @@ export interface Product {
 
 export interface ProductApiResponse extends Omit<
   Product,
-  "discountPrice" | "categoryId" | "brandId" | "deviceId" | "shortDescription" | "reviewsCount"
+  "discountPrice" | "categoryId" | "brandId" | "shortDescription" | "reviewsCount"
 > {
   discount_price?: number;
   product_category_id?: string | number;
   product_brand_id?: string | number;
-  product_device_id?: string | number;
   short_description?: string;
   reviews_count?: number;
 }
@@ -63,7 +55,6 @@ export interface ProductApiResponse extends Omit<
 export interface ShopFilters {
   page: number;
   category?: string;
-  device?: string;
   brand?: string;
   sort?: string;
   minPrice: number;
@@ -72,6 +63,5 @@ export interface ShopFilters {
 
 export interface ShopFilterOptions {
   categories: Category[];
-  devices: Device[];
   brands: Brand[];
 }

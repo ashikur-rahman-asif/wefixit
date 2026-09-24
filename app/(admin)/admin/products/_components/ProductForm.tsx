@@ -22,9 +22,10 @@ import {
 } from "@/components/ui/select";
 import { useProductCategories } from "@/features/products/hooks/use-admin-product-categories";
 import { useProductBrands } from "@/features/products/hooks/use-admin-product-brands";
-import { useProductDevices } from "@/features/products/hooks/use-admin-product-devices";
+
 import { useColors } from "@/features/colors/hooks/use-admin-colors";
 import { Textarea } from "@/components/ui/textarea";
+import { ColorPickerField } from "@/components/form-elements/color-picker";
 
 interface ProductFormProps {
   initialData?: AdminProduct;
@@ -37,12 +38,12 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
 
   const { data: categoriesResponse } = useProductCategories({ per_page: 100 });
   const { data: brandsResponse } = useProductBrands({ per_page: 100 });
-  const { data: devicesResponse } = useProductDevices({ per_page: 100 });
+
   const { data: colorsResponse } = useColors();
 
   const categories = categoriesResponse?.data || [];
   const brands = brandsResponse?.data || [];
-  const devices = devicesResponse?.data || [];
+
   const globalColors = colorsResponse?.data || [];
 
   const {
@@ -50,6 +51,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
     handleSubmit,
     control,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(productSchema),
@@ -66,8 +68,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
           categoryId:
             initialData.product_category_id != null ? Number(initialData.product_category_id) : "",
           brandId: initialData.product_brand_id != null ? Number(initialData.product_brand_id) : "",
-          deviceId:
-            initialData.product_device_id != null ? Number(initialData.product_device_id) : "",
+
           shortDescription: initialData.short_description || "",
           description: initialData.description || "",
           specification: initialData.specification || "",
@@ -87,7 +88,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
       isFeatured: false,
       categoryId: "",
       brandId: "",
-      deviceId: "",
+
       shortDescription: "",
       description: "",
       specification: "",
@@ -328,7 +329,11 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                   render={({ field: { onChange, value } }) => (
                     <Select onValueChange={onChange} value={value?.toString()}>
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder="Select a category">
+                          {value
+                            ? categories.find((c) => c.id.toString() === value?.toString())?.name
+                            : "Select a category"}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {categories.length === 0 ? (
@@ -356,7 +361,11 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                   render={({ field: { onChange, value } }) => (
                     <Select onValueChange={onChange} value={value?.toString()}>
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
-                        <SelectValue placeholder="Select a brand" />
+                        <SelectValue placeholder="Select a brand">
+                          {value
+                            ? brands.find((b) => b.id.toString() === value?.toString())?.name
+                            : "Select a brand"}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {brands.length === 0 ? (
@@ -367,34 +376,6 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                           brands.map((b) => (
                             <SelectItem key={b.id} value={b.id.toString()} label={b.name}>
                               {b.name}
-                            </SelectItem>
-                          ))
-                        )}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-titleBlack mb-1.5">Device</label>
-                <Controller
-                  name="deviceId"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Select onValueChange={onChange} value={value?.toString()}>
-                      <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
-                        <SelectValue placeholder="Select a device" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {devices.length === 0 ? (
-                          <div className="p-2 text-sm text-gray-500 text-center">
-                            No devices found
-                          </div>
-                        ) : (
-                          devices.map((d) => (
-                            <SelectItem key={d.id} value={d.id.toString()} label={d.name}>
-                              {d.name}
                             </SelectItem>
                           ))
                         )}
@@ -516,7 +497,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                     </label>
                     <Select
                       onValueChange={(val: string | null) => {
-                        const selectedColor = globalColors.find((c) => c.id.toString() === val);
+                        const selectedColor = globalColors.find((c) => c.name === val);
                         if (selectedColor) {
                           setValue(`colors.${index}.name`, selectedColor.name);
                           setValue(`colors.${index}.hex`, selectedColor.hex);
@@ -533,7 +514,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                           </div>
                         ) : (
                           globalColors.map((c) => (
-                            <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
+                            <SelectItem key={c.id} value={c.name} label={c.name}>
                               <div className="flex items-center gap-2">
                                 <div
                                   className="w-4 h-4 rounded-full border border-gray-200"
@@ -555,24 +536,13 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
                     placeholder="e.g. Midnight Black"
                     error={errors.colors?.[index]?.name?.message?.toString()}
                   />
-                  <div>
-                    <label className="block text-sm font-semibold text-titleBlack mb-1.5">
-                      Hex Code
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="color"
-                        {...register(`colors.${index}.hex` as const)}
-                        className="w-11 h-11 rounded-lg cursor-pointer border border-gray-200 p-1 bg-white"
-                      />
-                      <Input
-                        required
-                        {...register(`colors.${index}.hex` as const)}
-                        placeholder="#000000"
-                        error={errors.colors?.[index]?.hex?.message?.toString()}
-                      />
-                    </div>
-                  </div>
+                  <ColorPickerField
+                    name={`colors.${index}.hex`}
+                    register={register}
+                    setValue={setValue}
+                    watch={watch}
+                    errors={errors}
+                  />
 
                   <Input
                     label="Stock"

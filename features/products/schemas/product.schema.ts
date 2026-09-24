@@ -34,7 +34,6 @@ export const productSchema = z.object({
   discountPrice: optionalNumber,
   categoryId: optionalId,
   brandId: optionalId,
-  deviceId: optionalId,
   shortDescription: z.string().optional(),
   description: z.string().optional(),
   specification: z.string().optional(),

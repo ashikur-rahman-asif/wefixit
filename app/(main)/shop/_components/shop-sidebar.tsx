@@ -15,10 +15,8 @@ interface ShopSidebarProps extends ShopFilterOptions {
 
 export function ShopSidebar({
   categories,
-  devices,
   brands,
   currentCategorySlug,
-  currentDeviceSlug,
   currentBrandSlug,
   sliderMax,
   hasActiveFilters,
@@ -28,7 +26,6 @@ export function ShopSidebar({
   const buildUrl = (key: string, value: string | undefined) => {
     const params = new URLSearchParams();
     if (currentCategorySlug) params.set("category", currentCategorySlug);
-    if (currentDeviceSlug) params.set("device", currentDeviceSlug);
     if (currentBrandSlug) params.set("brand", currentBrandSlug);
 
     if (value && params.get(key) === value) {
@@ -71,27 +68,6 @@ export function ShopSidebar({
                   )}
                 >
                   {category.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div>
-        <h3 className="text-lg font-bold text-[#3E3E59]">Devices</h3>
-        <ul className="pt-2 space-y-2">
-          {devices.map((device) => {
-            const isActive = currentDeviceSlug === device.slug;
-            return (
-              <li key={device.id}>
-                <Link
-                  href={buildUrl("device", device.slug)}
-                  className={cn(
-                    "font-semibold transition-colors",
-                    isActive ? "text-brand underline" : "text-[#807E7E] hover:text-brand",
-                  )}
-                >
-                  {device.name}
                 </Link>
               </li>
             );

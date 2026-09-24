@@ -90,7 +90,7 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
         { title: "Product List", href: "/admin/products", icon: Box },
         { title: "Categories", href: "/admin/product-categories", icon: List },
         { title: "Brands", href: "/admin/product-brands", icon: Award },
-        { title: "Devices", href: "/admin/product-devices", icon: Smartphone },
+
         { title: "Colors", href: "/admin/colors", icon: Palette },
         { title: "Reviews", href: "/admin/product-reviews", icon: Star },
       ],
