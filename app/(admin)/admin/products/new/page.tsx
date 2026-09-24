@@ -18,14 +18,14 @@ export default function AddProductPage() {
     formData.append("price", data.price.toString());
     formData.append("stock", data.stock.toString());
     formData.append("isActive", data.isActive ? "1" : "0");
-    formData.append("isFeatured", data.isFeatured ? "1" : "0");
+    formData.append("is_featured", data.isFeatured ? "1" : "0");
 
-    if (data.discountPrice) formData.append("discountPrice", data.discountPrice.toString());
-    if (data.categoryId) formData.append("categoryId", data.categoryId.toString());
-    if (data.brandId) formData.append("brandId", data.brandId.toString());
-    if (data.deviceId) formData.append("deviceId", data.deviceId.toString());
+    if (data.discountPrice) formData.append("discount_price", data.discountPrice.toString());
+    if (data.categoryId) formData.append("product_category_id", data.categoryId.toString());
+    if (data.brandId) formData.append("product_brand_id", data.brandId.toString());
+    if (data.deviceId) formData.append("product_device_id", data.deviceId.toString());
 
-    if (data.shortDescription) formData.append("shortDescription", data.shortDescription);
+    if (data.shortDescription) formData.append("short_description", data.shortDescription);
     if (data.description) formData.append("description", data.description);
 
     if (data.specifications && data.specifications.length > 0) {

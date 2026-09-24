@@ -121,15 +121,16 @@ function ProductsContent() {
       formData.append("slug", product.slug);
       formData.append("price", product.price.toString());
       if (product.product_category_id)
-        formData.append("categoryId", product.product_category_id.toString());
-      if (product.product_brand_id) formData.append("brandId", product.product_brand_id.toString());
+        formData.append("product_category_id", product.product_category_id.toString());
+      if (product.product_brand_id)
+        formData.append("product_brand_id", product.product_brand_id.toString());
       if (product.product_device_id)
-        formData.append("deviceId", product.product_device_id.toString());
+        formData.append("product_device_id", product.product_device_id.toString());
 
       const newStatus = pendingStatuses[id] ?? product.isActive;
       const newFeatured = pendingFeatured[id] ?? product.is_featured;
       formData.append("isActive", newStatus ? "1" : "0");
-      formData.append("isFeatured", newFeatured ? "1" : "0");
+      formData.append("is_featured", newFeatured ? "1" : "0");
 
       return updateMutation.mutateAsync({ id, data: formData });
     });
