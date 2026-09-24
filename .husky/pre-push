@@ -5,7 +5,6 @@ echo "Running pre-push checks..."
 # Build check — use live API so SSG fetches don't fail with ECONNREFUSED
 echo "\nRunning Next.js build check..."
 NEXT_PUBLIC_API_URL=https://api.wefixitt.tech/api \
-BACKEND_API_URL=https://api.wefixitt.tech/api \
   pnpm run build
 if [ $? -ne 0 ]; then
   echo "\nBuild failed! Fix the errors above before pushing."
