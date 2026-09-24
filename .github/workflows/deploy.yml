@@ -21,7 +21,7 @@ env:
   ACR_LOGIN_SERVER: wefixitregistryuae.azurecr.io
   IMAGE_NAME: frontend
   NODE_VERSION: "22"
-  PNPM_VERSION: "9"
+  PNPM_VERSION: "10"
 
 jobs:
   quality:
