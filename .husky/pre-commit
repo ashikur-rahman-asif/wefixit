@@ -2,16 +2,24 @@
 
 echo "Running pre-commit checks..."
 
-# Step 1: Run lint-staged (Prettier + ESLint on staged files)
-echo "\nStep 1/2 - Linting and formatting staged files..."
+# Step 1: Run lint-staged (auto-fix Prettier + ESLint on staged files)
+echo "\nStep 1/3 - Linting and formatting staged files..."
 pnpm exec lint-staged
 if [ $? -ne 0 ]; then
   echo "\nLint-staged failed. Fix the errors above before committing."
   exit 1
 fi
 
-# Step 2: TypeScript type check (full project)
-echo "\nStep 2/2 - Running TypeScript type check..."
+# Step 2: Full Prettier check (catches unformatted files that weren't staged)
+echo "\nStep 2/3 - Full Prettier format check..."
+pnpm format:check
+if [ $? -ne 0 ]; then
+  echo "\nFormatting issues found. Run: pnpm format"
+  exit 1
+fi
+
+# Step 3: TypeScript type check (full project)
+echo "\nStep 3/3 - Running TypeScript type check..."
 pnpm exec tsc --noEmit
 if [ $? -ne 0 ]; then
   echo "\nTypeScript errors found. Fix them before committing."
