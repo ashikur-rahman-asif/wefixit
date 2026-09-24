@@ -20,6 +20,7 @@ export default function ServicesPage() {
   const [editingService, setEditingService] = useState<AdminService | null>(null);
   const [serviceToDelete, setServiceToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useServices();
   const services = response?.data || [];
@@ -30,11 +31,13 @@ export default function ServicesPage() {
 
   const openAddModal = () => {
     setEditingService(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (service: AdminService) => {
     setEditingService(service);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -180,6 +183,7 @@ export default function ServicesPage() {
       <div className="h-24"></div>
 
       <ServiceFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingService={editingService}

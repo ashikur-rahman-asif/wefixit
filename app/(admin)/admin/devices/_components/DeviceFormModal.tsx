@@ -41,27 +41,19 @@ export function DeviceFormModal({
     formState: { errors },
   } = useForm<DeviceFormData>({
     resolver: zodResolver(deviceSchema),
-    values: open
-      ? editingDevice
-        ? {
-            name: editingDevice.name,
-            slug: editingDevice.slug,
-            is_active: editingDevice.is_active,
-            icon: editingDevice.icon,
-          }
-        : {
-            name: "",
-            slug: "",
-            is_active: true,
-            icon: null,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-      is_active: true,
-      icon: null,
-    },
+    defaultValues: editingDevice
+      ? {
+          name: editingDevice.name,
+          slug: editingDevice.slug,
+          isActive: editingDevice.isActive,
+          icon: editingDevice.icon,
+        }
+      : {
+          name: "",
+          slug: "",
+          isActive: true,
+          icon: null,
+        },
   });
 
   return (
@@ -137,7 +129,7 @@ export function DeviceFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -145,7 +137,7 @@ export function DeviceFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

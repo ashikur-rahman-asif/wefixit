@@ -87,7 +87,7 @@ export function ColorTable({
                 </TableCell>
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={pendingStatuses[color.id] ?? Boolean(color.is_active)}
+                    checked={pendingStatuses[color.id] ?? Boolean(color.isActive)}
                     onCheckedChange={(checked: boolean) => onToggleStatus(color.id, checked)}
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />

@@ -10,13 +10,15 @@ interface GetProductBrandsParams {
 export const productBrandsApi = {
   getBrands: async (params?: GetProductBrandsParams) => {
     const response = await api.get<PaginatedResponse<AdminProductBrand>>("/admin/product-brands", {
-      params,
+      params: { ...params, includeInactive: 1 },
     });
     return response.data;
   },
 
   getAllBrands: async () => {
-    const response = await api.get<ApiResponse<AdminProductBrand[]>>("/admin/product-brands?all=1");
+    const response = await api.get<ApiResponse<AdminProductBrand[]>>(
+      "/admin/product-brands?all=1&includeInactive=1",
+    );
     return response.data.data;
   },
 

@@ -178,7 +178,7 @@ export interface ProductGrade {
   id: number;
   name: string;
   description: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -252,7 +252,7 @@ export interface AdminBrand {
   device_name: string | null;
   deviceIds?: number[];
   icon: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -261,7 +261,7 @@ export interface AdminColor {
   id: number;
   name: string;
   hex: string;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -271,7 +271,7 @@ export interface AdminDevice {
   name: string;
   slug: string;
   icon: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -300,7 +300,7 @@ export interface AdminProductCategory {
   name: string;
   slug: string;
   icon: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -310,7 +310,7 @@ export interface AdminProductBrand {
   name: string;
   slug: string;
   icon: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -320,7 +320,7 @@ export interface AdminProductDevice {
   name: string;
   slug: string;
   icon: string | null;
-  is_active: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -345,7 +345,7 @@ export interface AdminProduct {
   stock: number;
   rating: number;
   reviews_count: number;
-  is_active: boolean;
+  isActive: boolean;
   is_featured: boolean;
   images: string[];
   colors: {

@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
 import { AdminBrand, ApiResponse } from "@/types/admin";
 
-type StatusFlag = { isActive?: boolean; is_active?: boolean };
+type StatusFlag = { isActive?: boolean };
 
 interface RawBrand extends StatusFlag {
   id: number;
@@ -18,7 +18,7 @@ interface RawBrand extends StatusFlag {
   updated_at?: string;
 }
 
-const normalizeStatus = (raw: StatusFlag) => Boolean(raw.isActive ?? raw.is_active);
+const normalizeStatus = (raw: StatusFlag) => Boolean(raw.isActive);
 
 const normalizeBrand = (raw: RawBrand): AdminBrand => ({
   id: raw.id,
@@ -27,7 +27,7 @@ const normalizeBrand = (raw: RawBrand): AdminBrand => ({
   icon: raw.icon,
   device_name: raw.device_name ?? raw.deviceName ?? null,
   deviceIds: (raw.deviceIds ?? raw.device_ids ?? []).map(Number),
-  is_active: normalizeStatus(raw),
+  isActive: normalizeStatus(raw),
   created_at: raw.created_at ?? raw.createdAt ?? "",
   updated_at: raw.updated_at ?? raw.updatedAt ?? "",
 });

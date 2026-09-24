@@ -32,6 +32,7 @@ function ProductDevicesContent() {
   const [editingDevice, setEditingDevice] = useState<AdminProductDevice | null>(null);
   const [deviceToDelete, setDeviceToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useProductDevices({ page, search });
   const devices = response?.data || [];
@@ -49,11 +50,13 @@ function ProductDevicesContent() {
 
   const openAddModal = () => {
     setEditingDevice(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (device: AdminProductDevice) => {
     setEditingDevice(device);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -61,7 +64,7 @@ function ProductDevicesContent() {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
-    formData.append("is_active", data.is_active ? "1" : "0");
+    formData.append("isActive", data.isActive ? "1" : "0");
 
     if (editingDevice) {
       updateMutation.mutate(
@@ -96,7 +99,7 @@ function ProductDevicesContent() {
 
       if (!device) return next;
 
-      if (device.is_active === newStatus) {
+      if (device.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -115,7 +118,7 @@ function ProductDevicesContent() {
       const formData = new FormData();
       formData.append("name", device.name);
       if (device.slug) formData.append("slug", device.slug);
-      formData.append("is_active", newStatus ? "1" : "0");
+      formData.append("isActive", newStatus ? "1" : "0");
 
       return updateMutation.mutateAsync({ id, data: formData });
     });
@@ -198,6 +201,7 @@ function ProductDevicesContent() {
       <div className="h-24"></div>
 
       <ProductDeviceFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingDevice={editingDevice}

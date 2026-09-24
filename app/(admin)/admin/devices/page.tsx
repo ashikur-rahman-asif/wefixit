@@ -20,6 +20,7 @@ export default function DevicesPage() {
   const [editingDevice, setEditingDevice] = useState<AdminDevice | null>(null);
   const [deviceToDelete, setDeviceToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useDevices();
   const devices = response?.data || [];
@@ -30,11 +31,13 @@ export default function DevicesPage() {
 
   const openAddModal = () => {
     setEditingDevice(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (device: AdminDevice) => {
     setEditingDevice(device);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -42,7 +45,7 @@ export default function DevicesPage() {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
-    formData.append("isActive", data.is_active ? "1" : "0");
+    formData.append("isActive", data.isActive ? "1" : "0");
 
     if (data.icon && data.icon instanceof File) {
       formData.append("icon", data.icon);
@@ -81,7 +84,7 @@ export default function DevicesPage() {
 
       if (!device) return next;
 
-      if (device.is_active === newStatus) {
+      if (device.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -173,6 +176,7 @@ export default function DevicesPage() {
       <div className="h-24"></div>
 
       <DeviceFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingDevice={editingDevice}

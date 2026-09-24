@@ -21,6 +21,7 @@ export default function BrandsPage() {
   const [editingBrand, setEditingBrand] = useState<AdminBrand | null>(null);
   const [brandToDelete, setBrandToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useBrands();
   const brands = response?.data || [];
@@ -34,11 +35,13 @@ export default function BrandsPage() {
 
   const openAddModal = () => {
     setEditingBrand(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (brand: AdminBrand) => {
     setEditingBrand(brand);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -47,7 +50,7 @@ export default function BrandsPage() {
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
     if (data.deviceName) formData.append("deviceName", data.deviceName);
-    formData.append("isActive", data.is_active ? "1" : "0");
+    formData.append("isActive", data.isActive ? "1" : "0");
 
     if (data.deviceIds && data.deviceIds.length > 0) {
       data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
@@ -90,7 +93,7 @@ export default function BrandsPage() {
 
       if (!brand) return next;
 
-      if (brand.is_active === newStatus) {
+      if (brand.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -182,6 +185,7 @@ export default function BrandsPage() {
       <div className="h-24"></div>
 
       <BrandFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingBrand={editingBrand}

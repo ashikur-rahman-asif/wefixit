@@ -11,14 +11,14 @@ export const productCategoriesApi = {
   getCategories: async (params?: GetProductCategoriesParams) => {
     const response = await api.get<PaginatedResponse<AdminProductCategory>>(
       "/admin/product-categories",
-      { params },
+      { params: { ...params, includeInactive: 1 } },
     );
     return response.data;
   },
 
   getAllCategories: async () => {
     const response = await api.get<ApiResponse<AdminProductCategory[]>>(
-      "/admin/product-categories?all=1",
+      "/admin/product-categories?all=1&includeInactive=1",
     );
     return response.data.data;
   },

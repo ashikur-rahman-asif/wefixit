@@ -15,7 +15,7 @@ export type ServiceFormData = z.infer<typeof serviceSchema>;
 export const gradeSchema = z.object({
   name: z.string().min(1, "Grade name is required"),
   description: z.string().optional(),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export type GradeFormData = z.infer<typeof gradeSchema>;
@@ -28,7 +28,7 @@ export const brandSchema = z.object({
   icon: z
     .any()
     .refine((val) => val !== null && val !== undefined && val !== "", "Brand icon is required"),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export type BrandFormData = z.infer<typeof brandSchema>;
@@ -39,7 +39,7 @@ export const deviceSchema = z.object({
   icon: z
     .any()
     .refine((val) => val !== null && val !== undefined && val !== "", "Device icon is required"),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export type DeviceFormData = z.infer<typeof deviceSchema>;
@@ -50,7 +50,7 @@ export const colorSchema = z.object({
     .string()
     .min(1, "Hex code is required")
     .regex(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "Invalid hex code (e.g. #000000)"),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export type ColorFormData = z.infer<typeof colorSchema>;
@@ -58,7 +58,7 @@ export type ColorFormData = z.infer<typeof colorSchema>;
 export const productCategorySchema = z.object({
   name: z.string().min(1, "Category name is required"),
   slug: z.string().optional(),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 export type ProductCategoryFormData = z.infer<typeof productCategorySchema>;
 
@@ -71,14 +71,14 @@ export type BlogCategoryFormData = z.infer<typeof blogCategorySchema>;
 export const ecommerceBrandSchema = z.object({
   name: z.string().min(1, "Brand name is required"),
   slug: z.string().optional(),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 export type EcommerceBrandFormData = z.infer<typeof ecommerceBrandSchema>;
 
 export const ecommerceDeviceSchema = z.object({
   name: z.string().min(1, "Device name is required"),
   slug: z.string().optional(),
-  is_active: z.boolean(),
+  isActive: z.boolean(),
 });
 export type EcommerceDeviceFormData = z.infer<typeof ecommerceDeviceSchema>;
 

@@ -61,7 +61,7 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
           discountPrice:
             initialData.discount_price != null ? Number(initialData.discount_price) : undefined,
           stock: initialData.stock != null ? Number(initialData.stock) : 0,
-          isActive: initialData.is_active,
+          isActive: initialData.isActive,
           isFeatured: initialData.is_featured || false,
           categoryId:
             initialData.product_category_id != null ? Number(initialData.product_category_id) : "",

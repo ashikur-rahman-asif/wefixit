@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
 import { AdminService, ApiResponse } from "@/types/admin";
 
-type StatusFlag = { isActive?: boolean; is_active?: boolean };
+type StatusFlag = { isActive?: boolean };
 
 interface RawService extends StatusFlag {
   id: number;
@@ -15,7 +15,7 @@ interface RawService extends StatusFlag {
   updated_at?: string;
 }
 
-const normalizeStatus = (raw: StatusFlag) => Boolean(raw.isActive ?? raw.is_active);
+const normalizeStatus = (raw: StatusFlag) => Boolean(raw.isActive);
 
 const normalizeService = (raw: RawService): AdminService => ({
   id: raw.id,

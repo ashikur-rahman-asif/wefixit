@@ -32,6 +32,7 @@ function ProductBrandsContent() {
   const [editingBrand, setEditingBrand] = useState<AdminProductBrand | null>(null);
   const [brandToDelete, setBrandToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useProductBrands({ page, search });
   const brands = response?.data || [];
@@ -49,11 +50,13 @@ function ProductBrandsContent() {
 
   const openAddModal = () => {
     setEditingBrand(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (brand: AdminProductBrand) => {
     setEditingBrand(brand);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -61,7 +64,7 @@ function ProductBrandsContent() {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
-    formData.append("is_active", data.is_active ? "1" : "0");
+    formData.append("isActive", data.isActive ? "1" : "0");
 
     if (editingBrand) {
       updateMutation.mutate(
@@ -96,7 +99,7 @@ function ProductBrandsContent() {
 
       if (!brand) return next;
 
-      if (brand.is_active === newStatus) {
+      if (brand.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -115,7 +118,7 @@ function ProductBrandsContent() {
       const formData = new FormData();
       formData.append("name", brand.name);
       if (brand.slug) formData.append("slug", brand.slug);
-      formData.append("is_active", newStatus ? "1" : "0");
+      formData.append("isActive", newStatus ? "1" : "0");
 
       return updateMutation.mutateAsync({ id, data: formData });
     });
@@ -198,6 +201,7 @@ function ProductBrandsContent() {
       <div className="h-24"></div>
 
       <ProductBrandFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingBrand={editingBrand}

@@ -37,24 +37,17 @@ export function GradeFormModal({
     formState: { errors },
   } = useForm<GradeFormData>({
     resolver: zodResolver(gradeSchema),
-    values: open
-      ? editingGrade
-        ? {
-            name: editingGrade.name,
-            description: editingGrade.description || "",
-            is_active: editingGrade.is_active,
-          }
-        : {
-            name: "",
-            description: "",
-            is_active: true,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      description: "",
-      is_active: true,
-    },
+    defaultValues: editingGrade
+      ? {
+          name: editingGrade.name,
+          description: editingGrade.description || "",
+          isActive: editingGrade.isActive,
+        }
+      : {
+          name: "",
+          description: "",
+          isActive: true,
+        },
   });
 
   return (
@@ -101,7 +94,7 @@ export function GradeFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -109,7 +102,7 @@ export function GradeFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

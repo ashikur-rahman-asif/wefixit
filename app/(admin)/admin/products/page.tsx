@@ -79,7 +79,7 @@ function ProductsContent() {
 
       if (!product) return next;
 
-      if (product.is_active === newStatus) {
+      if (product.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -126,7 +126,7 @@ function ProductsContent() {
       if (product.product_device_id)
         formData.append("deviceId", product.product_device_id.toString());
 
-      const newStatus = pendingStatuses[id] ?? product.is_active;
+      const newStatus = pendingStatuses[id] ?? product.isActive;
       const newFeatured = pendingFeatured[id] ?? product.is_featured;
       formData.append("isActive", newStatus ? "1" : "0");
       formData.append("isFeatured", newFeatured ? "1" : "0");

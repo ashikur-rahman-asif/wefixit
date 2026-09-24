@@ -20,6 +20,7 @@ export default function ColorsPage() {
   const [editingColor, setEditingColor] = useState<AdminColor | null>(null);
   const [colorToDelete, setColorToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useColors();
   const colors = response?.data || [];
@@ -30,11 +31,13 @@ export default function ColorsPage() {
 
   const openAddModal = () => {
     setEditingColor(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (color: AdminColor) => {
     setEditingColor(color);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -42,7 +45,7 @@ export default function ColorsPage() {
     const payload = {
       name: data.name,
       hex: data.hex,
-      isActive: data.is_active,
+      isActive: data.isActive,
     };
 
     if (editingColor) {
@@ -78,7 +81,7 @@ export default function ColorsPage() {
 
       if (!color) return next;
 
-      if (color.is_active === newStatus) {
+      if (color.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -160,6 +163,7 @@ export default function ColorsPage() {
       <div className="h-24"></div>
 
       <ColorFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingColor={editingColor}

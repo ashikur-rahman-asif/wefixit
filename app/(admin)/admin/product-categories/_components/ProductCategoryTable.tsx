@@ -75,7 +75,7 @@ export function ProductCategoryTable({
 
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={pendingStatuses[category.id] ?? Boolean(category.is_active)}
+                    checked={pendingStatuses[category.id] ?? Boolean(category.isActive)}
                     onCheckedChange={(checked: boolean) => onToggleStatus(category.id, checked)}
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />

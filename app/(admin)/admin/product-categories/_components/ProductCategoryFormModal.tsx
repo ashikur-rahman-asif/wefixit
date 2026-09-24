@@ -40,24 +40,17 @@ export function ProductCategoryFormModal({
     formState: { errors },
   } = useForm<ProductCategoryFormData>({
     resolver: zodResolver(productCategorySchema),
-    values: open
-      ? editingCategory
-        ? {
-            name: editingCategory.name,
-            slug: editingCategory.slug,
-            is_active: editingCategory.is_active,
-          }
-        : {
-            name: "",
-            slug: "",
-            is_active: true,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-      is_active: true,
-    },
+    defaultValues: editingCategory
+      ? {
+          name: editingCategory.name,
+          slug: editingCategory.slug,
+          isActive: editingCategory.isActive,
+        }
+      : {
+          name: "",
+          slug: "",
+          isActive: true,
+        },
   });
 
   return (
@@ -114,7 +107,7 @@ export function ProductCategoryFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -122,7 +115,7 @@ export function ProductCategoryFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

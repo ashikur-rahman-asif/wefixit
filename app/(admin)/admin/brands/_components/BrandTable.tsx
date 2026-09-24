@@ -117,7 +117,7 @@ export function BrandTable({
 
                 <TableCell className="px-6 py-4">
                   <Switch
-                    checked={pendingStatuses[brand.id] ?? Boolean(brand.is_active)}
+                    checked={pendingStatuses[brand.id] ?? Boolean(brand.isActive)}
                     onCheckedChange={(checked: boolean) => onToggleStatus(brand.id, checked)}
                     className="data-[state=checked]:bg-brand cursor-pointer"
                   />

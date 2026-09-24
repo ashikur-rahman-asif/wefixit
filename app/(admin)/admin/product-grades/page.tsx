@@ -19,6 +19,7 @@ export default function ProductGradesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingGrade, setEditingGrade] = useState<ProductGrade | null>(null);
   const [gradeToDelete, setGradeToDelete] = useState<number | null>(null);
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: grades, isLoading } = useProductGrades();
   const createMutation = useCreateProductGrade();
@@ -27,11 +28,13 @@ export default function ProductGradesPage() {
 
   const openAddModal = () => {
     setEditingGrade(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (grade: ProductGrade) => {
     setEditingGrade(grade);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -93,6 +96,7 @@ export default function ProductGradesPage() {
       />
 
       <GradeFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingGrade={editingGrade}

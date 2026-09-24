@@ -4,11 +4,11 @@ import { ProductGrade } from "@/types/admin";
 export const productGradesApi = {
   getProductGrades: async () => {
     const response = await api.get<{ status: string; message: string; data: ProductGrade[] }>(
-      "/admin/product-grades",
+      "/admin/product-grades?includeInactive=1",
     );
     return response.data.data;
   },
-  createProductGrade: async (data: { name: string; description?: string; is_active: boolean }) => {
+  createProductGrade: async (data: { name: string; description?: string; isActive: boolean }) => {
     const response = await api.post<{ status: string; message: string; data: ProductGrade }>(
       "/admin/product-grades",
       data,
@@ -20,7 +20,7 @@ export const productGradesApi = {
     data,
   }: {
     id: number;
-    data: { name: string; description?: string; is_active: boolean };
+    data: { name: string; description?: string; isActive: boolean };
   }) => {
     const response = await api.put<{ status: string; message: string; data: ProductGrade }>(
       `/admin/product-grades/${id}`,

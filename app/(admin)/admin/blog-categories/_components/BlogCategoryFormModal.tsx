@@ -38,21 +38,15 @@ export function BlogCategoryFormModal({
     formState: { errors },
   } = useForm<BlogCategoryFormData>({
     resolver: zodResolver(blogCategorySchema),
-    values: open
-      ? editingCategory
-        ? {
-            name: editingCategory.name,
-            slug: editingCategory.slug,
-          }
-        : {
-            name: "",
-            slug: "",
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-    },
+    defaultValues: editingCategory
+      ? {
+          name: editingCategory.name,
+          slug: editingCategory.slug,
+        }
+      : {
+          name: "",
+          slug: "",
+        },
   });
 
   return (

@@ -22,6 +22,7 @@ function BlogCategoriesContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<BlogCategory | null>(null);
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: categories = [], isLoading } = useAdminBlogCategories();
 
@@ -31,11 +32,13 @@ function BlogCategoriesContent() {
 
   const openAddModal = () => {
     setEditingCategory(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (category: BlogCategory) => {
     setEditingCategory(category);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -103,6 +106,7 @@ function BlogCategoriesContent() {
       <div className="h-24"></div>
 
       <BlogCategoryFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingCategory={editingCategory}

@@ -32,6 +32,7 @@ function ProductCategoriesContent() {
   const [editingCategory, setEditingCategory] = useState<AdminProductCategory | null>(null);
   const [categoryToDelete, setCategoryToDelete] = useState<number | null>(null);
   const [pendingStatuses, setPendingStatuses] = useState<Record<number, boolean>>({});
+  const [modalKey, setModalKey] = useState(0);
 
   const { data: response, isLoading } = useProductCategories({ page, search });
   const categories = response?.data || [];
@@ -49,11 +50,13 @@ function ProductCategoriesContent() {
 
   const openAddModal = () => {
     setEditingCategory(null);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
   const openEditModal = (category: AdminProductCategory) => {
     setEditingCategory(category);
+    setModalKey((k) => k + 1);
     setIsModalOpen(true);
   };
 
@@ -61,7 +64,7 @@ function ProductCategoriesContent() {
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.slug) formData.append("slug", data.slug);
-    formData.append("is_active", data.is_active ? "1" : "0");
+    formData.append("isActive", data.isActive ? "1" : "0");
 
     if (editingCategory) {
       updateMutation.mutate(
@@ -96,7 +99,7 @@ function ProductCategoriesContent() {
 
       if (!category) return next;
 
-      if (category.is_active === newStatus) {
+      if (category.isActive === newStatus) {
         delete next[id];
       } else {
         next[id] = newStatus;
@@ -115,7 +118,7 @@ function ProductCategoriesContent() {
       const formData = new FormData();
       formData.append("name", category.name);
       if (category.slug) formData.append("slug", category.slug);
-      formData.append("is_active", newStatus ? "1" : "0");
+      formData.append("isActive", newStatus ? "1" : "0");
 
       return updateMutation.mutateAsync({ id, data: formData });
     });
@@ -198,6 +201,7 @@ function ProductCategoriesContent() {
       <div className="h-24"></div>
 
       <ProductCategoryFormModal
+        key={modalKey}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         editingCategory={editingCategory}

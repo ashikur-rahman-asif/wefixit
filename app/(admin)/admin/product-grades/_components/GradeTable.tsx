@@ -69,12 +69,12 @@ export function GradeTable({ grades, isLoading, isDeleting, onEdit, onDelete }: 
                 <TableCell className="px-6 py-4">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      grade.is_active
+                      grade.isActive
                         ? "bg-green-50 text-green-600"
                         : "bg-gray-100 text-gray-600 font-medium"
                     }`}
                   >
-                    {grade.is_active ? "Active" : "Inactive"}
+                    {grade.isActive ? "Active" : "Inactive"}
                   </span>
                 </TableCell>
                 <TableCell className="px-6 py-4">

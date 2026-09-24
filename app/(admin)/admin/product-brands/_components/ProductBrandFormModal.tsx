@@ -40,24 +40,17 @@ export function ProductBrandFormModal({
     formState: { errors },
   } = useForm<EcommerceBrandFormData>({
     resolver: zodResolver(ecommerceBrandSchema),
-    values: open
-      ? editingBrand
-        ? {
-            name: editingBrand.name,
-            slug: editingBrand.slug,
-            is_active: editingBrand.is_active,
-          }
-        : {
-            name: "",
-            slug: "",
-            is_active: true,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-      is_active: true,
-    },
+    defaultValues: editingBrand
+      ? {
+          name: editingBrand.name,
+          slug: editingBrand.slug,
+          isActive: editingBrand.isActive,
+        }
+      : {
+          name: "",
+          slug: "",
+          isActive: true,
+        },
   });
 
   return (
@@ -112,7 +105,7 @@ export function ProductBrandFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -120,7 +113,7 @@ export function ProductBrandFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

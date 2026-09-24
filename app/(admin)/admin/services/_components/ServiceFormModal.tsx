@@ -46,30 +46,21 @@ export function ServiceFormModal({
     formState: { errors },
   } = useForm<ServiceFormData>({
     resolver: zodResolver(serviceSchema),
-    values: open
-      ? editingService
-        ? {
-            name: editingService.name,
-            slug: editingService.slug,
-            deviceIds: (editingService.deviceIds || []).map(Number),
-            icon: editingService.icon || null,
-            isActive: editingService.isActive,
-          }
-        : {
-            name: "",
-            slug: "",
-            deviceIds: [],
-            icon: null,
-            isActive: true,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-      deviceIds: [],
-      icon: null,
-      isActive: true,
-    },
+    defaultValues: editingService
+      ? {
+          name: editingService.name,
+          slug: editingService.slug,
+          deviceIds: (editingService.deviceIds || []).map(Number),
+          icon: editingService.icon || null,
+          isActive: editingService.isActive,
+        }
+      : {
+          name: "",
+          slug: "",
+          deviceIds: [],
+          icon: null,
+          isActive: true,
+        },
   });
 
   return (

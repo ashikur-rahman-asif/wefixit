@@ -6,7 +6,7 @@ import { toast } from "sonner";
 type GradeFormData = {
   name: string;
   description?: string;
-  is_active: boolean;
+  isActive: boolean;
 };
 
 export const useProductGrades = () => {

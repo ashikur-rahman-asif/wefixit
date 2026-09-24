@@ -46,33 +46,23 @@ export function BrandFormModal({
     formState: { errors },
   } = useForm<BrandFormData>({
     resolver: zodResolver(brandSchema),
-    values: open
-      ? editingBrand
-        ? {
-            name: editingBrand.name,
-            slug: editingBrand.slug,
-            deviceName: editingBrand.device_name || "",
-            deviceIds: (editingBrand.deviceIds || []).map(Number),
-            is_active: editingBrand.is_active,
-            icon: editingBrand.icon,
-          }
-        : {
-            name: "",
-            slug: "",
-            deviceName: "",
-            deviceIds: [],
-            is_active: true,
-            icon: null,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      slug: "",
-      deviceName: "",
-      deviceIds: [],
-      is_active: true,
-      icon: null,
-    },
+    defaultValues: editingBrand
+      ? {
+          name: editingBrand.name,
+          slug: editingBrand.slug,
+          deviceName: editingBrand.device_name || "",
+          deviceIds: (editingBrand.deviceIds || []).map(Number),
+          isActive: editingBrand.isActive,
+          icon: editingBrand.icon,
+        }
+      : {
+          name: "",
+          slug: "",
+          deviceName: "",
+          deviceIds: [],
+          isActive: true,
+          icon: null,
+        },
   });
 
   return (
@@ -166,7 +156,7 @@ export function BrandFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -174,7 +164,7 @@ export function BrandFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

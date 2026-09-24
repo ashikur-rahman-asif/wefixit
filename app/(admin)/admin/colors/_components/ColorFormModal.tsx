@@ -38,24 +38,17 @@ export function ColorFormModal({
     formState: { errors },
   } = useForm<ColorFormData>({
     resolver: zodResolver(colorSchema),
-    values: open
-      ? editingColor
-        ? {
-            name: editingColor.name,
-            hex: editingColor.hex,
-            is_active: editingColor.is_active,
-          }
-        : {
-            name: "",
-            hex: "#000000",
-            is_active: true,
-          }
-      : undefined,
-    defaultValues: {
-      name: "",
-      hex: "#000000",
-      is_active: true,
-    },
+    defaultValues: editingColor
+      ? {
+          name: editingColor.name,
+          hex: editingColor.hex,
+          isActive: editingColor.isActive,
+        }
+      : {
+          name: "",
+          hex: "#000000",
+          isActive: true,
+        },
   });
 
   const hexValue = useWatch({ control, name: "hex" });
@@ -114,7 +107,7 @@ export function ColorFormModal({
 
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <Controller
-                name="is_active"
+                name="isActive"
                 control={control}
                 render={({ field: { onChange, value } }) => (
                   <Switch checked={value} onCheckedChange={onChange} />
@@ -122,7 +115,7 @@ export function ColorFormModal({
               />
               <div>
                 <label
-                  htmlFor="is_active"
+                  htmlFor="isActive"
                   className="text-sm font-semibold text-titleBlack cursor-pointer"
                 >
                   Active

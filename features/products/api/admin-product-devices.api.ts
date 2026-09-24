@@ -11,14 +11,14 @@ export const productDevicesApi = {
   getDevices: async (params?: GetProductDevicesParams) => {
     const response = await api.get<PaginatedResponse<AdminProductDevice>>(
       "/admin/product-devices",
-      { params },
+      { params: { ...params, includeInactive: 1 } },
     );
     return response.data;
   },
 
   getAllDevices: async () => {
     const response = await api.get<ApiResponse<AdminProductDevice[]>>(
-      "/admin/product-devices?all=1",
+      "/admin/product-devices?all=1&includeInactive=1",
     );
     return response.data.data;
   },

@@ -95,7 +95,7 @@ export function ProductTable({
           </TableHeader>
           <TableBody>
             {products.map((product) => {
-              const currentStatus = pendingStatuses[product.id] ?? product.is_active;
+              const currentStatus = pendingStatuses[product.id] ?? product.isActive;
               const currentFeatured = pendingFeatured[product.id] ?? product.is_featured;
 
               return (
