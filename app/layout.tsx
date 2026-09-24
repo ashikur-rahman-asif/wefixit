@@ -29,7 +29,7 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { AuthInterceptor } from "@/components/auth-interceptor";
 import { Toaster } from "sonner";
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
