@@ -34,12 +34,15 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   let apiError = false;
 
   try {
-    const response = await publicBlogsApi.getBlogs(page, category);
+    const [response, topBlogsResponse] = await Promise.all([
+      publicBlogsApi.getBlogs(page, category),
+      publicBlogsApi.getTopBlogs(),
+    ]);
+
     allBlogs = response.data;
     currentPage = response.current_page;
     lastPage = response.last_page;
 
-    const topBlogsResponse = await publicBlogsApi.getTopBlogs();
     topBlogs = topBlogsResponse.data.filter((b) => b.is_top).slice(0, 2);
   } catch {
     apiError = true;
