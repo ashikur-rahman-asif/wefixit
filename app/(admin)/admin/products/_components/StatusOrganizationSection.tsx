@@ -10,11 +10,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ProductFormInput } from "@/features/products/schemas/product.schema";
+import { cn } from "@/lib/utils";
 
 interface StatusOrganizationSectionProps {
   control: Control<ProductFormInput>;
-  categories: { id: number | string; name: string }[];
-  brands: { id: number | string; name: string }[];
+  categories: { id: number | string; name: string; isActive?: boolean }[];
+  brands: { id: number | string; name: string; isActive?: boolean }[];
 }
 
 export function StatusOrganizationSection({
@@ -26,6 +27,19 @@ export function StatusOrganizationSection({
     control,
     name: "categoryId",
   });
+
+  const watchedBrandId = useWatch({
+    control,
+    name: "brandId",
+  });
+
+  const activeCategories = categories.filter(
+    (c) => c.isActive !== false || c.id.toString() === watchedCategoryId?.toString(),
+  );
+
+  const activeBrands = brands.filter(
+    (b) => b.isActive !== false || b.id.toString() === watchedBrandId?.toString(),
+  );
 
   const selectedCategory = categories.find(
     (c) => c.id.toString() === watchedCategoryId?.toString(),
@@ -78,27 +92,43 @@ export function StatusOrganizationSection({
           <Controller
             name="categoryId"
             control={control}
-            render={({ field: { onChange, value } }) => (
-              <Select onValueChange={onChange} value={value?.toString()}>
-                <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
-                  <SelectValue placeholder="Select a category">
-                    {value
-                      ? categories.find((c) => c.id.toString() === value?.toString())?.name
-                      : "Select a category"}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.length === 0 ? (
-                    <div className="p-2 text-sm text-gray-500 text-center">No categories found</div>
-                  ) : (
-                    categories.map((c) => (
-                      <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
-                        {c.name}
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <>
+                <Select
+                  onValueChange={(val) => onChange(val === "none" ? "" : val)}
+                  value={value ? value.toString() : undefined}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      "w-full h-11 bg-gray-50 border-gray-100",
+                      error && "border-red-500 focus:ring-red-500",
+                    )}
+                  >
+                    <SelectValue placeholder="Select a category">
+                      {value && value !== "none"
+                        ? categories.find((c) => c.id.toString() === value?.toString())?.name
+                        : "Select a category"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none" className="text-gray-500 italic">
+                      None (Clear Selection)
+                    </SelectItem>
+                    {activeCategories.length === 0 ? (
+                      <div className="p-2 text-sm text-gray-500 text-center">
+                        No categories found
+                      </div>
+                    ) : (
+                      activeCategories.map((c) => (
+                        <SelectItem key={c.id} value={c.id.toString()} label={c.name}>
+                          {c.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+                {error && <p className="text-red-500 text-xs mt-1.5">{error.message}</p>}
+              </>
             )}
           />
         </div>
@@ -108,27 +138,41 @@ export function StatusOrganizationSection({
           <Controller
             name="brandId"
             control={control}
-            render={({ field: { onChange, value } }) => (
-              <Select onValueChange={onChange} value={value?.toString()}>
-                <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
-                  <SelectValue placeholder="Select a brand">
-                    {value
-                      ? brands.find((b) => b.id.toString() === value?.toString())?.name
-                      : "Select a brand"}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {brands.length === 0 ? (
-                    <div className="p-2 text-sm text-gray-500 text-center">No brands found</div>
-                  ) : (
-                    brands.map((b) => (
-                      <SelectItem key={b.id} value={b.id.toString()} label={b.name}>
-                        {b.name}
-                      </SelectItem>
-                    ))
-                  )}
-                </SelectContent>
-              </Select>
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+              <>
+                <Select
+                  onValueChange={(val) => onChange(val === "none" ? "" : val)}
+                  value={value ? value.toString() : undefined}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      "w-full h-11 bg-gray-50 border-gray-100",
+                      error && "border-red-500 focus:ring-red-500",
+                    )}
+                  >
+                    <SelectValue placeholder="Select a brand">
+                      {value && value !== "none"
+                        ? brands.find((b) => b.id.toString() === value?.toString())?.name
+                        : "Select a brand"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none" className="text-gray-500 italic">
+                      None (Clear Selection)
+                    </SelectItem>
+                    {activeBrands.length === 0 ? (
+                      <div className="p-2 text-sm text-gray-500 text-center">No brands found</div>
+                    ) : (
+                      activeBrands.map((b) => (
+                        <SelectItem key={b.id} value={b.id.toString()} label={b.name}>
+                          {b.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+                {error && <p className="text-red-500 text-xs mt-1.5">{error.message}</p>}
+              </>
             )}
           />
         </div>

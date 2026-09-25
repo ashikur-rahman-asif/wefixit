@@ -1,8 +1,9 @@
 "use client";
 
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch, type FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   productSchema,
@@ -106,13 +107,68 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
   const onSubmitHandler = (data: ProductFormData) => {
     if (data.colors && data.colors.length > 0) {
       data.stock = data.colors.reduce((sum, color) => sum + (Number(color.stock) || 0), 0);
+      const allColorImages = data.colors.flatMap((c) => c.images || []);
+      if (allColorImages.length > 0) {
+        data.images = allColorImages;
+      }
     }
     onSubmit(data);
   };
 
+  const onErrorHandler = (errors: FieldErrors<ProductFormInput>) => {
+    console.error("Form validation errors:", errors);
+
+    type RecursiveFieldError =
+      { message?: string } | { [key: string]: RecursiveFieldError } | RecursiveFieldError[];
+
+    const errorMessages: string[] = [];
+    const formatFieldName = (path: string) => {
+      return path
+        .replace(/\.root$/, "")
+        .split(".")
+        .map((part) => {
+          if (!isNaN(Number(part))) return `(Item ${Number(part) + 1})`;
+          return part.charAt(0).toUpperCase() + part.slice(1).replace(/([A-Z])/g, " $1");
+        })
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
+    };
+
+    const traverseErrors = (obj: RecursiveFieldError | null, path: string = "") => {
+      if (!obj || typeof obj !== "object") return;
+
+      if ("message" in obj && typeof obj.message === "string") {
+        const formattedPath = formatFieldName(path);
+        errorMessages.push(`${formattedPath}: ${obj.message}`);
+      } else {
+        Object.keys(obj).forEach((key) => {
+          if (key !== "ref") {
+            const nextObj = (obj as Record<string, RecursiveFieldError>)[key];
+            traverseErrors(nextObj, path ? `${path}.${key}` : key);
+          }
+        });
+      }
+    };
+
+    traverseErrors(errors as RecursiveFieldError);
+
+    toast.error(
+      <div className="space-y-1">
+        <p className="font-bold">Please fix validation errors:</p>
+        <ul className="list-disc pl-4 text-xs">
+          {errorMessages.slice(0, 5).map((msg, i) => (
+            <li key={i}>{msg}</li>
+          ))}
+          {errorMessages.length > 5 && <li>...and {errorMessages.length - 5} more</li>}
+        </ul>
+      </div>,
+    );
+  };
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmitHandler)}
+      onSubmit={handleSubmit(onSubmitHandler, onErrorHandler)}
       className="w-full relative pb-28 space-y-6 max-w-5xl"
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -135,7 +191,9 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
             hasColorFields={!!watchedColors && watchedColors.length > 0}
             totalCalculatedStock={totalCalculatedStock}
           />
-          <ProductGallerySection control={control} errors={errors} />
+          {(!watchedColors || watchedColors.length === 0) && (
+            <ProductGallerySection control={control} errors={errors} />
+          )}
         </div>
       </div>
 

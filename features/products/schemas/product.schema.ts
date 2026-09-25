@@ -27,55 +27,66 @@ const optionalNumber = z
 
 const optionalId = z.union([z.literal(""), z.coerce.number().int().positive()]).optional();
 
-export const productSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  slug: z.string().optional(),
-  price: z.coerce.number().min(0, "Price must be positive"),
-  discountPrice: optionalNumber,
-  categoryId: optionalId,
-  brandId: optionalId,
-  shortDescription: z.string().optional(),
-  description: z.string().optional(),
-  specification: z.string().optional(),
-  specifications: z
-    .array(
-      z.object({
-        key: z.string().min(1, "Key is required"),
-        value: z.string().min(1, "Value is required"),
-      }),
-    )
-    .optional(),
-  stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
-  isActive: z.boolean().default(true),
-  isFeatured: z.boolean().default(false),
-  image: z
-    .custom<File | string>((val) => val instanceof File || typeof val === "string")
-    .nullable()
-    .optional(),
-  images: z
-    .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
-    .default([]),
-  colors: z
-    .array(
-      z.object({
-        id: z.number().optional(),
-        name: z.string().min(1, "Color name is required"),
-        hex: z
-          .string()
-          .regex(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "Valid hex code required"),
-        stock: z.coerce.number().min(0).default(0),
-        position: z.coerce.number().min(0).default(0),
-        image: z
-          .custom<File | string>((val) => val instanceof File || typeof val === "string")
-          .nullable()
-          .optional(),
-        images: z
-          .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
-          .default([]),
-      }),
-    )
-    .default([]),
-});
+export const productSchema = z
+  .object({
+    title: z.string().min(1, "Title is required"),
+    slug: z.string().optional(),
+    price: z.coerce.number().min(0, "Price must be positive"),
+    discountPrice: optionalNumber,
+    categoryId: optionalId,
+    brandId: optionalId,
+    shortDescription: z.string().optional(),
+    description: z.string().optional(),
+    specification: z.string().optional(),
+    specifications: z
+      .array(
+        z.object({
+          key: z.string().min(1, "Key is required"),
+          value: z.string().min(1, "Value is required"),
+        }),
+      )
+      .optional(),
+    stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
+    isActive: z.boolean().default(true),
+    isFeatured: z.boolean().default(false),
+    image: z
+      .custom<File | string>((val) => val instanceof File || typeof val === "string")
+      .nullable()
+      .optional(),
+    images: z
+      .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
+      .default([]),
+    colors: z
+      .array(
+        z.object({
+          id: z.number().optional(),
+          name: z.string().min(1, "Color name is required"),
+          hex: z
+            .string()
+            .regex(/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/, "Valid hex code required"),
+          stock: z.coerce.number().min(0).default(0),
+          position: z.coerce.number().min(0).default(0),
+          image: z
+            .custom<File | string>((val) => val instanceof File || typeof val === "string")
+            .nullable()
+            .optional(),
+          images: z
+            .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
+            .default([]),
+        }),
+      )
+      .default([]),
+  })
+  .refine(
+    (data) => {
+      const names = data.colors.map((c) => c.name.trim().toLowerCase());
+      return new Set(names).size === names.length;
+    },
+    {
+      message: "Duplicate colors are not allowed. Each color variant must have a unique name.",
+      path: ["colors"],
+    },
+  );
 
 export type ProductFormData = z.infer<typeof productSchema>;
 export type ProductFormInput = z.input<typeof productSchema>;

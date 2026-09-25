@@ -10,7 +10,7 @@ import {
   SheetFooter,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { AdminService } from "@/types/admin";
+import { AdminService, AdminDevice } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, type ServiceFormData } from "@/features/services/schemas/service.schema";
@@ -121,7 +121,12 @@ export function ServiceFormModal({
                 render={({ field }) => (
                   <MultiSelect
                     label="Available on Devices"
-                    options={devices.map((d) => ({ label: d.name, value: d.id }))}
+                    options={devices
+                      .filter(
+                        (d: AdminDevice) =>
+                          d.isActive !== false || (field.value || []).includes(d.id),
+                      )
+                      .map((d: AdminDevice) => ({ label: d.name, value: d.id }))}
                     value={field.value || []}
                     onChange={field.onChange}
                     placeholder="Select devices..."

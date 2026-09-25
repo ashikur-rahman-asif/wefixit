@@ -10,7 +10,7 @@ import {
   SheetFooter,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { AdminBrand } from "@/types/admin";
+import { AdminBrand, AdminDevice } from "@/types/admin";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { brandSchema, type BrandFormData } from "@/features/brands/schemas/brand.schema";
@@ -112,7 +112,12 @@ export function BrandFormModal({
                 render={({ field }) => (
                   <MultiSelect
                     label="Available on Devices"
-                    options={devices.map((d) => ({ label: d.name, value: d.id }))}
+                    options={devices
+                      .filter(
+                        (d: AdminDevice) =>
+                          d.isActive !== false || (field.value || []).includes(d.id),
+                      )
+                      .map((d: AdminDevice) => ({ label: d.name, value: d.id }))}
                     value={field.value || []}
                     onChange={field.onChange}
                     placeholder="Select devices..."

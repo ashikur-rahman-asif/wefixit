@@ -3,14 +3,15 @@
 import {
   useFieldArray,
   Controller,
-  useWatch,
   UseFormRegister,
   Control,
   UseFormSetValue,
   UseFormWatch,
   FieldErrors,
+  FieldError,
 } from "react-hook-form";
 import { Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Input } from "@/components/form-elements/input";
 import {
   Select,
@@ -20,8 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColorPickerField } from "@/components/form-elements/color-picker";
-import { cn } from "@/lib/utils";
 import { ProductFormInput } from "@/features/products/schemas/product.schema";
+import { MultiImageUpload } from "@/components/ui/multi-image-upload";
 
 interface ColorVariantsSectionProps {
   register: UseFormRegister<ProductFormInput>;
@@ -29,7 +30,7 @@ interface ColorVariantsSectionProps {
   setValue: UseFormSetValue<ProductFormInput>;
   watch: UseFormWatch<ProductFormInput>;
   errors: FieldErrors<ProductFormInput>;
-  globalColors: { id?: number | string; name: string; hex: string }[];
+  globalColors: { id?: number | string; name: string; hex: string; isActive?: boolean }[];
 }
 
 export function ColorVariantsSection({
@@ -49,10 +50,29 @@ export function ColorVariantsSection({
     name: "colors",
   });
 
-  const watchedImages = useWatch({
-    control,
-    name: "images",
-  });
+  const colorsError = errors.colors as (FieldError & { root?: FieldError }) | undefined;
+  const errorMessage = colorsError?.root?.message || colorsError?.message;
+
+  const currentColors = watch("colors") || [];
+
+  const handleAddColor = () => {
+    if (currentColors.length > 0) {
+      const lastColor = currentColors[currentColors.length - 1];
+      if (!lastColor.name || !lastColor.hex) {
+        toast.error("Please provide a name for the current color variant before adding a new one.");
+        return;
+      }
+    }
+
+    appendColor({
+      name: "",
+      hex: "#000000",
+      stock: 0,
+      position: colorFields.length,
+      image: null,
+      images: [],
+    });
+  };
 
   return (
     <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 mt-6 space-y-6">
@@ -60,22 +80,19 @@ export function ColorVariantsSection({
         <h2 className="text-xl font-bold text-titleBlack">Color Variants</h2>
         <button
           type="button"
-          onClick={() =>
-            appendColor({
-              name: "",
-              hex: "#000000",
-              stock: 0,
-              position: colorFields.length,
-              image: null,
-              images: [],
-            })
-          }
+          onClick={handleAddColor}
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-200 text-titleBlack rounded-xl text-sm font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           Add Color
         </button>
       </div>
+
+      {errorMessage && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+          <p className="text-sm font-semibold text-red-600">{errorMessage.toString()}</p>
+        </div>
+      )}
 
       {colorFields.length === 0 ? (
         <div className="text-center py-8 text-textGray text-sm">
@@ -105,6 +122,7 @@ export function ColorVariantsSection({
                     Select Existing Color (Optional)
                   </label>
                   <Select
+                    value={watch(`colors.${index}.name`) || undefined}
                     onValueChange={(val: string | null) => {
                       const selectedColor = globalColors.find((c) => c.name === val);
                       if (selectedColor) {
@@ -117,21 +135,28 @@ export function ColorVariantsSection({
                       <SelectValue placeholder="Choose a color to auto-fill" />
                     </SelectTrigger>
                     <SelectContent>
-                      {globalColors.length === 0 ? (
-                        <div className="p-2 text-sm text-gray-500 text-center">No colors found</div>
-                      ) : (
-                        globalColors.map((c) => (
-                          <SelectItem key={c.id} value={c.name} label={c.name}>
-                            <div className="flex items-center gap-2">
-                              <div
-                                className="w-4 h-4 rounded-full border border-gray-200"
-                                style={{ backgroundColor: c.hex }}
-                              />
-                              <span>{c.name}</span>
-                            </div>
-                          </SelectItem>
-                        ))
-                      )}
+                      {(() => {
+                        const activeGlobalColors = globalColors.filter(
+                          (c) => c.isActive !== false || c.name === watch(`colors.${index}.name`),
+                        );
+                        return activeGlobalColors.length === 0 ? (
+                          <div className="p-2 text-sm text-gray-500 text-center">
+                            No active colors found
+                          </div>
+                        ) : (
+                          activeGlobalColors.map((c) => (
+                            <SelectItem key={c.id} value={c.name} label={c.name}>
+                              <div className="flex items-center gap-2">
+                                <div
+                                  className="w-4 h-4 rounded-full border border-gray-200"
+                                  style={{ backgroundColor: c.hex }}
+                                />
+                                <span>{c.name}</span>
+                              </div>
+                            </SelectItem>
+                          ))
+                        );
+                      })()}
                     </SelectContent>
                   </Select>
                 </div>
@@ -168,53 +193,17 @@ export function ColorVariantsSection({
 
               <div className="mt-4">
                 <label className="block text-sm font-semibold text-titleBlack mb-0.5">
-                  Assign Images to this Color (Select from Gallery)
+                  Color Images
                 </label>
                 <p className="text-[13px] font-medium text-gray-500 mb-2">
-                  Click on the images from the product gallery below to assign them to this variant.
-                  The first selected image will be the primary image for this color.
+                  Upload images specifically for this color variant. The first image will be the
+                  primary image for this color.
                 </p>
                 <Controller
                   name={`colors.${index}.images` as const}
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <div className="flex flex-wrap gap-3">
-                      {watchedImages && watchedImages.length > 0 ? (
-                        watchedImages.map((img: File | string, imgIdx: number) => {
-                          const isSelected = (value || []).includes(img);
-                          return (
-                            <div
-                              key={imgIdx}
-                              onClick={() => {
-                                const currentVal = value || [];
-                                if (isSelected) {
-                                  onChange(currentVal.filter((i: File | string) => i !== img));
-                                } else {
-                                  onChange([...currentVal, img]);
-                                }
-                              }}
-                              className={cn(
-                                "w-24 h-24 rounded-lg border-2 cursor-pointer overflow-hidden transition-all",
-                                isSelected
-                                  ? "border-brand ring-2 ring-brand ring-offset-2"
-                                  : "border-gray-200 opacity-60 hover:opacity-100",
-                              )}
-                            >
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img
-                                src={img instanceof File ? URL.createObjectURL(img) : img}
-                                alt="Gallery item"
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <div className="text-sm text-gray-500 p-4 bg-gray-100 rounded-lg w-full text-center">
-                          Please upload images to the Product Gallery first.
-                        </div>
-                      )}
-                    </div>
+                    <MultiImageUpload value={value} onChange={onChange} maxSizeKB={2000} />
                   )}
                 />
               </div>
@@ -225,6 +214,17 @@ export function ColorVariantsSection({
               )}
             </div>
           ))}
+
+          <div className="flex justify-center mt-2 border-t border-dashed border-gray-200 pt-6">
+            <button
+              type="button"
+              onClick={handleAddColor}
+              className="flex items-center gap-2 px-6 py-2.5 bg-gray-50 border border-gray-200 text-titleBlack rounded-xl text-sm font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              Add Another Color
+            </button>
+          </div>
         </div>
       )}
     </div>

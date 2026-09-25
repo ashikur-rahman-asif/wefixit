@@ -22,7 +22,11 @@ export function ProductInteractive({
   return (
     <div>
       <ProductInfo product={product} />
-      <ProductColorSelector colors={product.colors} onColorChange={onColorChange || (() => {})} />
+      <ProductColorSelector
+        colors={product.colors}
+        selectedColor={selectedColor}
+        onColorChange={onColorChange || (() => {})}
+      />
       <ProductActions product={product} isOutOfStock={isOutOfStock} selectedColor={selectedColor} />
     </div>
   );

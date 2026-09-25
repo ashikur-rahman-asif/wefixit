@@ -11,6 +11,7 @@ interface ProductImageGalleryProps {
   thumbnails?: string[];
   discountPercentage?: number;
   selectedImage?: string;
+  onImageChange?: (image: string) => void;
 }
 
 const subscribe = () => () => {};
@@ -20,8 +21,27 @@ export function ProductImageGallery({
   thumbnails = [],
   discountPercentage = 0,
   selectedImage,
+  onImageChange,
 }: ProductImageGalleryProps) {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const isSameImage = (url1?: string | null, url2?: string | null) => {
+    if (!url1 || !url2) return false;
+    if (url1 === url2) return true;
+    try {
+      const f1 = new URL(url1, "http://localhost").pathname.split("/").pop();
+      const f2 = new URL(url2, "http://localhost").pathname.split("/").pop();
+      return f1 && f2 && f1 === f2;
+    } catch {
+      return url1.split("/").pop() === url2.split("/").pop();
+    }
+  };
+
+  const getIndex = (img?: string | null) => {
+    if (!img) return -1;
+    return images.findIndex((i) => isSameImage(i, img));
+  };
+
+  const initialIndex = selectedImage ? Math.max(0, getIndex(selectedImage)) : 0;
+  const [activeImageIndex, setActiveImageIndex] = useState(initialIndex);
   const [prevSelectedImage, setPrevSelectedImage] = useState(selectedImage);
 
   const mounted = useSyncExternalStore(
@@ -31,7 +51,7 @@ export function ProductImageGallery({
   );
 
   if (selectedImage && selectedImage !== prevSelectedImage) {
-    const newIndex = images.indexOf(selectedImage);
+    const newIndex = getIndex(selectedImage);
     if (newIndex !== -1 && newIndex !== activeImageIndex) {
       setActiveImageIndex(newIndex);
     }
@@ -85,6 +105,12 @@ export function ProductImageGallery({
                     className="flex-shrink-0 w-[calc((100%-36px)/4)] sm:w-[calc((100%-48px)/4)]"
                   >
                     <button
+                      onClick={() => {
+                        if (activeThumbnailIndex !== -1) {
+                          setActiveImageIndex(activeThumbnailIndex);
+                          onImageChange?.(images[activeThumbnailIndex]);
+                        }
+                      }}
                       className={cn(
                         "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand flex items-center justify-center p-2 cursor-pointer",
                         activeImageIndex === activeThumbnailIndex
@@ -124,6 +150,7 @@ export function ProductImageGallery({
                       onClick={() => {
                         if (activeThumbnailIndex !== -1) {
                           setActiveImageIndex(activeThumbnailIndex);
+                          onImageChange?.(images[activeThumbnailIndex]);
                         }
                       }}
                       className={cn(
