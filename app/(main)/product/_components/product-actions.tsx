@@ -106,9 +106,9 @@ export function ProductActions({
           </div>
         </>
       )}
-      <div className="flex items-start sm:items-center gap-1 md:gap-2">
-        <ShippingIcon className="size-5 shrink-0 mt-0.5 sm:mt-1" />
-        <span className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-1.5">
+      <div className="flex items-center gap-2">
+        <ShippingIcon className="size-5 shrink-0" />
+        <span className="flex items-center flex-wrap gap-1 sm:gap-1.5">
           <p className="text-primary font-medium text-sm">Shipping:</p>
           <p className="text-secondary font-semibold text-sm">Free for orders above $1,000</p>
         </span>

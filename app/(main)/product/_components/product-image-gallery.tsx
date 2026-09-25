@@ -2,7 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface ProductImageGalleryProps {
   images?: string[];
@@ -10,6 +12,8 @@ interface ProductImageGalleryProps {
   discountPercentage?: number;
   selectedImage?: string;
 }
+
+const subscribe = () => () => {};
 
 export function ProductImageGallery({
   images = [],
@@ -20,10 +24,14 @@ export function ProductImageGallery({
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [prevSelectedImage, setPrevSelectedImage] = useState(selectedImage);
 
-  const displayImages = images.length > 0 ? images : ["/HP_Lptp.webp"];
+  const mounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
   if (selectedImage && selectedImage !== prevSelectedImage) {
-    const newIndex = displayImages.indexOf(selectedImage);
+    const newIndex = images.indexOf(selectedImage);
     if (newIndex !== -1 && newIndex !== activeImageIndex) {
       setActiveImageIndex(newIndex);
     }
@@ -41,7 +49,7 @@ export function ProductImageGallery({
             {discountPercentage}% OFF
           </div>
         )}
-        {displayImages.map((img, index) => (
+        {images.map((img, index) => (
           <div
             key={index}
             className={cn(
@@ -66,35 +74,79 @@ export function ProductImageGallery({
       </div>
 
       {thumbnails.length > 1 && (
-        <div className="grid grid-cols-4 gap-3 sm:gap-4 h-20 sm:h-24">
-          {thumbnails.map((img, index) => {
-            const activeThumbnailIndex = displayImages.indexOf(img);
-            return (
-              <button
-                key={index}
-                onClick={() => {
-                  if (activeThumbnailIndex !== -1) {
-                    setActiveImageIndex(activeThumbnailIndex);
-                  }
-                }}
-                className={cn(
-                  "relative w-full h-full border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
-                  activeImageIndex === activeThumbnailIndex
-                    ? "border-brand opacity-100"
-                    : "border-transparent ",
-                )}
-                aria-label={`View image ${index + 1}`}
-              >
-                <Image
-                  src={img}
-                  alt={`Thumbnail ${index + 1}`}
-                  width={100}
-                  height={100}
-                  className="w-full h-full object-contain"
-                />
-              </button>
-            );
-          })}
+        <div className="w-full min-h-20 sm:min-h-24">
+          {!mounted ? (
+            <div className="flex overflow-hidden gap-3 sm:gap-4 w-full">
+              {thumbnails.map((img, index) => {
+                const activeThumbnailIndex = images.indexOf(img);
+                return (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-[calc((100%-36px)/4)] sm:w-[calc((100%-48px)/4)]"
+                  >
+                    <button
+                      className={cn(
+                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand flex items-center justify-center p-2 cursor-pointer",
+                        activeImageIndex === activeThumbnailIndex
+                          ? "border-brand opacity-100"
+                          : "border-transparent ",
+                      )}
+                    >
+                      <Image
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <Swiper
+              slidesPerView={4}
+              spaceBetween={12}
+              className="w-full"
+              breakpoints={{
+                640: {
+                  slidesPerView: 4,
+                  spaceBetween: 16,
+                },
+              }}
+            >
+              {thumbnails.map((img, index) => {
+                const activeThumbnailIndex = images.indexOf(img);
+                return (
+                  <SwiperSlide key={index}>
+                    <button
+                      onClick={() => {
+                        if (activeThumbnailIndex !== -1) {
+                          setActiveImageIndex(activeThumbnailIndex);
+                        }
+                      }}
+                      className={cn(
+                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
+                        activeImageIndex === activeThumbnailIndex
+                          ? "border-brand opacity-100"
+                          : "border-transparent ",
+                      )}
+                      aria-label={`View image ${index + 1}`}
+                    >
+                      <Image
+                        src={img}
+                        alt={`Thumbnail ${index + 1}`}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-contain"
+                      />
+                    </button>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          )}
         </div>
       )}
     </div>
