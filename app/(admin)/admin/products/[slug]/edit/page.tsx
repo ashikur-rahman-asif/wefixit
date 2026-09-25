@@ -25,13 +25,31 @@ export default function EditProductPage({ params }: { params: Promise<{ slug: st
     formData.append("price", data.price.toString());
     formData.append("stock", data.stock.toString());
     formData.append("isActive", data.isActive ? "1" : "0");
-    formData.append("is_featured", data.isFeatured ? "1" : "0");
+    formData.append("isFeatured", data.isFeatured ? "1" : "0");
 
-    if (data.discountPrice) formData.append("discount_price", data.discountPrice.toString());
-    if (data.categoryId) formData.append("product_category_id", data.categoryId.toString());
-    if (data.brandId) formData.append("product_brand_id", data.brandId.toString());
+    if (
+      data.discountPrice !== undefined &&
+      data.discountPrice !== null &&
+      data.discountPrice !== ""
+    ) {
+      formData.append("discountPrice", data.discountPrice.toString());
+    } else {
+      formData.append("discountPrice", "");
+    }
 
-    if (data.shortDescription) formData.append("short_description", data.shortDescription);
+    if (data.categoryId !== undefined && data.categoryId !== null && data.categoryId !== "") {
+      formData.append("categoryId", data.categoryId.toString());
+    } else {
+      formData.append("categoryId", "");
+    }
+
+    if (data.brandId !== undefined && data.brandId !== null && data.brandId !== "") {
+      formData.append("brandId", data.brandId.toString());
+    } else {
+      formData.append("brandId", "");
+    }
+
+    if (data.shortDescription) formData.append("shortDescription", data.shortDescription);
     if (data.description) formData.append("description", data.description);
 
     if (data.specifications && data.specifications.length > 0) {

@@ -37,15 +37,27 @@ export function PricingInventorySection({
           {...register("discountPrice")}
           error={errors.discountPrice?.message?.toString()}
         />
-        <Input
-          label="Stock Quantity"
-          required
-          type="number"
-          disabled={hasColorFields}
-          {...register("stock")}
-          {...(hasColorFields ? { value: totalCalculatedStock, readOnly: true } : {})}
-          error={errors.stock?.message?.toString()}
-        />
+        {hasColorFields ? (
+          <Input
+            key="calculated-stock"
+            label="Stock Quantity"
+            required
+            type="number"
+            disabled
+            value={totalCalculatedStock}
+            readOnly
+            error={errors.stock?.message?.toString()}
+          />
+        ) : (
+          <Input
+            key="manual-stock"
+            label="Stock Quantity"
+            required
+            type="number"
+            {...register("stock")}
+            error={errors.stock?.message?.toString()}
+          />
+        )}
         {hasColorFields && (
           <p className="text-[13px] font-medium text-gray-500 mt-1">
             Stock is auto-calculated from color variants.
