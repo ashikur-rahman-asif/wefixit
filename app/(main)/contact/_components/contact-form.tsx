@@ -9,13 +9,18 @@ import { Input } from "@/components/form-elements/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useSubmitContact } from "@/features/contact/hooks/use-contact";
+import { handleFormError } from "@/lib/handle-form-error";
 
 const contactFormSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().min(1, "Phone number is required"),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(1, "Message is required"),
+  name: z.string().trim().min(2, "Name must be at least 2 characters"),
+  email: z.string().trim().email("Please enter a valid email address"),
+  phone: z
+    .string()
+    .trim()
+    .min(10, "Please enter a valid phone number")
+    .regex(/^[0-9+\-\s()]*$/, "Invalid phone number format"),
+  subject: z.string().trim().min(3, "Subject must be at least 3 characters"),
+  message: z.string().trim().min(10, "Message must be at least 10 characters"),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -25,6 +30,7 @@ export function ContactForm() {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -37,6 +43,9 @@ export function ContactForm() {
       onSuccess: () => {
         toast.success("Message sent successfully! We'll get back to you soon.");
         reset();
+      },
+      onError: (error) => {
+        handleFormError(error, setError, "Failed to send message.");
       },
     });
   };

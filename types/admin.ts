@@ -87,7 +87,7 @@ export interface DashboardStats {
   contactMessages: ContactMessagesStats;
   lowStock: LowStockProduct[];
   topProducts: TopProduct[];
-  salesTrend: SalesTrend[];
+  salesTrend: Record<string, SalesTrend[]>;
   recentOrders: RecentOrder[];
 }
 

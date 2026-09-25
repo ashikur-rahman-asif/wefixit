@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SalesTrend } from "@/types/admin";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-export function RevenueAnalytics({ salesTrend }: { salesTrend: SalesTrend[] }) {
+export function RevenueAnalytics({ salesTrend }: { salesTrend: Record<string, SalesTrend[]> }) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 lg:col-span-2 p-6 flex flex-col">
       <div className="flex items-center justify-between mb-6">
@@ -52,7 +52,7 @@ export function RevenueAnalytics({ salesTrend }: { salesTrend: SalesTrend[] }) {
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={salesTrend}
+                  data={salesTrend[tab] || []}
                   margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
                   barSize={16}
                 >

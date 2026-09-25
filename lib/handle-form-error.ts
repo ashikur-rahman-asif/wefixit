@@ -28,11 +28,12 @@ export function handleFormError<T extends FieldValues>(
       return validationErrors;
     }
 
-    if (data.message) {
+    if (data.message && status < 500) {
       toast.error(data.message);
       return;
     }
   }
 
+  // If it's a 500 server error, or no response message, show the fallback.
   toast.error(fallbackMessage);
 }
