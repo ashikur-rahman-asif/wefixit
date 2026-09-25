@@ -196,7 +196,7 @@ export function ProductTable({
                             currentFeatured ? "text-amber-500" : "text-gray-400",
                           )}
                         >
-                          {currentFeatured ? "Featured" : ""}
+                          {currentFeatured ? "Featured" : "Feature"}
                         </span>
                       </button>
                     ) : (
