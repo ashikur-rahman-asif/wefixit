@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth.store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
@@ -42,8 +42,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
   const reviews = reviewsResponse?.data || [];
   const totalReviews = reviewsResponse?.meta?.total || product.reviewsCount || 0;
   const hasReviews = totalReviews > 0;
-  const user = useAuthStore((state) => state.user);
-  const isAdmin = user?.roles?.includes("admin");
+  const { isAuthenticated } = useAuthStore();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { mutate: submitReview, isPending } = useSubmitReview(product.slug);
@@ -78,6 +77,12 @@ export function ProductReviews({ product }: ProductReviewsProps) {
     );
   };
 
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+
   return (
     <div className="mt-2 flex flex-col gap-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -91,7 +96,7 @@ export function ProductReviews({ product }: ProductReviewsProps) {
           </div>
         </div>
 
-        {!isAdmin && (
+        {mounted && isAuthenticated && (
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger render={<Button />}>Write a Review</DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

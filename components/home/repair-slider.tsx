@@ -12,27 +12,27 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductCard } from "../product-card";
 
 const repairItems = [
-  { title: "Watch", image: "/home-slider/watch.webp", href: "/repair/watch" },
+  { title: "Watch", image: "/home-slider/watch.webp", href: "/repair" },
   {
     title: "iPhone",
     image: "/home-slider/iphone.webp",
-    href: "/repair/iphone",
+    href: "/repair",
   },
   {
     title: "Android",
     image: "/home-slider/android.webp",
-    href: "/repair/android",
+    href: "/repair",
   },
-  { title: "iPad", image: "/home-slider/ipad.webp", href: "/repair/ipad" },
+  { title: "iPad", image: "/home-slider/ipad.webp", href: "/repair" },
   {
     title: "Laptop",
     image: "/home-slider/laptop.webp",
-    href: "/repair/laptop",
+    href: "/repair",
   },
   {
     title: "Tablet",
     image: "/home-slider/tablet.webp",
-    href: "/repair/tablet",
+    href: "/repair",
   },
 ];
 

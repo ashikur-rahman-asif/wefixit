@@ -59,9 +59,9 @@ export function Services() {
                   <Icon className="size-8" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="text-base sm:text-xl lg:text-2xl font-medium text-titleBlack mt-4 mb-3 md:mt-6">
+                  <h3 className="text-base sm:text-xl lg:text-2xl font-medium text-titleBlack mt-4 mb-3 md:mt-6">
                     {service.title}
-                  </h4>
+                  </h3>
                   <p className="text-titleBlack text-sm">{service.description}</p>
                 </div>
                 <div className="text-white bg-brand rounded-full p-4 mt-6 inline-flex self-start">

@@ -33,8 +33,8 @@ export default async function HomePage() {
       <HowWeWork />
       <RepairSlider />
       <Services />
-      <Brands />
       {featuredProducts.length > 0 && <PreOwned products={featuredProducts} />}
+      <Brands />
       <Testimonials />
       <FAQ />
       <RequestCall />

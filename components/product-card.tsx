@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { cn, getShimmerBase64 } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 export interface ProductCardProps {
@@ -38,13 +38,15 @@ export function ProductCard({
         </div>
       )}
 
-      <div className="w-full flex justify-center items-center mb-2  min-h-40">
+      <div className="w-full flex justify-center items-center mb-2 min-h-40 relative">
         {image ? (
           <Image
             src={image}
             alt={title ?? "Product"}
             width={250}
             height={200}
+            placeholder="blur"
+            blurDataURL={getShimmerBase64(250, 200)}
             className="w-auto h-auto max-h-40 object-contain"
           />
         ) : (
@@ -68,12 +70,14 @@ export function ProductCard({
             >
               {title}
             </h2>
-            <Button
-              variant="brand"
-              className="mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base"
+            <div
+              className={cn(
+                buttonVariants({ variant: "brand" }),
+                "mt-auto mb-2 sm:mb-0 min-w-[120px] sm:min-w-40 py-1 sm:py-3 px-4 sm:px-8 text-sm sm:text-base",
+              )}
             >
               {sliderButtonText}
-            </Button>
+            </div>
           </>
         ) : (
           <>
@@ -98,13 +102,9 @@ export function ProductCard({
     </>
   );
 
-  if (variant === "product") {
-    return (
-      <Link href={href} className={cn("block group", cardClasses)}>
-        {cardContent}
-      </Link>
-    );
-  }
-
-  return <div className={cn("group", cardClasses)}>{cardContent}</div>;
+  return (
+    <Link href={href} className={cn("block group", cardClasses)}>
+      {cardContent}
+    </Link>
+  );
 }

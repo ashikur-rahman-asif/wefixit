@@ -99,6 +99,7 @@ export function MainNav() {
           </button>
 
           <Link href="/" className="flex items-center shrink-0">
+            <span className="sr-only">Home</span>
             <LogoIcon className="h-5 md:h-6 w-auto" color={isTransparent ? "white" : undefined} />
           </Link>
         </div>
@@ -125,7 +126,7 @@ export function MainNav() {
         </nav>
 
         <div className="flex items-center gap-5 md:gap-6">
-          <Link href="/cart" className="relative group p-1">
+          <Link href="/cart" className="relative group p-1" aria-label="Shopping Cart">
             <ShoppingCart
               className={cn(
                 "size-6 group-hover:text-brand transition-colors duration-200",
@@ -226,6 +227,7 @@ export function MainNav() {
             className="flex items-center shrink-0"
             onClick={() => setIsMobileMenuOpen(false)}
           >
+            <span className="sr-only">Home</span>
             <LogoIcon className="h-5 w-auto" />
           </Link>
           <button

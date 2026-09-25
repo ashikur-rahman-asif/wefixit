@@ -38,18 +38,24 @@ export function Footer() {
               perfectly again.
             </p>
             <div className="flex gap-5 pt-2">
-              <Link href="#" className="text-white hover:opacity-80 transition-opacity">
+              <Link
+                href="#"
+                className="text-white hover:opacity-80 transition-opacity"
+                aria-label="Instagram"
+              >
                 <InstagramIcon className="w-6 h-6" />
               </Link>
               <Link
                 href="#"
                 className="text-white hover:opacity-80 transition-opacity grayscale brightness-200"
+                aria-label="Twitter"
               >
                 <TwitterIcon className="w-6 h-6" />
               </Link>
               <Link
                 href="#"
                 className="text-white hover:opacity-80 transition-opacity grayscale brightness-200"
+                aria-label="Facebook"
               >
                 <FacebookIcon className="w-6 h-6" />
               </Link>
@@ -59,7 +65,7 @@ export function Footer() {
           {}
           <div className="lg:col-span-8 grid gap-8 grid-cols-2 md:grid-cols-3">
             <div>
-              <h4 className="text-white text-lg font-semibold mb-6">Product</h4>
+              <h2 className="text-white text-lg font-semibold mb-6">Product</h2>
               <ul className="space-y-4">
                 {PRODUCT_LINKS.map((link, idx) => (
                   <li key={idx}>
@@ -75,7 +81,7 @@ export function Footer() {
             </div>
 
             <div>
-              <h4 className="text-white text-lg font-semibold mb-6">Company</h4>
+              <h2 className="text-white text-lg font-semibold mb-6">Company</h2>
               <ul className="space-y-4">
                 {COMPANY_LINKS.map((link, idx) => (
                   <li key={idx}>
@@ -91,7 +97,7 @@ export function Footer() {
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <h4 className="text-white text-lg font-semibold mb-6">Contact us</h4>
+              <h2 className="text-white text-lg font-semibold mb-6">Contact us</h2>
               <ul className="space-y-4 mb-8">
                 <li>
                   <Link
@@ -111,7 +117,7 @@ export function Footer() {
                 </li>
               </ul>
 
-              <h4 className="text-white text-lg font-semibold mb-4">Work schedule</h4>
+              <h2 className="text-white text-lg font-semibold mb-4">Work schedule</h2>
               <p className="text-[#D3D3D3] text-base font-medium">Mon-Fri: 10 AM - 7 PM</p>
             </div>
           </div>
