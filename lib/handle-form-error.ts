@@ -20,7 +20,6 @@ export function handleFormError<T extends FieldValues>(
             message: validationErrors[key][0],
           });
         });
-        toast.error("Please check the highlighted fields for errors.");
       } else {
         const firstErrorKey = Object.keys(validationErrors)[0];
         toast.error(validationErrors[firstErrorKey][0] || "Validation failed.");
