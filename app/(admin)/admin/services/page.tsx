@@ -49,6 +49,8 @@ export default function ServicesPage() {
 
     if (data.deviceIds && data.deviceIds.length > 0) {
       data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
+    } else {
+      formData.append("deviceIds", "");
     }
 
     if (data.icon && data.icon instanceof File) {
@@ -112,6 +114,8 @@ export default function ServicesPage() {
         service.deviceIds.forEach((deviceId) =>
           formData.append("deviceIds[]", deviceId.toString()),
         );
+      } else {
+        formData.append("deviceIds", "");
       }
 
       return updateMutation.mutateAsync({ id, data: formData });

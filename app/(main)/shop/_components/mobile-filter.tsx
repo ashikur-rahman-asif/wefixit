@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { FilterIcon, X } from "lucide-react";
@@ -27,6 +27,17 @@ export function MobileFilter(props: MobileFilterProps) {
     setPrevSearchString(searchString);
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   return (
     <>

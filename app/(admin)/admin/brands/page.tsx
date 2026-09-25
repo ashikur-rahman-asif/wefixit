@@ -54,6 +54,8 @@ export default function BrandsPage() {
 
     if (data.deviceIds && data.deviceIds.length > 0) {
       data.deviceIds.forEach((id: number) => formData.append("deviceIds[]", id.toString()));
+    } else {
+      formData.append("deviceIds", "");
     }
 
     if (data.icon && data.icon instanceof File) {

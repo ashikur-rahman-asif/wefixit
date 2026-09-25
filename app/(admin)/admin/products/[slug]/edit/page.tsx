@@ -39,6 +39,8 @@ export default function EditProductPage({ params }: { params: Promise<{ slug: st
         formData.append(`specifications[${index}][key]`, spec.key);
         formData.append(`specifications[${index}][value]`, spec.value);
       });
+    } else {
+      formData.append("specifications", "");
     }
 
     if (data.images && data.images.length > 0) {
@@ -49,6 +51,8 @@ export default function EditProductPage({ params }: { params: Promise<{ slug: st
           formData.append(`images[${idx}]`, img);
         }
       });
+    } else {
+      formData.append("images", "");
     }
 
     if (data.colors && data.colors.length > 0) {
@@ -67,6 +71,8 @@ export default function EditProductPage({ params }: { params: Promise<{ slug: st
           }
         }
       });
+    } else {
+      formData.append("colors", "");
     }
 
     updateMutation.mutate(
