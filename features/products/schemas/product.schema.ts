@@ -49,10 +49,12 @@ export const productSchema = z.object({
   isActive: z.boolean().default(true),
   isFeatured: z.boolean().default(false),
   image: z
-    .union([z.instanceof(File), z.string()])
+    .custom<File | string>((val) => val instanceof File || typeof val === "string")
     .nullable()
     .optional(),
-  images: z.array(z.union([z.instanceof(File), z.string()])).default([]),
+  images: z
+    .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
+    .default([]),
   colors: z
     .array(
       z.object({
@@ -64,10 +66,12 @@ export const productSchema = z.object({
         stock: z.coerce.number().min(0).default(0),
         position: z.coerce.number().min(0).default(0),
         image: z
-          .union([z.instanceof(File), z.string()])
+          .custom<File | string>((val) => val instanceof File || typeof val === "string")
           .nullable()
           .optional(),
-        images: z.array(z.union([z.instanceof(File), z.string()])).default([]),
+        images: z
+          .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
+          .default([]),
       }),
     )
     .default([]),

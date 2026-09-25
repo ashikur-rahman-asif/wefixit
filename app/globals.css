@@ -158,3 +158,10 @@
     cursor: pointer;
   }
 }
+
+/* Fix Sonner Toaster overlapping mobile navbar */
+@media (max-width: 768px) {
+  [data-sonner-toaster][data-y-position="top"] {
+    top: 80px !important;
+  }
+}

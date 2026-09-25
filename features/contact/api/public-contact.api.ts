@@ -9,6 +9,6 @@ export interface ContactFormPayload {
 }
 
 export const submitContactMessage = async (data: ContactFormPayload) => {
-  const response = await api.post("/api/contact-messages", data);
+  const response = await api.post("/contact-messages", data);
   return response.data;
 };

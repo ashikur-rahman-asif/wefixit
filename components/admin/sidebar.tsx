@@ -176,6 +176,7 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
                 return (
                   <li key={index}>
                     <Accordion
+                      key={`${index}-${pathname}`}
                       className="w-full space-y-0"
                       defaultValue={
                         link.children?.some((c) => isActive(c.href))

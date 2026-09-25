@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import {
   IconBold,
   IconClearFormatting,
+  IconPilcrow,
   IconH1,
   IconH2,
   IconH3,
@@ -137,6 +138,17 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
     <div className="flex flex-wrap items-center gap-1 border-b border-input bg-muted/50 p-1">
       {/* Headings */}
       <div className="flex items-center gap-0.5 mr-1">
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setParagraph().run()}
+          className={cn(
+            "flex size-8 items-center justify-center rounded-md hover:bg-muted hover:text-foreground",
+            editor.isActive("paragraph") ? "bg-muted text-foreground" : "text-muted-foreground",
+          )}
+          title="Paragraph"
+        >
+          <IconPilcrow className="size-4" />
+        </button>
         {[1, 2, 3, 4, 5, 6].map((level) => {
           const Icon = [IconH1, IconH2, IconH3, IconH4, IconH5, IconH6][level - 1];
           return (

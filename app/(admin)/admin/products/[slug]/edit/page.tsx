@@ -63,12 +63,10 @@ export default function EditProductPage({ params }: { params: Promise<{ slug: st
         formData.append(`colors[${index}][stock]`, color.stock.toString());
         formData.append(`colors[${index}][position]`, color.position.toString());
 
-        if (color.image) {
-          if (color.image instanceof File) {
-            formData.append(`colors[${index}][image]`, color.image);
-          } else {
-            formData.append(`colors[${index}][image]`, color.image);
-          }
+        if (color.images && color.images.length > 0) {
+          color.images.forEach((img, idx) => {
+            formData.append(`colors[${index}][images][${idx}]`, img);
+          });
         }
       });
     } else {
