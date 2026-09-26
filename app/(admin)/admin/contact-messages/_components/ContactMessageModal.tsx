@@ -73,7 +73,7 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl bg-white p-0 overflow-hidden border-0 shadow-xl rounded-2xl">
+      <DialogContent className="sm:max-w-2xl bg-white p-0 overflow-hidden border-0 shadow-xl rounded-2xl">
         <DialogHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
           <DialogTitle className="text-xl font-bold text-titleBlack flex items-center justify-between">
             <span>Message Details</span>
@@ -191,7 +191,7 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
           </div>
         </div>
 
-        <DialogFooter className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+        <DialogFooter className="m-0 px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
           <Button
             type="button"
             variant="ghost"

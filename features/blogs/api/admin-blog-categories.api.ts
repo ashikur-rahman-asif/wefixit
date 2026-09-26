@@ -15,17 +15,17 @@ export const adminBlogCategoriesApi = {
   },
 
   createBlogCategory: async (data: CreateBlogCategoryDto) => {
-    const response = await axiosInstance.post<{ data: BlogCategory }>(
-      "/admin/blog-categories",
-      data,
-    );
+    const response = await axiosInstance.post<{ data: BlogCategory }>("/admin/blog-categories", {
+      ...data,
+      is_active: data.isActive,
+    });
     return response.data.data;
   },
 
   updateBlogCategory: async (id: number, data: UpdateBlogCategoryDto) => {
     const response = await axiosInstance.put<{ data: BlogCategory }>(
       `/admin/blog-categories/${id}`,
-      data,
+      { ...data, is_active: data.isActive },
     );
     return response.data.data;
   },

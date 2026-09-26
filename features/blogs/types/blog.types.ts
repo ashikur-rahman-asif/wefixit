@@ -2,6 +2,7 @@ export interface BlogCategory {
   id: number;
   name: string;
   slug: string;
+  is_active: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -26,6 +27,7 @@ export interface Blog {
 export interface CreateBlogCategoryDto {
   name: string;
   slug?: string;
+  isActive?: boolean;
 }
 export type UpdateBlogCategoryDto = Partial<CreateBlogCategoryDto>;
 

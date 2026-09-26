@@ -155,11 +155,16 @@ function SidebarContent({ isCollapsed }: { isCollapsed?: boolean }) {
         )}
       >
         {!isCollapsed ? (
-          <div className="w-32 text-white">
+          <Link href="/" className="w-32 text-white hover:opacity-90 transition-opacity">
             <Logo className="w-full h-auto text-white" />
-          </div>
+          </Link>
         ) : (
-          <div className="text-white font-bold text-xl">W</div>
+          <Link
+            href="/"
+            className="text-white font-bold text-xl hover:opacity-90 transition-opacity"
+          >
+            W
+          </Link>
         )}
       </div>
 

@@ -11,12 +11,13 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { BlogCategory } from "@/features/blogs/types/blog.types";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   blogCategorySchema,
   type BlogCategoryFormData,
 } from "@/features/blogs/schemas/blog.schema";
+import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/form-elements/input";
 
 interface BlogCategoryFormModalProps {
@@ -35,6 +36,7 @@ export function BlogCategoryFormModal({
   isSubmitting,
 }: BlogCategoryFormModalProps) {
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -45,10 +47,12 @@ export function BlogCategoryFormModal({
       ? {
           name: editingCategory.name,
           slug: editingCategory.slug,
+          isActive: editingCategory.is_active !== undefined ? editingCategory.is_active : true,
         }
       : {
           name: "",
           slug: "",
+          isActive: true,
         },
   });
 
@@ -102,6 +106,27 @@ export function BlogCategoryFormModal({
                 placeholder="e.g., career-tips (leave blank to auto-generate)"
                 error={errors.slug?.message?.toString()}
               />
+            </div>
+
+            <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+              <Controller
+                name="isActive"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Switch checked={value} onCheckedChange={onChange} />
+                )}
+              />
+              <div>
+                <label
+                  htmlFor="isActive"
+                  className="text-sm font-semibold text-titleBlack cursor-pointer"
+                >
+                  Active
+                </label>
+                <p className="text-[13px] font-medium text-gray-500">
+                  Active categories are visible to customers
+                </p>
+              </div>
             </div>
           </div>
           <SheetFooter className="bg-white border-t border-gray-100 p-4 sm:p-6 flex flex-row justify-end gap-3 sm:space-x-0 mt-auto shrink-0">

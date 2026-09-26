@@ -27,6 +27,7 @@ export const useUpdateContactMessage = () => {
     onSuccess: () => {
       toast.success("Contact message updated successfully");
       queryClient.invalidateQueries({ queryKey: ["admin-contact-messages"] });
+      queryClient.invalidateQueries({ queryKey: ["adminDashboardStats"] });
     },
     onError: (error: AxiosError | Error) => {
       let errorMessage = "Failed to update contact message";
@@ -46,6 +47,7 @@ export const useDeleteContactMessage = () => {
     onSuccess: () => {
       toast.success("Contact message deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["admin-contact-messages"] });
+      queryClient.invalidateQueries({ queryKey: ["adminDashboardStats"] });
     },
     onError: (error: AxiosError | Error) => {
       let errorMessage = "Failed to delete contact message";

@@ -34,6 +34,9 @@ export function BlogCategoryTable({
             <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
               Name
             </TableHead>
+            <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto">
+              Status
+            </TableHead>
             <TableHead className="px-6 py-4 font-semibold text-titleBlack text-sm h-auto text-right">
               Actions
             </TableHead>
@@ -63,6 +66,17 @@ export function BlogCategoryTable({
                   <div className="text-[13px] text-gray-500 font-normal mt-0.5">
                     {category.slug}
                   </div>
+                </TableCell>
+                <TableCell className="px-6 py-4">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                      category.is_active
+                        ? "bg-emerald-50 text-emerald-600 border border-emerald-200/50"
+                        : "bg-gray-50 text-gray-500 border border-gray-200"
+                    }`}
+                  >
+                    {category.is_active ? "Active" : "Inactive"}
+                  </span>
                 </TableCell>
                 <TableCell className="px-6 py-4">
                   <div className="flex items-center justify-end gap-1">

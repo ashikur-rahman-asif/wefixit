@@ -273,13 +273,18 @@ export function BlogForm({ initialData, onSubmit, isSubmitting }: BlogFormProps)
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Select
-                      onValueChange={(val: string | null) => val && onChange(Number(val))}
-                      value={value?.toString()}
+                      onValueChange={(val) =>
+                        onChange(val === "none" || val === null ? undefined : Number(val))
+                      }
+                      value={value?.toString() || ""}
                     >
                       <SelectTrigger className="w-full h-11 bg-gray-50 border-gray-100">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="none" className="text-gray-500 italic">
+                          None
+                        </SelectItem>
                         {categories.length === 0 ? (
                           <div className="p-2 text-sm text-gray-500 text-center">
                             No categories found
