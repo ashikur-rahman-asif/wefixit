@@ -31,7 +31,7 @@ export default async function OrderSuccessPage({
               alt="Order Confirmed"
               width={280}
               height={280}
-              className="object-contain w-auto h-auto"
+              className="object-contain"
               priority
             />
           </div>
