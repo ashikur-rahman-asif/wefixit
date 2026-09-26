@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
-import { cn, getShimmerBase64 } from "@/lib/utils";
-import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { ImageWithSkeleton } from "@/components/image-with-skeleton";
 import Link from "next/link";
 export interface ProductCardProps {
   variant?: "product" | "slider";
@@ -40,14 +40,12 @@ export function ProductCard({
 
       <div className="w-full flex justify-center items-center mb-2 min-h-40 relative">
         {image ? (
-          <Image
+          <ImageWithSkeleton
             src={image}
             alt={title ?? "Product"}
             width={250}
             height={200}
-            placeholder="blur"
-            blurDataURL={getShimmerBase64(250, 200)}
-            className="w-auto h-auto max-h-40 object-contain"
+            className="w-auto h-auto max-h-40 object-contain p-2"
           />
         ) : (
           <div className="w-full h-40 bg-black/5 rounded-xl flex items-center justify-center text-sm text-secondary">

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { ImageWithSkeleton } from "@/components/image-with-skeleton";
 import { useState, useSyncExternalStore } from "react";
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -25,14 +25,8 @@ export function ProductImageGallery({
 }: ProductImageGalleryProps) {
   const isSameImage = (url1?: string | null, url2?: string | null) => {
     if (!url1 || !url2) return false;
-    if (url1 === url2) return true;
-    try {
-      const f1 = new URL(url1, "http://localhost").pathname.split("/").pop();
-      const f2 = new URL(url2, "http://localhost").pathname.split("/").pop();
-      return f1 && f2 && f1 === f2;
-    } catch {
-      return url1.split("/").pop() === url2.split("/").pop();
-    }
+    const getFileName = (url: string) => url.split("?")[0].split("/").pop();
+    return getFileName(url1) === getFileName(url2);
   };
 
   const getIndex = (img?: string | null) => {
@@ -73,7 +67,7 @@ export function ProductImageGallery({
           <div
             key={index}
             className={cn(
-              "absolute inset-0 flex items-center justify-center p-4 transition-transform duration-500 ease-in-out",
+              "absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out",
               activeImageIndex === index
                 ? "translate-x-0 z-10"
                 : index < activeImageIndex
@@ -81,12 +75,12 @@ export function ProductImageGallery({
                   : "translate-x-full z-0",
             )}
           >
-            <Image
+            <ImageWithSkeleton
               src={img}
               alt={`Product Image ${index + 1}`}
               width={448}
               height={436}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain p-4"
               priority={index === 0}
             />
           </div>
@@ -112,18 +106,18 @@ export function ProductImageGallery({
                         }
                       }}
                       className={cn(
-                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand flex items-center justify-center p-2 cursor-pointer",
+                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand flex items-center justify-center cursor-pointer",
                         activeImageIndex === activeThumbnailIndex
                           ? "border-brand opacity-100"
                           : "border-transparent ",
                       )}
                     >
-                      <Image
+                      <ImageWithSkeleton
                         src={img}
                         alt={`Thumbnail ${index + 1}`}
                         width={100}
                         height={100}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-contain p-2"
                       />
                     </button>
                   </div>
@@ -154,19 +148,19 @@ export function ProductImageGallery({
                         }
                       }}
                       className={cn(
-                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center p-2 cursor-pointer",
+                        "relative w-full h-20 sm:h-24 border rounded-lg overflow-hidden bg-lightBrand transition-all duration-300 flex items-center justify-center cursor-pointer",
                         activeImageIndex === activeThumbnailIndex
                           ? "border-brand opacity-100"
                           : "border-transparent ",
                       )}
                       aria-label={`View image ${index + 1}`}
                     >
-                      <Image
+                      <ImageWithSkeleton
                         src={img}
                         alt={`Thumbnail ${index + 1}`}
                         width={100}
                         height={100}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-contain p-2"
                       />
                     </button>
                   </SwiperSlide>

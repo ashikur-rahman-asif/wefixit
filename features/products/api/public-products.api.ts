@@ -35,7 +35,7 @@ export const publicProductsApi = {
     }
 
     const response = await fetch(url.toString(), {
-      next: { revalidate: 180 },
+      next: { revalidate: 60 },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -55,7 +55,7 @@ export const publicProductsApi = {
 
   getProductBySlug: async (slug: string) => {
     const response = await fetch(`${API_URL}/products/${slug}`, {
-      next: { revalidate: 180 },
+      next: { revalidate: 60 },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -73,7 +73,7 @@ export const publicProductsApi = {
 
   getCategories: async () => {
     const response = await fetch(`${API_URL}/product-categories`, {
-      next: { revalidate: 180 },
+      next: { revalidate: 60 },
       headers: { "Content-Type": "application/json", Accept: "application/json" },
     });
     if (!response.ok) throw new Error("Failed to fetch categories");
@@ -84,7 +84,7 @@ export const publicProductsApi = {
 
   getBrands: async () => {
     const response = await fetch(`${API_URL}/product-brands`, {
-      next: { revalidate: 180 },
+      next: { revalidate: 60 },
       headers: { "Content-Type": "application/json", Accept: "application/json" },
     });
     if (!response.ok) throw new Error("Failed to fetch brands");
@@ -94,7 +94,7 @@ export const publicProductsApi = {
 
   getFeaturedProducts: async (): Promise<Product[]> => {
     const response = await fetch(`${API_URL}/featured-products`, {
-      next: { revalidate: 180 },
+      next: { revalidate: 60 },
       headers: { "Content-Type": "application/json", Accept: "application/json" },
     });
     if (!response.ok) throw new Error("Failed to fetch featured products");
