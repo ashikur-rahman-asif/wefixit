@@ -6,9 +6,12 @@ export const getContactMessages = async (params?: {
   status?: string;
   search?: string;
 }) => {
-  const response = await api.get<PaginatedResponse<AdminContactMessage>>("/contact-messages", {
-    params,
-  });
+  const response = await api.get<PaginatedResponse<AdminContactMessage>>(
+    "/admin/contact-messages",
+    {
+      params,
+    },
+  );
   return response.data;
 };
 
@@ -16,11 +19,14 @@ export const updateContactMessage = async (
   id: number,
   data: { status?: string; admin_notes?: string },
 ) => {
-  const response = await api.put<ApiResponse<AdminContactMessage>>(`/contact-messages/${id}`, data);
+  const response = await api.put<ApiResponse<AdminContactMessage>>(
+    `/admin/contact-messages/${id}`,
+    data,
+  );
   return response.data;
 };
 
 export const deleteContactMessage = async (id: number) => {
-  const response = await api.delete<ApiResponse<null>>(`/contact-messages/${id}`);
+  const response = await api.delete<ApiResponse<null>>(`/admin/contact-messages/${id}`);
   return response.data;
 };
