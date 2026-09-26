@@ -22,6 +22,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 import dayjs from "dayjs";
 import { Trash2, User, Mail, Phone, Clock, FileText } from "lucide-react";
@@ -39,6 +49,7 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
   const [status, setStatus] = useState<string>(message?.status || "new");
   const [adminNotes, setAdminNotes] = useState(message?.admin_notes || "");
   const [prevMessageId, setPrevMessageId] = useState(message?.id);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   if (message?.id !== prevMessageId) {
     setPrevMessageId(message?.id);
@@ -62,9 +73,14 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this message?")) {
+    setIsAlertOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (message?.id) {
       deleteMutation.mutate(message.id, {
         onSuccess: () => {
+          setIsAlertOpen(false);
           onClose();
         },
       });
@@ -225,6 +241,26 @@ export function ContactMessageModal({ isOpen, onClose, message }: Props) {
           </div>
         </DialogFooter>
       </DialogContent>
+
+      <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure you want to delete this message?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the message.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 hover:bg-red-600 text-white"
+              onClick={confirmDelete}
+            >
+              {deleteMutation.isPending ? "Deleting..." : "Delete Message"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Dialog>
   );
 }
