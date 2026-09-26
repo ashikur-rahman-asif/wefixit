@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { handleFormError } from "@/lib/handle-form-error";
 import Link from "next/link";
+import Cookies from "js-cookie";
 import {
   Dialog,
   DialogContent,
@@ -48,6 +49,7 @@ export function AuthModal({
     login(inputs, {
       onSuccess: (res) => {
         if (res.data?.user && res.data?.token) {
+          Cookies.set("token", res.data.token, { expires: 7, path: "/" });
           setAuth(res.data.user);
           toast.success("Login successful!");
           onSuccess();

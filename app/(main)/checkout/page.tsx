@@ -8,10 +8,18 @@ import { Button } from "@/components/ui/button";
 import { CheckoutForm } from "./_components/checkout-form";
 import { useMounted } from "@/hooks/use-mounted";
 import { Loader } from "@/components/ui/loader";
+import { AuthModal } from "@/components/auth-modal";
+import { useAuthStore } from "@/stores/auth.store";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const { items } = useCartStore();
   const isMounted = useMounted();
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const token = isMounted ? Cookies.get("token") : undefined;
+  const showAuthModal = isMounted && (!isAuthenticated || !token);
 
   if (!isMounted) {
     return (
@@ -19,6 +27,25 @@ export default function CheckoutPage() {
         <Loader size="xl" />
         <p className="text-secondary font-medium">Loading checkout...</p>
       </Container>
+    );
+  }
+
+  if (showAuthModal) {
+    return (
+      <>
+        <Container className="py-6 md:py-8 min-h-[60vh] flex flex-col items-center justify-center gap-4">
+          <Loader size="xl" />
+          <p className="text-secondary font-medium">Loading checkout...</p>
+        </Container>
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => router.replace("/cart")}
+          onSuccess={() => router.replace("/checkout")}
+          title="Login to Continue"
+          description="Please log in to your account to proceed to checkout."
+          registerCallbackUrl="/checkout"
+        />
+      </>
     );
   }
 

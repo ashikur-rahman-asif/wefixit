@@ -13,6 +13,8 @@ import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { AuthModal } from "@/components/auth-modal";
+import { useAuthStore } from "@/stores/auth.store";
 
 interface ProductActionsProps {
   product: Product;
@@ -26,6 +28,8 @@ export function ProductActions({
   selectedColor,
 }: ProductActionsProps) {
   const [quantity, setQuantity] = useState(1);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const addItem = useCartStore((state) => state.addItem);
   const items = useCartStore((state) => state.items);
 
@@ -55,7 +59,12 @@ export function ProductActions({
     if (!isAlreadyInCart) {
       handleAddToCart();
     }
-    router.push("/checkout");
+
+    if (isAuthenticated) {
+      router.push("/checkout");
+    } else {
+      setShowAuthModal(true);
+    }
   };
 
   return (
@@ -121,6 +130,18 @@ export function ProductActions({
         <GpayIcon className="h-5 sm:h-6 w-auto" />
         <ApplePayIcon className="h-5 sm:h-6 w-auto" />
       </div>
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          setShowAuthModal(false);
+          router.push("/checkout");
+        }}
+        title="Login to Continue"
+        description="Please log in to your account to proceed to checkout."
+        registerCallbackUrl="/checkout"
+      />
     </>
   );
 }

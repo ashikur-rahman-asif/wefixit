@@ -266,7 +266,7 @@ export function CheckoutForm() {
         </div>
       </div>
 
-      <div className="lg:col-span-5 sticky top-24 order-1 lg:order-2">
+      <div className="lg:col-span-5 lg:sticky lg:top-24 order-1 lg:order-2">
         <CheckoutSummary />
         <Button
           type="button"

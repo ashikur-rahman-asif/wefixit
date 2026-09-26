@@ -9,11 +9,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { Loader } from "@/components/ui/loader";
 import { calculateShipping } from "@/lib/shipping";
+import { useState } from "react";
+import { AuthModal } from "@/components/auth-modal";
+import { useAuthStore } from "@/stores/auth.store";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const isMounted = useMounted();
+  const router = useRouter();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const { items, removeItem, increaseQuantity, decreaseQuantity, getTotalPrice } = useCartStore();
+
+  const handleCheckout = () => {
+    if (isAuthenticated) {
+      router.push("/checkout");
+    } else {
+      setShowAuthModal(true);
+    }
+  };
 
   if (!isMounted) {
     return (
@@ -168,8 +183,8 @@ export default function CartPage() {
                 <span className="text-3xl font-bold text-brand">${total.toFixed(2)}</span>
               </div>
 
-              <Link
-                href="/checkout"
+              <button
+                onClick={handleCheckout}
                 className={buttonVariants({
                   variant: "default",
                   className: "w-full rounded-full h-14 text-base font-semibold group",
@@ -177,7 +192,7 @@ export default function CartPage() {
               >
                 Proceed to Checkout
                 <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </button>
 
               <div className="mt-6 text-center">
                 <Link
@@ -191,6 +206,18 @@ export default function CartPage() {
           </div>
         </div>
       )}
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          setShowAuthModal(false);
+          router.push("/checkout");
+        }}
+        title="Login to Continue"
+        description="Please log in to your account to proceed to checkout."
+        registerCallbackUrl="/checkout"
+      />
     </Container>
   );
 }
