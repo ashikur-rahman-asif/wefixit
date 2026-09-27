@@ -65,13 +65,26 @@ export function ProductForm({ initialData, onSubmit, isSubmitting }: ProductForm
           shortDescription: initialData.short_description || "",
           description: initialData.description || "",
           specification: initialData.specification || "",
-          specifications: initialData.specifications || [],
+          specifications: (() => {
+            if (Array.isArray(initialData.specifications)) return initialData.specifications;
+            if (typeof initialData.specifications === "string") {
+              try {
+                const parsed = JSON.parse(initialData.specifications);
+                return Array.isArray(parsed) ? parsed : [];
+              } catch {
+                return [];
+              }
+            }
+            return [];
+          })(),
           image: initialData.image || null,
           images: initialData.images || [],
           colors:
             initialData.colors?.map((c) => ({
               ...c,
               images: c.image ? [c.image] : [],
+              price: c.price ?? undefined,
+              discountPrice: c.discountPrice ?? undefined,
             })) || [],
         }
       : undefined,

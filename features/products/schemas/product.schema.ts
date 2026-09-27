@@ -73,6 +73,10 @@ export const productSchema = z
           images: z
             .array(z.custom<File | string>((val) => val instanceof File || typeof val === "string"))
             .default([]),
+          price: z.union([z.literal(""), z.coerce.number().min(0, "Must be 0 or more")]).optional(),
+          discountPrice: z
+            .union([z.literal(""), z.coerce.number().min(0, "Must be 0 or more")])
+            .optional(),
         }),
       )
       .default([]),

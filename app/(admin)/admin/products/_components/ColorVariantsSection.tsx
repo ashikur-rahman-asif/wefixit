@@ -189,6 +189,20 @@ export function ColorVariantsSection({
                   {...register(`colors.${index}.position` as const)}
                   error={errors.colors?.[index]?.position?.message?.toString()}
                 />
+                <Input
+                  label="Variant Price"
+                  type="number"
+                  placeholder="e.g. 499.99"
+                  {...register(`colors.${index}.price` as const)}
+                  error={errors.colors?.[index]?.price?.message?.toString()}
+                />
+                <Input
+                  label="Variant Discount Price"
+                  type="number"
+                  placeholder="e.g. 399.99"
+                  {...register(`colors.${index}.discountPrice` as const)}
+                  error={errors.colors?.[index]?.discountPrice?.message?.toString()}
+                />
               </div>
 
               <div className="mt-4">

@@ -67,6 +67,22 @@ export default function AddProductPage() {
         formData.append(`colors[${index}][stock]`, color.stock.toString());
         formData.append(`colors[${index}][position]`, color.position.toString());
 
+        if (color.price !== undefined && color.price !== null && color.price.toString() !== "") {
+          formData.append(`colors[${index}][price]`, color.price.toString());
+        } else {
+          formData.append(`colors[${index}][price]`, "");
+        }
+
+        if (
+          color.discountPrice !== undefined &&
+          color.discountPrice !== null &&
+          color.discountPrice.toString() !== ""
+        ) {
+          formData.append(`colors[${index}][discountPrice]`, color.discountPrice.toString());
+        } else {
+          formData.append(`colors[${index}][discountPrice]`, "");
+        }
+
         if (color.images && color.images.length > 0) {
           color.images.forEach((img, idx) => {
             formData.append(`colors[${index}][images][${idx}]`, img);

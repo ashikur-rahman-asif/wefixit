@@ -5,6 +5,8 @@ export interface ProductColor {
   image?: string;
   images?: string[];
   stock?: number;
+  price?: number | null;
+  discountPrice?: number | null;
 }
 
 export interface Category {
