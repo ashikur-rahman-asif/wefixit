@@ -5,9 +5,14 @@ import { Product } from "@/features/products/types/product.types";
 
 interface ProductInfoProps {
   product: Product;
+  displayPrice?: number;
+  displayDiscountPrice?: number | null;
 }
 
-export function ProductInfo({ product }: ProductInfoProps) {
+export function ProductInfo({ product, displayPrice, displayDiscountPrice }: ProductInfoProps) {
+  const effectivePrice = displayPrice ?? product.price;
+  const effectiveDiscountPrice =
+    displayDiscountPrice !== undefined ? displayDiscountPrice : product.discountPrice;
   return (
     <>
       <h1 className="text-2xl md:text-[28px] font-bold text-primary leading-tight">
@@ -32,20 +37,20 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       <div className="flex items-center gap-3 my-3">
         <p className="text-brand font-bold text-2xl md:text-[28px]">
-          ${product.discountPrice || product.price}
+          ${effectiveDiscountPrice || effectivePrice}
         </p>
-        {product.discountPrice && (
-          <del className="text-primary font-medium text-base md:text-lg">${product.price}</del>
+        {effectiveDiscountPrice && (
+          <del className="text-primary font-medium text-base md:text-lg">${effectivePrice}</del>
         )}
       </div>
 
-      {product.discountPrice && (
+      {effectiveDiscountPrice && (
         <div className="flex items-center gap-2 my-3">
           <LabelIcon className="w-4 h-4 shrink-0" />
           <p className="text-primary text-sm md:text-base font-medium font-sans">
             Save{" "}
             <span className="font-bold">
-              {calculateDiscountPercentage(product.price, product.discountPrice)}
+              {calculateDiscountPercentage(effectivePrice, effectiveDiscountPrice)}
             </span>
             % right now!
           </p>

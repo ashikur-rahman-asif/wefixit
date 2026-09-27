@@ -44,10 +44,15 @@ export function ProductActions({
   const handleAddToCart = () => {
     if (isAlreadyInCart) return;
 
+    const effectivePrice =
+      selectedColor?.price != null
+        ? (selectedColor.discountPrice ?? selectedColor.price)
+        : (product.discountPrice ?? product.price);
+
     addItem({
       id: productId,
       title: product.title,
-      price: product.discountPrice ?? product.price,
+      price: effectivePrice,
       image: product.image,
       quantity,
       color: selectedColor,

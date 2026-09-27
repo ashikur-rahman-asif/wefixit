@@ -344,6 +344,8 @@ export interface AdminProduct {
     stock: number;
     position: number;
     image: string | null;
+    price: number | null;
+    discountPrice: number | null;
   }[];
   created_at: string;
   updated_at: string;

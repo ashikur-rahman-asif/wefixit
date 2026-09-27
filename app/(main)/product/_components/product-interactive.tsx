@@ -19,9 +19,17 @@ export function ProductInteractive({
       ? Number(selectedColor?.stock || 0) === 0
       : Number(product.stock || 0) === 0;
 
+  const displayPrice = selectedColor?.price != null ? selectedColor.price : product.price;
+  const displayDiscountPrice =
+    selectedColor?.price != null ? (selectedColor.discountPrice ?? null) : product.discountPrice;
+
   return (
     <div>
-      <ProductInfo product={product} />
+      <ProductInfo
+        product={product}
+        displayPrice={displayPrice}
+        displayDiscountPrice={displayDiscountPrice}
+      />
       <ProductColorSelector
         colors={product.colors}
         selectedColor={selectedColor}
